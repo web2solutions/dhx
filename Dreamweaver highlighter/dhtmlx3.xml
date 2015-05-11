@@ -1,0 +1,1562 @@
+<codehints xmlns:MMString="http://www.adobe.com/schemes/data/string/">
+<menugroup MMString:name="codehints_dhtmlx" id="CodeHints_DHTMLX">
+	<description>
+		<MMString:loadString id="codehints_dhtmlx" />
+	</description>
+	<menu classpattern="dhtmlXLayoutObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXLayoutObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachAccordion()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEditor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachDataView()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachGoogleMaps()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachGrid()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachHTMLString()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachLayout(pattern,skin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachObject(obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachScheduler(date,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachTabbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachTree()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachURL(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collapse()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachObject()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="dock()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="expand()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="fixSize(width,height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFrame()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getHeight()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getId()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getIndex()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getText()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getWidth()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideHeader()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isCollapsed()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isHeaderVisible()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="progressOff()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="progressOn()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHeight(height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setText(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setWidth(width)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showHeader()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="view(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="undock()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(original,catcher,CallObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cells(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkEvent(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachItem(handler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEffect(efName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getIdByIndex(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getIndexById(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="listAutoSizes()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="listViews()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="progressOff()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="progressOn()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setAutoSize(hor,ver)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCollapsedText(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEffect(efName,efValue)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSizes()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin(skin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXAccordion" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXAccordion"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachAccordion()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEditor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachFolders()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachGrid()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachMap()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachLayout(pattern,skin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachObject(obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachTabbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachTree()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachURL(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearIcon()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="close()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="dock()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getId()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getText()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hide()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isOpened()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveOnTop()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="open()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHeight(height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIcon(icon)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setText(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="undock()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addItem(itemId,itemText)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(original,catcher,CallObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cells(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkEvent(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMultiMode()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachItem(handler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeItem(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEffect(efValue)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconsPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSizes()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unload()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXTabBar" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXTabBar"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addTab(id,text,size,position,row)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableTab(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoReSize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoSize(autoWidth,autoHeight)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableContentZone(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableForceHiding(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableScroll(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTab(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTabCloseButton(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forceLoad(id,href)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getActiveTab()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getLabel(tab)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="goToNextTab()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="goToPrevTab()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideTab(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXML(url,call)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXMLString(xmlString,call)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="normalize(limit,full)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeTab(id,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setAlign(n)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setContent(id,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setContentHTML(id,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setContentHref(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCustomStyle(id,color,scolor,style)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHrefMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setLabel(id,text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMargin(n)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOffset(n)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSize(x,y)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkinColors(a,b)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setTabActive(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showTab(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="tabWindow(tab_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachAccordion()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEditor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachDataView()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachGrid()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachLayout(pattern,skin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachObject(obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachStatusBar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachTabbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachToolbar()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachTree()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachURL(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXWindows" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXWindows"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addUserButton(id,pos,title,label)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="allowMove()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="allowPark()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="allowResize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bringToBottom()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bringToTop()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="button(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="center()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="centerOnScreen()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearIcon()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="close()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="denyMove()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="denyPark()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="denyResize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getDimension()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getIcon()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getId()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getMaxDimension()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getMinDimension()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getPosition()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getText()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hide()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideHeader()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isHidden()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isMaximized()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isModal()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isMovable()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isOnBottom()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isOnTop()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isParkable()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isParked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isResizable()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isSticked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="keepInViewport(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="maximize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="minimize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="park()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="progressOff()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="progressOn()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeUserButton(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="restoreIcon()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDimension(width,height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIcon(iconEnabled,iconDisabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMaxDimension(maxWidth,maxHeight)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMinDimension(minWidth,minHeight)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setModal(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPosition(x,y)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setText(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setToFullScreen(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showHeader()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="stick()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unstick()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disable()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enable()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hide()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isEnabled()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isHidden()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(original,catcher,CallObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachViewportTo(objId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkEvent(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="createWindow(id,x,y,width,height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoViewport(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="findByText(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachWindow(handler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getBottommostWindow()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEffect(efName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getTopmostWindow(visibleOnly)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isWindow(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEffect(efName,efValue)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin(skin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setViewport(x,y,width,height,parentObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unload()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="window(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXForm" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXForm"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachEvent(evName,evHandler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bind(target,rule)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkItem(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clear()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(evId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableItem(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableItem(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachItem(handler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCalendar(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCheckedValue(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColorPicker(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCombo(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEditor(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getForm()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFormData()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getInput(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemLabel(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemsList()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemType(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemValue(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemWidth(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getOptions(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelect(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getUserData(name,udKey)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideItem(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isItem(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isItemChecked(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isItemEnabled(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isItemHidden(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isLocked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isReadonly(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="load (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadStruct(data,onLoadFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadStructString(string,onLoadFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="lock()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeItem(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="reset ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="resetValidateCss ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="save ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="send (url,mode,callback)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFontSize ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFormData(data)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemFocus(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemHeight (name,height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemLabel(name,label)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemValue (name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemWidth (name,width)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setReadonly (name,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUserData(name,udKey)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showItem(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="validate ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="uncheckItem(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unload ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unlock()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXGridObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXGridObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addRow(new_id,text,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addRowFromClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="adjustColumnSize(cInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(evName,evHandler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachFooter(values,style)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachHeader(values,style)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachToObject(obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bind(target,rule)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cellById(row_id,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cellByIndex(row_index,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cellToClipboard(rowId,cellInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cells(row_id,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cells2(row_index,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changePage(pageNum)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changePageRelative(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changeRowId(oldRowId,newRowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkAll(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll(header)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAndLoad(url,call,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearChangedState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearConfigCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearSelection()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collapseAllGroups()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collapseGroup(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collectValues(column)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="copyBlockToClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="copyRowContent(from_row_id,to_row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteColumn(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteRow(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteSelectedRows()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="destructor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachFooter(index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachHeader(index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableUndoRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doUndo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doesRowExist(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="editCell()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="editStop(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAlterCss(cssE,cssU,perLevel,levelUnique)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoHeight(mode,maxHeight,countFullHeight)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoHiddenColumnsSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoSizeSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoWidth(mode,max_limit,min_limit)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableBlockSelection(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableCSVAutoID(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableCSVHeader(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableCellIds(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableColSpan(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableColumnMove(mode,columns)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableContextMenu(menu)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDistributedParsing(mode,count,time)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDragAndDrop(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDragOrder(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableEditEvents(click,dblclick,f2Key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableEditTabOnly(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableHeaderImages(fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableHeaderMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableKeyboardSupport(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableLightMouseNavigation(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMarkedCells(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMathEditing(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMathSerialization(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMercyDrag(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMultiline(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMultiselect(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableOrderSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enablePaging(mode,pageSize,pagesInGrp,pagingControlsContainer,showRecInfo,pagingStateContainer)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enablePreRendering(buffer)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableResizing(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableRowsHover(mode,cssClass)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableRowspan()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSmartRendering(mode,buffer)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSortingSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableStableSorting(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTooltips(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableUndoRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="expandAllGroups()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="expandGroup(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filterBy(column,value,preserve)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filterByAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="findCell(value,c_ind,first)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachCell(rowId,custom_code)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachRow(custom_code)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forceLabelSelection(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllRowIds(separator)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getChangedRows(and_added)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCheckedRows(col_ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColIndexById(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColLabel(cin,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColType(cInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColTypeById(cID)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColWidth(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColumnId(cin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColumnsNum()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCombo(col_ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCustomCombo(id,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFilterElement(index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFooterLabel(cin,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getMarked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowAttribute(rId,name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowId(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowIndex(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowsNum()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedCellIndex()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedRowId()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSortingState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getStateOfView()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getUndo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getUserData(row_id,name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridFromClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridToClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridToGrid(rowId,sgrid,tgrid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridToTreeElement(treeObj,treeNodeId,gridRowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="groupBy(ind,mask)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hidePivot()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="init()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="insertColumn(ind,header,type,width,sort,align,valign,reserved,columnColor)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isColumnHidden(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="load(url,call,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadCSVFile(path,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadCSVString(str)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadHiddenColumnsFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadOpenStates(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadOrderFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadSizeFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadSortingFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="lockRow(rowId,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makeFilter(id,column,preserve)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makePivot(cont,details)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makeSearch(id,column)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="mark(rid,cindex,fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveColumn(oldInd,newInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRow(rowId,mode,targetId,targetGrid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRowDown(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRowTo(srowId,trowId,mode,dropmode,sourceGrid,targetGrid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRowUp(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="parse(data,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="pasteBlockFromClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="preventIECaching(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="printView(before,after)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="refreshFilters()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="rowToClipboard(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="rowToDragElement(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveHiddenColumnsToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveOpenStates(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveOrderToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveSizeToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveSortingToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectCell(r,cInd,fl,preserve,edit,show)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectRow(rIndex,fl,preserve,show)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectRowById(row_id,preserve,show,call)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="serialize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="serializeToCSV(textmode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setAwaitedRowHeight(height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCSVDelimiter(str)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCellExcellType(rowId,cellIndex,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCellTextStyle(row_id,ind,styleString)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCheckedRows(cInd,v)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColAlign(alStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColLabel(col,label,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColSorting(sortStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColTypes(typeStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColVAlign(valStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColWidth(ind,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColspan(row_id,col_ind,colspan)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnColor(clr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnExcellType(colIndex,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnHidden(ind,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnId(ind,id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnIds(ids)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnMinWidth(width,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnsVisibility(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCustomSorting(func,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDateFormat(mask)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDelimiter(delim)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDragBehavior(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDragText(single,plural)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEditable(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setExternalTabOrder(start,end)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFieldName(mask)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFooterLabel(c,label,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHeader(hdrStr,splitSign,styles)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setInitWidths(wp)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setInitWidthsP(wp)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMathRound(digits)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setNoHeader(fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setNumberFormat(mask,cInd,p_sep,d_sep)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPagingSkin(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPagingTemplates(navigation_template,info_template)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPagingWTMode(navButtons,navLabel,pageSelect,perPageSelect)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowAttribute(rId,name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowColor(row_id,color)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowExcellType(rowId,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowHidden(id,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowId(ind,row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowTextBold(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowTextNormal(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowTextStyle(row_id,styleString)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowspan(rowID,colInd,length)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSerializableColumns(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSerializationLevel(userData,selectedAttr,config,changedAttr,onlyChanged,asCDATA)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSizes()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSortImgState(state,ind,order,row)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setStyle(ss_header,ss_grid,ss_selCell,ss_selRow)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setTabOrder(order)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUserData(row_id,name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showRow(rowID)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sortRows(col,type,order)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="startFastOperations()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="stopFastOperations()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitAddedRows(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitOnlyChanged(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitOnlyRowID(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitOnlySelected(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitSerialization(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="treeToGridElement(treeObj,treeNodeId,gridRowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="uid()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="uncheckAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unmarkAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateCellFromClipboard(rowId,cellInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateFromXML(url,insert_new,del_missed,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateRowFromClipboard(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXTreeObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXTreeObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="assignKeys(keys)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bind(target,rule)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changeItemId(itemId,newItemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearCut()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearSelection(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="closeAllItems(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="closeItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="defineItemForm(formId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteChildItems(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteItem(itemId,selectParent)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="destructor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableCheckbox(itemId,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doCut()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doPaste(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="editItem(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableActiveImages(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoSavingSelected(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoTooltips(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableCheckBoxes(mode,hidden)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableContextMenu(menu)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDistributedParsing(mode,count,delay)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDragAndDrop(mode,rmode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDragAndDropScrolling(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableHighlighting(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableIEImageFix(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableImageDrag(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableItemEditor(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableKeySearch(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableKeyboardNavigation(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableLoadingItem(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMercyDrag(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMultiLineItems(width)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMultiselection(mode,strict)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableRTL(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableRadioButtons(itemId,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSingleRadioMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSmartCheckboxes(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSmartRendering()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSmartXMLParsing(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTextSigns(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableThreeStateCheckboxes(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTreeImages(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTreeLines(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="findItem(searchStr,direction,top)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="findItemIdByLabel(searchStr,direction,top)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="focusItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllChecked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllCheckedBranches()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllChildless()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllItemsWithKids()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllPartiallyChecked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllSubItems(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllUnchecked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getChildItemIdByIndex(itemId,index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getDistributedParsingState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getIndexById(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemColor(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemIdByIndex(itemId,index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemImage(itemId,imageInd,fullPath)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemParsingState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemText(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemTooltip(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getLevel(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getOpenState(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getParentId(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedItemId()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedItemText()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSubItems(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getUserData(itemId,name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getXMLState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hasChildren(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideItemForm(itemID)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="insertNewChild(parentId,itemId,itemText,itemActionHandler,image1,image2,image3,optionStr,children)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="insertNewNext(itemId,newItemId,itemText,itemActionHandler,image1,image2,image3,optionStr,children)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isItemChecked(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isLocked(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadCSV(file,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadCSVString(csv,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadJSArray(ar,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadJSArrayFile(file,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadJSON(file,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadJSONObject(json,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadOpenStates(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadState(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXML(file,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXMLString(xmlString,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="lockTree(isLock)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makeAllDraggable(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makeDraggable(obj,func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveItem(itemId,mode,targetId,targetTree)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openAllItems(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openAllItemsDynamic(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openItemsDynamic(list,flag)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openOnItemAdded(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="preventIECaching(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="refreshItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="refreshItems(itemIdList,source)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="registerXMLEntity(rChar,rEntity)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="restoreSelectedItem(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveOpenStates(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveSelectedItem(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveState(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectItem(itemId,mode,preserve)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="serializeTree()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="serializeTreeToJSON()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCheck(itemId,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setChildCalcHTML(htmlA,htmlB)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setChildCalcMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCustomSortFunction(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDataMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDragBehavior(mode,select)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEditStartAction(click_IE,dblclick)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEscapingMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFormAppearOn(onClick,onDblClick,onMouseOver)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFormDisappearOn(onClick,onDblClick,onMouseOver)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconSize(newWidth,newHeight,itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImageArrays(arrayName,image1,image2,image3,image4,image5)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(newPath)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemCloseable(itemId,flag)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemColor(itemId,defaultColor,selectedColor)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemContextMenu(itemId,cMenu)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemImage(itemId,image1,image2)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemImage2(itemId,image1,image2,image3)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemStyle(itemId,style_string)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemText(itemId,newLabel,newTooltip)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemTopOffset(itemId,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setListDelimeter(separator)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setLockedIcons(im0,im1,im2)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnDblClickHandler(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnFormDismissal(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnFormInitialisation(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSerializationLevel(userData,fullXML,escapeEntities,userDataAsCData,DTD)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setStdImages(image1,image2,image3)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSubChecked(itemId,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUserData(itemId,name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setXMLAutoLoading(filePath)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setXMLAutoLoadingBehaviour(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showItemCheckbox(itemId,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showItemForm(itemID)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showItemSign(itemId,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="smartRefreshBranch(itemId,source)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="smartRefreshItem(itemId,source)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sortTree(nodeId,order,all_levels)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="stopEdit()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateItem(itemId,name,im0,im1,im2,achecked)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXGridObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXGridObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addRow(new_id,text,ind,parent_id,img,child)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addRowAfter(new_id,text,sibl_id,img,child)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addRowBefore(new_id,text,sibl_id,img,child)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="closeItem(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collapseAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collectTreeValues(column)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteChildItems(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTreeCellEdit(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTreeGridLines()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="expandAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filterTreeBy(column,value,preserve)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllSubItems(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getChildItemIdByIndex(rowId,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemImage(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemText(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getLevel(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getOpenState(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getParentId(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSubItems(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hasChildren(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openItem(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFiltrationLevel(level)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImageSize(width,height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemCloseable(rowId,status)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemImage(rowId,url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemText(rowId,newtext)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnOpenEndHandler(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnOpenStartHandler(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sortTreeRows(col,type,order)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getLabel(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setLabel(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlxFolders" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlxFolders"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachEvent(evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteItem(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="drawPager()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableContextMenu(menu)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDragAndDrop(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableEditMode(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enablePaging(itemsPerPage,withDynLoading)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSelection(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableXMLSmartRefresh(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filterClear()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filterItems(filterFunc,mask,preservePrevious)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachSelected()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCurrentPage()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItem(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemDataObject(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemsNum()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getNumberOfPages()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedId()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="goToPage(pageNumber)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXML(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXMLString(xmlString)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveItem(sid,mode,tid,sObj,tObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectItem(id,ctr,shf)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCSSBaseName()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(newPath)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemTagName(newTagName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemType(name,processor)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPagerContainer()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUserData(name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sortItems(sortFunc,order)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unselectAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXDataView" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXDataView"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bind(target,rule)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="copy (sid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="dataCount ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unselectAll ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unselect (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="edit(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="exists ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filter (key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="first ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelected (as_array)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="get (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="idByIndex (index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="indexById (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isSelected ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="last ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="load (url,type,callback)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="locate (ev)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveBottom (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveDown (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveTop (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveUp (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="move (sid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="next ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="parse (object,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="previous ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="refresh (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectAll ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="select (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="set (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sort (key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="stopEdit ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="customize (properties)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlChart" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlChart"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="add (obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addSeries (obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="dataCount ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="define (mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="exists ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filter (key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="first ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="get (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="group ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="idByIndex (index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="indexById (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="last ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="load (url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="next ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="parse (object,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="previous ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="refresh ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="remove (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="set (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sort (key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXMenuObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXMenuObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addCheckbox(mode,nextToId,pos,itemId,itemText,state,disabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addContextZone(zoneId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addNewChild(parentId,pos,itemId,itemText,disabled,imgEnabled,imgDisabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addNewSeparator(nextToId,itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addNewSibling(nextToId,itemId,itemText,disabled,imgEnabled,imgDisabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addRadioButton(mode,nextToId,pos,itemId,itemText,group,state,disabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(original,catcher,CallObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkEvent(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearHref(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearItemImage(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDynamicLoading(url,icon)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCheckboxState(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getContextMenuHideAllMode()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getHotKey(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemImage(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemPosition(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemText(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemType(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getParentId(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRadioChecked(group)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getTooltip(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getUserData(itemId,name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hide()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideContextMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isContextZone(zoneId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isItemEnabled(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isItemHidden(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadFromHTML(objId,clearAfterAdd,onLoadFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXML(xmlFile,onLoadFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXMLString(xmlString,onLoadFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeContextZone(zoneId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="renderAsContextMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setAlign(align)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setAutoHideMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setAutoShowMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCheckboxState(itemId,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setContextMenuHideAllMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHotKey(itemId,hkey)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHref(itemId,href,target)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconsPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconsPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemDisabled(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemEnabled(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemImage(itemId,img,imgDis)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemPosition(itemId,pos)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemText(itemId,text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOpenMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOverflowHeight(itemsNum)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRTL(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRadioChecked(group,itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin(skin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setTooltip(itemId,tip)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setTopText(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUserData(itemId,name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setVisibleArea(x1,x2)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setWebModeTimeout(tm)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showContextMenu(x,y)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unload()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlxToolbar" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlxToolbar"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addButton(id,pos,text,imgEnabled,imgDisabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addButtonSelect(id,pos,text,opts,imgEnabled,imgDisabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addButtonTwoState(id,pos,text,imgEnabled,imgDisabled)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addInput(id,pos,value,width)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addListOption(parentId,optionId,pos,type,text,img)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addSeparator(id,pos)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addSlider(id,pos,len,valueMin,valueMax,valueNow,textMin,textMax,tip)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addText(id,pos,text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(original,catcher,CallObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkEvent(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearItemImage(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearItemImageDis(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearListOptionImage(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableListOption(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableListOption(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachItem(handler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachListOption(parentId,handler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllListOptions(parentId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemState(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemText(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemToolTip(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getItemToolTipTemplate(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getListOptionImage(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getListOptionPosition(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getListOptionSelected(parentId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getListOptionText(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getListOptionToolTip(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getMaxValue(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getMinValue(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getPosition(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getType(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getTypeExt(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getValue(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getWidth(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideListOption(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isEnabled(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isListOptionEnabled(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isListOptionVisible(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isVisible(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXML(xmlFile,onLoadFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXMLString(xmlString,onLoadFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="removeListOption(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconsPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconsPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemImage(itemId,url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemImageDis(itemId,url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemState(itemId,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemText(itemId,text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemToolTip(itemId,tip)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setItemToolTipTemplate(itemId,template)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setListOptionImage(parentId,optionId,img)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setListOptionPosition(parentId,optionId,pos)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setListOptionSelected(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setListOptionText(parentId,optionId,text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setListOptionToolTip(parentId,optionId,tip)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMaxValue(itemId,value,label)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMinValue(itemId,value,label)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPosition(itemId,pos)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRTL(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setValue(itemId,value,CallEvent)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setWidth(itemId,width)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showItem(itemId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showListOption(parentId,optionId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unload()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXCombo" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXCombo"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addOption(options)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bind(target,rule)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll(all)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="closeAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="confirmValue()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteOption(value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="destructor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disable(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableFilteringMode(mode,url,cache,autosubload)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableOptionAutoHeight(fl,maxHeight)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableOptionAutoPositioning(fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableOptionAutoWidth(fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getActualValue()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getChecked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getComboText()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getIndexByValue(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getOption(value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getOptionByIndex(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getOptionByLabel(value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedIndex()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedText()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedValue()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXML(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadXMLString(astring)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openSelect()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="readonly(mode,autosearch)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="render(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectOption(ind,filter,conf)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setChecked(index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setComboText(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setComboValue(text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDefaultImage(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setName(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOptionHeight(height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOptionWidth(width)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSize(new_size)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unSelectOption()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateOption(oldvalue,avalue)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXGridObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXGridObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addRow(new_id,text,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addRowFromClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="adjustColumnSize(cInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(evName,evHandler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachFooter(values,style)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachHeader(values,style)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachToObject(obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="bind(target,rule)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cellById(row_id,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cellByIndex(row_index,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cellToClipboard(rowId,cellInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cells(row_id,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="cells2(row_index,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changePage(pageNum)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changePageRelative(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changeRowId(oldRowId,newRowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkAll(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll(header)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAndLoad(url,call,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearChangedState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearConfigCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearSelection()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collapseAllGroups()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collapseGroup(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collectValues(column)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="copyBlockToClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="copyRowContent(from_row_id,to_row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteColumn(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteRow(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteSelectedRows()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="destructor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachFooter(index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachHeader(index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableUndoRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doUndo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="doesRowExist(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="editCell()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="editStop(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAlterCss(cssE,cssU,perLevel,levelUnique)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoHeight(mode,maxHeight,countFullHeight)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoHiddenColumnsSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoSizeSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableAutoWidth(mode,max_limit,min_limit)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableBlockSelection(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableCSVAutoID(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableCSVHeader(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableCellIds(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableColSpan(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableColumnMove(mode,columns)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableContextMenu(menu)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDistributedParsing(mode,count,time)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDragAndDrop(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDragOrder(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableEditEvents(click,dblclick,f2Key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableEditTabOnly(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableHeaderImages(fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableHeaderMenu()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableKeyboardSupport(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableLightMouseNavigation(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMarkedCells(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMathEditing(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMathSerialization(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMercyDrag(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMultiline(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableMultiselect(state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableOrderSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enablePaging(mode,pageSize,pagesInGrp,pagingControlsContainer,showRecInfo,pagingStateContainer)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enablePreRendering(buffer)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableResizing(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableRowsHover(mode,cssClass)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableRowspan()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSmartRendering(mode,buffer)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableSortingSaving(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableStableSorting(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTooltips(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableUndoRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="expandAllGroups()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="expandGroup(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filterBy(column,value,preserve)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filterByAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="findCell(value,c_ind,first)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachCell(rowId,custom_code)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forEachRow(custom_code)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="forceLabelSelection(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getAllRowIds(separator)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getChangedRows(and_added)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCheckedRows(col_ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColIndexById(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColLabel(cin,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColType(cInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColTypeById(cID)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColWidth(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColumnId(cin)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getColumnsNum()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCombo(col_ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getCustomCombo(id,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFilterElement(index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFooterLabel(cin,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getMarked()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRedo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowAttribute(rId,name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowId(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowIndex(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRowsNum()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedCellIndex()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedRowId()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSortingState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getStateOfView()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getUndo()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getUserData(row_id,name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridFromClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridToClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridToGrid(rowId,sgrid,tgrid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="gridToTreeElement(treeObj,treeNodeId,gridRowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="groupBy(ind,mask)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hidePivot()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="init()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="insertColumn(ind,header,type,width,sort,align,valign,reserved,columnColor)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isColumnHidden(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="load(url,call,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadCSVFile(path,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadCSVString(str)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadHiddenColumnsFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadOpenStates(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadOrderFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadSizeFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadSortingFromCookie(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="lockRow(rowId,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makeFilter(id,column,preserve)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makePivot(cont,details)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="makeSearch(id,column)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="mark(rid,cindex,fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveColumn(oldInd,newInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRow(rowId,mode,targetId,targetGrid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRowDown(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRowTo(srowId,trowId,mode,dropmode,sourceGrid,targetGrid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="moveRowUp(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="parse(data,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="pasteBlockFromClipboard()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="preventIECaching(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="printView(before,after)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="refreshFilters()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="rowToClipboard(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="rowToDragElement(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveHiddenColumnsToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveOpenStates(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveOrderToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveSizeToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveSortingToCookie(name,cookie_param)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectCell(r,cInd,fl,preserve,edit,show)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectRow(rIndex,fl,preserve,show)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="selectRowById(row_id,preserve,show,call)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="serialize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="serializeToCSV(textmode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setAwaitedRowHeight(height)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCSVDelimiter(str)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCellExcellType(rowId,cellIndex,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCellTextStyle(row_id,ind,styleString)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCheckedRows(cInd,v)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColAlign(alStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColLabel(col,label,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColSorting(sortStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColTypes(typeStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColVAlign(valStr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColWidth(ind,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColspan(row_id,col_ind,colspan)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnColor(clr)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnExcellType(colIndex,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnHidden(ind,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnId(ind,id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnIds(ids)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnMinWidth(width,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColumnsVisibility(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCustomSorting(func,col)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDateFormat(mask)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDelimiter(delim)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDragBehavior(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDragText(single,plural)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEditable(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setExternalTabOrder(start,end)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFieldName(mask)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFooterLabel(c,label,ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHeader(hdrStr,splitSign,styles)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setIconPath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setInitWidths(wp)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setInitWidthsP(wp)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMathRound(digits)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setNoHeader(fl)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setNumberFormat(mask,cInd,p_sep,d_sep)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPagingSkin(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPagingTemplates(navigation_template,info_template)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPagingWTMode(navButtons,navLabel,pageSelect,perPageSelect)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowAttribute(rId,name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowColor(row_id,color)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowExcellType(rowId,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowHidden(id,state)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowId(ind,row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowTextBold(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowTextNormal(row_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowTextStyle(row_id,styleString)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setRowspan(rowID,colInd,length)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSerializableColumns(list)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSerializationLevel(userData,selectedAttr,config,changedAttr,onlyChanged,asCDATA)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSizes()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSortImgState(state,ind,order,row)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setStyle(ss_header,ss_grid,ss_selCell,ss_selRow)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setTabOrder(order)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUserData(row_id,name,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showRow(rowID)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sortRows(col,type,order)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="startFastOperations()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="stopFastOperations()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitAddedRows(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitOnlyChanged(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitOnlyRowID(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitOnlySelected(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="submitSerialization(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="treeToGridElement(treeObj,treeNodeId,gridRowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="uid()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="uncheckAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unmarkAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateCellFromClipboard(rowId,cellInd)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateFromXML(url,insert_new,del_missed,afterCall)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateRowFromClipboard(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXCalendarObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXCalendarObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachEvent(evName,evHandler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachObj(input)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setInsensitiveDays(date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSensitiveRange(date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(evId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachObj(input)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableDays(mode,date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="disableDays(mode,date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getDate(isFormatted)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFormatedDate(format,date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hide()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hideTime()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadUserLanguage(lang,func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDate(date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDateFormat(format)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setHolidays()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setInsensitiveDays(date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setInsensitiveRange(date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setParent(parent)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPosition()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSensitiveRange(date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setSkin()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setWeekStartDay(day)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showTime()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unload()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXColorPicker" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXColorPicker"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="close()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSelectedColor()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="hide()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="init()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="linkTo(obj1,obj2,obj3)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="loadUserLanguage(lang)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setColor(rgb)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCustomColors(colors)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnCancelHandler(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnSelectHandler(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setPosition(x,y)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="show()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlxSlider" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlxSlider"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableTooltip(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getValue()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="init()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="linkTo(obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMax(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setMin(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnChangeHandler(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setStep(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setValue(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXEditor" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXEditor"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="alignCenter()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="alignJustify()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="alignLeft()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="alignRight()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyBold()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyH1()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyH2()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyH3()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyH4()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyItalic()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyStrikethrough()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applySub()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applySuper()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="applyUnderscore()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent(original,catcher,CallObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkEvent(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="createBulList()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="createNumList()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="decreaseIndent()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent(id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getContent()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="increaseIndent()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setContent(str)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setContentHTML(url)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXVaultObject" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXVaultObject"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="create(htmlObject)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getFileExtension(fileName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="onAddFile(fileName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="onFileUploaded(file)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="onUploadComplete(files)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFilesLimit(count)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setFormField(fieldName,value)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setImagePath(path)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setServerHandlers(uploadHandler,getInfoHandler,getIdHandler)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dataProcessor" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dataProcessor"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="afterUpdateCallback(sid,tid,action,btag)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="checkBeforeUpdate(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearVerificator(ind)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="defineAction ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableDataNames(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enablePartialDataSend(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="enableUTFencoding(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getSyncState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="init(anObj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="ignore(code)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sendData(rowId)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setDataColumns(val)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setOnBeforeUpdateHandler(func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setTransactionMode(mode,total)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUpdated(rowId,state,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setUpdateMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setVerificator(ind,verifFunction)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="dhtmlXDataStore" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="dhtmlXDataStore"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="add(obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="copy (sid)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="dataCount ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="exists ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="filter (key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="first ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="idByIndex (index)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="indexById (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="item (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="last ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="load (url,type,callback)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="next ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="parse (object)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="previous ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="remove ()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="saveBatch (func)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="set (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="sort (key)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+<menu classpattern="scheduler" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="scheduler"	source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+
+			<method pattern="addEvent(start_date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addEventNow(event_obj)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="attachEvent (evName)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="changeEventId(old_id,new_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="clearAll()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteEvent(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="detachEvent (id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="editStop(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="edit(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="endLightbox(mode,custom_form)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="formSection(name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEventEndDate(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEventStartDate(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEventText(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEvent(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getEvents(from)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getLabel(property)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getState()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="init(contaner_id,date,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="load(url,callback)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="parse(data,type)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="serverList(list_name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="select(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setCurrentView(date,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEventEndDate(event_id,end_date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEventStartDate(event_id,start_date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setEventText(event_id,text)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setLoadMode(mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="setLightboxSize()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="showLightbox(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="startLightbox(event_id,custom_form)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="resetLightbox()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="uid()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="unselect(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateEvent(event_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateCollection(collection_name)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="createUnitsView(configuration)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="createTimelineView(configuration)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openSection(section_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="closeSection(section_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="openAllSections()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="closeAllSections()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="addSection(section_object)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="deleteSection(section_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="closeSection(section_id)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="expand()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="collapse()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="renderCalendar(configuration)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="destroyCalendar(calendar)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="isCalendarVisible()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="markCalendar(calendar,date,css)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="markCalendar(calendar,date,css)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="updateCalendar(calendar,new_date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="linkCalendar(calendar,shift)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="toICal(url,mode)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="toXML()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="toJSON()"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="toICal(header)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="getRecDates(event_id,maximum_number)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+		<method pattern="blockTime(date)"	source="JavaScript" icon="shared/mm/images/hintFunction.png" />
+
+	
+</menu>
+
+</menugroup>
+</codehints>

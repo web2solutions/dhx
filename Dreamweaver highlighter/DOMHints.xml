@@ -1,0 +1,1474 @@
+<codehints xmlns:MMString="http://www.adobe.com/schemes/data/string/">
+<menugroup MMString:name="codehints_dom" id="CodeHints_DOM">
+  <description>
+	<MMString:loadString id="codehints_dom" />
+  </description>
+  <menu classpattern="window" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- window -->
+	<property label="Components"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="content"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="closed"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="crypto"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="defaultStatus"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="dialogArguments"		source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="directories"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="document"				source="DOM 0"	icon="shared/mm/images/hintProperty.png" propType="document"/>
+	<property label="frameElement"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="frames"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="fullScreen"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="globalStorage"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="history"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="innerHeight"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="innerWidth"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="length"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="location"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="locationbar"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="menubar"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="name"					source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="navigator"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="opener"				source="DOM 0"	icon="shared/mm/images/hintProperty.png" propType="window"/>
+	<property label="outerHeight"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="outerWidth"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="pageXOffset"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="pageYOffset"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="parent"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="personalbar"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="pkcs11"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="returnValue"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="screen"				source="DOM 0"	icon="shared/mm/images/hintProperty.png" propType="screen"/>
+	<property label="screenX"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="screenY"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollbars"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollMaxX"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollMaxY"			source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollX"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollY"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="self"					source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="sessionStorage"		source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="sidebar"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="status"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="statusbar"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="toolbar"				source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="top"					source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="window"				source="DOM 0"	icon="shared/mm/images/hintProperty.png" propType="window"/>
+	<property label="XMLHttpRequest"		source="JavaScript"	icon="shared/mm/images/hintProperty.png"/>
+	<!-- AIR Code Hints -->
+	<property label="runtime"				object="window"	source="AIR"	icon="shared/mm/images/hintProperty.png" propType="window.runtime"/>
+	<property label="nativeWindow"			object="window"	source="AIR"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="htmlControl"			object="window"	source="AIR"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="parentSandboxBridge"	object="window"	source="AIR"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="childSandboxBridge"	object="window"	source="AIR"	icon="shared/mm/images/hintProperty.png"/>
+	<method pattern="alert(msg)"									source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="addEventListener(type, listener, useCapture)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="atob(encodedData)"								source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="back()"										source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="blur()"										source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="btoa(stringToEncode)"							source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="captureEvents(eventType)"						source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="clearInterval(intervalID)"						source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="clearTimeout(timeoutID)"						source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="close()"										source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="confirm(msg)"									source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="dump()"										source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="escape(str)"									source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="find(aString, aCaseSensitive, aBackwards, aWrapAround, aWholeWord, aSearchInFrames, aShowDialog)" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="focus()"										source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="forward()"										source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getAttention()"								source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getComputedStyle(element, pseudoElt)"			source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getSelection()"								source="DOM 0"	icon="shared/mm/images/hintFunction.png" retType="Selection"/>
+	<method pattern="home()"										source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="moveBy(deltaX, deltaY)"						source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="moveTo(x, y)"									source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="open(url, name, features, replace)"			source="DOM 0"	icon="shared/mm/images/hintFunction.png" retType="window"/>
+	<method pattern="openDialog(url, name, features, arg1, arg2, ...) "	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="print() "	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="prompt(text, value)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="releaseEvents(eventType)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="removeEventListener(type, listener, useCapture)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="resizeBy(deltaX, deltaY)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="resizeTo(width, height)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="scroll(x, y)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="scrollBy(x, y)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="scrollByLines(lines)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="scrollByPages(pages)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="scrollTo(x, y)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="setInterval(code, delay)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="setTimeout(code, delay)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="showModalDialog()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="sizeToContent()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="stop()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="unescape(encodedStr)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<method pattern="updateCommands(commandNameStr)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<event label="onabort" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onbeforeunload" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onblur" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onchange" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onclick" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onclose" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="oncontextmenu" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="ondragdrop" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onerror" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onfocus" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onkeydown" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onkeypress" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onkeyup" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onload" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmousedown" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmousemove" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmouseout" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmouseover" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmouseup" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onpaint" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onreset" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onresize" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onscroll" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onselect" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onsubmit" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onunload" source="DOM 0"	icon="shared/mm/images/codeHintEvent.gif"/>
+  </menu>
+  <menu classpattern="screen" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- screen -->
+	<property label="availTop"			source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="availLeft"			source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="availHeight"		source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="availWidth"		source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="colorDepth"		source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="height"			source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="left"				source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="pixelDepth"		source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="top"				source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+	<property label="width"				source="DOM 0"	object="screen" icon="shared/mm/images/hintProperty.png"/>
+  </menu>
+  <menu pattern="screen." casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- screen -->
+	<menuitem label="availTop"			source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="availLeft"			source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="availHeight"		source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="availWidth"		source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="colorDepth"		source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="height"			source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="left"				source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="pixelDepth"		source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="top"				source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="width"				source="DOM 0"	object="screen"  icon="shared/mm/images/hintProperty.png"/>
+  </menu>
+  
+  <menu classpattern="CAIRS" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- CAIRS -->
+	<property label="windowWidth"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="windowHeight"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintProperty.png"/>
+	
+	<method pattern="checkMAPRequirements()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="loadScript()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="lScript()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getMousePosition()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getElementPosition()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getPagePosition()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<property label="Browser"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"  propType="Browser"/>
+	<method pattern="getAndSetWindowDimension()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="checkBrowserStuff()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="showDirections()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="exposeForEach()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="isArray()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="isObject()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="isNumber()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="toCurrency()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="parseFloat()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="ext( parentClass, objClass, nameSpaceName )"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"  propType="xml"/>
+	<property label="shortcut"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<method pattern="createShortcut()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<property label="xml"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"  propType="xml"/>
+	<property label="cookie"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"  propType="cookie"/>
+	<method pattern="init()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<property label="MAP"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"  propType="MAP"/>
+	<property label="onDemand"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"  propType="onDemand"/>
+	<property label="dhtmlx"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"  propType="dhtmlx"/>
+	
+  </menu>
+  
+  <menu pattern="CAIRS." casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- CAIRS -->
+	<menuitem label="windowWidth"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintProperty.png"/>
+	<menuitem label="windowHeight"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintProperty.png"/>
+	
+	<menuitem label="checkMAPRequirements()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="loadScript()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="lScript()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="getMousePosition()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="getElementPosition()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="getPagePosition()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="Browser"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="getAndSetWindowDimension()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="checkBrowserStuff()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="showDirections()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="exposeForEach()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="isArray()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="isObject()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="isNumber()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="toCurrency()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="parseFloat()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="ext( parentClass, objClass, nameSpaceName )"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="shortcut"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="createShortcut()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	<menuitem label="xml"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="cookie"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="init()"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/hintFunction.png"/>
+	
+	
+	<menuitem label="MAP"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="onDemand"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="dhtmlx"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	
+	
+	
+  </menu>
+  
+  <menu classpattern="xml" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<method pattern="fromJSON( json, isRoot, parentNode, xmlDoc )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="xml in CAIRS"/>
+	<method pattern="serialize( xmlDoc )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="xml in CAIRS"/>
+  </menu>
+  
+  <menu classpattern="onDemand" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<property label="queue"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="queue in onDemand in CAIRS"/>
+	<method pattern="load( url, callback )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="load in onDemand in CAIRS"/>
+	<method pattern="process_queue( callback )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="process_queue in onDemand in CAIRS"/>
+	
+  </menu>
+  
+  <menu classpattern="MAP" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<property label="API"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"  propType="API"/>
+  </menu>
+  <menu pattern="MAP." casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- CAIRS -->
+	<menuitem label="API"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	
+  </menu>
+  
+  <menu classpattern="API" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<property label="appName"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="appName in API in MAP in CAIRS"/>
+	<property label="apiURL"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="apiURL in API in MAP in CAIRS"/>
+	<property label="token"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="token in API in MAP in CAIRS"/>
+	<property label="auth_status"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="auth_status in API in MAP in CAIRS"/>
+	<property label="request"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="request in API in MAP in CAIRS"/>
+	<property label="isXDR"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="isXDR in API in MAP in CAIRS"/>
+	
+	
+	<property label="XMLHttpFactories"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="XMLHttpFactories in API in MAP in CAIRS"/>
+
+	
+	<method pattern="getMappedURL( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="getMappedURL in API in MAP in CAIRS"/>
+	
+	<method pattern="createHttpConnection()"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="createHttpConnection in API in MAP in CAIRS"/>
+	<method pattern="startAjax()"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="startAjax in API in MAP in CAIRS"/>
+	<method pattern="ajax( json )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="ajax in API in MAP in CAIRS"/>
+	<method pattern="post( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="post in API in MAP in CAIRS"/>
+	<method pattern="insert( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="shortcut to put in API in MAP in CAIRS"/>
+	<method pattern="put( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="put in API in MAP in CAIRS"/>
+	<method pattern="update( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="shortcut to put in API in MAP in CAIRS"/>
+	<method pattern="get( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="get in API in MAP in CAIRS"/>
+	<method pattern="list( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="shortcut to get in API in MAP in CAIRS"/>
+	<method pattern="del( configuration )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="del in API in MAP in CAIRS"/>
+	
+  </menu>
+  
+  
+  <menu classpattern="dhtmlx" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<property label="formFields"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="formFields in dhtmlx in CAIRS"/>
+	<property label="formFields_tofill"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="formFields_tofill in dhtmlx in CAIRS"/>
+	<property label="formFields_filled"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="formFields_filled in dhtmlx in CAIRS"/>
+	<property label="text_labels"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="text_labels in dhtmlx in CAIRS"  propType="text_labels"/>
+	<method pattern="prepareForm( uid, JSONformConfiguration, DHTMLXForm )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="prepareForm in dhtmlx in CAIRS"/>
+	<method pattern="_setFormFieldsToBind(json, uid, appended_on_the_fly)"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="_setFormFieldsToBind in dhtmlx in CAIRS"/>
+	<method pattern="_setFormMasks( uid, DHTMLXForm )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="_setFormMasks in dhtmlx in CAIRS"/>
+	<method pattern="getFormItem( name, uid )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="getFormItem in dhtmlx in CAIRS"/>
+	<method pattern="getFormDataAsPayload( uid, DHTMLXForm )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="getFormDataAsPayload in dhtmlx in CAIRS"/>
+	<method pattern="validateForm( uid, DHTMLXForm )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="validateForm in dhtmlx in CAIRS"/>
+	<method pattern="_setInputInvalid( objInput )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="_setInputInvalidin dhtmlx in CAIRS"/>
+	<method pattern="_setInputHighlighted( field, uid, DHTMLXForm )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="_setInputHighlighted in dhtmlx in CAIRS"/>
+  </menu>
+  <menu pattern="dhtmlx." casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- CAIRS -->
+	<menuitem label="_setInputHighlighted"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="_setInputInvalid("	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="validateForm"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="getFormDataAsPayload"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="getFormItem"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="_setFormMasks"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="_setFormFieldsToBind"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="prepareForm"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="text_labels"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="formFields_filled"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="formFields_tofill"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<menuitem label="formFields"	source="CAIRS Framework" 	object="CAIRS"	icon="shared/mm/images/codeHintEvent.gif"/>
+  </menu>
+  
+  <menu classpattern="Browser" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<property label="name"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="Browser in CAIRS"/>
+	<property label="onLine"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="Browser in CAIRS"/>
+	<property label="version"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="Browser in CAIRS"/>
+	<property label="OS"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="Browser in CAIRS"/>
+	<property label="plugins"					source="CAIRS Framework"	icon="shared/mm/images/hintProperty.png" object="Browser in CAIRS"/>
+  </menu>
+  
+  
+  <menu classpattern="cookie" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- CSS Properties -->
+	
+	
+	<method pattern="get( cookieName )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="cookie in CAIRS"/>
+	<method pattern="getByKey( cookiename, cookiekey )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="cookie in CAIRS"/>
+	<method pattern="set( cookieName, strValue, lngDays )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="cookie in CAIRS"/>
+	<method pattern="setByKey( cookieName, keyName, value, lngDays )"					source="CAIRS Framework"	icon="shared/mm/images/hintFunction.png" object="cookie in CAIRS"/>
+  </menu>
+
+  
+  
+  <menu classpattern="document" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- document -->
+	<property label="alinkColor"	MMString:source="codehints_deprecated"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="anchors"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Array" />
+	<property label="applets"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Array" />
+	<property label="bgColor"		MMString:source="codehints_deprecated"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="body"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Element"/>
+	<property label="characterSet"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="compatMode"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="contentType"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="cookie"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="defaultView"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="designMode"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="doctype"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>	
+	<property label="documentElement"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>	
+	<property label="domain"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>	
+	<property label="embeds"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>	
+	<property label="fgColor"		MMString:source="codehints_deprecated"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="firstChild"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Element"/>
+	<property label="forms"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="NodeList" item="Element" />
+	<property label="height"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="images"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="NodeList" item="Element"/>
+	<property label="implementation"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="lastModified"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="linkColor"		MMString:source="codehints_deprecated"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="links"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="NodeList" item="Element"/>
+	<property label="location"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>  
+	<property label="namespaceURI"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>  
+	<property label="plugins"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Array" item="Element"/>
+	<property label="popupNode"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="referrer"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="styleSheets"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Array"/>
+	<property label="title"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="tooltipNode"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="URL"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>  
+	<property label="vlinkColor"	MMString:source="codehints_deprecated"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="width"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>	
+	<method pattern="clear()"		MMString:source="codehints_deprecated"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="close()"		source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createAttribute(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createCDATASection(data)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createComment(data)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createDocumentFragment()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createElement(tagName)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="Element"/>
+	<method pattern="createElementNS(namespaceURI, qualifiedName)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="Element"/>
+	<method pattern="createEntityReference(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createEvent(type)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="Event"						value="Event"						icon="shared/mm/images/codeHintEvent.gif" object="Basic Event" source="DOM 0"/>
+			<parammenuitem label="Events"						value="Events"						icon="shared/mm/images/codeHintEvent.gif" object="Basic Event" source="Gecko"/>
+			<parammenuitem label="HTMLEvent"					value="HTMLEvent"					icon="shared/mm/images/codeHintEvent.gif" object="HTML Event" source="DOM 3"/>
+			<parammenuitem label="HTMLEvents"					value="HTMLEvents"					icon="shared/mm/images/codeHintEvent.gif" object="HTML Event" source="DOM 2"/>
+			<parammenuitem label="KeyboardEvent"				value="KeyboardEvent"				icon="shared/mm/images/codeHintEvent.gif" object="Keyboard Event" source="DOM 3"/>
+			<parammenuitem label="KeyEvents"					value="KeyEvents"					icon="shared/mm/images/codeHintEvent.gif" object="Keyboard Event" source="Gecko"/>
+			<parammenuitem label="MouseEvent"					value="MouseEvent"					icon="shared/mm/images/codeHintEvent.gif" object="Mouse Event" source="DOM 3"/>
+			<parammenuitem label="MouseEvents"					value="MouseEvents"					icon="shared/mm/images/codeHintEvent.gif" object="Mouse Event" source="DOM 2"/>
+			<parammenuitem label="MutationEvent"				value="MutationEvent"				icon="shared/mm/images/codeHintEvent.gif" object="Mutation Event" source="DOM 3"/>
+			<parammenuitem label="MutationEvents"				value="MutationEvents"				icon="shared/mm/images/codeHintEvent.gif" object="Mutation Event" source="DOM 2"/>
+			<parammenuitem label="MutationNameEvent"			value="MutationNameEvent"			icon="shared/mm/images/codeHintEvent.gif" object="Mutation Event" source="DOM 3"/>
+			<parammenuitem label="TextEvent"					value="TextEvent"					icon="shared/mm/images/codeHintEvent.gif" object="Text Event" source="DOM 3"/>
+			<parammenuitem label="TextEvents"					value="TextEvents"					icon="shared/mm/images/codeHintEvent.gif" object="Text Event" source="Gecko"/>
+			<parammenuitem label="UIEvents"						value="UIEvents"					icon="shared/mm/images/codeHintEvent.gif" object="User Interface Event" source="DOM 2"/>
+		</parammenu> 		
+	</method>
+	<method pattern="createProcessingInstruction(target, data)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createRange()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createTextNode(data)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="createTreeWalker(root, whatToShow, filter, entityReferenceExpansion)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="elementFromPoint(x, y)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="execCommand(aCommandName, aShowDefaultUI, aValueArgument)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getElementById(id)"			source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="Element"/>
+	<method pattern="getElementsByName(name)"		source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="NodeList" item="Element"/>
+	<method pattern="getElementsByTagName(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="NodeList" item="Element"/>
+	<method pattern="getElementsByTagNameNS(namespace, name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="NodeList" item="Element"/>
+	<method pattern="importNode(externalNode, deep)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="open()"							source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="queryCommandEnabled(command)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="queryCommandIndeterm(command)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="queryCommandState(command)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="queryCommandValue(command)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="write(markup)"					source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="writeln(line)"					source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<event label="ononline" source="FireFox 3"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onoffline" source="FireFox 3"	icon="shared/mm/images/codeHintEvent.gif"/>
+  </menu>
+  <menu classpattern="Element" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- Element -->
+	<property label="attributes"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Array"/>
+	<property label="childNodes"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="NodeList" item="Element"/>
+	<property label="className"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="clientHeight"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="clientLeft"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="clientTop"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="clientWidth"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="dir"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="firstChild"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Element"/>
+	<property label="id"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="innerHTML"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="String"/>
+	<property label="lang"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="lastChild"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Element"/>
+	<property label="localName"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="name"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="namespaceURI"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="nextSibling"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Element"/>
+	<property label="nodeName"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="nodeType"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="nodeValue"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="String"/>
+	<property label="offsetHeight"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="offsetLeft"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="offsetParent"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="offsetTop"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="offsetWidth"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="ownerDocument"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="document"/>
+	<property label="parentNode"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Element"/>
+	<property label="prefix"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="previousSibling" source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Element"/>
+	<property label="scrollHeight"  source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollLeft"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollTop"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="scrollWidth"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="style"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="style"/>
+	<property label="tabIndex"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="tagName"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>	
+	<property label="textContent"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="width"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<property label="align"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<method pattern="addEventListener(type, listener, useCapture)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="appendChild( appendedNode)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="blur()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="click()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="cloneNode(deep)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="dispatchEvent(event)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="focus()"				source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getAttribute(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getAttributeNS(namespace, name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getAttributeNode(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getAttributeNodeNS(namespace,name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="getElementsByTagName(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="NodeList" item="Element" />
+	<method pattern="getElementsByTagNameNS(namespace, name)" source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="NodeList" item="Element"/>
+	<method pattern="hasAttribute(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="hasAttributeNS(namespace,name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="hasAttributes()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="hasChildNodes()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="insertBefore(insertedNode, adjacentNode)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="normalize()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="removeAttribute(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="removeAttributeNS(namespace.name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="removeAttributeNode(name)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="removeChild(removedNode)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="removeEventListener(type, handler, useCapture)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="replaceChild(insertedNode, replacedNode)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="scrollIntoView(alignWithTop)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="setAttribute(name, value)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="setAttributeNS(namespace, name, value)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="setAttributeNode(name, attrNode)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<method pattern="setAttributeNodeNS(namespace, name, attrNode)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png"/>
+	<event label="onblur" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onchange" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onclick" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="ondblclick" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onfocus" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onkeydown" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onkeypress" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onkeyup" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmousedown" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmousemove" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmouseout" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmouseover" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onmouseup" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<event label="onscroll" source="DOM 1&amp;2"	icon="shared/mm/images/codeHintEvent.gif"/>
+	<!-- Form -->
+	<property label="acceptCharset"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Form"/>
+	<property label="action"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Form"/>
+	<property label="elements"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Form" propType="NodeList"/>
+	<property label="enctype "		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Form"/>
+	<property label="encoding"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Form"/>
+	<property label="method"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Form"/>
+	<property label="target"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Form"/>
+	<method pattern="reset()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Form"/>
+	<method pattern="submit()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Form"/>	
+	<!-- Table -->
+	<property label="caption"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="tHead"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="tFoot"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>	
+	<property label="tBodies"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table" propType="NodeList"/>	
+	<property label="bgColor"		MMString:source="codehints_deprecated"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="border"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="cellPadding"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="cellSpacing"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="frame"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="rows"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" propType="Array" object="Table"/>
+	<property label="rules"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<property label="summary"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table"/>
+	<method pattern="createTHead()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<method pattern="deleteTHead()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<method pattern="createTFoot()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<method pattern="deleteTFoot()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<method pattern="createCaption()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<method pattern="deleteCaption ()"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<method pattern="insertRow(index)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<method pattern="deleteRow(index)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table"/>
+	<!-- Table Row -->
+	<property label="cells"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table Row"/>
+	<property label="ch"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table Row"/>
+	<property label="chOff"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table Row"/>
+	<property label="rowIndex"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table Row"/>
+	<property label="sectionRowIndex"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table Row"/>
+	<property label="vAlign"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Table Row"/>
+	<method pattern="deleteCell(index)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table Row"/>
+	<method pattern="insertCell(index)"	source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Table Row"/>
+	<!-- Image -->
+	<property label="lowSrc"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="alt"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="hspace"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="isMap"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="longDesc"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="src"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="useMap"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="vspace"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<property label="height"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Image"/>
+	<!-- Input -->
+	<property label="defaultValue"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="defaultChecked"	source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="form"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="accept"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="accessKey"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="checked"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="disabled"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="maxLength"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="readOnly"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="size"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="type"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<property label="value"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Input"/>
+	<method pattern="select()"			source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Input"/>
+	<!-- TextArea -->
+	<property label="cols"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="TextArea"/>
+	<!-- Select -->
+	<property label="selectedIndex"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Select"/>
+	<property label="options"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Select"/>
+	<property label="length"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Select"/>
+	<property label="multiple"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Select"/>	
+	<method pattern="add(element, before)" source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Select"/>
+	<method pattern="remove(index)"		   source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" object="Select"/>
+	<!-- options -->
+	<property label="defaultSelected"	 source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Option"/>
+	<property label="label"				 source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Option"/>
+	<property label="text"				 source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Option"/>
+	<property label="index"				 source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Option"/>
+	<property label="selected"			 source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="Option"/>
+  </menu>
+  <menu classpattern="style" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<!-- CSS Properties -->
+	<property label="azimuth"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="background"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="backgroundAttachment"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="backgroundColor"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="backgroundImage"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="backgroundPosition"		source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="backgroundRepeat"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="border"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderBottom"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderBottomColor"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderBottomStyle"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderBottomWidth"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderCollapse"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderColor"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderLeft"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderLeftColor"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderLeftStyle"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderLeftWidth"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderRight"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderRightColor"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderRightStyle"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderRightWidth"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderSpacing"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderStyle"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderTop"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderTopColor"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderTopStyle"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderTopWidth"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="borderWidth"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="bottom"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="captionSide"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="clear"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="clip"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="color"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="content"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="counterIncrement"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="counterReset"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="cssFloat"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="cssText"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="cue"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="cueAfter"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="cueBefore"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="cursor"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="direction"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="display"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="elevation"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="emptyCells"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="font"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="fontFamily"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="fontSize"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="fontSizeAdjust"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="fontStretch"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="fontStyle"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="fontVariant"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="fontWeight"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="height"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="left"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="length"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="letterSpacing"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="lineHeight"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="listStyle"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="listStyleImage"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="listStylePosition"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="listStyleType"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="margin"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="marginBottom"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="marginLeft"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="marginRight"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="marginTop"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="markerOffset"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="marks"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="maxHeight"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="maxWidth"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="minHeight"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="minWidth"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="MozBinding"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="MozOpacity"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="opacity"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="orphans"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="outline"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="outlineColor"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="outlineStyle"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="outlineWidth"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="overflow"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="overflowX"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="overflowY"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="padding"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="paddingBottom"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="paddingLeft"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="paddingRight"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="paddingTop"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="page"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pageBreakAfter"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pageBreakBefore"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pageBreakInside"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="parentRule"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pause"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pauseAfter"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pauseBefore"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pitch"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="pitchRange"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="playDuring"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="position"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="quotes"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="richness"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="right"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="size"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="speak"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="speakHeader"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="speakNumeral"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="speakPunctuation"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="speechRate"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="stress"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="tableLayout"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="textAlign"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="textDecoration"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="textIndent"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="textShadow"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="textTransform"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="top"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="unicodeBidi"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="verticalAlign"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="visibility"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="voiceFamily"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="volume"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="whiteSpace"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="width"						source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="widows"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="wordSpacing"				source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+	<property label="zIndex"					source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png" object="CSS Style"/>
+  </menu>
+  <menu classpattern="Event" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<property label="altKey"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="bubbles"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="button"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="cancelBubble"				source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="cancelable"				source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="charCode"					source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="clientX"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="clientY"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="ctrlKey"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="currentTarget"				source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="detail"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="eventPhase"				source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="explicitOriginalTarget"	source="Mozilla"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="isChar"					source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="keyCode"					source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="layerX"					source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="layerY"					source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>	
+	<property label="metaKey"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="originalTarget"			source="Mozilla"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="pageX"						source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="pageY"						source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="relatedTarget"				source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>		
+	<property label="screenX"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="screenY"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="shiftKey"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="target"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="timeStamp"					source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="type"						source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="view"						source="DOM 2"	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<property label="which"						source=" "	icon="shared/mm/images/hintProperty.png" object="Event"/>
+	<method pattern="initEvent(type, bubbles, cancelable)"	source="DOM 2"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="initKeyEvent(type, bubbles, cancelable, viewArg, ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg, keyCodeArg, charCodeArg)"	source="Gecko"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="initKeyboardEvent(type, canBubble, cancelable, view, keyIdentifier, keyLocation, modifierList)"	source="DOM 3"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="initMouseEvent(type, canBubble, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget)"	source="DOM 2"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="initMutationEvent(type, canBubble, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget)"	source="DOM 2"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="initMutationNameEvent(type, canBubble, cancelable, relatedNode, prevNamespaceURI, prevNodeName)"	source="DOM 3"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="initTextEvent(type, canBubble, cancelable, view, data)"	source="DOM 3"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="initUIEvent(type, canBubble, cancelable, view, detail)"	source="DOM 2"	icon="shared/mm/images/hintFunction.png" object="Event">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</method>
+	<method pattern="preventDefault()"	source="DOM 2"	icon="shared/mm/images/hintFunction.png" object="Event"/>
+	<method pattern="stopPropagation()"	source="DOM 2"	icon="shared/mm/images/hintFunction.png" object="Event"/>
+  </menu>
+  <menu classpattern="Selection" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+	<property label="anchorNode"	source="DOM 0"	icon="shared/mm/images/hintProperty.png" object="Selection"/>
+	<property label="anchorOffset"	source="DOM 0"	icon="shared/mm/images/hintProperty.png" object="Selection"/>
+	<property label="focusNode"		source="DOM 0"	icon="shared/mm/images/hintProperty.png" object="Selection"/>
+	<property label="focusOffset"	source="DOM 0"	icon="shared/mm/images/hintProperty.png" object="Selection"/>
+	<property label="isCollapsed"	source="DOM 0"	icon="shared/mm/images/hintProperty.png" object="Selection"/>
+	<property label="rangeCount"	source="DOM 0"	icon="shared/mm/images/hintProperty.png" object="Selection"/>
+	<method pattern="addRange(range)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>
+	<method pattern="deleteFromDocument()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>		
+	<method pattern="getRangeAt(index)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>
+	<method pattern="collapse(parentNode, offset)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>
+	<method pattern="collapseToStart()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>
+	<method pattern="collapseToEnd()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>
+	<method pattern="containsNode(aNode, aPartlyContained)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>		
+	<method pattern="extend(parentNode, offset)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>	
+	<method pattern="removeRange(range)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>		
+	<method pattern="removeAllRanges()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>		
+	<method pattern="selectAllChildren(parentNode)"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>		
+	<method pattern="selectionLanguageChange()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>		
+	<method pattern="toString()"	source="DOM 0"	icon="shared/mm/images/hintFunction.png" object="Selection"/>		
+  </menu>
+  <menu classpattern="NodeList" displayrestriction="JavaScript" caseSensitive="true" additionaldismisschars=".;">	
+	<!-- NodeList Collection of DOM Nodes -->
+	<property label="length"			source="DOM 1&amp;2"	icon="shared/mm/images/hintProperty.png"/>
+	<method pattern="item(n)"			source="DOM 1&amp;2"	icon="shared/mm/images/hintFunction.png" retType="Element"/>
+  </menu>
+  <!-- AJAX XMLHttpRequest Object Class -->
+  <menu classpattern="XMLHttpRequest" casesensitive="true" displayrestriction="JavaScript" additionaldismisschars=".;">
+    <method pattern="XMLHttpRequest()"				source="Javascript" icon="shared/mm/images/hintFunction.png" constructor="true"/>
+	<property label="onreadystatechange"	source="Javascript"	icon="shared/mm/images/hintProperty.png" object="XMLHttpRequest"/>
+	<property label="readyState"			source="Javascript"	icon="shared/mm/images/hintProperty.png" object="XMLHttpRequest"/>
+	<property label="responseText"			source="Javascript"	icon="shared/mm/images/hintProperty.png" object="XMLHttpRequest"/>
+	<property label="responseXML"			source="Javascript"	icon="shared/mm/images/hintProperty.png" object="XMLHttpRequest"/>
+	<property label="responseBody"			source="Javascript"	icon="shared/mm/images/hintProperty.png" object="XMLHttpRequest"/>
+	<property label="status"				source="Javascript"	icon="shared/mm/images/hintProperty.png" object="XMLHttpRequest"/>
+	<property label="statusText"			source="Javascript"	icon="shared/mm/images/hintProperty.png" object="XMLHttpRequest"/>
+	<method pattern="abort()"				source="JavaScript"	icon="shared/mm/images/hintFunction.png" object="XMLHttpRequest"/>
+	<method pattern="getAllResponseHeaders()"		source="JavaScript"	icon="shared/mm/images/hintFunction.png" object="XMLHttpRequest"/>
+	<method pattern="getResponseHeader(headerName)"	source="JavaScript"	icon="shared/mm/images/hintFunction.png" object="XMLHttpRequest"/>
+	<method pattern="open( method, URL [, async, userName, password] )"	source="JavaScript"	icon="shared/mm/images/hintFunction.png" object="XMLHttpRequest">
+		<parammenu pattern='"' name="method" index="0" type="enumerated">
+			<parammenuitem label="GET"			value="GET"					icon="shared/mm/images/hintMisc.gif"/>
+			<parammenuitem label="POST"			value="POST"				icon="shared/mm/images/hintMisc.gif"/>
+			<parammenuitem label="HEAD"			value="HEAD"				icon="shared/mm/images/hintMisc.gif"/>			
+			<parammenuitem label="PUT"			value="PUT"					icon="shared/mm/images/hintMisc.gif"/>			
+			<parammenuitem label="DELETE"		value="DELETE"				icon="shared/mm/images/hintMisc.gif"/>			
+		</parammenu> 		
+		<parammenu pattern='"' name="URL"	index="1" type="url">
+		</parammenu>
+		<parammenu pattern=',' name="async" index="2" type="enumerated" allowwhitespaceprefix="true">
+			<parammenuitem label="true"		value="true"				icon="shared/mm/images/hintKeyword.png"/>
+			<parammenuitem label="false"	value="false"				icon="shared/mm/images/hintKeyword.png"/>		
+		</parammenu> 		
+	</method>
+	<method pattern="send(content)"	source="JavaScript"	icon="shared/mm/images/hintFunction.png" object="XMLHttpRequest"/>
+	<method pattern="setRequestHeader(label,value)"	source="JavaScript"	icon="shared/mm/images/hintFunction.png" object="XMLHttpRequest"/>
+  </menu>
+	<function pattern="document"	displayrestriction="JavaScript" source="DOM 1&amp;2" caseSensitive="true" icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="window"		displayrestriction="JavaScript" source="DOM 0" caseSensitive="true" icon="shared/mm/images/hintProperty.png"/>
+	<!-- redefining the window properties/methods to appear without window.in top level menu -->
+	<function pattern="Components"	displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="content"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="closed"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="crypto"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="defaultStatus"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="dialogArguments"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="directories"		displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="document"		displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png" propType="document"/>
+	<function pattern="frameElement"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="frames"			displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="fullScreen"		displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="globalStorage"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="history"			displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="innerHeight"		displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="innerWidth"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="length"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="location"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="locationbar"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="menubar"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="name"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="navigator"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="opener"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png" propType="window"/>
+	<function pattern="outerHeight"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="outerWidth"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="pageXOffset"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="pageYOffset"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="parent"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="personalbar"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="pkcs11"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="returnValue"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="screen"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png" propType="screen"/>
+	<function pattern="screenX"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="screenY"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="scrollbars"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="scrollMaxX"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="scrollMaxY"		displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="scrollX"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="scrollY"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="self"			displayrestriction="JavaScript"		source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="sessionStorage"	displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="sidebar"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="status"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="statusbar"		displayrestriction="JavaScript"		source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="toolbar"			displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="top"				displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintProperty.png"/>
+	<function pattern="alert(msg)"		displayrestriction="JavaScript"							source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="addEventListener(type, listener, useCapture)"	displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintFunction.png">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</function>
+	<function pattern="atob(encodedData)"								displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="back()"											displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="blur()"											displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="btoa(stringToEncode)"							displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="captureEvents(eventType)"						displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="clearInterval(intervalID)"						displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="clearTimeout(timeoutID)"							displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="close()"											displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="confirm(msg)"									displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="dump()"											displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="escape(str)"										displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="find(aString, aCaseSensitive, aBackwards, aWrapAround, aWholeWord, aSearchInFrames, aShowDialog)" displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="focus()"										displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="forward()"									displayrestriction="JavaScript"	source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="getAttention()"								displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="getComputedStyle(element, pseudoElt)"		displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="getSelection()"								displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png" retType="Selection"/>
+	<function pattern="home()"										displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="moveBy(deltaX, deltaY)"						displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="moveTo(x, y)"								displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+<!--
+	<function pattern="open(url, name, features, replace)"			displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png" retType="window"/>
+-->
+	<function pattern="openDialog(url, name, features, arg1, arg2, ...) "	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="print() "	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="prompt(text, value)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="releaseEvents(eventType)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="removeEventListener(type, listener, useCapture)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png">
+		<parammenu pattern='"' name="type" index="0" type="enumerated">
+			<parammenuitem label="abort"						value="abort"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="blur"							value="blur"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="change"						value="change"						icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="click"						value="click"						icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="dblclick"						value="dblclick"					icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="DOMActivate"					value="DOMActivate"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMAttributeNameChanged"		value="DOMAttributeNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMAttrModified"				value="DOMAttrModified"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMCharacterDataModified"		value="DOMCharacterDataModified"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMElementNameChanged"		value="DOMElementNameChanged"		icon="shared/mm/images/codeHintEvent.gif" object="MutatonNameEvent" source="DOM 3"/>
+			<parammenuitem label="DOMFocusIn"					value="DOMFocusIn"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMFocusOut"					value="DOMFocusOut"					icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInserted"				value="DOMNodeInserted"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeInsertedIntoDocument"	value="DOMNodeInsertedIntoDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemoved"				value="DOMNodeRemoved"				icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMNodeRemovedFromDocument"	value="DOMNodeRemovedFromDocument"	icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="DOMSubtreeModified"			value="DOMSubtreeModified"			icon="shared/mm/images/codeHintEvent.gif" object="MutationEvent" source="DOM 2"/>
+			<parammenuitem label="error"						value="error"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="focus"						value="focus"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 2"/>
+			<parammenuitem label="keydown"						value="keydown"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="keyup"						value="keyup"			icon="shared/mm/images/codeHintEvent.gif" object="KeybaordEvent" source="DOM 3"/>
+			<parammenuitem label="load"							value="load"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="mousedown"					value="mousedown"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mousemove"					value="mousemove"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseout"						value="mouseout"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseover"					value="mouseover"		icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="mouseup"						value="mouseup"			icon="shared/mm/images/codeHintEvent.gif" object="MouseEvent" source="DOM 2"/>
+			<parammenuitem label="offline"						value="offline"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="online"						value="online"			icon="shared/mm/images/codeHintEvent.gif" source="FireFox 3"/>
+			<parammenuitem label="reset"						value="reset"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="resize"						value="resize"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="scroll"						value="scroll"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="select"						value="select"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="submit"						value="submit"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+			<parammenuitem label="textInput"					value="textInput"			icon="shared/mm/images/codeHintEvent.gif" object="TextEvent" source="DOM 3"/>
+			<parammenuitem label="unload"						value="unload"			icon="shared/mm/images/codeHintEvent.gif" object="UIEvent" source="DOM 0"/>
+		</parammenu> 		
+	</function>
+	<function pattern="resizeBy(deltaX, deltaY)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="resizeTo(width, height)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="scroll(x, y)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="scrollBy(x, y)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="scrollByLines(lines)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>
+	<function pattern="scrollByPages(pages)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="scrollTo(x, y)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="setInterval(code, delay)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="setTimeout(code, delay)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="showModalDialog()"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="sizeToContent()"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="stop()"	source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="unescape(encodedStr)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="updateCommands(commandNameStr)"	displayrestriction="JavaScript" source="DOM 0"	icon="shared/mm/images/hintFunction.png"/>	
+	<function pattern="onabort" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onbeforeunload" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onblur" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onchange" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onclick" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onclose" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="oncontextmenu" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="ondragdrop" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onerror" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onfocus" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onkeydown" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onkeypress" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onkeyup" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onload" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onmousedown" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onmousemove" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onmouseout" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onmouseover" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onmouseup" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onpaint" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onreset" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onresize" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onscroll" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onselect" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onsubmit" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+	<function pattern="onunload" source="DOM 0"	displayrestriction="JavaScript" icon="shared/mm/images/codeHintEvent.gif"/>
+</menugroup>
+</codehints>
