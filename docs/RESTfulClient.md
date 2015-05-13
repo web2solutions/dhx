@@ -1,12 +1,12 @@
-# MAP API RESTful client
+# REST API RESTful client
 
-The MAP API RESTful client is a Javascript client which provides support to consume end points from MAP RESTful API.
+The REST API RESTful client is a Javascript client which provides support to consume end points from REST RESTful API.
 
-It means you will no longer use classical ajax calls to fetch content from MAP API.
+It means you will no longer use classical ajax calls to fetch content from REST API.
 
 The basic features of the client are:
 
-  * Provides an auth system for MAP API
+  * Provides an auth system for REST API
   * Creates database resources
   * List database resources
   * Update database resources
@@ -18,53 +18,46 @@ The basic features of the client are:
   * Generic dinamic table inquirier for fast filling DHTMLX grids
   * Generic dinamic table search for filtering data on DHTMLX combos
 
-**About MAP API**
 
-  [https://github.com/web2solutions/MAP-API/blob/master/README.md](https://github.com/web2solutions/MAP-API/blob/master/README.md)
-	
-**End points documentation**
 
-  [http://cdmap01.myadoptionportal.com/modules/API_DOC/](http://cdmap01.myadoptionportal.com/modules/API_DOC/)
-	
+**Acessor namespace on $dhx fw**
 
-**Acessor namespace on CAIRS fw**
+	$dhx.REST.API
 
-	CAIRS.MAP.API
-	
-#### **CAIRS.MAP.API Methods**
+#### **$dhx.REST.API Methods**
 
-###### *CAIRS.MAP.API.authorize( payload )*
+###### *$dhx.REST.API.authorize( payload )*
 
 	login into API and get authorization to consume content over API.
-	
+
 	Execute this method before trying to call the other methods
 
 payload - JSON object
 
 ```javascript
 	{
-	   // a valid MAP username
+	   // a valid REST username
 	   // mandatory
 	   username: ''
-	   
+
 	   // not implemented yet, works like a password
 	   // mandatory for production branch only
 	   ,api_key: ''
-	   
+
 	   // Agency database name
-	   // not mandatory. Default MAPTEST
+	   // not mandatory. Default RESTTEST
 	   ,database: ''
-	   
+
 	   // agency ID
 	   // mandatory
 	   ,agency_id: ''
-	   
+
 	   // success callback function
 	   // fired when browser receives the end point response with no errors
 	   // not mandatory. Default none
 	   // inside the scope function you have access to the RESTful request object
 	   ,onSuccess: function(request) {}
-	
+
 	   // error callback function
 	   // fired when browser receives the end point response with errors
 	   // not mandatory. Default none
@@ -76,23 +69,20 @@ payload - JSON object
 example:
 
 ```javascript
-	CAIRS.MAP.API.authorize({
-	   username: 'restoremleahy@adoptionassociates.net',
-	   database: "MAPTEST",
-	   agency_id: 25,
+	$dhx.REST.API.authorize({
 	   onSuccess: function(request) {
 		// display countdown for this logged user token expiration
-		CAIRS.MAP.API.showCountDown("expiration_info");
+		$dhx.REST.API.showCountDown("expiration_info");
 	    },
 	    onFail: function(request) {
-	        
+
 	    }
 	});
 ```
 
 ===========
 
-###### *CAIRS.MAP.API.del( payload )*
+###### *$dhx.REST.API.del( payload )*
 
 	deletes an item on a end point
 
@@ -103,16 +93,16 @@ payload - JSON object
 		// API end point address
 		// mandatory - API end point address
 		resource: ""
-		
+
 		// response format. values: json, xml and yaml
 		// not mandatory, default json.
 		,format: ""
-		
+
 		// success callback function
 		// fired when browser receives the end point response with no errors
 		// inside the scope function you have access to the RESTful request object
 		,onSuccess: function(request) {}
-		
+
 		// error callback function
 		// fired when browser receives the end point response with errors
 		// inside the scope function you have access to the RESTful request object
@@ -123,12 +113,12 @@ payload - JSON object
 example:
 
 ```javascript
-	CAIRS.MAP.API.del(
+	$dhx.REST.API.del(
 	{
-	    
+
 	    // 1 is the ID of the record which I want to delete
-	    resource: "/forms/1" 
-	    
+	    resource: "/forms/1"
+
 	    format: "json",
 	    onSuccess: function(request) {
 	        var json = JSON.parse(request.response);
@@ -148,7 +138,7 @@ example:
 
 ===========
 
-###### *CAIRS.MAP.API.get( payload )*
+###### *$dhx.REST.API.get( payload )*
 
 	list all/one item(s) from an end point
 
@@ -159,24 +149,24 @@ payload - JSON object
 		// API end point address
 		// mandatory - API end point address
 		resource: ""
-		
+
 		// response format. values: json, xml and yaml
 		// not mandatory, default json.
 		,format: ""
-		
+
 		// url query payload
 	       	// pass parameters to the End point via GET (url)
 	       	// not mandatory, default none
-	       	// generally, MAP end points provides support to the following parameters:
+	       	// generally, REST end points provides support to the following parameters:
 	       	//	columns, filter, filter_operator and order.
 	       	// 	please check the end point documentation
-		,payload: "" 
-		
+		,payload: ""
+
 		// success callback function
 		// fired when browser receives the end point response with no errors
 		// inside the scope function you have access to the RESTful request object
 		,onSuccess: function(request) {}
-		
+
 		// error callback function
 		// fired when browser receives the end point response with errors
 		// inside the scope function you have access to the RESTful request object
@@ -188,7 +178,7 @@ example getting all records:
 
 ```javascript
 	// it will return only the columns formlabel,formname, ordered by formname ASC
-	CAIRS.MAP.API.get({
+	$dhx.REST.API.get({
 	    resource: "/forms",
 	    format: "json",
 	    payload: "columns=formlabel,formname&order=" + JSON.stringify({
@@ -198,7 +188,7 @@ example getting all records:
 	    onSuccess: function(request) {
 	        var json = JSON.parse(request.response);
 	        if (json.status == "success") {
-	            
+
 	            // forms is the data collection name returned by the end point.
 	            // each end point returns a specific data collection name
 	            alert(json.forms);
@@ -216,7 +206,7 @@ example getting just one record:
 
 ```javascript
 	// it will return only the columns formlabel,formname
-	CAIRS.MAP.API.get({
+	$dhx.REST.API.get({
 	    resource: "/forms/2898",
 	    format: "json",
 	    payload: "columns=formlabel,formname&order=" + JSON.stringify({
@@ -226,8 +216,8 @@ example getting just one record:
 	    onSuccess: function(request) {
 	        var json = JSON.parse(request.response);
 	        if (json.status == "success") {
-	            
-	            // hash is a 100% compatible JSON object to be used 
+
+	            // hash is a 100% compatible JSON object to be used
 	            // together with form.setFormData( json.hash );
 	            alert(json.hash);
 	            console.log(json.hash);
@@ -242,61 +232,61 @@ example getting just one record:
 
 ===========
 
-###### *CAIRS.MAP.API.getMappedURL( configuration )*
+###### *$dhx.REST.API.getMappedURL( configuration )*
 
 	gets a end point URL address properly formated to be consumed by DHTMLX grids
-	
+
 configuration - JSON
 
-```javascript	
+```javascript
 	{
 	       	// API end point address
 	       	// mandatory - API end point address
-	       	resource: "", 
-		
+	       	resource: "",
+
 		// response format. values: json, xml and yaml
 		// not mandatory, default json
-		responseType: "", 
-	       	
+		responseType: "",
+
 	       	// url query payload
 	       	// pass parameters to the End point via GET (url)
 	       	// not mandatory, default none
 	       	params: ""
 	}
 ```
-	
+
 example:
 
 ```javascript
-	var gridURL = CAIRS.MAP.API.getMappedURL({
+	var gridURL = $dhx.REST.API.getMappedURL({
 	        resource: "/LibraryFields",
 	        responseType: "json",
 	        params: "columns=" + self.model.conf_grid.ids + ""
 	});
-	
+
 	console.log( gridURL );
-	// https://apidev.myadoptionportal.com/LibraryFields.json?database=MAPTEST&token=f31a1770d51f06eccc3014204a50e182ff6494dc5f72ba85f6bc4256af64861e&columns=type,type_standard,name,label,caption,value,tooltip,text_size,required,use_library,library_field_id,className,mask_to_use&searchcriteria=2_Type
-	    
-	myDhxGrid.load(gridURL, function () { 
-		// data loaded 
+	// https://apidev.myadoptionportal.com/LibraryFields.json?database=RESTTEST&token=f31a1770d51f06eccc3014204a50e182ff6494dc5f72ba85f6bc4256af64861e&columns=type,type_standard,name,label,caption,value,tooltip,text_size,required,use_library,library_field_id,className,mask_to_use&searchcriteria=2_Type
+
+	myDhxGrid.load(gridURL, function () {
+		// data loaded
 	}, "json");
 ```
 
 ===========
 
-###### *CAIRS.MAP.API.insert( payload )*
+###### *$dhx.REST.API.insert( payload )*
 
-	an alias to CAIRS.MAP.API.post( payload );
-
-===========
-
-###### *CAIRS.MAP.API.list( payload )*
-
-	an alias to CAIRS.MAP.API.get( payload );
+	an alias to $dhx.REST.API.post( payload );
 
 ===========
 
-###### *CAIRS.MAP.API.post( payload )*
+###### *$dhx.REST.API.list( payload )*
+
+	an alias to $dhx.REST.API.get( payload );
+
+===========
+
+###### *$dhx.REST.API.post( payload )*
 
 	creates an item on an end point
 
@@ -307,33 +297,33 @@ payload - JSON object
 		// API end point address
 		// mandatory - API end point address
 		resource: ""
-		
+
 		// response format. values: json, xml and yaml
 		// not mandatory, default json.
 		,format: ""
-		
+
 		// url query payload
 	       	// pass parameters to the End point via POST
-	       	// mandatory. 
+	       	// mandatory.
 	       	// mandatory parameter: hash
 	       	//	hash is a JSON 100% compatible with form.getFormData() hash
 	       	//	this hash holds pairs of key/values
 	       	//	where key is the column name from a table and value is the
 	       	//	properly value for that column
-		,payload: "hash={}" 
-		
+		,payload: "hash={}"
+
 		// success callback function
 		// fired when browser receives the end point response with no errors
 		// inside the scope function you have access to the RESTful request object
 		,onSuccess: function(request) {}
-		
+
 		// error callback function
 		// fired when browser receives the end point response with errors
 		// inside the scope function you have access to the RESTful request object
 		,onFail: function(request) {}
 	}
 ```
-	
+
 example:
 
 ```javascript
@@ -358,8 +348,8 @@ example:
 	    "formindex": "D",
 	    "redirecturl": " "
 	};
-	
-	CAIRS.MAP.API.post({
+
+	$dhx.REST.API.post({
 	    resource: "/forms",
 	    format: "json",
 	    payload: "hash=" + JSON.stringify(hash),
@@ -376,10 +366,10 @@ example:
 
 ===========
 
-###### *CAIRS.MAP.API.put( payload )*
+###### *$dhx.REST.API.put( payload )*
 
 	updates an item on an end point
-	
+
 payload - JSON object
 
 ```javascript
@@ -387,26 +377,26 @@ payload - JSON object
 		// API end point address
 		// mandatory - API end point address
 		resource: ""
-		
+
 		// response format. values: json, xml and yaml
 		// not mandatory, default json.
 		,format: ""
-		
+
 		// url query payload
 	       	// pass parameters to the End point via PUT
-	       	// mandatory. 
+	       	// mandatory.
 	       	// mandatory parameter: hash
 	       	//	hash is a JSON 100% compatible with form.getFormData() hash
 	       	//	this hash holds pairs of key/values
 	       	//	where key is the column name from a table and value is the
 	       	//	properly value for that column
-		,payload: "hash={}" 
-		
+		,payload: "hash={}"
+
 		// success callback function
 		// fired when browser receives the end point response with no errors
 		// inside the scope function you have access to the RESTful request object
 		,onSuccess: function(request) {}
-		
+
 		// error callback function
 		// fired when browser receives the end point response with errors
 		// inside the scope function you have access to the RESTful request object
@@ -438,13 +428,13 @@ example:
 	    "formindex": "D",
 	    "redirecturl": " "
 	};
-	
-	CAIRS.MAP.API.put(
+
+	$dhx.REST.API.put(
 	{
-	    
+
 	    // 2898 is the id of the record which you want update
-	    resource: "/forms/2898", 
-	    
+	    resource: "/forms/2898",
+
 	    format: "json",
 	    payload: "hash=" + JSON.stringify(hash),
 	    onSuccess: function(request) {
@@ -460,116 +450,116 @@ example:
 
 ===========
 
-###### *CAIRS.MAP.API.showCountDown( HTML_element_ID )*
+###### *$dhx.REST.API.showCountDown( HTML_element_ID )*
 
 	Displays a expiration countdown for the token in use on a HTML element
 
 ===========
 
-###### *CAIRS.MAP.API.update( payload )*
+###### *$dhx.REST.API.update( payload )*
 
-	an alias to CAIRS.MAP.API.put( payload );
+	an alias to $dhx.REST.API.put( payload );
 
 ================
 
-#### **CAIRS.MAP.API Properties**
+#### **$dhx.REST.API Properties**
 
-###### *CAIRS.MAP.API.agency_id*
+###### *$dhx.REST.API.agency_id*
 
 	Stores the agency_id which is automatically passed as parameter on every end point HTTP call
-	
-	*This flag value is updated when you call MAP.API.authorize()*
-	
+
+	*This flag value is updated when you call REST.API.authorize()*
+
 	**Please don´t directly assign a value to this property**
 
 ================
 
-###### *CAIRS.MAP.API.auth_status*
+###### *$dhx.REST.API.auth_status*
 
 	Stores a flag value in accordance with the login status.
-	
-	*This flag value is updated when you call MAP.API.authorize()*
-	
+
+	*This flag value is updated when you call REST.API.authorize()*
+
 	**Please don´t directly assign a value to this property**
-	
+
 	values: disconnected / connected. Default disconnected.
 
 ================
 
-###### *CAIRS.MAP.API.OS*
+###### *$dhx.REST.API.OS*
 
 	Stores a flag value in accordance with what is the operational system where API is running
 	it changes API environment settings when fetching end points.
-	
-	Change the flag value **before** calling  MAP.API.authorize();
-	
+
+	Change the flag value **before** calling  REST.API.authorize();
+
 	values: linux / windows. Default linux.
 
 
 ================
 
-###### *CAIRS.MAP.API.token*
+###### *$dhx.REST.API.token*
 
 	Stores a SHA256 token which will automatically passed as parameter on every end point HTTP call.
 	Without a token you can't fetch end points
-	
-	*This flag value is updated when you call MAP.API.authorize()*
-	
+
+	*This flag value is updated when you call REST.API.authorize()*
+
 	**Please don´t directly assign a value to this property**
 
 ================
 
-###### *CAIRS.MAP.API.user*
+###### *$dhx.REST.API.user*
 
 	Stores the logged user first_name.
-	
+
 	When disconnected, it has the following value: nobody
-	
-	*This flag value is updated when you call MAP.API.authorize()*
-	
+
+	*This flag value is updated when you call REST.API.authorize()*
+
 	**Please don´t directly assign a value to this property**
 
 ================
 
-###### *CAIRS.MAP.API.database*
+###### *$dhx.REST.API.database*
 
 	Agency database name. This property value is setted inside the core in accordance with the payload
-	provided when you call MAP.API.authorize()
-	
-	Default MAPTEST
-	
-	*This flag value is updated when you call MAP.API.authorize()*
-	
+	provided when you call REST.API.authorize()
+
+	Default RESTTEST
+
+	*This flag value is updated when you call REST.API.authorize()*
+
 	**Please don´t directly assign a value to this property**
 
 
 ================
 
-###### *CAIRS.MAP.API.date_expiration*
+###### *$dhx.REST.API.date_expiration*
 
 	Stores the currently token life time in milliseconds.
-	
-	100% compatible to be used with new Date( CAIRS.MAP.API.date_expiration )
-	
-	*This flag value is updated when you call MAP.API.authorize()*
-	
+
+	100% compatible to be used with new Date( $dhx.REST.API.date_expiration )
+
+	*This flag value is updated when you call REST.API.authorize()*
+
 	**Please don´t directly assign a value to this property**
 
 
 ================
 
-###### *CAIRS.environment*
+###### *$dhx.environment*
 
 	This propery is used to set/unset several features for development process.
-	
-	Regarding CAIRS.MAP.API requests, it defines on which API branch the RESTful requests will be performed
-	
+
+	Regarding $dhx.REST.API requests, it defines on which API branch the RESTful requests will be performed
+
 	values:
-	
+
 		production: https://api.myadoptionportal.com
-		
+
 		dev: https://apidev.myadoptionportal.com
-		
+
 		test: https://perltest.myadoptionportal.com
 
 ================
@@ -578,37 +568,37 @@ example:
 
 ### Generic dinamic table inquirier for fast filling DHTMLX grids
 
-MAP API provides a exclusive end point which provides support to query any table on a database and fill one grid.
+REST API provides a exclusive end point which provides support to query any table on a database and fill one grid.
 
 It is very useful when you need fast fill a grid with data from one table from a database.
 
-Let's supose you need to fill one grid with data from a table from an agency database, but, on that time, MAP API doesn't provides any end point which fetchs data from the table that you need to use as datasource on your grid, then you can use the CAIRS.MAP.API.getMappedURL() method to fetch content from any table from the database.
+Let's supose you need to fill one grid with data from a table from an agency database, but, on that time, REST API doesn't provides any end point which fetchs data from the table that you need to use as datasource on your grid, then you can use the $dhx.REST.API.getMappedURL() method to fetch content from any table from the database.
 
 **End point address**
 
 	/dhtmlx/grid/feed.json
-	
+
 **Parameters**
 
 	table_name
 		The table name from where the End Point will return data
-	
+
 	primary_key
 		The primary key name of the table
-	
+
 	columns
 		The column names from the table that you want to display on your grid
-	
+
 	filter
 		A JSON object containing pairs of key/values. Key are column names and values
 		are string which will be used to search foron that column
-	
+
 	order
 		A JSON object containing two properties: orderby and direction
-		
+
 			orderby
 				is the name of the column to be used as ordering criteria
-				
+
 			direction
 				is a valid SQL keyword that defines the direction of the ordering
 				ASC/DESC
@@ -616,14 +606,14 @@ Let's supose you need to fill one grid with data from a table from an agency dat
 **Example of usage**
 
 ```javascript
-	var gridURL = CAIRS.MAP.API.getMappedURL({
+	var gridURL = $dhx.REST.API.getMappedURL({
 	    resource: "/dhtmlx/grid/feed", // generic end point
 	    responseType: "json", // not mandatory, default json
-	    
+
 	    // mandatory for this API End Point ( /dhtmlx/grid/feed.json )
-	    params: "table_name=formmaker_properties&primary_key=form_id&columns=" + that.model.conf_grid.ids + "&filter=" + JSON.stringify({formlabel : 'aravind'}) + "&order=" + JSON.stringify({orderby : 'formlabel', direction:'ASC'}) 
+	    params: "table_name=formmaker_properties&primary_key=form_id&columns=" + that.model.conf_grid.ids + "&filter=" + JSON.stringify({formlabel : 'aravind'}) + "&order=" + JSON.stringify({orderby : 'formlabel', direction:'ASC'})
 	});
-	
+
 
 	grid.load(gridURL, function() {
 	    // data loaded on grid
@@ -632,28 +622,28 @@ Let's supose you need to fill one grid with data from a table from an agency dat
 =======
 ### Generic dinamic table search for filtering data on DHTMLX combos
 
-MAP API provides a exclusive end point which provides support to query any table on a database and search for data.
+REST API provides a exclusive end point which provides support to query any table on a database and search for data.
 
 It is very useful when you need to implement generic DHTMLX combos with filtering
 
 **End point address**
 
 	/dhtmlx/combo/feed.xml
-	
+
 **Parameters**
 
 	table_name
 		The table name from where the End Point will return data
 		mandatory
-	
+
 	primary_key
 		The primary key name of the table
 		mandatory
-	
+
 	column_to_search
 		The column name from the table that you want to search on
 		mandatory
-	
+
 	value_column
 		the column name to be used as id for the combo options.
 		not mandatory. default: primary key name
@@ -663,7 +653,7 @@ It is very useful when you need to implement generic DHTMLX combos with filterin
 
 ```javascript
 	combo = new dhtmlXCombo("combo", "combo", 200);
-	var combo_url = CAIRS.MAP.API.getMappedURL({
+	var combo_url = $dhx.REST.API.getMappedURL({
 	    resource: "/dhtmlx/combo/feed",
 	    responseType: "xml",
 	    params: "column_to_search=name&table_name=emailmessages_templates&primary_key=template_id"
@@ -674,10 +664,10 @@ It is very useful when you need to implement generic DHTMLX combos with filterin
 
 ## Online examples
 
-[Search contact using DHTMLX combo](http://cdmap01.myadoptionportal.com/modules/CAIRS_Framework/examples/contact_dhtmlx_combo_end_point.html?_enable_log=true)
+[Search contact using DHTMLX combo](http://cdmap01.myadoptionportal.com/modules/$dhx_Framework/examples/contact_dhtmlx_combo_end_point.html?_enable_log=true)
 
 
-[Generic end point for DHTMLX combos](http://cdmap01.myadoptionportal.com/modules/CAIRS_Framework/examples/generic_dhtmlx_combo_end_point.html?_enable_log=true)
+[Generic end point for DHTMLX combos](http://cdmap01.myadoptionportal.com/modules/$dhx_Framework/examples/generic_dhtmlx_combo_end_point.html?_enable_log=true)
 
 
 ### Authors and Contributors
