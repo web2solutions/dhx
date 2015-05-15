@@ -837,6 +837,8 @@ $dhx.dataDriver = {
 						$dhx.dataDriver.public[c.table]._internal_cursor_position = record_id;
 						console.timeEnd( timer_label );
 
+						if( $dhx.dataDriver.public[c.table].onSetCursor ) $dhx.dataDriver.public[c.table].onSetCursor();
+
 						if (c.onSuccess) c.onSuccess(recordIdRequest, event, data);
 					}
 					else
@@ -1197,10 +1199,6 @@ $dhx.dataDriver = {
 						}
 						else if (hash.type == 'grid') {
 							
-
-							//component.attachEvent("onXLS", function(grid_obj) {
-
-							//});
 							component._subscriber = function( topic, data ){
 								//console.log( topic, data );
 								if(data.target == 'table')
@@ -1214,17 +1212,19 @@ $dhx.dataDriver = {
 										var columns = schema.str_columns.split(',');
 										if(data.action == 'add' && data.message == 'record added')
 										{
+											var last_id = 0;
 											data.records.forEach(function(recordset, index, array) {
 												var record = [];
 
 												columns.forEach(function(column, index_, array_) {
 													record[ index_ ] = recordset[ column ];
 												});
-
-
 												component.addRow(recordset[primary_key], record);
+												last_id = recordset[primary_key];
 												if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 											});
+											
+											component.selectRowById( last_id, false, true, true );
 										}
 										else if(data.action == 'update' && data.message == 'record updated')
 										{
@@ -1238,6 +1238,14 @@ $dhx.dataDriver = {
 													component.cells(data.record_id, colIndex).setValue( data.record[column] );
 												}
 											}
+											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
+										}
+										else if(data.action == 'select' && data.message == 'selected record')
+										{
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											
+											component.selectRowById( data.record_id, false, true, false );
+											
 											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 										}
 										else if(data.action == 'clear' && data.message == 'table is empty')
@@ -1257,7 +1265,16 @@ $dhx.dataDriver = {
 							//		}, function( cursor, tx, event ){
 							//	} );
 							//});
+							component.attachEvent("onRowSelect", function (new_row, ind) {								
+								
+								$dhx.dataDriver.public[c.table].setCursor( new_row, function(){
+													
+									}, function(){
+										component.clearSelection();
+								} );
+							});
 							PubSub.subscribe( $dhx.dataDriver.dbs[ c.db ].root_topic + "." + c.table, component._subscriber );
+							
 
 							// if user setted saveOnEdit = true
 							if (component.saveOnEdit)
@@ -1473,7 +1490,7 @@ $dhx.dataDriver = {
 									that._bound_form_update(c, component, hash, onSuccess, onFail);
 								}
                             }
-     
+     						component.setFocusOnFirstActive();
 							component._subscriber = function( topic, data )
 							{
 								if(data.target == 'table')
@@ -1754,9 +1771,60 @@ $dhx.dataDriver = {
 			'use strict';
 			var that = $dhx.dataDriver;
 		}
-		, first: function () {
-			'use strict';
-			var that = $dhx.dataDriver;
+		
+		,first : function( c ) {
+			console.log( c );
+			var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[db_name].schema[c.table],
+					schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath;
+					
+					
+			var timer_label = "get first record. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+			console.time( timer_label );
+
+				var tx = that.db(db_name).transaction(c.table, "readonly"),
+					table = tx.objectStore(c.table);
+					
+			c.onSuccess = c.onSuccess || false;
+            c.onFail = c.onFail || false;
+					
+			tx.addEventListener('complete', function( event ) {
+				if ($dhx._enable_log) console.warn( 'executed' );
+				if ($dhx._enable_log) console.log('transaction complete', event);
+				console.timeEnd( timer_label );
+				
+				if ($dhx._enable_log) console.warn('tx first record is completed');
+			});
+			tx.addEventListener('onerror', function( event ) {
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(tx, event);
+				if ($dhx._enable_log) console.log('error on transaction');
+			});
+			tx.addEventListener('abort', function( event ) {
+				console.timeEnd( timer_label );
+				if ($dhx._enable_log) console.warn('transaction aborted');
+			});
+			var search = table.openCursor( ); // 
+			search.onsuccess = function(event) {
+				var cursor = event.target.result;
+				if(cursor) 
+				{
+					PubSub.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+						action : 'select',
+						target : 'table',
+						target_obj : table,
+						name : c.table,
+						status : 'success',
+						message : 'selected record'
+						,record_id : cursor.key
+					} );
+					
+					if( c.onSuccess ) c.onSuccess(cursor.key, cursor.value, tx, event);
+					//cursor.continue();
+				}
+			}			
 		}
 		, idByIndex: function () {
 			'use strict';
@@ -1770,9 +1838,67 @@ $dhx.dataDriver = {
 			'use strict';
 			var that = $dhx.dataDriver;
 		}
-		, last: function () {
-			'use strict';
-			var that = $dhx.dataDriver;
+		,last : function( c ) {
+			console.log( c );
+			var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[db_name].schema[c.table],
+					schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath,
+					last_record = {};
+					
+					
+			var timer_label = "get last record. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+			console.time( timer_label );
+
+				var tx = that.db(db_name).transaction(c.table, "readonly"),
+					table = tx.objectStore(c.table);
+					
+			c.onSuccess = c.onSuccess || false;
+            c.onFail = c.onFail || false;
+					
+			tx.addEventListener('complete', function( event ) {
+				if ($dhx._enable_log) console.warn( 'executed' );
+				if ($dhx._enable_log) console.log('transaction complete', event);
+				console.timeEnd( timer_label );
+				
+				if ($dhx._enable_log) console.warn('tx last record is completed');
+			});
+			tx.addEventListener('onerror', function( event ) {
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(tx, event);
+				if ($dhx._enable_log) console.log('error on transaction');
+			});
+			tx.addEventListener('abort', function( event ) {
+				console.timeEnd( timer_label );
+				if ($dhx._enable_log) console.warn('transaction aborted');
+			});
+			var search = table.openCursor( ); // 
+			search.onsuccess = function(event) {
+				var cursor = event.target.result;
+				if(cursor) 
+				{
+					last_record.key = cursor.key;
+					last_record.value = cursor.value
+					cursor.continue();
+				}
+				else
+				{
+					if( last_record.key )
+					{
+						PubSub.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+							action : 'select',
+							target : 'table',
+							target_obj : table,
+							name : c.table,
+							status : 'success',
+							message : 'selected record'
+							,record_id : last_record.key
+						} );
+						if( c.onSuccess ) c.onSuccess(last_record.key, last_record.value, tx, event);
+					}
+				}
+			}			
 		}
 		, next: function () {
 			'use strict';
@@ -1833,6 +1959,104 @@ $dhx.dataDriver = {
 				return false;
 			}
 		}
+	
+		,search : function( c ) {
+			console.log( c );
+			var that = $dhx.dataDriver,
+					db_name = c.db,
+					rows_affected = 0,
+					columns = {},
+					records = [],
+					table_schema = that.dbs[db_name].schema[c.table],
+					schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath
+					query = c.query,
+					operator = 'and';
+					
+					
+			var timer_label = "search records. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+			console.time( timer_label );
+
+				var tx = that.db(db_name).transaction(c.table, "readonly"),
+					table = tx.objectStore(c.table);
+					
+			tx.addEventListener('complete', function( event ) {
+				if ($dhx._enable_log) console.warn( 'executed' );
+				if ($dhx._enable_log) console.log('transaction complete', event);
+				console.timeEnd( timer_label );
+				if( c.onReady ) c.onReady(records, tx, event);
+				if ($dhx._enable_log) console.warn('tx search is completed');
+			});
+			tx.addEventListener('onerror', function( event ) {
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(tx, event);
+				if ($dhx._enable_log) console.log('error on transaction');
+			});
+			tx.addEventListener('abort', function( event ) {
+				console.timeEnd( timer_label );
+				if ($dhx._enable_log) console.warn('transaction aborted');
+			});
+	 
+		 	if( query['and'] )
+			{
+				columns = query['and'];
+			}
+			else if( query['or'] )
+			{
+				operator = 'or'	;
+				columns = query['or'];
+			}
+			//var index = table.index('name');
+			//var search = index.get('José');
+			var search = table.openCursor( ); // 
+			// IDBKeyRange.lowerBound("name") list a partir do valor
+			// IDBKeyRange.bound("José", "eu", true, true) lista entre valores
+		 
+			search.onsuccess = function(event) {
+				var cursor = event.target.result;
+				if(cursor) 
+				{
+					var total_check = 0;
+					var total_passed = 0;
+					for( var column in columns)
+					{
+						if( columns[ column ] != '' && columns[ column ] != null )
+							total_check = total_check + 1;
+					}
+					
+					for( var column in columns)
+					{
+								if( columns[ column ] != '' && columns[ column ] != null )
+								{
+									var search_value = columns[ column ].toLowerCase().latinize();
+									var column_value = cursor.value[ column ].toLowerCase().latinize();
+									var re = new RegExp(search_value);
+									if(re.test(column_value)){
+										total_passed = total_passed + 1;
+										if( total_passed == total_check )
+										{
+											rows_affected = rows_affected + 1;
+											
+											records.push( cursor.value );
+											
+											if( c.onFound ) c.onFound(cursor.key, cursor.value, tx, event);
+											
+										}
+									}
+								}
+	
+					}
+					cursor.continue();
+				}
+				else
+				{
+					
+				}
+			}			
+		}
+		
+		
+		
 
 		,public : []
 
@@ -1982,6 +2206,27 @@ $dhx.dataDriver = {
 									if(data.name == table)
 									{
 										if ($dhx._enable_log) console.log('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data.target, data.name );
+										
+										console.log( data );
+										
+										if(data.action == 'select' && data.message == 'selected record')
+										{
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											
+											self.schema[table].setCursor( data.record_id, function(){
+													
+												}, function(){
+												
+											} );
+										}
+										if(data.action == 'add' && data.message == 'record added')
+										{
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											
+											
+										}
+										
+										
 									}
 								}
 							}
@@ -2101,8 +2346,13 @@ $dhx.dataDriver = {
 							,filter : function(){
 								
 							}
-							,first : function(){
-								
+							,first :  function( onSuccess, onFail ){
+								that.first({
+									db: db_name,
+									table: table,
+									onSuccess: onSuccess,
+									onFail: onFail
+								});
 							}
 							,idByIndex : function(){
 								
@@ -2113,8 +2363,14 @@ $dhx.dataDriver = {
 							,item : function(){
 								
 							}
-							,last : function(){
-								
+							,onSetCursor : false
+							,last : function( onSuccess, onFail ){
+								that.last({
+									db: db_name,
+									table: table,
+									onSuccess: onSuccess,
+									onFail: onFail
+								});
 							}
 							,next : function(){
 								
@@ -2129,7 +2385,21 @@ $dhx.dataDriver = {
 								
 							}
 							
-							
+							,search : (function( db_name, table  ){
+								return{
+									where : function(c){
+										that.search({
+											db: db_name,
+											query: c.query,
+											table: table,
+											onReady: c.onReady,
+											onFound: c.onFound,
+											onFail: c.onFail
+										});
+									}
+									
+								}
+							})( db_name, table )
 							
 							,setCursor : function( record_id, onSuccess, onFail){
 								that.setCursor({
