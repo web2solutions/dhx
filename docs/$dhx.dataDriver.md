@@ -8,15 +8,17 @@
 	$dhx.dataDriver is the first indexedDB data driver/ORM focused in build DHTMLX applications.
 	
 	Built on top of indexedDB API, it provides an asynchronous and an API that that is very similar 
-	to DHTMLX DataStore API ( http://docs.dhtmlx.com/api__refs__datastore.html ), which is a synchronous API.
+	to DHTMLX DataStore API ( http://docs.dhtmlx.com/api__refs__datastore.html ), 
+	which is a synchronous API.
 
 
 **What is indexedDB?**
 
-	IndexedDB is an API for client-side storage of significant amounts of structured data, which also 
-	enables high performance searches of this data using indexes. While DOM Storage is useful for storing 
-	amounts of data, it is less useful for storing larger amounts of structured data. IndexedDB provides 
-	a solution. ( https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API )
+	IndexedDB is an API for client-side storage of significant amounts of structured data, 
+	which also enables high performance searches of this data using indexes. While DOM 
+	Storage is useful for storing amounts of data, it is less useful for storing larger 
+	amounts of structured data. IndexedDB provides a solution. 
+	( https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API )
 
 
 **why to use it?**
@@ -31,8 +33,8 @@
 
 - Each app can have up to GBs of size.
 
-- Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails when you need to storage and 
-handle large amount of data. There is where $dhx.dataDriver saves you.
+- Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails when you 
+need to storage and handle large amount of data. There is where $dhx.dataDriver saves you.
 
 - move your data model from server to client
 
