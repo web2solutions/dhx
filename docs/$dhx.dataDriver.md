@@ -403,7 +403,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *filter() and search()*
 	
-	Filters DataStore by provided parameters.
+	Filters table data by provided parameters.
 
 ```javascript
 	db.schema.persons.search.where({
