@@ -365,6 +365,10 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 	under development
 
+### Online demo
+
+	http://www.dhtmlx.com.br/dbDemo/?_enable_log=true
+
 ### ToDo
 
 	- ability to add tables to existing databases (changing version)
