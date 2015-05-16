@@ -277,6 +277,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 ### ToDo
 
+	- ability to add tables to existing databases (changing version)
 	- Full documentation
 	- Implement proxy class for server communication
 		- REST calls through $dhx.REST.API. -> for loading big datasets
