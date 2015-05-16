@@ -538,7 +538,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	
 	clear synced component data and loads table data into it
 
-	```javascript
+```javascript
 	var onSuccess = function (records, rows_affected, tx, event) {
 			console.log(records);
 	}
@@ -547,7 +547,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	}
 	
 	db.schema.persons.load(  onSuccess, onFail );
-
+	
+```
 
 *next()*
 	
