@@ -732,7 +732,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant count data ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 
 		}

@@ -392,8 +392,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			console.log(total);
 			$dhx.notify('total records on table', total, 'icons/db.png');
 	}
-	var onFail = function (tx, event) {
-			//console.log( total );
+	var onFail = function (tx, event, error_message) {
+			//console.log( error_message );
 	}
 	
 	db.schema.persons.dataCount( onSuccess, onFail );
