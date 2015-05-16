@@ -6,11 +6,58 @@ $dhx.dataDriver = {
 
 		,browserPassed : function(){
 			'use strict';
-			if ($dhx.Browser.name == "Explorer") {
-                $dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
-                return false;
-            }
-			return true;
+			if ($dhx.Browser.name == "Chrome") {
+				if ($dhx.Browser.version < 31) {
+					console.log("Browser is out to date");
+					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					return false;
+				}
+				console.log("Browser is OK");
+				return true;
+			}
+			else if ($dhx.Browser.name == "Firefox") {
+				if ($dhx.Browser.version < 31) {
+					console.log("Browser is out to date");
+					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					return false;
+				}
+				console.log("Browser is OK");
+				return true;
+			}
+			else if ($dhx.Browser.name == "Opera") {
+				if ($dhx.Browser.version < 27) {
+					console.log("Browser is out to date");
+					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					return false;
+				}
+				console.log("Browser is OK");
+				return true;
+			}
+			else if ($dhx.Browser.name == "Safari") {
+				if ($dhx.Browser.version < 7) {
+					console.log("Browser is out to date");
+					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					return false;
+				}
+				if ($dhx.Browser.OS != 'Mac') {
+					console.log("We only support Safari on Mac");
+					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					return false;
+				}
+				//
+				console.log("Browser is OK");
+				return true;
+			}
+			else if ($dhx.Browser.name == "Explorer") {
+				console.log("Browser vendor not allowed");
+				self.showDirections("BROWSER_NOT_ALLOWED");
+				return false;
+			}
+			else {
+				console.log("Browser vendor not allowed");
+				self.showDirections("BROWSER_NOT_ALLOWED");
+				return false;
+			}
 		}
 
 		,validDSN : function(c){
@@ -340,7 +387,7 @@ $dhx.dataDriver = {
 					if ($dhx._enable_log) console.warn( 'rows affected: ' + rows_affected );
 					console.timeEnd( timer_label );
 
-					PubSub.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+					$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
 						action : 'add',
 						target : 'table',
 						target_obj : table,
@@ -524,7 +571,7 @@ $dhx.dataDriver = {
 					{
 						rows_affected = event.target.result;
 						var topic = that.dbs[ db_name ].root_topic + "." + c.table;
-						PubSub.publish( topic, {
+						$dhx.MQ.publish( topic, {
 							action : 'update',
 							target : 'table',
 							target_obj : table,
@@ -772,7 +819,7 @@ $dhx.dataDriver = {
 					if ($dhx._enable_log) console.warn( 'executed' );
 					if ($dhx._enable_log) console.log('transaction complete - table is clear');
 					
-					PubSub.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+					$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
 						action : 'clear',
 						target : 'table',
 						target_obj : table,
@@ -1198,18 +1245,22 @@ $dhx.dataDriver = {
 							if (c.onSuccess) c.onSuccess();
 						}
 						else if (hash.type == 'grid') {
-							
+							var schema = that.getTableSchema(c);
+							var primary_key = schema.primary_key.keyPath
+							var columns = schema.str_columns.split(',');
 							component._subscriber = function( topic, data ){
 								//console.log( topic, data );
 								if(data.target == 'table')
 								{
 									if(data.name == c.table)
 									{
-										if( $dhx._enable_log ) console.warn( hash.component_id + ' received message about it synced table: ', data.target, data.name );
-										
-										var schema = that.getTableSchema(c);
-										var primary_key = schema.primary_key.keyPath
-										var columns = schema.str_columns.split(',');
+										if( $dhx._enable_log )
+										{
+											console.warn( 
+												hash.component_id + ' received message about it synced table: '
+												, data.target, data.name 
+											);
+										}
 										if(data.action == 'add' && data.message == 'record added')
 										{
 											var last_id = 0;
@@ -1223,13 +1274,11 @@ $dhx.dataDriver = {
 												last_id = recordset[primary_key];
 												if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 											});
-											
 											component.selectRowById( last_id, false, true, true );
 										}
 										else if(data.action == 'update' && data.message == 'record updated')
 										{
-											console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 											for(var column in data.record)
 											{
 												if(data.record.hasOwnProperty( column ))	
@@ -1243,15 +1292,12 @@ $dhx.dataDriver = {
 										else if(data.action == 'select' && data.message == 'selected record')
 										{
 											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											
 											component.selectRowById( data.record_id, false, true, false );
-											
 											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 										}
 										else if(data.action == 'clear' && data.message == 'table is empty')
 										{
 											console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											
 											component.clearAll();
 											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 										}
@@ -1265,16 +1311,20 @@ $dhx.dataDriver = {
 							//		}, function( cursor, tx, event ){
 							//	} );
 							//});
-							component.attachEvent("onRowSelect", function (new_row, ind) {								
-								
+							
+							component.setColumnIds(schema.str_columns);
+							component.enableSmartRendering(true);
+							component.setDateFormat("%Y-%m-%d");
+							component.attachEvent("onRowSelect", function (new_row, ind)
+							{								
 								$dhx.dataDriver.public[c.table].setCursor( new_row, function(){
 													
 									}, function(){
 										component.clearSelection();
 								} );
 							});
-							PubSub.subscribe( $dhx.dataDriver.dbs[ c.db ].root_topic + "." + c.table, component._subscriber );
 							
+							$dhx.MQ.subscribe( $dhx.dataDriver.dbs[ c.db ].root_topic + "." + c.table, component._subscriber );
 
 							// if user setted saveOnEdit = true
 							if (component.saveOnEdit)
@@ -1515,7 +1565,7 @@ $dhx.dataDriver = {
 									}
 								}
 							}
-							component._subscriber_token = PubSub.subscribe( $dhx.dataDriver.dbs[ c.db ].root_topic + "." + c.table, component._subscriber );
+							component._subscriber_token = $dhx.MQ.subscribe( $dhx.dataDriver.dbs[ c.db ].root_topic + "." + c.table, component._subscriber );
 							//history.pushState(hash.component_id, hash.component_id, component.isEditing === true ? '#update_record' : '#add_new_record');
 							if (c.onSuccess) c.onSuccess("bound");
 							if ($dhx._enable_log) console.warn( hash.component_id, ' is bound');
@@ -1594,7 +1644,7 @@ $dhx.dataDriver = {
 					if (hash.component_id == c.component_id) {
 						if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unbound");
 						$dhx.dataDriver.public[c.table]._bound_components.splice(x, 1);
-						PubSub.unsubscribe( component._subscriber_token );
+						$dhx.MQ.unsubscribe( component._subscriber_token );
 						if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unbound");
 						return;
 					}
@@ -1773,7 +1823,7 @@ $dhx.dataDriver = {
 		}
 		
 		,first : function( c ) {
-			console.log( c );
+			//console.log( c );
 			var that = $dhx.dataDriver,
 					db_name = c.db,
 					table_schema = that.dbs[db_name].schema[c.table],
@@ -1811,7 +1861,7 @@ $dhx.dataDriver = {
 				var cursor = event.target.result;
 				if(cursor) 
 				{
-					PubSub.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+					$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
 						action : 'select',
 						target : 'table',
 						target_obj : table,
@@ -1826,6 +1876,171 @@ $dhx.dataDriver = {
 				}
 			}			
 		}
+		
+		
+		,next : function( c ) {
+			//console.log( c );
+			var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[db_name].schema[c.table],
+					schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath,
+					cursor_position = $dhx.dataDriver.public[c.table]._internal_cursor_position,
+					found = false,
+					sent = false;
+					
+			function notify( cursor ){
+				$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+					action : 'select',
+					target : 'table',
+					target_obj : table,
+					name : c.table,
+					status : 'success',
+					message : 'selected record'
+					,record_id : cursor.key
+				} );
+				if( c.onSuccess ) c.onSuccess(cursor.key, cursor.value, tx, event);
+			}
+					
+					
+			var timer_label = "get next record. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+			console.time( timer_label );
+
+				var tx = that.db(db_name).transaction(c.table, "readonly"),
+					table = tx.objectStore(c.table);
+					
+			c.onSuccess = c.onSuccess || false;
+            c.onFail = c.onFail || false;
+			
+			if( cursor_position == 0 )
+			{
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(null, null);
+				if ($dhx._enable_log) console.log('please select a record before calling next()');
+			}
+					
+			tx.addEventListener('complete', function( event ) {
+				if ($dhx._enable_log) console.warn( 'executed' );
+				if ($dhx._enable_log) console.log('transaction complete', event);
+				console.timeEnd( timer_label );
+				
+				if ($dhx._enable_log) console.warn('tx next record is completed');
+			});
+			tx.addEventListener('onerror', function( event ) {
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(tx, event);
+				if ($dhx._enable_log) console.log('error on transaction');
+			});
+			tx.addEventListener('abort', function( event ) {
+				console.timeEnd( timer_label );
+				if ($dhx._enable_log) console.warn('transaction aborted');
+			});
+			var search = table.openCursor( ); // 
+			search.onsuccess = function(event) {
+				var cursor = event.target.result;
+				if(cursor) 
+				{
+					if( cursor_position == cursor.key )
+					{
+						found = true;
+					}
+					if( cursor_position != cursor.key )
+					{
+						if( found && !sent )
+						{
+							notify( cursor )
+							sent = true;
+						}
+					}
+	
+					cursor.continue();
+				}
+			}			
+		}
+		
+		
+		,previous : function( c ) {
+			//console.log( c );
+			var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[db_name].schema[c.table],
+					schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath,
+					cursor_position = $dhx.dataDriver.public[c.table]._internal_cursor_position,
+					found = false,
+					sent = false;
+					
+			function notify( cursor ){
+				$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+					action : 'select',
+					target : 'table',
+					target_obj : table,
+					name : c.table,
+					status : 'success',
+					message : 'selected record'
+					,record_id : cursor.key
+				} );
+				if( c.onSuccess ) c.onSuccess(cursor.key, cursor.value, tx, event);
+			}
+					
+					
+			var timer_label = "get previous record. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+			console.time( timer_label );
+
+				var tx = that.db(db_name).transaction(c.table, "readonly"),
+					table = tx.objectStore(c.table);
+					
+			c.onSuccess = c.onSuccess || false;
+            c.onFail = c.onFail || false;
+			
+			if( cursor_position == 0 )
+			{
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(null, null);
+				if ($dhx._enable_log) console.log('please select a record before calling previous()');
+			}
+					
+			tx.addEventListener('complete', function( event ) {
+				if ($dhx._enable_log) console.warn( 'executed' );
+				if ($dhx._enable_log) console.log('transaction complete', event);
+				console.timeEnd( timer_label );
+				
+				if ($dhx._enable_log) console.warn('tx previous record is completed');
+			});
+			tx.addEventListener('onerror', function( event ) {
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(tx, event);
+				if ($dhx._enable_log) console.log('error on transaction');
+			});
+			tx.addEventListener('abort', function( event ) {
+				console.timeEnd( timer_label );
+				if ($dhx._enable_log) console.warn('transaction aborted');
+			});
+			var search = table.openCursor( null, 'prev' ); // 
+			search.onsuccess = function(event) {
+				var cursor = event.target.result;
+				if(cursor) 
+				{
+					if( cursor_position == cursor.key )
+					{
+						found = true;
+					}
+					if( cursor_position != cursor.key )
+					{
+						if( found && !sent )
+						{
+							notify( cursor )
+							sent = true;
+						}
+					}
+	
+					cursor.continue();
+				}
+			}			
+		}
+		
+		
+		
 		, idByIndex: function () {
 			'use strict';
 			var that = $dhx.dataDriver;
@@ -1839,7 +2054,7 @@ $dhx.dataDriver = {
 			var that = $dhx.dataDriver;
 		}
 		,last : function( c ) {
-			console.log( c );
+			//console.log( c );
 			var that = $dhx.dataDriver,
 					db_name = c.db,
 					table_schema = that.dbs[db_name].schema[c.table],
@@ -1886,7 +2101,7 @@ $dhx.dataDriver = {
 				{
 					if( last_record.key )
 					{
-						PubSub.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+						$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
 							action : 'select',
 							target : 'table',
 							target_obj : table,
@@ -1900,14 +2115,8 @@ $dhx.dataDriver = {
 				}
 			}			
 		}
-		, next: function () {
-			'use strict';
-			var that = $dhx.dataDriver;
-		}
-		, previous: function () {
-			'use strict';
-			var that = $dhx.dataDriver;
-		}
+	
+	
 		, serialize: function () {
 			'use strict';
 			var that = $dhx.dataDriver;
@@ -2169,11 +2378,11 @@ $dhx.dataDriver = {
 					,root_topic : topic
 				};
 
-				PubSub.subscribe( topic, that.dbs[ db_name ].subscriber );
+				$dhx.MQ.subscribe( topic, that.dbs[ db_name ].subscriber );
 
 				if ($dhx._enable_log) console.warn('Database ' + db_name + ' is ready '); // , connection.result
 
-				PubSub.publish( topic, {
+				$dhx.MQ.publish( topic, {
 					action : 'ready',
 					target : 'database',
 					target_obj : that.dbs[ db_name ].db,
@@ -2200,14 +2409,21 @@ $dhx.dataDriver = {
 					//console.log(table, db_name,  topic);
 					self.schema[table] = (function( table, db_name ) {
 						return {
-							_subscriber : function( topic, data ){
+							_synced_components : []
+							,_bound_components : []
+							,_internal_cursor_position : 0
+							,onSetCursor : false
+							,onAddRecord : false
+							,onUpdateRecord : false
+							,onDeleteRecord : false
+							,_subscriber : function( topic, data ){
 								if(data.target == 'table')
 								{
 									if(data.name == table)
 									{
 										if ($dhx._enable_log) console.log('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data.target, data.name );
 										
-										console.log( data );
+										//console.log( data );
 										
 										if(data.action == 'select' && data.message == 'selected record')
 										{
@@ -2229,10 +2445,7 @@ $dhx.dataDriver = {
 										
 									}
 								}
-							}
-							,_synced_components : []
-							,_bound_components : []
-							,_internal_cursor_position : 0
+							}						
 							,add: function(record, onSuccess, onFail) {
 								console.log(table);
 								that.add({
@@ -2360,10 +2573,15 @@ $dhx.dataDriver = {
 							,indexById : function(){
 								
 							}
-							,item : function(){
-								
+							,item : function( onSuccess, onFail ){
+								that.getCurrentRecord({
+									db: db_name,
+									table: table,
+									onSuccess: onSuccess,
+									onFail: onFail
+								});
 							}
-							,onSetCursor : false
+							
 							,last : function( onSuccess, onFail ){
 								that.last({
 									db: db_name,
@@ -2372,11 +2590,21 @@ $dhx.dataDriver = {
 									onFail: onFail
 								});
 							}
-							,next : function(){
-								
+							,next : function( onSuccess, onFail ){
+								that.next({
+									db: db_name,
+									table: table,
+									onSuccess: onSuccess,
+									onFail: onFail
+								});
 							}
-							,previous : function(){
-								
+							,previous : function( onSuccess, onFail ){
+								that.previous({
+									db: db_name,
+									table: table,
+									onSuccess: onSuccess,
+									onFail: onFail
+								});
 							}
 							,serialize : function(){
 								
@@ -2480,7 +2708,7 @@ $dhx.dataDriver = {
 					})(  table, db_name, that );
 				}
 
-				PubSub.subscribe( topic, self.schema[table]._subscriber );
+				$dhx.MQ.subscribe( topic, self.schema[table]._subscriber );
 				that.public[table] = self.schema[table];
 			}
 
