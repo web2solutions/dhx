@@ -277,7 +277,9 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 
 
-## Methods
+## Table API
+
+	Each table on database provide support to the following methods
 
 
 *add()*
