@@ -520,11 +520,34 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *last()*
 	
-	Returns the ID of the last item ( an item with the index == dataCount-1).
+	Returns the ID of the last item on table.
+
+```javascript
+	var onSuccess = function (record_id, record, tx, event) {
+			console.log(record_id);
+	}
+	var onFail = function (tx, event, error_message ) {
+			//console.log( error_message );
+	}
+	
+	db.schema.persons.last( onSuccess,  onFail );
+
+```
 
 *load()*
 	
-	loads data to the component via xml or json, usually data-values pairs
+	clear synced component data and loads table data into it
+
+	```javascript
+	var onSuccess = function (records, rows_affected, tx, event) {
+			console.log(records);
+	}
+	var onFail = function (tx, event, error_message ) {
+			//console.log( error_message );
+	}
+	
+	db.schema.persons.load(  onSuccess, onFail );
+
 
 *next()*
 	

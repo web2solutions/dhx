@@ -665,17 +665,26 @@ $dhx.dataDriver = {
 						if ($dhx._enable_log) console.log('transaction complete - data selected      ', event);
 						if ($dhx._enable_log) console.warn( 'rows affected: ' + rows_affected );
 						console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify( c )));
+						
+						$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+							action : 'load',
+							target : 'table',
+							target_obj : table,
+							name : c.table,
+							status : 'success',
+							message : 'loaded data'
+							,records : records
+						} );
+						
 
-
-
-						if (c.onSuccess) c.onSuccess(tx, event, records, rows_affected);
+						if (c.onSuccess) c.onSuccess(records, rows_affected, tx, event);
 					}
 				});
 
 				request.addEventListener('error', function(event) {
 					if ($dhx._enable_log) console.warn('sorry Eduardo, couldnt fecth data! Error message: ' + event);
 					console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify( c )));
-					if (c.onFail) c.onFail(request, event, records, rows_affected);
+					if (c.onFail) c.onFail(request, event, event.target.error.message);
 				});
 			}
 			catch(e)
@@ -1048,26 +1057,9 @@ $dhx.dataDriver = {
 		,_syncGridData : function(  c, component ){
 			'use strict';
 			var that = $dhx.dataDriver;
-			component.clearAll();
-			$dhx.dataDriver.public[c.table].load(function(tx, event, records, rows_affected) {
-				var data = {
-					rows: []
-				};
-				records.forEach(function(recordset, index, array) {
-					var schema = that.getTableSchema(c);
-					var primary_key = schema.primary_key.keyPath;
-					var columns = schema.str_columns.split(',');
-					var record = [];
-					columns.forEach(function(column, index_, array_) {
-						record[index_] = recordset.record[column];
-					});
-					data.rows.push({
-						id: recordset.record[primary_key],
-						data: record
-					})
-				});
-				//component.loadStruct(data);
-				component.parse(data, "json"); //takes the name and format of the data source
+			//component.clearAll();
+			$dhx.dataDriver.public[c.table].load(function(records, rows_affected, tx, event) {
+				
 				if (c.onSuccess) c.onSuccess(rows_affected);
 			}, function(tx, event, records, rows_affected) {
 				if (c.onFail) c.onFail(rows_affected);
@@ -1303,6 +1295,37 @@ $dhx.dataDriver = {
 											component.clearAll();
 											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 										}
+										else if(data.action == 'load' && data.message == 'loaded data')
+										{
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+											try
+											{
+												component.clearAll();
+												var records = data.records;
+												var data={
+													rows:[]
+												};
+												var schema = $dhx.dataDriver.getTableSchema(c);
+												var primary_key = schema.primary_key.keyPath;
+												var columns = schema.str_columns.split(',');
+												records.forEach(function(recordset, index, array) {
+													var record = [];
+													columns.forEach(function(column, index_, array_) {
+														record[index_] = recordset.record[column];
+													});
+													data.rows.push({ id:recordset.record[primary_key], data: record})
+												});
+												
+												component.parse(data, "json"); //takes the name and format of the data source
+											}catch(e)
+											{
+												console.log( e.stack )	
+											}
+											
+											
+											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
+										}
+										
 									}
 								}
 							}
@@ -2088,6 +2111,7 @@ $dhx.dataDriver = {
 			});
 			tx.addEventListener('abort', function( event ) {
 				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.warn('transaction aborted');
 			});
 			var search = table.openCursor( ); // 
