@@ -612,7 +612,7 @@ $dhx.dataDriver = {
 			}
 		}
 
-		,select : function(c){
+		,load : function(c){
 			'use strict';
 			try
 			{
@@ -1047,7 +1047,7 @@ $dhx.dataDriver = {
 			'use strict';
 			var that = $dhx.dataDriver;
 			component.clearAll();
-			$dhx.dataDriver.public[c.table].select(function(tx, event, records, rows_affected) {
+			$dhx.dataDriver.public[c.table].load(function(tx, event, records, rows_affected) {
 				var data = {
 					rows: []
 				};
@@ -2170,7 +2170,7 @@ $dhx.dataDriver = {
 		}
 	
 		,search : function( c ) {
-			console.log( c );
+			//console.log( c );
 			var that = $dhx.dataDriver,
 					db_name = c.db,
 					rows_affected = 0,
@@ -2260,6 +2260,55 @@ $dhx.dataDriver = {
 				else
 				{
 					
+				}
+			}			
+		}
+		
+		
+		,serialize : function( c ) {
+			//console.log( c );
+			var that = $dhx.dataDriver,
+					db_name = c.db,
+					rows_affected = 0,
+					columns = {},
+					records = [],
+					table_schema = that.dbs[db_name].schema[c.table],
+					schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath
+					query = c.query,
+					operator = 'and';
+					
+					
+			var timer_label = "serialize records. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+			console.time( timer_label );
+
+				var tx = that.db(db_name).transaction(c.table, "readonly"),
+					table = tx.objectStore(c.table);
+					
+			tx.addEventListener('complete', function( event ) {
+				if ($dhx._enable_log) console.warn( 'executed' );
+				if ($dhx._enable_log) console.log('transaction complete', event);
+				console.timeEnd( timer_label );
+				if( c.onSuccess ) c.onSuccess(records, tx, event);
+				if ($dhx._enable_log) console.warn('tx serialize is completed');
+			});
+			tx.addEventListener('onerror', function( event ) {
+				console.timeEnd( timer_label );
+				if( c.onFail ) c.onFail(tx, event);
+				if ($dhx._enable_log) console.log('error on transaction');
+			});
+			tx.addEventListener('abort', function( event ) {
+				console.timeEnd( timer_label );
+				if ($dhx._enable_log) console.warn('transaction aborted');
+			});
+			var search = table.openCursor( ); // 
+			search.onsuccess = function(event) {
+				var cursor = event.target.result;
+				if(cursor) 
+				{
+					rows_affected = rows_affected + 1;
+					records.push( cursor.value );
+					cursor.continue();
 				}
 			}			
 		}
@@ -2462,8 +2511,8 @@ $dhx.dataDriver = {
 									onFail: onFail
 								});
 							},
-							select : function( onSuccess, onFail ){
-								that.select({
+							load : function( onSuccess, onFail ){
+								that.load({
 									db: db_name,
 									table: table,
 									onSuccess: onSuccess,
@@ -2471,6 +2520,15 @@ $dhx.dataDriver = {
 								});
 							},
 							del: function( record_id, onSuccess, onFail ) {
+								that.del({
+									db: db_name,
+									table: table,
+									record_id: record_id,
+									onSuccess: onSuccess,
+									onFail: onFail
+								});
+							},
+							remove: function( record_id, onSuccess, onFail ) {
 								that.del({
 									db: db_name,
 									table: table,

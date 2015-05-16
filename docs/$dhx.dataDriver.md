@@ -271,6 +271,32 @@ Every database provide support for:
 Each app may have up to 20% of the shared pool. As an example, if the total available disk space is 50 GB, the shared pool is 25 GB, and the app can have up to 5 GB. This is calculated from 20% (up to 5 GB) of half (up to 25 GB) of the available disk space (50 GB). (https://developer.chrome.com/apps/offline_storage#temporary).
 
 
+
+## Methods
+
+
+*add*	Adds a new record to the dataset.
+*bind*	bind an one record compoonent to a table
+*clearAll*	Removes all data from the component.
+*dataCount*	Returns the total count of items in table.
+*exists*	Returns true if an item with the defined ID already exists.
+*filter*	Filters DataStore by provided parameters.
+*first*	Returns the ID of the first item ( an item with the index == 0 )
+*getCursor*	get position of virtual cursor
+*item*	Returns hash of data related to the specific item.
+*last*	Returns the ID of the last item ( an item with the index == dataCount-1).
+*load*	loads data to the component via xml or json, usually data-values pairs
+*next*	Returns the ID of the next item ( an item with the index == current + 1).
+*previous*	Returns the ID of the previous item ( an item with the index == current - 1).
+*remove*	Removes item by the ID.
+*serialize*	serializes data to a JSON object .
+*setCursor*	set virtual cursor
+*sort*	Sorts a dataset.
+*sync*	binds 2 dataStore objects (changes in the master dataStore [creating, updating, deleting] reflect in the bound dataStore).
+*unbind*	unbinds 2 DataStore objects
+*update*	Updates a specific item.
+
+
 ### Status
 
 	under development
@@ -285,7 +311,18 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 		- AMQP calls through flash plugin
 
 	- exist()
-	- generate PDF method on table level
+	- toPDF() method on table level
+	- onAfterAdd() event	Occurs after item adding is finished.
+	- onAfterCursorChange() event	event called after value of cursor was changed
+	- onAfterDelete() event	Occurs after item deleting is finished.
+	- onBeforeAdd() event	Occurs before item adding is initiated.
+	- onBeforeCursorChange() event	event called just before value of cursor will be changed
+	- onBeforeDelete() event	Occurs before item deleting is initiated.
+	- onDataRequest() event	called when component issue dynamic request for a data
+	- onLoadError() event	occurs when server side returns invalid response during data loading
+	- onStoreUpdated() event	occurs when data was changed by any means
+	- onXLE() event	fires when the data loading is finished and a component or data is rendered
+	- onXLS() event	fires when starts loading data
 
 ### Authors and Contributors
 
