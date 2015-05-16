@@ -288,7 +288,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *bind()*
 	
-	bind an one record compoonent to a table
+	bind an one record compoonent to a table: forms
+	implement input masks and validation
 
 *clearAll()*
 	
@@ -352,11 +353,13 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *sync()*
 	
-	binds 2 dataStore objects (changes in the master dataStore [creating, updating, deleting] reflect in the bound dataStore).
+	sync an one record compoonent to a table: grid
+	implement input masks and validation
+	implement live edit on cells double click
 
 *unbind()*
 	
-	unbinds 2 DataStore objects
+	unbinds components
 
 *update()*
 	
