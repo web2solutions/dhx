@@ -296,6 +296,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 *add()*
 	
 	Adds a new record to the dataset.
+	Sends a 'new record' message to the MQ system
+	Automatically adds records to the synced components
 
 - Add one record
 
@@ -330,8 +332,9 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *bind()*
 	
-	bind an one record compoonent to a table: forms
+	bind an one record compoonent to a table: Ex: forms
 	implement input masks and validation
+	bind a table listener to be used by the bound component
 
 
 ```javascript
@@ -366,19 +369,96 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *clearAll()*
 	
-	Removes all data from the component.
+	Removes all data from a table and synced components
+
+```javascript
+	var onSuccess = function (tx, event) {
+			//console.log( total );
+	}
+	var onFail = function (tx, event) {
+			//console.log( total );
+	}
+	
+	db.schema.persons.clearAll( onSuccess, onFail );
+```
 
 *dataCount()*
 	
 	Returns the total count of items in table.
 
-*exists()*
+```javascript
+	var onSuccess = function (tx, event, total) {
+			console.log(total);
+			$dhx.notify('total records on table', total, 'icons/db.png');
+	}
+	var onFail = function (tx, event) {
+			//console.log( total );
+	}
 	
-	Returns true if an item with the defined ID already exists.
+	that.model.db.schema.persons.dataCount( onSuccess, onFail );
+	// or
+	that.model.db.schema.persons.count( onSuccess, onFail );
 
-*filter()*
+```
+
+*filter() and search()*
 	
 	Filters DataStore by provided parameters.
+
+```javascript
+	db.schema.persons.search.where({
+		query: {
+			and: form.getFormData() // get form payload to be used as parameter for filtering
+		, }
+		// called each times the query finds a record
+		, onFound: function (record_id, record, tx, event) {
+			//$dhx.notify('found: ', record, 'icons/db.png');
+			var c = {
+				db: 'juris'
+				, table: 'persons'
+			}
+			var schema = $dhx.dataDriver.getTableSchema(c);
+			var primary_key = schema.primary_key.keyPath
+			var columns = schema.str_columns.split(',');
+			var data = [];
+			columns.forEach(function (column, index_, array_) {
+				data[index_] = record[column];
+			});
+			//that.view.grid.addRow(record_id, data);
+		}
+		// called ONE time when query is ready and found ALL records
+		, onReady: function (records, tx, event) {
+			var data = {
+				rows: []
+			};
+			var c = {
+				db: 'juris'
+				, table: 'persons'
+			}
+			var schema = $dhx.dataDriver.getTableSchema(c);
+			var primary_key = schema.primary_key.keyPath;
+			var columns = schema.str_columns.split(',');
+			records.forEach(function (recordset, index, array) {
+				var record = [];
+				columns.forEach(function (column, index_, array_) {
+					record[index_] = recordset[column];
+				});
+				data.rows.push({
+					id: recordset[primary_key]
+					, data: record
+				})
+			});
+			grid.parse(data, "json"); //takes the name and format of the data source
+			layout.progressOff();
+			form.unlock();
+		}
+		// called when there is any error on the request / transaction
+		, onerror: function () {
+			layout.progressOff();
+			form.unlock();
+		}
+	});
+```
 
 *first()*
 	

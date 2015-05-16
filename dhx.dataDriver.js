@@ -2570,6 +2570,14 @@ $dhx.dataDriver = {
 									onFail: onFail
 								});
 							}
+							,count : function( onSuccess, onFail ){
+								that.count({
+									db: db_name,
+									table: table,
+									onSuccess: onSuccess,
+									onFail: onFail
+								});
+							}
 
 							,bind : (function( db_name, table  ){
 								return{
