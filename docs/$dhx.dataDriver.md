@@ -21,7 +21,7 @@
 
 - Multi thread environment instead single thread environment. no blocking.
 
-- Uses a MQ system for implementing interoperability over communication between database elements X components X server
+- Uses a MQ system for implementing interoperable communication between database elements X components X server
 
 - Bind and Sync DHTMLX components through multiple databases and tables.
 
