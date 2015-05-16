@@ -1,8 +1,10 @@
 # REST API RESTful client
 
-The REST API RESTful client is a Javascript client which provides support to consume end points from REST RESTful API.
+The REST API RESTful client is a Javascript client which 
+provides support to consume end points from REST RESTful API.
 
-It means you will no longer use classical ajax calls to fetch content from REST API.
+It means you will no longer use classical ajax calls 
+to fetch content from REST API.
 
 The basic features of the client are:
 
