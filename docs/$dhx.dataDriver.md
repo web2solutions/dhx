@@ -10,6 +10,11 @@
 	Built on top of indexedDB API, it provides an asynchronous and an API that that is very similar to DHTMLX DataStore API ( http://docs.dhtmlx.com/api__refs__datastore.html ), which is a synchronous API.
 
 
+**What is indexedDB?**
+
+	IndexedDB is an API for client-side storage of significant amounts of structured data, which also enables high performance searches of this data using indexes. While DOM Storage is useful for storing smaller amounts of data, it is less useful for storing larger amounts of structured data. IndexedDB provides a solution. ( https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API )
+
+
 **why to use it?**
 
 - Provide support for offline applications. Nomore blockers when your server goes offline.
@@ -305,7 +310,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *getCursor()*
 	
-get position of virtual cursor
+	get position of virtual cursor
 
 *item()*
 	
