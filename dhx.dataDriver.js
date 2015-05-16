@@ -1889,7 +1889,7 @@ $dhx.dataDriver = {
 					found = false,
 					sent = false;
 					
-			function notify( cursor ){
+			function notify( cursor, tx, event ){
 				$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
 					action : 'select',
 					target : 'table',
@@ -1948,7 +1948,7 @@ $dhx.dataDriver = {
 					{
 						if( found && !sent )
 						{
-							notify( cursor )
+							notify( cursor,tx, event )
 							sent = true;
 						}
 					}
@@ -1970,7 +1970,7 @@ $dhx.dataDriver = {
 					found = false,
 					sent = false;
 					
-			function notify( cursor ){
+			function notify( cursor, tx, event){
 				$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
 					action : 'select',
 					target : 'table',
@@ -2029,7 +2029,7 @@ $dhx.dataDriver = {
 					{
 						if( found && !sent )
 						{
-							notify( cursor )
+							notify( cursor , tx, event )
 							sent = true;
 						}
 					}

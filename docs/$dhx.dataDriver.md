@@ -290,15 +290,79 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 	Each table on database provide support to the following methods
 
+	on the following examples, please consider that 'persons' is a database table
+
 
 *add()*
 	
 	Adds a new record to the dataset.
 
+- Add one record
+
+```javascript
+	db.schema.persons.add({
+		person_id: new Date().getTime()
+		, username: "eduardo"
+		, name: "Eduardo Almeida"
+		, age: 30
+		, birth_date: '1984-08-28'
+		, email: "eduardo@web2solutions.com"
+	});
+```
+
+- Add multiple records
+
+```javascript
+	var records = [];
+	var start = new Date().getTime();
+	for (i = start; i < (start + 1000); i++) {
+		records.push({
+			person_id: i
+			, username: "username_" + i + new Date().getTime()
+			, name: "name " + i + new Date().getTime()
+			, age: 35
+			, birth_date: '1984-08-28'
+			, email: "email_" + i + new Date().getTime() + "@company.com"
+		});
+	}
+	db.schema.persons.add(records);
+```
+
 *bind()*
 	
 	bind an one record compoonent to a table: forms
 	implement input masks and validation
+
+
+```javascript
+	var form_settings = {
+		template : [
+			{ "name": "person_id", "value": "", "mask_to_use": "", "label": "person_id", "validate": "", "type": "hidden", "tooltip": "", "maxLength": null,  "required": false}, 
+			{ "maxLength": "255", "required": false,  "value": "", "mask_to_use": "", "label": "name", "name": "name", "tooltip": "", "type": "input", "validate": "NotEmpty"},
+			{ "type": "input", "tooltip": "", "validate": "NotEmpty,ValidEmail", "mask_to_use": "", "label": "email", "value": "", "name": "email", "required": false,  "maxLength": "255"},
+			{ "required": false,  "maxLength": "300", "tooltip": "", "type": "input", "validate": "NotEmpty", "value": "", "label": "username", "mask_to_use": "", "name": "username"}, 
+			{ "name": "birth_date", "value": "", "mask_to_use": "date", "label": "birth_date", "validate": "NotEmpty", "tooltip": "", "type": "calendar", "maxLength": null,  "required": false,  dateformat:"%Y-%m-%d",  enableTime : false,  readonly : true},
+			{ "name": "age", "value": "", "mask_to_use": "integer", "label": "age", "validate": "NotEmpty", "tooltip": "", "type": "input", "maxLength": null,  "required": false}
+		]
+	}
+	var form = window.attachForm( form_settings.template );
+	if (uid == 'new')
+		self.form[uid].isEditing = false;
+	else
+		self.form[uid].isEditing = true;
+	that.model.db.schema.persons.bind.form({
+		component: self.form[uid]
+		,component_id: "dbDemo.view.CRUDwindow.form_" + uid + "_" + that.suffix
+		
+		// provide hot validation and input masking
+		// not mandatory, default undefined	
+		,prepare: { 
+			settings: orm_settings
+		}
+		,onSuccess: function () {}
+		,onFail: function () {}
+	});
+```
 
 *clearAll()*
 	
