@@ -353,7 +353,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 		self.form[uid].isEditing = false;
 	else
 		self.form[uid].isEditing = true;
-	that.model.db.schema.persons.bind.form({
+	
+	db.schema.persons.bind.form({
 		component: self.form[uid]
 		,component_id: "dbDemo.view.CRUDwindow.form_" + uid + "_" + that.suffix
 		
@@ -395,9 +396,9 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			//console.log( total );
 	}
 	
-	that.model.db.schema.persons.dataCount( onSuccess, onFail );
+	db.schema.persons.dataCount( onSuccess, onFail );
 	// or
-	that.model.db.schema.persons.count( onSuccess, onFail );
+	db.schema.persons.count( onSuccess, onFail );
 
 ```
 
