@@ -407,6 +407,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	Filters table data by provided parameters.
 	Sends a message to MQ system telling the found records
 
+	The search is case and special chars insensitive. It means, if you search for 'Anõs', or 'José', it will return all entries with 'anos' or 'jose'
+
 ```javascript
 	db.schema.persons.search.where({
 		query: {
