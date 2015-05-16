@@ -277,6 +277,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 ### ToDo
 
+	- Full documentation
 	- Implement proxy class for server communication
 		- REST calls through $dhx.REST.API. -> for loading big datasets
 		- Websocket -> calls for live updating and syncing data
