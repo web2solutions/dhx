@@ -405,6 +405,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 *filter() and search()*
 	
 	Filters table data by provided parameters.
+	Sends a message to MQ system telling the found records
 
 ```javascript
 	db.schema.persons.search.where({
