@@ -408,7 +408,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 ```javascript
 	db.schema.persons.search.where({
 		query: {
-			and: form.getFormData() // get form payload to be used as parameter for filtering
+			and: form.getFormData() // get form payload to be used as parameter for filtering. Uses the AND operator to satisfy ALL rules
+			// or: form.getFormData() // get form payload to be used as parameter for filtering. Uses the OR operator to satisfy ANY rule
 		, }
 		// called each times the query finds a record
 		, onFound: function (record_id, record, tx, event) {
