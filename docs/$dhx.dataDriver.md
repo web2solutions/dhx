@@ -351,19 +351,19 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 		]
 	}
 	var form = window.attachForm( form_settings.template );
-	if (uid == 'new')
-		self.form[uid].isEditing = false;
-	else
-		self.form[uid].isEditing = true;
+	
+	// is the form editing a record? set true for filling out the form with record data
+	self.form.isEditing = false;
+	//self.form.isEditing = true;
 	
 	db.schema.persons.bind.form({
-		component: self.form[uid]
-		,component_id: "dbDemo.view.CRUDwindow.form_" + uid + "_" + that.suffix
+		component: form
+		,component_id: "dbDemo.view.CRUDwindow.form_"
 		
 		// provide hot validation and input masking
 		// not mandatory, default undefined	
 		,prepare: { 
-			settings: orm_settings
+			settings: form_settings
 		}
 		,onSuccess: function () {}
 		,onFail: function () {}
@@ -488,11 +488,35 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *getCursor()*
 	
-	get position of virtual cursor
+	get current position of table cursor
+
+```javascript
+	var onSuccess = function (record_id, tx, event) {
+			$dhx.notify('getCursor', record_id, 'icons/db.png');
+	}
+	var onFail = function (tx, event, error_message ) {
+			//console.log( error_message );
+	}
+	
+	db.schema.persons.getCursor( onSuccess, onFail );
+
+```
 
 *item()*
 	
 	Returns hash of data related to the specific item.
+
+```javascript
+	var onSuccess = function (record, tx, event) {
+			console.log( record );
+	}
+	var onFail = function (tx, event, error_message ) {
+			console.log( error_message );
+	}
+	
+	db.schema.persons.item( onSuccess, onFail );
+
+```
 
 *last()*
 	

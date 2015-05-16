@@ -959,7 +959,7 @@ $dhx.dataDriver = {
 					cursor.addEventListener('error', function( event ) {
 						console.timeEnd(timer_label);
 						console.log(counter.result);
-						if( c.onFail ) c.onFail(null, tx, event);
+						if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 					});
 				}
 
@@ -1018,13 +1018,13 @@ $dhx.dataDriver = {
 						console.log(data);
 						console.timeEnd( timer_label );
 
-						if (c.onSuccess) c.onSuccess(data, currentRecordRequest, event);
+						if (c.onSuccess) c.onSuccess(data.value, currentRecordRequest, event);
 					}
 					else
 					{
 						console.timeEnd( timer_label );
 						if ($dhx._enable_log) console.warn('sorry Eduardo, record '+record_id+' not found! ');
-						if (c.onFail) c.onFail(null, currentRecordRequest, event);
+						if (c.onFail) c.onFail(currentRecordRequest, event, 'not found' );
 						return;
 					}
 				});
@@ -1032,7 +1032,7 @@ $dhx.dataDriver = {
 					if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + event.target.error.message);
 					console.timeEnd(timer_label);
 
-					if( c.onFail ) c.onFail(null, currentRecordRequest, event);
+					if( c.onFail ) c.onFail(currentRecordRequest, event, event.target.error.message);
 				});
 			}
 			catch(e)
