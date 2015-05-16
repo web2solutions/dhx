@@ -21,6 +21,8 @@
 
 - Multi thread environment instead single thread environment. no blocking.
 
+- Uses a MQ system for implementing interoperability between database elements X components X server
+
 - Bind and Sync DHTMLX components through multiple databases and tables.
 
 - Each app can have up to GBs of size.
