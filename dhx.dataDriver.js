@@ -2428,7 +2428,6 @@ $dhx.dataDriver = {
 										if(data.action == 'select' && data.message == 'selected record')
 										{
 											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											
 											self.schema[table].setCursor( data.record_id, function(){
 													
 												}, function(){
@@ -2439,10 +2438,7 @@ $dhx.dataDriver = {
 										{
 											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 											
-											
 										}
-										
-										
 									}
 								}
 							}						
@@ -2551,14 +2547,22 @@ $dhx.dataDriver = {
 									onFail: onFail
 								});
 							}
-							
-							
-							,exists : function(){
-								
-							}
-							,filter : function(){
-								
-							}
+	
+							,filter :  (function( db_name, table  ){
+								return{
+									where : function(c){
+										that.search({
+											db: db_name,
+											query: c.query,
+											table: table,
+											onReady: c.onReady,
+											onFound: c.onFound,
+											onFail: c.onFail
+										});
+									}
+									
+								}
+							})( db_name, table )
 							,first :  function( onSuccess, onFail ){
 								that.first({
 									db: db_name,
@@ -2566,6 +2570,9 @@ $dhx.dataDriver = {
 									onSuccess: onSuccess,
 									onFail: onFail
 								});
+							}
+							,exists : function(){
+								
 							}
 							,idByIndex : function(){
 								
@@ -2704,6 +2711,26 @@ $dhx.dataDriver = {
 									}
 								}
 							})( db_name, table )
+							,toPDF : function(){
+								var doc = new jsPDF();
+								var specialElementHandlers = {
+									// element with id of "bypass" - jQuery style selector
+									'#bypassme': function(element, renderer){
+										// true = "handled elsewhere, bypass text extraction"
+										return true
+									}
+								}
+								
+								console.log($('.row20px').parent().parent().html());
+								doc.fromHTML($('.row20px').parent().parent().html(), 0.5 // x coord
+									, 0.5 // y coord
+									, {
+										'width':7.5 // max width of content on PDF
+										, 'elementHandlers': specialElementHandlers
+									});
+								// Output as Data URI
+								doc.save('Test.pdf');	
+							}
 						};
 					})(  table, db_name, that );
 				}
@@ -2712,7 +2739,7 @@ $dhx.dataDriver = {
 				that.public[table] = self.schema[table];
 			}
 
-
+			
 
 
 			// public DATABASE API .. exposed via new Object()
@@ -2742,6 +2769,19 @@ $dhx.dataDriver = {
 					,onFail	 : c.onFail
 				} );
 			}
+			
+			this._getQuota = function( onSuccess, onFail ){
+				var webkitStorageInfo = window.webkitStorageInfo || navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
+				webkitStorageInfo.queryUsageAndQuota( webkitStorageInfo.TEMPORARY, function(used, remaining) {
+				  console.log("Used quota: " + used + ", remaining quota: " + remaining);
+				  if( onSuccess ) onSuccess( used, remaining );
+				}, function(e) {
+					if( onFail ) onFail( e );
+				  console.log('Error', e); 
+				} );	
+			}
+			
+			
 
 		}
 
@@ -3127,4 +3167,6 @@ $dhx.dataDriver = {
                 self._setInputInvalid(DHTMLXForm.getInput(name));
             }
         }
+		
+		
 	}

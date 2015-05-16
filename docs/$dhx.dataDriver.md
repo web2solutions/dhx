@@ -20,7 +20,11 @@
 
 - Each app can have up to GBs of size.
 
-- Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails when you need to storage and handle large amount of data. There is where $$dhx.dataDriver saves you
+- Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails when you need to storage and handle large amount of data. There is where $dhx.dataDriver saves you.
+
+- move your data model from server to client
+
+- dramatically reduce HTTP requests from your client to your server
 
 
 
@@ -28,12 +32,16 @@
 
 Every database provide support for:
 
+- multiple tables
+- database versioning
 - indexed columns
+- multi record columns. Arrays.
 - primary keys
 - SQL like data types: character varying, date, timestamp, text, numeric, integer
 - hot validation for data types when handling data
 - hot format and validation for input data on every synced and bound components
 - complete API on database and table level
+
 
 
 ### **Database model**
@@ -263,6 +271,19 @@ Every database provide support for:
 Each app may have up to 20% of the shared pool. As an example, if the total available disk space is 50 GB, the shared pool is 25 GB, and the app can have up to 5 GB. This is calculated from 20% (up to 5 GB) of half (up to 25 GB) of the available disk space (50 GB). (https://developer.chrome.com/apps/offline_storage#temporary).
 
 
+### Status
+
+	under development
+
+### ToDo
+
+	- Implement proxy class for server communication
+		- REST calls through $dhx.REST.API. -> for loading big datasets
+		- Websocket -> calls for live updating and syncing data
+		- AMQP calls through flash plugin
+
+	- exist()
+	- generate PDF method on table level
 
 ### Authors and Contributors
 
