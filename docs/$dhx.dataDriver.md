@@ -275,45 +275,85 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 ## Methods
 
 
-*add*	Adds a new record to the dataset.
+*add()*
+	
+	Adds a new record to the dataset.
 
-*bind*	bind an one record compoonent to a table
+*bind()*
+	
+	bind an one record compoonent to a table
 
-*clearAll*	Removes all data from the component.
+*clearAll()*
+	
+	Removes all data from the component.
 
-*dataCount*	Returns the total count of items in table.
+*dataCount()*
+	
+	Returns the total count of items in table.
 
-*exists*	Returns true if an item with the defined ID already exists.
+*exists()*
+	
+	Returns true if an item with the defined ID already exists.
 
-*filter*	Filters DataStore by provided parameters.
+*filter()*
+	
+	Filters DataStore by provided parameters.
 
-*first*	Returns the ID of the first item ( an item with the index == 0 )
+*first()*
+	
+	Returns the ID of the first item ( an item with the index == 0 )
 
-*getCursor*	get position of virtual cursor
+*getCursor()*
+	
+get position of virtual cursor
 
-*item*	Returns hash of data related to the specific item.
+*item()*
+	
+	Returns hash of data related to the specific item.
 
-*last*	Returns the ID of the last item ( an item with the index == dataCount-1).
+*last()*
+	
+	Returns the ID of the last item ( an item with the index == dataCount-1).
 
-*load*	loads data to the component via xml or json, usually data-values pairs
+*load()*
+	
+	loads data to the component via xml or json, usually data-values pairs
 
-*next*	Returns the ID of the next item ( an item with the index == current + 1).
+*next()*
+	
+	Returns the ID of the next item ( an item with the index == current + 1).
 
-*previous*	Returns the ID of the previous item ( an item with the index == current - 1).
+*previous()*
+	
+	Returns the ID of the previous item ( an item with the index == current - 1).
 
-*remove*	Removes item by the ID.
+*remove()*
+	
+	Removes item by the ID.
 
-*serialize*	serializes data to a JSON object .
+*serialize()*
+	
+	serializes data to a JSON object .
 
-*setCursor*	set virtual cursor
+*setCursor()*
+	
+	set virtual cursor
 
-*sort*	Sorts a dataset.
+*sort()*
+	
+	Sorts a dataset.
 
-*sync*	binds 2 dataStore objects (changes in the master dataStore [creating, updating, deleting] reflect in the bound dataStore).
+*sync()*
+	
+	binds 2 dataStore objects (changes in the master dataStore [creating, updating, deleting] reflect in the bound dataStore).
 
-*unbind*	unbinds 2 DataStore objects
+*unbind()*
+	
+	unbinds 2 DataStore objects
 
-*update*	Updates a specific item.
+*update()*
+	
+	Updates a specific item.
 
 
 ### Status
