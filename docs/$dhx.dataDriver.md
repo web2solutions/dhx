@@ -353,7 +353,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *sync()*
 	
-	sync an one record compoonent to a table: grid
+	sync a multiple record compoonent to a table: grid
 	implement input masks and validation
 	implement live edit on cells double click
 
