@@ -5,9 +5,9 @@
 
 **What is it?**
 
-	$dhx.dataDriver is the first indexedDB data driver/ORM focused in build DHTMLX applications.
+	$dhx.dataDriver is the first indexedDB Javascript data driver/ORM focused in build DHTMLX applications.
 	
-	Built on top of indexedDB API, it provides an asynchronous and an API that that is very similar 
+	Built on top of indexedDB API, it provides an asynchronous API that that is very similar 
 	to DHTMLX DataStore API ( http://docs.dhtmlx.com/api__refs__datastore.html ), 
 	which is a synchronous API.
 
