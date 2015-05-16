@@ -556,119 +556,13 @@ example:
 
 	values:
 
-		production: https://api.myadoptionportal.com
+		production: http://api.dhtmlx.com.br
 
-		dev: https://apidev.myadoptionportal.com
+		dev: http://api.web2.eti.br:3000
 
-		test: https://perltest.myadoptionportal.com
+		test: http://test.dhtmlx.com.br
 
 ================
-
-## Caveats
-
-### Generic dinamic table inquirier for fast filling DHTMLX grids
-
-REST API provides a exclusive end point which provides support to query any table on a database and fill one grid.
-
-It is very useful when you need fast fill a grid with data from one table from a database.
-
-Let's supose you need to fill one grid with data from a table from an agency database, but, on that time, REST API doesn't provides any end point which fetchs data from the table that you need to use as datasource on your grid, then you can use the $dhx.REST.API.getMappedURL() method to fetch content from any table from the database.
-
-**End point address**
-
-	/dhtmlx/grid/feed.json
-
-**Parameters**
-
-	table_name
-		The table name from where the End Point will return data
-
-	primary_key
-		The primary key name of the table
-
-	columns
-		The column names from the table that you want to display on your grid
-
-	filter
-		A JSON object containing pairs of key/values. Key are column names and values
-		are string which will be used to search foron that column
-
-	order
-		A JSON object containing two properties: orderby and direction
-
-			orderby
-				is the name of the column to be used as ordering criteria
-
-			direction
-				is a valid SQL keyword that defines the direction of the ordering
-				ASC/DESC
-
-**Example of usage**
-
-```javascript
-	var gridURL = $dhx.REST.API.getMappedURL({
-	    resource: "/dhtmlx/grid/feed", // generic end point
-	    responseType: "json", // not mandatory, default json
-
-	    // mandatory for this API End Point ( /dhtmlx/grid/feed.json )
-	    params: "table_name=formmaker_properties&primary_key=form_id&columns=" + that.model.conf_grid.ids + "&filter=" + JSON.stringify({formlabel : 'aravind'}) + "&order=" + JSON.stringify({orderby : 'formlabel', direction:'ASC'})
-	});
-
-
-	grid.load(gridURL, function() {
-	    // data loaded on grid
-	}, "json");
-```
-=======
-### Generic dinamic table search for filtering data on DHTMLX combos
-
-REST API provides a exclusive end point which provides support to query any table on a database and search for data.
-
-It is very useful when you need to implement generic DHTMLX combos with filtering
-
-**End point address**
-
-	/dhtmlx/combo/feed.xml
-
-**Parameters**
-
-	table_name
-		The table name from where the End Point will return data
-		mandatory
-
-	primary_key
-		The primary key name of the table
-		mandatory
-
-	column_to_search
-		The column name from the table that you want to search on
-		mandatory
-
-	value_column
-		the column name to be used as id for the combo options.
-		not mandatory. default: primary key name
-
-
-**Example of usage**
-
-```javascript
-	combo = new dhtmlXCombo("combo", "combo", 200);
-	var combo_url = $dhx.REST.API.getMappedURL({
-	    resource: "/dhtmlx/combo/feed",
-	    responseType: "xml",
-	    params: "column_to_search=name&table_name=emailmessages_templates&primary_key=template_id"
-	});
-	combo.enableFilteringMode(true, combo_url, true, true);
-```
-
-
-## Online examples
-
-[Search contact using DHTMLX combo](http://cdmap01.myadoptionportal.com/modules/$dhx_Framework/examples/contact_dhtmlx_combo_end_point.html?_enable_log=true)
-
-
-[Generic end point for DHTMLX combos](http://cdmap01.myadoptionportal.com/modules/$dhx_Framework/examples/generic_dhtmlx_combo_end_point.html?_enable_log=true)
-
 
 ### Authors and Contributors
 
