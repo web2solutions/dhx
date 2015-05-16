@@ -268,7 +268,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant create table ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -293,7 +293,7 @@ $dhx.dataDriver = {
 			{
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant drop database ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -359,7 +359,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant get table size ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -485,7 +485,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -608,7 +608,7 @@ $dhx.dataDriver = {
 			{
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant update by local id! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -683,7 +683,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant select data ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -713,7 +713,7 @@ $dhx.dataDriver = {
 
 				tx.addEventListener('abort', function( event ) {
 					//console.log(counter.result);
-					if( c.onFail ) c.onFail(tx, event, counter.result);
+					if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				});
 
 				counter.addEventListener('success', function( event ) {
@@ -724,7 +724,9 @@ $dhx.dataDriver = {
 				counter.addEventListener('error', function( event ) {
 					console.timeEnd("count operation " + c.table);
 					//console.log(counter.result);
-					if( c.onFail ) c.onFail(tx, event, counter.result);
+					if( c.onFail ) c.onFail(tx, event, event.target.error.message);
+					
+					
 				});
 			}
 			catch(e)
@@ -775,7 +777,7 @@ $dhx.dataDriver = {
 				req.onerror = function (event) {
 					console.timeEnd(timer_label);
 					if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete all records! Error message: ' + event);
-					if( c.onFail ) c.onFail(tx, event);
+					if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				}
 			}
 			catch(e)
@@ -783,7 +785,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -834,7 +836,7 @@ $dhx.dataDriver = {
 				clear_request.addEventListener('error', function( event ) {
 					console.timeEnd("clearAll operation " + c.table);
 					if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete all records! Error message: ' + event);
-					if( c.onFail ) c.onFail(tx, event);
+					if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				});
 			}
 			catch(e)
@@ -842,7 +844,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete all records! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -902,7 +904,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant setCursor ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -938,7 +940,7 @@ $dhx.dataDriver = {
 
 					tx.addEventListener('abort', function( event ) {
 						console.log(counter.result);
-						if( c.onFail ) c.onFail(tx, event, counter.result);
+						if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 					});
 
 					cursor.addEventListener('success', function( event ) {
@@ -971,7 +973,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getCursor ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -1038,7 +1040,7 @@ $dhx.dataDriver = {
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -1352,7 +1354,7 @@ $dhx.dataDriver = {
 			{
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant sync '+c.component_id+' data ! Error message: ' + e.message);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -1579,7 +1581,7 @@ $dhx.dataDriver = {
 			catch(e)
 			{
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant bind '+c.component_id+' data ! Error message: ' + e.message);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 
@@ -1655,7 +1657,7 @@ $dhx.dataDriver = {
 			catch(e)
 			{
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant unbind '+c.component_id+'! Error message: ' + e.message);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
 		
@@ -1849,7 +1851,7 @@ $dhx.dataDriver = {
 			});
 			tx.addEventListener('onerror', function( event ) {
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(tx, event);
+				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.log('error on transaction');
 			});
 			tx.addEventListener('abort', function( event ) {
@@ -1915,7 +1917,7 @@ $dhx.dataDriver = {
 			if( cursor_position == 0 )
 			{
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, 'please select a record before calling next()');
 				if ($dhx._enable_log) console.log('please select a record before calling next()');
 			}
 					
@@ -1928,7 +1930,7 @@ $dhx.dataDriver = {
 			});
 			tx.addEventListener('onerror', function( event ) {
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(tx, event);
+				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.log('error on transaction');
 			});
 			tx.addEventListener('abort', function( event ) {
@@ -1996,7 +1998,7 @@ $dhx.dataDriver = {
 			if( cursor_position == 0 )
 			{
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, 'please select a record before calling previous()');
 				if ($dhx._enable_log) console.log('please select a record before calling previous()');
 			}
 					
@@ -2009,7 +2011,7 @@ $dhx.dataDriver = {
 			});
 			tx.addEventListener('onerror', function( event ) {
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(tx, event);
+				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.log('error on transaction');
 			});
 			tx.addEventListener('abort', function( event ) {
@@ -2081,7 +2083,7 @@ $dhx.dataDriver = {
 			});
 			tx.addEventListener('onerror', function( event ) {
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(tx, event);
+				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.log('error on transaction');
 			});
 			tx.addEventListener('abort', function( event ) {
@@ -2198,7 +2200,7 @@ $dhx.dataDriver = {
 			});
 			tx.addEventListener('onerror', function( event ) {
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(tx, event);
+				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.log('error on transaction');
 			});
 			tx.addEventListener('abort', function( event ) {
@@ -2294,7 +2296,7 @@ $dhx.dataDriver = {
 			});
 			tx.addEventListener('onerror', function( event ) {
 				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(tx, event);
+				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.log('error on transaction');
 			});
 			tx.addEventListener('abort', function( event ) {
@@ -3187,10 +3189,9 @@ $dhx.dataDriver = {
 			}
 			catch(e)
 			{
-
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant disconnect! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
-				if( c.onFail ) c.onFail(null, null);
+				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 
 		}

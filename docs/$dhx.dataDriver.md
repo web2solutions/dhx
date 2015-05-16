@@ -60,6 +60,8 @@ Every database provide support for:
 
 ### **Database model**
 
+	the following example creates a database called juris with a table called person.
+
 ```javascript
 	db = new $dhx.dataDriver.database({
 		db: 'juris'
@@ -374,10 +376,10 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 ```javascript
 	var onSuccess = function (tx, event) {
-			//console.log( total );
+			console.log( total );
 	}
-	var onFail = function (tx, event) {
-			//console.log( total );
+	var onFail = function (tx, event, error_message) {
+			console.log( error_message );
 	}
 	
 	db.schema.persons.clearAll( onSuccess, onFail );
@@ -393,7 +395,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			$dhx.notify('total records on table', total, 'icons/db.png');
 	}
 	var onFail = function (tx, event, error_message) {
-			//console.log( error_message );
+			console.log( error_message );
 	}
 	
 	db.schema.persons.dataCount( onSuccess, onFail );
@@ -416,6 +418,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			// or: form.getFormData() // get form payload to be used as parameter for filtering. Uses the OR operator to satisfy ANY rule
 		, }
 		// called each times the query finds a record
+		// slower when handling BIG amount of data
 		, onFound: function (record_id, record, tx, event) {
 			//$dhx.notify('found: ', record, 'icons/db.png');
 			var c = {
@@ -429,9 +432,10 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			columns.forEach(function (column, index_, array_) {
 				data[index_] = record[column];
 			});
-			//that.view.grid.addRow(record_id, data);
+			that.view.grid.addRow(record_id, data);
 		}
 		// called ONE time when query is ready and found ALL records
+		// faster when handling BIG amount of data
 		, onReady: function (records, tx, event) {
 			var data = {
 				rows: []
@@ -458,7 +462,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			form.unlock();
 		}
 		// called when there is any error on the request / transaction
-		, onerror: function () {
+		, onerror: function ( tx, event, error_message  ) {
+			console.log( error_message )
 			layout.progressOff();
 			form.unlock();
 		}
@@ -467,7 +472,19 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 *first()*
 	
-	Returns the ID of the first item ( an item with the index == 0 )
+	Returns the ID of the first item on table
+
+```javascript
+	var onSuccess = function (record_id, record, tx, event) {
+			console.log(record_id);
+	}
+	var onFail = function (tx, event, error_message ) {
+			//console.log( error_message );
+	}
+	
+	db.schema.persons.first( onSuccess,  onFail );
+
+```
 
 *getCursor()*
 	
