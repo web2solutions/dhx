@@ -1,6 +1,6 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true, maxerr : 1000, indent : 2, sloppy : true */
 /*global $dhx, dhtmlx, Element */
-$dhx.dataDriver = {
+$dhx.dataDriver = $dhx.dataDriver || {
 
 		dbs : {}
 
@@ -279,14 +279,16 @@ $dhx.dataDriver = {
 			{
 				that.disconnect( c.db );
 				var req = that.indexedDB.deleteDatabase( c.db );
-				req.onsuccess = function () {
+				req.onsuccess = function ( event ) {
 					if ($dhx._enable_log) console.warn("Deleted database " + c.db + " successfully");
+					if( c.onSuccess ) c.onSuccess("Deleted database " + c.db + " successfully", req, event);
 				};
-				req.onerror = function () {
-					throw "Couldn't delete database " + c.db;
+				req.onerror = function ( event ) {
+					if( c.onFail ) c.onFail(req, event, event.target.error.message);
 				};
-				req.onblocked = function () {
+				req.onblocked = function ( event ) {
 					throw "Couldn't delete database " + c.db + " due to the operation being blocked";
+					if( c.onFail ) c.onFail(req, event, event.target.error.message);
 				};
 			}
 			catch(e)
@@ -371,6 +373,8 @@ $dhx.dataDriver = {
 					db_name = c.db,
 					table_schema = that.dbs[ db_name ].schema[ c.table ],
 					rows_affected = 0;
+					
+				$dhx.dataDriver.public[c.table].onBeforeAdd( );
 				var timer_label  = "insert operation " + $dhx.crypt.SHA2(JSON.stringify( c ));
 				console.time( timer_label );
 
@@ -397,8 +401,9 @@ $dhx.dataDriver = {
 						,records : records
 					} );
 
-
+					$dhx.dataDriver.public[c.table].onAfterAdd( records, rows_affected );
 					if( c.onSuccess ) c.onSuccess(tx, event, rows_affected);
+					records = null;
 				};
 				tx.onerror = function( event ) {
 					if ($dhx._enable_log) console.warn( 'error name: ', event.srcElement.error.name );
@@ -412,6 +417,7 @@ $dhx.dataDriver = {
 					if ($dhx._enable_log) console.warn( 'rows affected: 0' );
 					console.timeEnd( timer_label );
 					if(c.onFail) c.onFail(tx, event, rows_affected);
+					records = null;
 				};
 
 				tx.onabort = function (event) {
@@ -419,6 +425,7 @@ $dhx.dataDriver = {
 					if ($dhx._enable_log) console.log( event.target.error.name, event.target.error.message );
 					console.timeEnd( timer_label );
 					//if(c.onFail) c.onFail(tx, event, rows_affected);
+					records = null;
 				}
 				
 				function persist( r ){
@@ -678,6 +685,7 @@ $dhx.dataDriver = {
 						
 
 						if (c.onSuccess) c.onSuccess(records, rows_affected, tx, event);
+						records = null;
 					}
 				});
 
@@ -685,6 +693,7 @@ $dhx.dataDriver = {
 					if ($dhx._enable_log) console.warn('sorry Eduardo, couldnt fecth data! Error message: ' + event);
 					console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify( c )));
 					if (c.onFail) c.onFail(request, event, event.target.error.message);
+					records = null;
 				});
 			}
 			catch(e)
@@ -779,6 +788,17 @@ $dhx.dataDriver = {
 					console.timeEnd(timer_label);
 					//console.log( event );
 					$dhx.dataDriver.public[c.table]._internal_cursor_position = 0;
+					
+					$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+						action : 'delete',
+						target : 'table',
+						target_obj : table,
+						name : c.table,
+						status : 'success',
+						message : 'record deleted'
+						,record_id : c.record_id
+					} );
+					
 					if ($dhx._enable_log) console.warn( 'executed' );
 					if ($dhx._enable_log) console.log('transaction complete - record deleted');
 					if( c.onSuccess ) c.onSuccess(tx, event, c.record_id);
@@ -865,6 +885,9 @@ $dhx.dataDriver = {
 				var that = $dhx.dataDriver;
 				var db_name = c.db, timer_label = "setCursor operation " + c.table;
 				console.time(timer_label);
+				
+				$dhx.dataDriver.public[c.table].onBeforeCursorChange( record_id );
+				
 				var record_id = parseInt( c.record_id );
 				var tx = that.db(db_name).transaction(c.table, "readonly");
 				var table = tx.objectStore(c.table),
@@ -894,9 +917,7 @@ $dhx.dataDriver = {
 					{
 						$dhx.dataDriver.public[c.table]._internal_cursor_position = record_id;
 						console.timeEnd( timer_label );
-
-						if( $dhx.dataDriver.public[c.table].onSetCursor ) $dhx.dataDriver.public[c.table].onSetCursor();
-
+						$dhx.dataDriver.public[c.table].onAfterCursorChange( record_id );
 						if (c.onSuccess) c.onSuccess(recordIdRequest, event, data);
 					}
 					else
@@ -989,7 +1010,7 @@ $dhx.dataDriver = {
 
 		,getCurrentRecord : function( c ){
 			'use strict';
-			console.log( c );
+			//console.log( c );
 			try
 			{
 				var that = $dhx.dataDriver;
@@ -1024,10 +1045,10 @@ $dhx.dataDriver = {
 					var data = currentRecordRequest.result;
 					if(typeof data !== 'undefined' )
 					{
-						console.log(data);
+						//console.log(data);
 						console.timeEnd( timer_label );
 
-						if (c.onSuccess) c.onSuccess(data.value, currentRecordRequest, event);
+						if (c.onSuccess) c.onSuccess(data, currentRecordRequest, event);
 					}
 					else
 					{
@@ -1048,6 +1069,73 @@ $dhx.dataDriver = {
 			{
 
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
+				//if ($dhx._enable_log) console.warn(e);
+				if( c.onFail ) c.onFail(null, null, e.message);
+			}
+		}
+		
+		
+		,getRecord : function( c ){
+			'use strict';
+			//console.log( c );
+			try
+			{
+				var that = $dhx.dataDriver;
+				var db_name = c.db, timer_label = "getRecord operation " + c.table;
+				console.time(timer_label);
+
+				//$dhx.dataDriver.public[c.table]._internal_cursor_position
+
+				var tx = that.db(db_name).transaction(c.table, "readonly");
+				var table = tx.objectStore(c.table)
+					,recordRequest = table.get( parseInt(c.record_id) );
+
+				c.onSuccess = c.onSuccess || false;
+				c.onFail = c.onFail || false;
+
+				tx.addEventListener('complete', function( event ) {
+					//console.timeEnd( timer_label );
+					if ($dhx._enable_log) console.warn('tx getRecord is completed');
+				});
+
+				tx.addEventListener('onerror', function( event ) {
+					//console.timeEnd( timer_label );
+					if ($dhx._enable_log) console.log('error on transaction');
+				});
+
+				tx.addEventListener('abort', function( event ) {
+					//console.timeEnd( timer_label );
+					if ($dhx._enable_log) console.warn('transaction aborted');
+				});
+
+				recordRequest.addEventListener('success', function( event ) {
+					var data = recordRequest.result;
+					if(typeof data !== 'undefined' )
+					{
+						//console.log(data);
+						console.timeEnd( timer_label );
+
+						if (c.onSuccess) c.onSuccess(data, recordRequest, event);
+					}
+					else
+					{
+						console.timeEnd( timer_label );
+						if ($dhx._enable_log) console.warn('sorry Eduardo, record '+c.record_id+' not found! ');
+						if (c.onFail) c.onFail(recordRequest, event, 'not found' );
+						return;
+					}
+				});
+				recordRequest.addEventListener('error', function( event ) {
+					if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getRecord data ! Error message: ' + event.target.error.message);
+					console.timeEnd(timer_label);
+
+					if( c.onFail ) c.onFail(recordRequest, event, event.target.error.message);
+				});
+			}
+			catch(e)
+			{
+
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getRecord data ! Error message: ' + e.message);
 				//if ($dhx._enable_log) console.warn(e);
 				if( c.onFail ) c.onFail(null, null, e.message);
 			}
@@ -1243,6 +1331,10 @@ $dhx.dataDriver = {
 							var primary_key = schema.primary_key.keyPath
 							var columns = schema.str_columns.split(',');
 							component._subscriber = function( topic, data ){
+								
+								var schema = that.getTableSchema(c);
+								var primary_key = schema.primary_key.keyPath
+								var columns = schema.str_columns.split(',');
 								//console.log( topic, data );
 								if(data.target == 'table')
 								{
@@ -1281,6 +1373,12 @@ $dhx.dataDriver = {
 													component.cells(data.record_id, colIndex).setValue( data.record[column] );
 												}
 											}
+											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
+										}
+										else if(data.action == 'delete' && data.message == 'record deleted')
+										{
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											component.deleteRow(data.record_id);
 											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 										}
 										else if(data.action == 'select' && data.message == 'selected record')
@@ -2221,15 +2319,18 @@ $dhx.dataDriver = {
 				console.timeEnd( timer_label );
 				if( c.onReady ) c.onReady(records, tx, event);
 				if ($dhx._enable_log) console.warn('tx search is completed');
+				records = null;
 			});
 			tx.addEventListener('onerror', function( event ) {
 				console.timeEnd( timer_label );
 				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 				if ($dhx._enable_log) console.log('error on transaction');
+				records = null;
 			});
 			tx.addEventListener('abort', function( event ) {
 				console.timeEnd( timer_label );
 				if ($dhx._enable_log) console.warn('transaction aborted');
+				records = null;
 			});
 	 
 		 	if( query['and'] )
@@ -2271,9 +2372,7 @@ $dhx.dataDriver = {
 										if( total_passed == total_check )
 										{
 											rows_affected = rows_affected + 1;
-											
 											records.push( cursor.value );
-											
 											if( c.onFound ) c.onFound(cursor.key, cursor.value, tx, event);
 											
 										}
@@ -2343,536 +2442,683 @@ $dhx.dataDriver = {
 		
 
 		,public : []
-
+		,events : []
 		,database : function( c ){
 			'use strict';
-			var that = $dhx.dataDriver,
-				db_name = c.db,
-				schema = c.schema || {},
-				connection = null,
-				database = null,
-				db_exist = true,
-				self = this,
-				topic = 'database.' + c.db;
-
-			// lets protype indexedDB into dataDriver
-			that.protectIndexedDB();
-
-			if( ! $dhx.dataDriver.browserPassed() )
-				return;
-
-			if( ! $dhx.dataDriver.validDSN( c ) )
-				return;
-
-			$dhx.isNumber( c.version ) ? ( c.version < 1 ? c.version = 1 : "" ) : c.version = 1;
-
-			connection = that.connect( c );
-
-			connection.onupgradeneeded = function(event)
+			try
 			{
-				db_exist = false;
-				if ($dhx._enable_log) console.log( event );
-				if ($dhx._enable_log) console.warn( 'db ' + db_name + ' created ' );
-
-				database = connection.result;
-				database.onerror = function(event) {
-				  // Generic error handler for all errors targeted at this database's
-				  //alert("Database error: " + event.target.errorCode);
-				  if ($dhx._enable_log) console.warn( '   >>>>  DATABASE CONNECTION ERROR   <<<<  ', event );
-				};
-				database.onversionchange = function (event) {
-					if ($dhx._enable_log) console.warn( '   >>>>  DATABASE VERSION CHANGED   <<<<  ' );
-				};
-
-				database.onabort = function (event) {
-					if ($dhx._enable_log) console.warn( '   >>>>  DATABASE CONNECTION ABORTED   <<<<  ' );
-					//if ($dhx._enable_log) console.log( event );
-				}
-
-				that.dbs[ db_name ] = {
-					db : database
-					,name : db_name
-					,schema : schema
-					,version : c.version
-					,connection : connection
-					,event : event
-					,subscriber : function( msg, data ){
-						console.log( 'DB ROOT SUBSCRIBER: ', msg, data );
+				var that = $dhx.dataDriver,
+					db_name = c.db,
+					schema = c.schema || {},
+					connection = null,
+					database = null,
+					db_exist = true,
+					self = this,
+					topic = 'database.' + c.db;
+	
+				// lets protype indexedDB into dataDriver
+				that.protectIndexedDB();
+	
+				if( ! $dhx.dataDriver.browserPassed() )
+					return;
+	
+				if( ! $dhx.dataDriver.validDSN( c ) )
+					return;
+	
+				$dhx.isNumber( c.version ) ? ( c.version < 1 ? c.version = 1 : "" ) : c.version = 1;
+	
+				connection = that.connect( c );
+	
+				connection.onupgradeneeded = function(event)
+				{
+					db_exist = false;
+					if ($dhx._enable_log) console.log( event );
+					if ($dhx._enable_log) console.warn( 'db ' + db_name + ' created ' );
+	
+					database = connection.result;
+					database.onerror = function(event) {
+					  // Generic error handler for all errors targeted at this database's
+					  //alert("Database error: " + event.target.errorCode);
+					  if ($dhx._enable_log) console.warn( '   >>>>  DATABASE CONNECTION ERROR   <<<<  ', event );
+					};
+					database.onversionchange = function (event) {
+						if ($dhx._enable_log) console.warn( '   >>>>  DATABASE VERSION CHANGED   <<<<  ' );
+					};
+	
+					database.onabort = function (event) {
+						if ($dhx._enable_log) console.warn( '   >>>>  DATABASE CONNECTION ABORTED   <<<<  ' );
+						//if ($dhx._enable_log) console.log( event );
 					}
-					,root_topic : topic
+	
+					that.dbs[ db_name ] = {
+						db : database
+						,name : db_name
+						,schema : schema
+						,version : c.version
+						,connection : connection
+						,event : event
+						,subscriber : function( msg, data ){
+							console.log( 'DB ROOT SUBSCRIBER: ', msg, data );
+						}
+						,root_topic : topic
+					};
+	
+					if( c.onCreate )
+						that.dbs[ db_name ].onCreate = c.onCreate
+	
+					for( var table in c.schema )
+						if( c.schema.hasOwnProperty ( table ) )
+						{
+							self.table( table ).create({
+								primary_key : c.schema[ table ].primary_key
+								,columns : c.schema[ table ].columns
+								,onSuccess	 : function( response ){
+	
+								}
+								,onFail	 : function( response ){ }
+							});
+						}
 				};
-
-				if( c.onCreate )
-					that.dbs[ db_name ].onCreate = c.onCreate
-
+	
+				connection.onerror = function(event) {
+					if ($dhx._enable_log) console.warn( 'error when tryin to connect the ' + db_name + ' database', connection.errorCode );
+					if (c.onFail) c.onFail({
+						connection : connection
+						,event : event
+						,message : 'error when tryin to connect the ' + db_name + ' database' + connection.errorCode
+					});
+				};
+	
+				connection.onblocked = function(event) {
+					if ($dhx._enable_log) console.warn('blocked');
+					if (c.onFail) c.onFail({
+						connection : connection
+						,event : event
+						,message : 'blocked'
+					});
+				};
+	
+				connection.onsuccess = function(event) {
+	
+					database = connection.result;
+					that.dbs[ db_name ] = {
+						db : database
+						,name : db_name
+						,version : c.version
+						,schema : schema
+						,connection : connection
+						,event : event
+						,subscriber : function( msg, data ){
+							if( $dhx._enable_log ) console.warn( 'DB received message: ', msg, data );
+						}
+						,root_topic : topic
+					};
+	
+					$dhx.MQ.subscribe( topic, that.dbs[ db_name ].subscriber );
+	
+					if ($dhx._enable_log) console.warn('Database ' + db_name + ' is ready '); // , connection.result
+	
+					$dhx.MQ.publish( topic, {
+						action : 'ready',
+						target : 'database',
+						target_obj : that.dbs[ db_name ].db,
+						name : db_name,
+						status : 'success',
+						message : 'database is ready'
+					} );
+	
+					$dhx.hideDirections();
+					if( c.onReady ) c.onReady({
+						connection : connection
+						,event : event
+						,message : 'ready'
+					});
+				};
+	
+	
+				// public SCHEMA API
+				this.schema = {}; // public schema API
 				for( var table in c.schema )
+				{
 					if( c.schema.hasOwnProperty ( table ) )
 					{
-						self.table( table ).create({
-							primary_key : c.schema[ table ].primary_key
-							,columns : c.schema[ table ].columns
-							,onSuccess	 : function( response ){
-
-							}
-							,onFail	 : function( response ){ }
-						});
-					}
-			};
-
-			connection.onerror = function(event) {
-				if ($dhx._enable_log) console.warn( 'error when tryin to connect the ' + db_name + ' database', connection.errorCode );
-				if (c.onFail) c.onFail({
-					connection : connection
-					,event : event
-					,message : 'error when tryin to connect the ' + db_name + ' database' + connection.errorCode
-				});
-			};
-
-			connection.onblocked = function(event) {
-				if ($dhx._enable_log) console.warn('blocked');
-				if (c.onFail) c.onFail({
-					connection : connection
-					,event : event
-					,message : 'blocked'
-				});
-			};
-
-			connection.onsuccess = function(event) {
-
-				database = connection.result;
-				that.dbs[ db_name ] = {
-					db : database
-					,name : db_name
-					,version : c.version
-					,schema : schema
-					,connection : connection
-					,event : event
-					,subscriber : function( msg, data ){
-						if( $dhx._enable_log ) console.warn( 'DB received message: ', msg, data );
-					}
-					,root_topic : topic
-				};
-
-				$dhx.MQ.subscribe( topic, that.dbs[ db_name ].subscriber );
-
-				if ($dhx._enable_log) console.warn('Database ' + db_name + ' is ready '); // , connection.result
-
-				$dhx.MQ.publish( topic, {
-					action : 'ready',
-					target : 'database',
-					target_obj : that.dbs[ db_name ].db,
-					name : db_name,
-					status : 'success',
-					message : 'database is ready'
-				} );
-
-				$dhx.hideDirections();
-				if( c.onReady ) c.onReady({
-					connection : connection
-					,event : event
-					,message : 'ready'
-				});
-			};
-
-
-			// public SCHEMA API
-			this.schema = {}; // public schema API
-			for( var table in c.schema )
-			{
-				if( c.schema.hasOwnProperty ( table ) )
-				{
-					//console.log(table, db_name,  topic);
-					self.schema[table] = (function( table, db_name ) {
-						return {
-							_synced_components : []
-							,_bound_components : []
-							,_internal_cursor_position : 0
-							,onSetCursor : false
-							,onAddRecord : false
-							,onUpdateRecord : false
-							,onDeleteRecord : false
-							,_subscriber : function( topic, data ){
-								if(data.target == 'table')
+						//console.log(table, db_name,  topic);
+						self.schema[table] = (function( table, db_name ) {
+							return {
+								attachEvent : function( eventStr, fnCallBack){
+									typeof that.events[ eventStr ] === 'undefined' ? that.events[ eventStr ] = [] : "";
+									that.events[ eventStr ].push(fnCallBack)
+								}
+								//
+								,onAfterAdd : function( records, rows_affected )
 								{
-									if(data.name == table)
+									var eventStr = 'onAfterAdd';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
 									{
-										if ($dhx._enable_log) console.log('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data.target, data.name );
 										
-										//console.log( data );
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( records, rows_affected );	
+										});
+									}
+								}
+								,onBeforeAdd : function()
+								{
+									var eventStr = 'onBeforeAdd';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
 										
-										if(data.action == 'select' && data.message == 'selected record')
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack();	
+										});
+									}
+								}
+								//
+								,onAfterCursorChange : function( cursor_id )
+								{
+									var eventStr = 'onAfterCursorChange';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( cursor_id );	
+										});
+									}
+								}
+								,onBeforeCursorChange : function()
+								{
+									var eventStr = 'onBeforeCursorChange';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack();	
+										});
+									}
+								}
+								//
+								,onAfterDelete : function( cursor_id )
+								{
+									var eventStr = 'onAfterDelete';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( cursor_id );	
+										});
+									}
+								}
+								,onBeforeDelete : function( cursor_id )
+								{
+									var eventStr = 'onBeforeDelete';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( cursor_id );	
+										});
+									}
+								}
+								//
+								,onAfterUpdate : function( cursor_id )
+								{
+									var eventStr = 'onAfterUpdate';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( cursor_id );	
+										});
+									}
+								}
+								,onBeforeUpdate : function( cursor_id )
+								{
+									var eventStr = 'onBeforeUpdate';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( cursor_id );	
+										});
+									}
+								}
+								//
+								,onBeforeLoading : function( cursor_id )
+								{
+									var eventStr = 'onBeforeLoading';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( cursor_id );	
+										});
+									}
+								}
+								,onAfterLoading : function( cursor_id )
+								{
+									var eventStr = 'onAfterLoading';	
+									if( typeof that.events[ eventStr ] !== 'undefined' )
+									{
+										
+										that.events[ eventStr ].forEach(function(fnCallBack, index, array) {
+												fnCallBack( cursor_id );	
+										});
+									}
+								}
+								
+								
+								
+								
+								,_synced_components : []
+								,_bound_components : []
+								,_internal_cursor_position : 0
+								
+								,onAddRecord : false
+								,onUpdateRecord : false
+								,onDeleteRecord : false
+								,_subscriber : function( topic, data ){
+									if(data.target == 'table')
+									{
+										if(data.name == table)
 										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											self.schema[table].setCursor( data.record_id, function(){
-													
-												}, function(){
-												
-											} );
-										}
-										if(data.action == 'add' && data.message == 'record added')
-										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											if ($dhx._enable_log) console.log('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data.target, data.name );
 											
+											//console.log( data );
+											
+											if(data.action == 'select' && data.message == 'selected record')
+											{
+												//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+												self.schema[table].setCursor( data.record_id, function(){
+														
+													}, function(){
+													
+												} );
+											}
+											if(data.action == 'add' && data.message == 'record added')
+											{
+												//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+												
+											}
 										}
 									}
-								}
-							}						
-							,add: function(record, onSuccess, onFail) {
-								console.log(table);
-								that.add({
-									db: db_name,
-									table: table,
-									record: record,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							},
-							update: function(record_id, record, onSuccess, onFail) {
-								that.update({
-									db: db_name,
-									table: table,
-									record_id: record_id,
-									record: record,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							},
-							load : function( onSuccess, onFail ){
-								that.load({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							},
-							del: function( record_id, onSuccess, onFail ) {
-								that.del({
-									db: db_name,
-									table: table,
-									record_id: record_id,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							},
-							remove: function( record_id, onSuccess, onFail ) {
-								that.del({
-									db: db_name,
-									table: table,
-									record_id: record_id,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							},
-							clearAll: function( onSuccess, onFail ) {
-								that.clearAll({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							},
-							count: function(onSuccess, onFail) {
-								that.count({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							,getTableSizeInBytes: function( onSuccess, onFail ) {
-								that.getTableSizeInBytes({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-
-							,dataCount : function( onSuccess, onFail ){
-								that.count({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							,count : function( onSuccess, onFail ){
-								that.count({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-
-							,bind : (function( db_name, table  ){
-								return{
-									form : function(c){
-										//console.log( c );
-										that.bind({
-											db: db_name,
-											table: table,
-											component : c.component,
-											prepare : c.prepare,
-											type : 'form',
-											component_id : c.component_id,
-											onSuccess: c.onSuccess,
-											onFail: c.onFail
-										});
-									}
-								}
-							})( db_name, table )
-							
-							,getCursor : function( onSuccess, onFail ){
-								that.getCursor({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							,getCurrentRecord : function( onSuccess, onFail ){
-								that.getCurrentRecord({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-	
-							,filter :  (function( db_name, table  ){
-								return{
-									where : function(c){
-										that.search({
-											db: db_name,
-											query: c.query,
-											table: table,
-											onReady: c.onReady,
-											onFound: c.onFound,
-											onFail: c.onFail
-										});
-									}
-									
-								}
-							})( db_name, table )
-							,first :  function( onSuccess, onFail ){
-								that.first({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							,exists : function(){
-								
-							}
-							,idByIndex : function(){
-								
-							}
-							,indexById : function(){
-								
-							}
-							,item : function( onSuccess, onFail ){
-								that.getCurrentRecord({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							
-							,last : function( onSuccess, onFail ){
-								that.last({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							,next : function( onSuccess, onFail ){
-								that.next({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							,previous : function( onSuccess, onFail ){
-								that.previous({
-									db: db_name,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							,serialize : function(){
-								
-							}
-							,sort : function(){
-								
-							}
-							
-							,search : (function( db_name, table  ){
-								return{
-									where : function(c){
-										that.search({
-											db: db_name,
-											query: c.query,
-											table: table,
-											onReady: c.onReady,
-											onFound: c.onFound,
-											onFail: c.onFail
-										});
-									}
-									
-								}
-							})( db_name, table )
-							
-							,setCursor : function( record_id, onSuccess, onFail){
-								that.setCursor({
-									db: db_name,
-									record_id: record_id,
-									table: table,
-									onSuccess: onSuccess,
-									onFail: onFail
-								});
-							}
-							
-							,sync : (function( db_name, table  ){
-								return{
-									grid : function(c){
-										//console.log( c );
-										that.sync({
-											db: db_name,
-											table: table,
-											component : c.component,
-											type : 'grid',
-											component_id : c.component_id,
-											onSuccess: c.onSuccess,
-											onFail: c.onFail
-										});
-									}
-									,dataview : function(c){
-										that.sync({
-											db: db_name,
-											table: table,
-											component : c.componet,
-											type : 'dataview',
-											component_id : c.component_id,
-											onSuccess: c.onSuccess,
-											onFail: c.onFail
-										});
-									}
-									,scheduler : function(c){
-										that.sync({
-											db: db_name,
-											table: table,
-											component : c.componet,
-											type : 'scheduler',
-											component_id : c.component_id,
-											onSuccess: c.onSuccess,
-											onFail: c.onFail
-										});
-									}
-									,chart : function(){
-										that.sync({
-											db: db_name,
-											table: table,
-											component : c.componet,
-											type : 'chart',
-											component_id : c.component_id,
-											onSuccess: c.onSuccess,
-											onFail: c.onFail
-										});
-									}
-								}
-							})( db_name, table )
-							,unbind : (function( db_name, table  ){
-								return{
-									form : function(c){
-										//console.log( c );
-										that.unbind({
-											db: db_name,
-											table: table,
-											component : c.component,
-											type : 'form',
-											component_id : c.component_id,
-											onSuccess: c.onSuccess,
-											onFail: c.onFail
-										});
-									}
-								}
-							})( db_name, table )
-							,toPDF : function(){
-								var doc = new jsPDF();
-								var specialElementHandlers = {
-									// element with id of "bypass" - jQuery style selector
-									'#bypassme': function(element, renderer){
-										// true = "handled elsewhere, bypass text extraction"
-										return true
-									}
-								}
-								
-								console.log($('.row20px').parent().parent().html());
-								doc.fromHTML($('.row20px').parent().parent().html(), 0.5 // x coord
-									, 0.5 // y coord
-									, {
-										'width':7.5 // max width of content on PDF
-										, 'elementHandlers': specialElementHandlers
+								}						
+								,add: function(record, onSuccess, onFail) {
+									console.log(table);
+									that.add({
+										db: db_name,
+										table: table,
+										record: record,
+										onSuccess: onSuccess,
+										onFail: onFail
 									});
-								// Output as Data URI
-								doc.save('Test.pdf');	
-							}
-						};
-					})(  table, db_name, that );
+								},
+								update: function(record_id, record, onSuccess, onFail) {
+									that.update({
+										db: db_name,
+										table: table,
+										record_id: record_id,
+										record: record,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								},
+								load : function( onSuccess, onFail ){
+									that.load({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								},
+								del: function( record_id, onSuccess, onFail ) {
+									that.del({
+										db: db_name,
+										table: table,
+										record_id: record_id,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								},
+								remove: function( record_id, onSuccess, onFail ) {
+									that.del({
+										db: db_name,
+										table: table,
+										record_id: record_id,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								},
+								clearAll: function( onSuccess, onFail ) {
+									that.clearAll({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								},
+								count: function(onSuccess, onFail) {
+									that.count({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,getTableSizeInBytes: function( onSuccess, onFail ) {
+									that.getTableSizeInBytes({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+	
+								,dataCount : function( onSuccess, onFail ){
+									that.count({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,count : function( onSuccess, onFail ){
+									that.count({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+	
+								,bind : (function( db_name, table  ){
+									return{
+										form : function(c){
+											//console.log( c );
+											that.bind({
+												db: db_name,
+												table: table,
+												component : c.component,
+												prepare : c.prepare,
+												type : 'form',
+												component_id : c.component_id,
+												onSuccess: c.onSuccess,
+												onFail: c.onFail
+											});
+										}
+									}
+								})( db_name, table )
+								
+								,getCursor : function( onSuccess, onFail ){
+									that.getCursor({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,getCurrentRecord : function( onSuccess, onFail ){
+									that.getCurrentRecord({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,getRecord : function( record_id, onSuccess, onFail ){
+									that.getRecord({
+										db: db_name,
+										table: table,
+										record_id : record_id,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+		
+								,filter :  (function( db_name, table  ){
+									return{
+										where : function(c){
+											that.search({
+												db: db_name,
+												query: c.query,
+												table: table,
+												onReady: c.onReady,
+												onFound: c.onFound,
+												onFail: c.onFail
+											});
+										}
+										
+									}
+								})( db_name, table )
+								,first :  function( onSuccess, onFail ){
+									that.first({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,exists : function(){
+									
+								}
+								,idByIndex : function(){
+									
+								}
+								,indexById : function(){
+									
+								}
+								,item : function( onSuccess, onFail ){
+									that.getCurrentRecord({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								
+								,last : function( onSuccess, onFail ){
+									that.last({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,next : function( onSuccess, onFail ){
+									that.next({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,previous : function( onSuccess, onFail ){
+									that.previous({
+										db: db_name,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								,serialize : function(){
+									
+								}
+								,sort : function(){
+									
+								}
+								
+								,search : (function( db_name, table  ){
+									return{
+										where : function(c){
+											that.search({
+												db: db_name,
+												query: c.query,
+												table: table,
+												onReady: c.onReady,
+												onFound: c.onFound,
+												onFail: c.onFail
+											});
+										}
+										
+									}
+								})( db_name, table )
+								
+								,setCursor : function( record_id, onSuccess, onFail){
+									that.setCursor({
+										db: db_name,
+										record_id: record_id,
+										table: table,
+										onSuccess: onSuccess,
+										onFail: onFail
+									});
+								}
+								
+								,sync : (function( db_name, table  ){
+									return{
+										grid : function(c){
+											//console.log( c );
+											that.sync({
+												db: db_name,
+												table: table,
+												component : c.component,
+												type : 'grid',
+												component_id : c.component_id,
+												onSuccess: c.onSuccess,
+												onFail: c.onFail
+											});
+										}
+										,dataview : function(c){
+											that.sync({
+												db: db_name,
+												table: table,
+												component : c.componet,
+												type : 'dataview',
+												component_id : c.component_id,
+												onSuccess: c.onSuccess,
+												onFail: c.onFail
+											});
+										}
+										,scheduler : function(c){
+											that.sync({
+												db: db_name,
+												table: table,
+												component : c.componet,
+												type : 'scheduler',
+												component_id : c.component_id,
+												onSuccess: c.onSuccess,
+												onFail: c.onFail
+											});
+										}
+										,chart : function(){
+											that.sync({
+												db: db_name,
+												table: table,
+												component : c.componet,
+												type : 'chart',
+												component_id : c.component_id,
+												onSuccess: c.onSuccess,
+												onFail: c.onFail
+											});
+										}
+									}
+								})( db_name, table )
+								,unbind : (function( db_name, table  ){
+									return{
+										form : function(c){
+											//console.log( c );
+											that.unbind({
+												db: db_name,
+												table: table,
+												component : c.component,
+												type : 'form',
+												component_id : c.component_id,
+												onSuccess: c.onSuccess,
+												onFail: c.onFail
+											});
+										}
+									}
+								})( db_name, table )
+								,toPDF : function(){
+									var doc = new jsPDF();
+									var specialElementHandlers = {
+										// element with id of "bypass" - jQuery style selector
+										'#bypassme': function(element, renderer){
+											// true = "handled elsewhere, bypass text extraction"
+											return true
+										}
+									}
+									
+									console.log($('.row20px').parent().parent().html());
+									doc.fromHTML($('.row20px').parent().parent().html(), 0.5 // x coord
+										, 0.5 // y coord
+										, {
+											'width':7.5 // max width of content on PDF
+											, 'elementHandlers': specialElementHandlers
+										});
+									// Output as Data URI
+									doc.save('Test.pdf');	
+								}
+							};
+						})(  table, db_name, that );
+					}
+	
+					$dhx.MQ.subscribe( topic, self.schema[table]._subscriber );
+					that.public[table] = self.schema[table];
 				}
-
-				$dhx.MQ.subscribe( topic, self.schema[table]._subscriber );
-				that.public[table] = self.schema[table];
-			}
-
-			
-
-
-			// public DATABASE API .. exposed via new Object()
-			this.table = function( table ){
-				// create public api
-				return{
-					create : function( c ){
-						c = c || {};
-						that.createTable( {
-							db : db_name
-							,table : table
-							,columns : c.columns
-							,primary_key : c.primary_key
-							,onSuccess	 : c.onSuccess
-							,onFail	 : c.onFail
-						} );
-					}// end create table
+	
+				
+	
+	
+				// public DATABASE API .. exposed via new Object()
+				this.table = function( table ){
+					// create public api
+					return{
+						create : function( c ){
+							c = c || {};
+							that.createTable( {
+								db : db_name
+								,table : table
+								,columns : c.columns
+								,primary_key : c.primary_key
+								,onSuccess	 : c.onSuccess
+								,onFail	 : c.onFail
+							} );
+						}// end create table
+					}
+				} // end create
+	
+				this.drop = function( onSuccess, onFail ){
+					'use strict';
+					c = c || {};
+					that.dropDatabase	( {
+						db : db_name
+						,onSuccess	 : onSuccess
+						,onFail	 : onFail
+					} );
 				}
-			} // end create
-
-			this.drop = function( c ){
-				'use strict';
-				c = c || {};
-				that.dropDatabase	( {
-					db : db_name
-					,onSuccess	 : c.onSuccess
-					,onFail	 : c.onFail
-				} );
+				
+				this._getQuota = function( onSuccess, onFail ){
+					if ($dhx.Browser.name != "Chrome")
+					{
+						var err = $dhx.Browser.name + " does not provide quota management.";
+						$dhx.notify('Quota information', err, 'icons/db.png');
+						if( onFail ) onFail( err );
+						return;
+					}
+					var webkitStorageInfo = window.webkitStorageInfo || navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
+					webkitStorageInfo.queryUsageAndQuota( webkitStorageInfo.TEMPORARY, function(used, remaining) {
+					  console.log("Used quota: " + used + ", remaining quota: " + remaining);
+					  if( onSuccess ) onSuccess( used, remaining );
+					}, function(e) {
+						if( onFail ) onFail( e );
+					  console.log('Error', e); 
+					} );	
+				}
+				
 			}
-			
-			this._getQuota = function( onSuccess, onFail ){
-				var webkitStorageInfo = window.webkitStorageInfo || navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
-				webkitStorageInfo.queryUsageAndQuota( webkitStorageInfo.TEMPORARY, function(used, remaining) {
-				  console.log("Used quota: " + used + ", remaining quota: " + remaining);
-				  if( onSuccess ) onSuccess( used, remaining );
-				}, function(e) {
-					if( onFail ) onFail( e );
-				  console.log('Error', e); 
-				} );	
+			catch(e)
+			{
+				console.log(e.stack);
+				console.log(e.message);	
 			}
-			
 			
 
 		}
