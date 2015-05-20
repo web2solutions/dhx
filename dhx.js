@@ -2678,7 +2678,7 @@ var $dhx = {
 				body: text
 				, icon: img
 			});
-			window.navigator.vibrate(500);
+			//window.navigator.vibrate(500);
 		}
 		// Otherwise, we need to ask the user for permission
 		// Note, Chrome does not implement the permission static property
@@ -6094,8 +6094,7 @@ var $dhx = {
         /**
 		@function init -  performs all the necessary tasks before let the user to use the $dhx object
 	*/
-        ,
-    init: function(c) {
+    ,init: function(c) {
         var self = this;
         self.Browser.init();
         if ($dhx.$_GET("_enable_log") !== null) {

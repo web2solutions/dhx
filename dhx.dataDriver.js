@@ -3,13 +3,13 @@
 $dhx.dataDriver = $dhx.dataDriver || {
 
 		dbs : {}
-
+		
 		,browserPassed : function(){
 			'use strict';
 			if ($dhx.Browser.name == "Chrome") {
 				if ($dhx.Browser.version < 31) {
 					console.log("Browser is out to date");
-					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 					return false;
 				}
 				console.log("Browser is OK");
@@ -18,7 +18,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			else if ($dhx.Browser.name == "Firefox") {
 				if ($dhx.Browser.version < 31) {
 					console.log("Browser is out to date");
-					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 					return false;
 				}
 				console.log("Browser is OK");
@@ -27,7 +27,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			else if ($dhx.Browser.name == "Opera") {
 				if ($dhx.Browser.version < 27) {
 					console.log("Browser is out to date");
-					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 					return false;
 				}
 				console.log("Browser is OK");
@@ -36,26 +36,27 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			else if ($dhx.Browser.name == "Safari") {
 				if ($dhx.Browser.version < 7) {
 					console.log("Browser is out to date");
-					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+					$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 					return false;
 				}
-				if ($dhx.Browser.OS != 'Mac') {
-					console.log("We only support Safari on Mac");
-					self.showDirections("BROWSER_VERSION_OUT_TO_DATE");
-					return false;
-				}
+				//alert($dhx.Browser.OS);
+				//if ($dhx.Browser.OS != 'Mac') {
+				//	console.log("We only support Safari on Mac");
+				//	$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
+				//	return false;
+				//}
 				//
 				console.log("Browser is OK");
 				return true;
 			}
 			else if ($dhx.Browser.name == "Explorer") {
 				console.log("Browser vendor not allowed");
-				self.showDirections("BROWSER_NOT_ALLOWED");
+				$dhx.showDirections("BROWSER_NOT_ALLOWED");
 				return false;
 			}
 			else {
 				console.log("Browser vendor not allowed");
-				self.showDirections("BROWSER_NOT_ALLOWED");
+				$dhx.showDirections("BROWSER_NOT_ALLOWED");
 				return false;
 			}
 		}
@@ -164,30 +165,121 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			return c;
 		}
 
-		,validRecord : function(table_schema, record){
+		,validRecord : function(schema, record){
 			'use strict';
 			var that = $dhx.dataDriver, clone = {};
-			//console.log( 'table_schema      ' , table_schema)
+			console.log( 'schema      ' , schema);
 			if( $dhx.isObject(record) )
 			{
+				for( var column in schema.columns )
+				{
+					if( schema.columns.hasOwnProperty( column ) )
+					{
+						if( record.hasOwnProperty( column ) )
+						{
+							
+							if( schema.columns[ column ].required == true )
+							{
+								if( typeof record[ column ] === 'undefined' || record[ column ] == '' || record[ column ] == null  )
+								{
+									//console.log( 'XXXXXXXX>>>>>> record has ', column );
+									//console.log( record[ column ] );
+									return 'column ' + column + ' is a required column';
+								}
+							}
+							
+							if( schema.columns[ column ].type == 'integer' )
+							{
+								if( record[ column ].toString().length > 0  )
+								{
+									if( ! that._validateValueByType(record[ column ], 'ValidInteger', column) )
+										return 'column ' + column + ' just accepts integer values. Entered value: ' + record[ column ];
+								}
+							}
+							if( schema.columns[ column ].type == 'date' )
+							{
+								if( record[ column ].toString().length > 0  )
+								{
+									if( ! that._validateValueByType(record[ column ], 'ValidDate', column) )
+										return 'column ' + column + ' just accepts date values. Entered value: ' + record[ column ];
+								}
+							}
+							if( schema.columns[ column ].type.indexOf('timestamp') > -1 )
+							{
+								if( record[ column ].toString().length > 0  )
+								{
+									if( ! that._validateValueByType(record[ column ], 'ValidTime', column) )
+										return 'column ' + column + ' just accepts date timestamp values. Entered value: ' + record[ column ];
+								}
+							}
+							if( schema.columns[ column ].type == 'numeric' )
+							{
+								if( record[ column ].toString().length > 0  )
+								{
+									if( ! that._validateValueByType(record[ column ], 'ValidNumeric', column) )
+										return 'column ' + column + ' just accepts date numeric values. Entered value: ' + record[ column ];
+								}
+							}
+							
+							clone[ column ] = record[ column ];
+						}
+						else
+						{
+							//console.log( 'XXXXXXXX>>>>>> record does not have ', column );
+							if( schema.columns[ column ].required == true )
+							{
+								if( schema.primary_key.keyPath != column)
+									return 'column ' + column + ' is a required column';
+							}
+						}
+					}
+				}
+				
+				
+				/*// trocar ... comecar iterando sobre schema.columns ao inves de record
 				for( var column in record )
 					if( record.hasOwnProperty( column ) )
 					{
 						//console.log( column );
-						if( typeof table_schema.columns[ column ] === 'undefined' )
+						if( typeof schema.columns[ column ] === 'undefined' )
 						{
-							//console.log( table_schema.primary_key.keyPath )
-							if( table_schema.primary_key.keyPath != column)
+							//console.log( schema.primary_key.keyPath )
+							if( schema.primary_key.keyPath != column)
 								return 'column ' + column + ' does not exist';
 						}
-						clone[ column ] = record[ column ]
-					}
+						else
+						{
+							
+							
+							if( schema.columns[ column ].required == true )
+							{
+								console.log( '===================' );
+								console.log( 'x' );
+								console.log( 'x' );
+								console.log( column  );
+								console.log( 'is required', schema.columns[ column ].required  );
+								console.log( record[ column ] );
+								
+								
+								console.log( 'x' );
+								console.log( 'x' );
+								console.log( '===================' );
+								if( typeof record[ column ] === 'undefined' || record[ column ] == '' || record[ column ] == null  )
+								{
+									return 'column ' + column + ' is required';
+								}
+							}
+							
+							clone[ column ] = record[ column ]
+						}
+					} // end if has property
+				// end for column in record*/
 			}
 			else
 			{
 				return 'can not parse record' + record;
 			}
-			//console.log( clone );
+			console.log( 'clone',  clone );
 			return clone;
 		}
 
@@ -219,7 +311,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 		// can be called only when onupgradeneeded
 		,createTable : function( c ){
 			'use strict';
-			//console.log( 'createTable', c );
+			console.log( 'createTable', c );
 			try
 			{
 				if( ! $dhx.dataDriver.validTableConf( c ) )
@@ -253,15 +345,24 @@ $dhx.dataDriver = $dhx.dataDriver || {
 						}
 					}
 				}
-				table.transaction.oncomplete = function(event) {
+				table.transaction.addEventListener('complete', function( event ) {
 					var message = "table " + c.table + " created successfully";
 					if ($dhx._enable_log) console.warn(message);
+					
+					if( c.records )
+					{
+						$dhx.dataDriver.public[c.table]._initial_records = c.records;
+						
+					}
+					
+					
 					if( that.dbs[db_name].onCreate ) that.dbs[db_name].onCreate({
 						connection : that.dbs[db_name].connection.connection
 						,event : that.dbs[db_name].connection.event
 						,message : message
 					});
-				}
+				});
+			
 			}
 			catch(e)
 			{
@@ -364,7 +465,31 @@ $dhx.dataDriver = $dhx.dataDriver || {
 				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
-
+		,_completeAdd : function(c, that, event, tx, rows_affected, timer_label, db_name, table, tableRequest, records){
+			var that = $dhx.dataDriver;
+			console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', table );
+			console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', records );
+			if ($dhx._enable_log) console.warn('executed');
+			if ($dhx._enable_log) console.log('transaction complete      ', event);
+			if ($dhx._enable_log) console.warn('rows affected: ' + rows_affected);
+			console.timeEnd(timer_label);
+			console.log(db_name);
+			console.log(table);
+			console.log(that.dbs);
+			console.log(that.dbs[db_name]);
+			$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + table, {
+				action: 'add'
+				, target: 'table'
+				, target_obj: tableRequest
+				, name: table
+				, status: 'success'
+				, message: 'record added'
+				, records: records
+			});
+			$dhx.dataDriver.public[c.table].onAfterAdd(records, rows_affected);
+			if (c.onSuccess) c.onSuccess(tx, event, rows_affected);
+			records = null;
+		}
 		,add : function(c, onSuccess, onFail){
 			//'use strict';
 			try
@@ -386,24 +511,9 @@ $dhx.dataDriver = $dhx.dataDriver || {
 				c.onFail = c.onFail || false;
 
 				tx.oncomplete = function( event ) {
-					if ($dhx._enable_log) console.warn( 'executed' );
-					if ($dhx._enable_log) console.log('transaction complete      ', event);
-					if ($dhx._enable_log) console.warn( 'rows affected: ' + rows_affected );
-					console.timeEnd( timer_label );
-
-					$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
-						action : 'add',
-						target : 'table',
-						target_obj : table,
-						name : c.table,
-						status : 'success',
-						message : 'record added'
-						,records : records
-					} );
-
-					$dhx.dataDriver.public[c.table].onAfterAdd( records, rows_affected );
-					if( c.onSuccess ) c.onSuccess(tx, event, rows_affected);
-					records = null;
+					console.log('from on complete');
+					that._completeAdd(c, that, event, tx, rows_affected, timer_label, db_name, c.table, table, records);
+					//records = null;
 				};
 				tx.onerror = function( event ) {
 					if ($dhx._enable_log) console.warn( 'error name: ', event.srcElement.error.name );
@@ -467,19 +577,22 @@ $dhx.dataDriver = $dhx.dataDriver || {
 				// multiple record
 				else if ($dhx.isArray(c.record)) {
 					if ($dhx._enable_log) console.log('........... trying to insert multiple records ');
-					for (var i = 0; i < c.record.length; i++) {
-						var record = c.record[i];
-						var r = that.validRecord(table_schema, record);
-						if ($dhx.isObject(r)) {
-							if ($dhx._enable_log) console.log('preparing record ', r);
-							rows_affected = rows_affected + 1;
-							persist(r);
-						}
-						else {
-							if ($dhx._enable_log) console.warn('record ignored: ', JSON.stringify(record) );
-							if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record! Error message: ' + r);
-							continue;
-						}
+					if( c.record.length > 0 )
+					{
+						for (var i = 0; i < c.record.length; i++) {
+							var record = c.record[i];
+							var r = that.validRecord(table_schema, record);
+							if ($dhx.isObject(r)) {
+								if ($dhx._enable_log) console.log('preparing record ', r);
+								rows_affected = rows_affected + 1;
+								persist(r);
+							}
+							else {
+								if ($dhx._enable_log) console.warn('record ignored: ', JSON.stringify(record) );
+								if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record! Error message: ' + r);
+								continue;
+							}
+						}	
 					}
 				}
 				else {
@@ -1350,6 +1463,9 @@ $dhx.dataDriver = $dhx.dataDriver || {
 										if(data.action == 'add' && data.message == 'record added')
 										{
 											var last_id = 0;
+											
+											console.log( data );
+											
 											data.records.forEach(function(recordset, index, array) {
 												var record = [];
 
@@ -2360,25 +2476,20 @@ $dhx.dataDriver = $dhx.dataDriver || {
 							total_check = total_check + 1;
 					}
 					
-					for( var column in columns)
-					{
-								if( columns[ column ] != '' && columns[ column ] != null )
-								{
-									var search_value = columns[ column ].toLowerCase().latinize();
-									var column_value = cursor.value[ column ].toLowerCase().latinize();
-									var re = new RegExp(search_value);
-									if(re.test(column_value)){
-										total_passed = total_passed + 1;
-										if( total_passed == total_check )
-										{
-											rows_affected = rows_affected + 1;
-											records.push( cursor.value );
-											if( c.onFound ) c.onFound(cursor.key, cursor.value, tx, event);
-											
-										}
-									}
+					for (var column in columns) {
+						if (columns[column] != '' && columns[column] != null) {
+							var search_value = columns[column].toLowerCase().latinize();
+							var column_value = cursor.value[column].toLowerCase().latinize();
+							var re = new RegExp(search_value);
+							if (re.test(column_value)) {
+								total_passed = total_passed + 1;
+								if (total_passed == total_check) {
+									rows_affected = rows_affected + 1;
+									records.push(cursor.value);
+									if (c.onFound) c.onFound(cursor.key, cursor.value, tx, event);
 								}
-	
+							}
+						}
 					}
 					cursor.continue();
 				}
@@ -2444,7 +2555,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 		,public : []
 		,events : []
 		,database : function( c ){
-			'use strict';
+			//'use strict';
 			try
 			{
 				var that = $dhx.dataDriver,
@@ -2509,9 +2620,11 @@ $dhx.dataDriver = $dhx.dataDriver || {
 					for( var table in c.schema )
 						if( c.schema.hasOwnProperty ( table ) )
 						{
+							//console.log( c.schema[ table ] );
 							self.table( table ).create({
 								primary_key : c.schema[ table ].primary_key
 								,columns : c.schema[ table ].columns
+								,records : c.schema[ table ].records
 								,onSuccess	 : function( response ){
 	
 								}
@@ -2566,13 +2679,40 @@ $dhx.dataDriver = $dhx.dataDriver || {
 						status : 'success',
 						message : 'database is ready'
 					} );
-	
-					$dhx.hideDirections();
-					if( c.onReady ) c.onReady({
-						connection : connection
-						,event : event
-						,message : 'ready'
-					});
+					
+					console.log( $dhx.dataDriver.public );	
+					
+					that._table_to_fill_on_init = Object.keys($dhx.dataDriver.public).length;
+					console.log( that._table_to_fill_on_init );
+					
+					for( var table in $dhx.dataDriver.public )
+					{
+						if( $dhx.dataDriver.public.hasOwnProperty( table ) )
+						{
+							$dhx.dataDriver.public[table].add( 
+								$dhx.dataDriver.public[table]._initial_records, 
+								function( tx, event, rows_affected )
+								{
+									that._table_to_filled_on_init = that._table_to_filled_on_init + 1;
+									
+									if( that._table_to_filled_on_init == that._table_to_fill_on_init)
+									{
+										$dhx.hideDirections();
+										if( c.onReady ) c.onReady({
+											connection : connection
+											,event : event
+											,message : 'ready'
+										});
+									}
+									console.log( '???????????????? ready and all records loaded' );
+								}, function( tx, event, rows_affected ){
+									
+							} );
+						}
+					}
+					
+					
+					
 				};
 	
 	
@@ -2711,7 +2851,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 								,_synced_components : []
 								,_bound_components : []
 								,_internal_cursor_position : 0
-								
+								,_initial_records : []
 								,onAddRecord : false
 								,onUpdateRecord : false
 								,onDeleteRecord : false
@@ -3072,12 +3212,14 @@ $dhx.dataDriver = $dhx.dataDriver || {
 					// create public api
 					return{
 						create : function( c ){
+							//console.log( c )
 							c = c || {};
 							that.createTable( {
 								db : db_name
 								,table : table
 								,columns : c.columns
 								,primary_key : c.primary_key
+								,records : c.records
 								,onSuccess	 : c.onSuccess
 								,onFail	 : c.onFail
 							} );
@@ -3122,6 +3264,9 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			
 
 		}
+		
+		,_table_to_fill_on_init : 0
+		,_table_to_filled_on_init : 0
 
 		,protectIndexedDB : function( ){
 			'use strict';
@@ -3504,6 +3649,5 @@ $dhx.dataDriver = $dhx.dataDriver || {
                 self._setInputInvalid(DHTMLXForm.getInput(name));
             }
         }
-		
-		
+	
 	}
