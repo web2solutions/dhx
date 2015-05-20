@@ -1,6 +1,6 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true, maxerr : 1000, indent : 2, sloppy : true */
 /*global $dhx, dhtmlx, Element */
-$dhx.dataDriver = $dhx.dataDriver || {
+$dhx.dataDriver = {
 
 		dbs : {}
 		
@@ -168,7 +168,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 		,validRecord : function(schema, record){
 			'use strict';
 			var that = $dhx.dataDriver, clone = {};
-			console.log( 'schema      ' , schema);
+			//console.log( 'schema      ' , schema);
 			if( $dhx.isObject(record) )
 			{
 				for( var column in schema.columns )
@@ -279,7 +279,9 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			{
 				return 'can not parse record' + record;
 			}
-			console.log( 'clone',  clone );
+			
+			clone[ schema.primary_key.keyPath ] = record[ schema.primary_key.keyPath ];
+			//console.log( 'clone',  clone );
 			return clone;
 		}
 
@@ -311,7 +313,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 		// can be called only when onupgradeneeded
 		,createTable : function( c ){
 			'use strict';
-			console.log( 'createTable', c );
+			//console.log( 'createTable', c );
 			try
 			{
 				if( ! $dhx.dataDriver.validTableConf( c ) )
@@ -467,16 +469,16 @@ $dhx.dataDriver = $dhx.dataDriver || {
 		}
 		,_completeAdd : function(c, that, event, tx, rows_affected, timer_label, db_name, table, tableRequest, records){
 			var that = $dhx.dataDriver;
-			console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', table );
-			console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', records );
+			//console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', table );
+			////console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', records );
 			if ($dhx._enable_log) console.warn('executed');
 			if ($dhx._enable_log) console.log('transaction complete      ', event);
 			if ($dhx._enable_log) console.warn('rows affected: ' + rows_affected);
 			console.timeEnd(timer_label);
-			console.log(db_name);
-			console.log(table);
-			console.log(that.dbs);
-			console.log(that.dbs[db_name]);
+			//console.log(db_name);
+			//console.log(table);
+			//console.log(that.dbs);
+			//console.log(that.dbs[db_name]);
 			$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + table, {
 				action: 'add'
 				, target: 'table'
@@ -511,7 +513,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 				c.onFail = c.onFail || false;
 
 				tx.oncomplete = function( event ) {
-					console.log('from on complete');
+					//console.log('from on complete');
 					that._completeAdd(c, that, event, tx, rows_affected, timer_label, db_name, c.table, table, records);
 					//records = null;
 				};
@@ -562,7 +564,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 				}
 				// single record
 				if ($dhx.isObject(c.record)) {
-					if ($dhx._enable_log) console.log('........... trying to insert single record ');
+					if ($dhx._enable_log) console.warn('........... trying to insert single record on ' + c.table);
 					var r = that.validRecord(table_schema, c.record);
 					if ($dhx.isObject(r)) {
 						if ($dhx._enable_log) console.log('preparing record ', r);
@@ -576,7 +578,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 				}
 				// multiple record
 				else if ($dhx.isArray(c.record)) {
-					if ($dhx._enable_log) console.log('........... trying to insert multiple records ');
+					if ($dhx._enable_log) console.warn('........... trying to insert '+c.record.length+ ' records on ' + c.table);
 					if( c.record.length > 0 )
 					{
 						for (var i = 0; i < c.record.length; i++) {
@@ -593,6 +595,10 @@ $dhx.dataDriver = $dhx.dataDriver || {
 								continue;
 							}
 						}	
+					}
+					else
+					{
+						if ($dhx._enable_log) console.log('any record was passed to insert');
 					}
 				}
 				else {
@@ -611,7 +617,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 
 		,update : function(c){
 			//'use strict';
-			console.log( 'INSIDE UPDATE', c )
+			//console.log( 'INSIDE UPDATE', c )
 			try
 			{
 				var that = $dhx.dataDriver,
@@ -881,12 +887,12 @@ $dhx.dataDriver = $dhx.dataDriver || {
 
 				var tx = that.db(db_name).transaction(c.table, "readwrite");
 				var table = tx.objectStore(c.table);
-				console.log( table );
+				//console.log( table );
 				var req = table.delete( parseInt( c.record_id ) );
 
 				tx.addEventListener('complete', function( event ) {
 					if ($dhx._enable_log) console.warn('tx del is completed');
-					console.log( event );
+					//console.log( event );
 				});
 
 				tx.addEventListener('onerror', function( event ) {
@@ -1082,7 +1088,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 					});
 
 					tx.addEventListener('abort', function( event ) {
-						console.log(counter.result);
+						//console.log(counter.result);
 						if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 					});
 
@@ -1101,7 +1107,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 					});
 					cursor.addEventListener('error', function( event ) {
 						console.timeEnd(timer_label);
-						console.log(counter.result);
+						//console.log(counter.result);
 						if( c.onFail ) c.onFail(tx, event, event.target.error.message);
 					});
 				}
@@ -1464,7 +1470,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 										{
 											var last_id = 0;
 											
-											console.log( data );
+											//console.log( data );
 											
 											data.records.forEach(function(recordset, index, array) {
 												var record = [];
@@ -1480,7 +1486,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 										}
 										else if(data.action == 'update' && data.message == 'record updated')
 										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 											for(var column in data.record)
 											{
 												if(data.record.hasOwnProperty( column ))	
@@ -1505,7 +1511,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 										}
 										else if(data.action == 'clear' && data.message == 'table is empty')
 										{
-											console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 											component.clearAll();
 											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
 										}
@@ -1533,7 +1539,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 												component.parse(data, "json"); //takes the name and format of the data source
 											}catch(e)
 											{
-												console.log( e.stack )	
+												console.log( e.stack );
 											}
 											
 											
@@ -1551,8 +1557,32 @@ $dhx.dataDriver = $dhx.dataDriver || {
 							//	} );
 							//});
 							
-							component.setColumnIds(schema.str_columns);
-							component.enableSmartRendering(true);
+							if( c.auto_configure )
+							{
+								component.setHeader($dhx.dataDriver._getColumnsHeader(c)); //the headers of columns 
+								component.setColTypes($dhx.dataDriver._getColumnsType(c)); //the types of columns  
+								component.setColSorting($dhx.dataDriver._getColumnsSorting(c)); //the sorting types 
+								component.setColAlign($dhx.dataDriver._getColumnsAlign(c)); //the alignment of columns		
+								component.setInitWidths($dhx.dataDriver._getColumnsWidth(c)); //the widths of columns  
+							}
+							
+							component.setColumnIds($dhx.dataDriver._getColumnsId(c));
+							
+							if( c.auto_configure )
+							{
+								component.init(); //finishes initialization and renders the grid on the page 
+							}
+							
+							if( c.paginate )
+							{
+								
+							}
+							else
+							{
+								component.enableSmartRendering(true);	
+							}
+							
+							
 							component.setDateFormat("%Y-%m-%d");
 							component.attachEvent("onRowSelect", function (new_row, ind)
 							{								
@@ -1590,7 +1620,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			catch(e)
 			{
 
-				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant sync '+c.component_id+' data ! Error message: ' + e.message);
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant sync '+c.component_id+' data ! Error message: ' + e.message, e.stack);
 				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
@@ -1697,11 +1727,9 @@ $dhx.dataDriver = $dhx.dataDriver || {
 						} // end if grid
 						else if (hash.type == 'form') {
 							//if ($dhx._enable_log) console.log("this component is a form");
-							//console.log( "XXXXXXXXXXXXXXXXXX>>>>>>>>>>>>>>>>", hash );
 							var prepare = false;
 							
 							
-							 //console.log(">>>>>>>>>>>>>>>>> component.save");
                              //console.log(hash);
 							 
 							 component._id = hash.component_id;
@@ -1761,7 +1789,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 								}
 								else
 								{
-									console.log("inside prepare");
+									//console.log("inside prepare");
 									that._bound_form_save(c, component, hash, onSuccess, onFail);
 								}	
                             }
@@ -1775,7 +1803,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 								}
 								else
 								{
-									console.log("inside prepare");
+									//console.log("inside prepare");
 									that._bound_form_update(c, component, hash, onSuccess, onFail);
 								}
                             }
@@ -1915,7 +1943,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 						var month = dt.getMonth() + 1;
 						var day = dt.getDate();
 						
-						console.log( month.toString().length );
+						//console.log( month.toString().length );
 						if(month.toString().length == 1)
 							month = "0" + month;
 						if(day.toString().length == 1)
@@ -1968,7 +1996,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 						var year = dt.getFullYear();
 						var month = dt.getMonth() + 1;
 						var day = dt.getDate();
-						console.log( month.toString().length );
+						//console.log( month.toString().length );
 						if(month.toString().length == 1)
 							month = "0" + month;
 						if(day.toString().length == 1)
@@ -2609,7 +2637,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 						,connection : connection
 						,event : event
 						,subscriber : function( msg, data ){
-							console.log( 'DB ROOT SUBSCRIBER: ', msg, data );
+							//console.log( 'DB ROOT SUBSCRIBER: ', msg, data );
 						}
 						,root_topic : topic
 					};
@@ -2680,10 +2708,10 @@ $dhx.dataDriver = $dhx.dataDriver || {
 						message : 'database is ready'
 					} );
 					
-					console.log( $dhx.dataDriver.public );	
+					//console.log( $dhx.dataDriver.public );	
 					
 					that._table_to_fill_on_init = Object.keys($dhx.dataDriver.public).length;
-					console.log( that._table_to_fill_on_init );
+					//console.log( that._table_to_fill_on_init );
 					
 					for( var table in $dhx.dataDriver.public )
 					{
@@ -2704,7 +2732,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 											,message : 'ready'
 										});
 									}
-									console.log( '???????????????? ready and all records loaded' );
+									//console.log( '???????????????? ready and all records loaded' );
 								}, function( tx, event, rows_affected ){
 									
 							} );
@@ -2882,7 +2910,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 									}
 								}						
 								,add: function(record, onSuccess, onFail) {
-									console.log(table);
+									//console.log(table);
 									that.add({
 										db: db_name,
 										table: table,
@@ -3078,6 +3106,48 @@ $dhx.dataDriver = $dhx.dataDriver || {
 										onFail: onFail
 									});
 								}
+								
+								,_getColumnsId : function( onSuccess, onFail ){
+									return that._getColumnsId({
+										db: db_name,
+										table: table
+									});
+								}
+								,_getColumnsHeader : function( onSuccess, onFail ){
+									return that._getColumnsHeader({
+										db: db_name,
+										table: table
+									});
+								}
+								,_getColumnsType : function( onSuccess, onFail ){
+									return that._getColumnsType({
+										db: db_name,
+										table: table
+									});
+								}
+								
+								,_getColumnsSorting : function( onSuccess, onFail ){
+									return that._getColumnsSorting({
+										db: db_name,
+										table: table
+									});
+								}
+								,_getColumnsAlign : function( onSuccess, onFail ){
+									return that._getColumnsAlign({
+										db: db_name,
+										table: table
+									});
+								}
+								,_getColumnsWidth : function( onSuccess, onFail ){
+									return that._getColumnsWidth({
+										db: db_name,
+										table: table
+									});
+								}
+								
+								
+								
+								
 								,serialize : function(){
 									
 								}
@@ -3120,6 +3190,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 												table: table,
 												component : c.component,
 												type : 'grid',
+												auto_configure : c.auto_configure,
 												component_id : c.component_id,
 												onSuccess: c.onSuccess,
 												onFail: c.onFail
@@ -3176,6 +3247,11 @@ $dhx.dataDriver = $dhx.dataDriver || {
 										}
 									}
 								})( db_name, table )
+								
+								
+								
+								
+								
 								,toPDF : function(){
 									var doc = new jsPDF();
 									var specialElementHandlers = {
@@ -3186,7 +3262,7 @@ $dhx.dataDriver = $dhx.dataDriver || {
 										}
 									}
 									
-									console.log($('.row20px').parent().parent().html());
+									//console.log($('.row20px').parent().parent().html());
 									doc.fromHTML($('.row20px').parent().parent().html(), 0.5 // x coord
 										, 0.5 // y coord
 										, {
@@ -3258,8 +3334,8 @@ $dhx.dataDriver = $dhx.dataDriver || {
 			}
 			catch(e)
 			{
-				console.log(e.stack);
-				console.log(e.message);	
+				//console.log(e.stack);
+				//console.log(e.message);	
 			}
 			
 
@@ -3291,6 +3367,172 @@ $dhx.dataDriver = $dhx.dataDriver || {
 				return null
 			}
 
+		}
+		
+		,_getColumnsId : function(c){
+			'use strict';
+			var that = $dhx.dataDriver,
+				schema = that.getTableSchema(c),
+				primary_key = schema.primary_key.keyPath,
+				columns = [],
+				sorted = [primary_key];
+			
+			for( var hash in schema.columns )
+				columns.push(hash);
+			
+			 columns.sort(function(a, b) {
+                    return a.ordinal_position - b.ordinal_position;
+             });
+			 
+			 
+			for( var index = 0; index < columns.length; index++)
+			{
+				var column = columns[ index ];
+				sorted.push( column );
+			}
+			 
+			 
+			 return sorted.join(',');
+		}
+		
+		,_getColumnsHeader : function(c){
+			'use strict';
+			var that = $dhx.dataDriver,
+				schema = that.getTableSchema(c),
+				primary_key = schema.primary_key.keyPath,
+				columns = [],
+				sorted = [primary_key];
+			
+			for( var hash in schema.columns )
+				columns.push(schema.columns[ hash ]);
+			
+			 columns.sort(function(a, b) {
+                    return a.ordinal_position - b.ordinal_position;
+             });
+			 
+			 
+			for( var index = 0; index < columns.length; index++)
+			{
+				//console.log(columns[ index ])
+				var column = columns[ index ];
+				sorted.push( column.dhtmlx_grid_header );
+			}
+			 
+			 
+			 return sorted.join(',');
+		}
+		
+		
+		
+		
+		,_getColumnsWidth : function(c){
+			'use strict';
+			var that = $dhx.dataDriver,
+				schema = that.getTableSchema(c),
+				primary_key = schema.primary_key.keyPath,
+				columns = [],
+				sorted = ['*'];
+			
+			for( var hash in schema.columns )
+				columns.push(schema.columns[ hash ]);
+			
+			 columns.sort(function(a, b) {
+                    return a.ordinal_position - b.ordinal_position;
+             });
+			 
+			 
+			for( var index = 0; index < columns.length; index++)
+			{
+				//console.log(columns[ index ])
+				var column = columns[ index ];
+				sorted.push( column.dhtmlx_grid_width );
+			}
+			 
+			 
+			 return sorted.join(',');
+		}
+		
+		,_getColumnsAlign : function(c){
+			'use strict';
+			var that = $dhx.dataDriver,
+				schema = that.getTableSchema(c),
+				primary_key = schema.primary_key.keyPath,
+				columns = [],
+				sorted = ['right'];
+			
+			for( var hash in schema.columns )
+				columns.push(schema.columns[ hash ]);
+			
+			 columns.sort(function(a, b) {
+                    return a.ordinal_position - b.ordinal_position;
+             });
+			 
+			 
+			for( var index = 0; index < columns.length; index++)
+			{
+				//console.log(columns[ index ])
+				var column = columns[ index ];
+				sorted.push( column.dhtmlx_grid_align );
+			}
+			 
+			 
+			 return sorted.join(',');
+		}
+		
+		,_getColumnsType : function(c){
+			'use strict';
+			var that = $dhx.dataDriver,
+				schema = that.getTableSchema(c),
+				primary_key = schema.primary_key.keyPath,
+				columns = [],
+				sorted = ['ro'];
+			
+			for( var hash in schema.columns )
+			{
+				//console.log( schema.columns[ hash ] );
+				columns.push(schema.columns[ hash ]);
+			}
+			
+			 columns.sort(function(a, b) {
+                    return a.ordinal_position - b.ordinal_position;
+             });
+			 
+			 
+			for( var index = 0; index < columns.length; index++)
+			{
+				var column = columns[ index ];
+				//console.log( column );
+				sorted.push( columns[ index ].dhtmlx_grid_type );
+			}
+			 
+			 
+			 return sorted.join(',');
+		}
+		
+		,_getColumnsSorting : function(c){
+			'use strict';
+			var that = $dhx.dataDriver,
+				schema = that.getTableSchema(c),
+				primary_key = schema.primary_key.keyPath,
+				columns = [],
+				sorted = ['int'];
+			
+			for( var hash in schema.columns )
+				columns.push(schema.columns[ hash ]);
+			
+			 columns.sort(function(a, b) {
+                    return a.ordinal_position - b.ordinal_position;
+             });
+			 
+			 
+			for( var index = 0; index < columns.length; index++)
+			{
+				var column = columns[ index ];
+				sorted.push( columns[ index ].dhtmlx_grid_sorting );
+			}
+			 
+			 
+			 return sorted.join(',');
 		}
 
 		,_setInputMask : function(input, mask_to_use){
