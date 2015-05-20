@@ -1486,7 +1486,7 @@ $dhx.dataDriver = {
 										}
 										else if(data.action == 'update' && data.message == 'record updated')
 										{
-											console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 											for(var column in data.record)
 											{
 												if(data.record.hasOwnProperty( column ))	
