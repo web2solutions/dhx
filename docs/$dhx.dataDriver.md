@@ -637,7 +637,7 @@ GNU General Public License as published by the Free Software Foundation but for 
 
 No bugs have been reported.
 
-Please report any bugs or feature requests through the web interface at http://rt.cpan.org.
+Please report any bugs or feature requests through the email address: eduardo at web2solutions.com.br
 
 ### DISCLAIMER OF WARRANTY
 
