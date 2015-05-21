@@ -50,7 +50,7 @@ larger amounts of structured data. IndexedDB provides a solution.* **"**
 
 - Primary keys
 
-- Foreing Keys
+- Foreign Keys
 
 - Each app can have up to GBs of size.
 
