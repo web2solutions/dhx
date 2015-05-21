@@ -28,7 +28,7 @@ larger amounts of structured data. IndexedDB provides a solution.* **"**
 	reference: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
 
 
-**$dhx.dataDriver features**
+### **$dhx.dataDriver features**
 
 - Provide support for offline applications. Nomore blockers when your server goes offline.
 
