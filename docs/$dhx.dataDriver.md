@@ -5,14 +5,15 @@
 
 **What is it?**
 
-	$dhx.dataDriver is the first indexedDB Javascript data driver/ORM focused in build DHTMLX applications.
+	$dhx.dataDriver is the first indexedDB Javascript data driver/ORM focused in build 
+	DHTMLX applications.
 	
 	Built on top of indexedDB API, it provides an asynchronous and offline/online support API that 
 	is very similar to DHTMLX DataStore API ( http://docs.dhtmlx.com/api__refs__datastore.html ), 
 	which is a synchronous and online API.
 
-	Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails when you 
-	need to storage and handle large amount of data. There is where $dhx.dataDriver saves you.
+	Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails 
+	when you need to storage and handle large amount of data. There is where $dhx.dataDriver saves you.
 
 
 **What is indexedDB?**
@@ -32,7 +33,9 @@
 
 - Multi thread environment instead single thread environment. no blocking.
 
-- Uses a MQ system for implementing interoperable communication between database elements X components X server X browser windows
+- Uses a MQ system for implementing interoperable communication between:
+
+	 database elements X components X server X browser windows
 
 - Bind 'one record' DHTMLX components. Eg: forms
 
@@ -427,7 +430,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	Filters table data by provided parameters.
 	Sends a message to MQ system telling the found records
 
-	The search is case and special chars insensitive. It means, if you search for 'Anõs', or 'José', it will return all entries with 'anos' or 'jose'
+	The search is case and special chars insensitive. It means, if you search for 'Anõs', or 'José', 
+	it will return all entries with 'anos' or 'jose'
 
 ```javascript
 	db.schema.persons.search.where({
