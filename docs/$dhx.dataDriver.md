@@ -3,7 +3,7 @@
 
 ## Overview
 
-**What is it?**
+**What is $dhx.dataDriver?**
 
 	$dhx.dataDriver is the first indexedDB Javascript data driver/ORM focused in build 
 	DHTMLX applications.
