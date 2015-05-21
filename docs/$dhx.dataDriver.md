@@ -7,9 +7,9 @@
 
 	$dhx.dataDriver is the first indexedDB Javascript data driver/ORM focused in build DHTMLX applications.
 	
-	Built on top of indexedDB API, it provides an asynchronous API that that is very similar 
+	Built on top of indexedDB API, it provides an asynchronous and offline/online support API that is very similar 
 	to DHTMLX DataStore API ( http://docs.dhtmlx.com/api__refs__datastore.html ), 
-	which is a synchronous API.
+	which is a synchronous and online API.
 
 
 **What is indexedDB?**
@@ -25,9 +25,11 @@
 
 - Provide support for offline applications. Nomore blockers when your server goes offline.
 
+- Cross window state. If you have your app opened in multiple browser tabs, now you can keep it data in sync.
+
 - Multi thread environment instead single thread environment. no blocking.
 
-- Uses a MQ system for implementing interoperable communication between database elements X components X server
+- Uses a MQ system for implementing interoperable communication between database elements X components X server X browser windows
 
 - Bind and Sync DHTMLX components through multiple databases and tables.
 
@@ -599,6 +601,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 ### ToDo
 
+	- store bound and synced components on DB instead browser memory
 	- ability to add tables to existing databases (changing version)
 	- Full documentation
 	- Implement proxy class for server communication
