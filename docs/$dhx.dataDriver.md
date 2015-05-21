@@ -11,6 +11,9 @@
 	is very similar to DHTMLX DataStore API ( http://docs.dhtmlx.com/api__refs__datastore.html ), 
 	which is a synchronous and online API.
 
+	Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails when you 
+	need to storage and handle large amount of data. There is where $dhx.dataDriver saves you.
+
 
 **What is indexedDB?**
 
@@ -21,22 +24,35 @@
 	( https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API )
 
 
-**why to use it?**
+**dhx.dataDriver features**
 
 - Provide support for offline applications. Nomore blockers when your server goes offline.
 
-- Cross window state. If you have your app opened in multiple browser tabs, now you can keep it data in sync.
+- Cross window state. Persist application state over opened browser tabs/windows.
 
 - Multi thread environment instead single thread environment. no blocking.
 
 - Uses a MQ system for implementing interoperable communication between database elements X components X server X browser windows
 
-- Bind and Sync DHTMLX components through multiple databases and tables.
+- Bind 'one record' DHTMLX components. Eg: forms
+
+- Sync 'multiple records' DHTMLX components. Eg: grid, scheduler
+
+- Strong typed columns and records
+
+- Hot validation and properly masking for input of data. Eg: edit on grid, forms, etc.
+
+- Primary keys
+
+- Foreing Keys
 
 - Each app can have up to GBs of size.
 
-- Traditional dhtmlx DataStorage and localStorage are perfects for small amount of data, but fails when you 
-need to storage and handle large amount of data. There is where $dhx.dataDriver saves you.
+- Each app can consume multiple databases and multiple tables
+
+- Search of over records with no case and special chars sensitivity
+
+- Very fast environment with support for big amount of data
 
 - move your data model from server to client
 
