@@ -1459,7 +1459,7 @@ $dhx.dataDriver = {
 								var schema = that.getTableSchema(c);
 								var primary_key = schema.primary_key.keyPath
 								var columns = schema.str_columns.split(',');
-								console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
+								//console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
 								if(data.target == 'table')
 								{
 									if(data.name == c.table)
@@ -2845,7 +2845,7 @@ $dhx.dataDriver = {
 							, _subscriber: function (topic, data) {
 								if( ! $dhx.isObject(data) )
 									JSON.parse(data);
-								console.log( data );
+								//console.log( data );
 								if (data.target == 'table') {
 									if (data.name == table) {
 										if ($dhx._enable_log) console.warn('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data);
