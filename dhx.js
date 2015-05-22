@@ -2742,6 +2742,11 @@ var $dhx = {
             localStorage.setItem(dataset_name, JSON.stringify(payload));
             if ($dhx._enable_log) console.timeEnd("save dataset " + dataset_name);
         },
+		deleteDatabase: function(dataset_name) {
+            if ($dhx._enable_log) console.time("delete dataset " + dataset_name);
+            localStorage.removeItem(dataset_name);
+            if ($dhx._enable_log) console.timeEnd("delete dataset " + dataset_name);
+        },
         get: function(dataset_name) {
             if ($dhx._enable_log) console.time("get local storage " + dataset_name);
             var currently_store_string = localStorage[dataset_name];

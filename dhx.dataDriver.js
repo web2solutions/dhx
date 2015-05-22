@@ -4,6 +4,14 @@ $dhx.dataDriver = {
 
 		dbs : {}
 		
+		,_table_to_fill_on_init : 0
+		,_table_to_filled_on_init : 0
+		,_total_fkeys_to_check : []
+		,_total_fkeys_checked : []
+		,_total_records_to_check : []
+		,_total_records_checked : []
+		
+		
 		,browserPassed : function(){
 			'use strict';
 			if ($dhx.Browser.name == "Chrome") {
@@ -470,20 +478,19 @@ $dhx.dataDriver = {
 				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
+		
+		
+		// ======== Start add() methods
+		
+			// send message to listeners and call onSuccess
 		,_completeAdd : function(c, that, event, tx, rows_affected, timer_label, db_name, table, tableRequest, records, isOnCreate){
 			var that = $dhx.dataDriver;
 			isOnCreate = isOnCreate || false;
-			//console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _completeAdd isOnCreate ', isOnCreate );
-			//console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', table );
-			//console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', records );
-			if ($dhx._enable_log) console.warn('executed add operation at: ' +  c.table);
+			console.timeEnd(timer_label);
+			if ($dhx._enable_log) console.warn('executed _completeAdd operation at: ' +  c.table);
 			if ($dhx._enable_log) console.log('transaction complete      ', event);
 			if ($dhx._enable_log) console.warn('rows affected: ' + rows_affected);
-			console.timeEnd(timer_label);
-			//console.log(db_name);
-			//console.log(table);
-			//console.log(that.dbs);
-			//console.log(that.dbs[db_name]);
+			
 			$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + table, {
 				action: 'add'
 				, target: 'table'
@@ -497,8 +504,8 @@ $dhx.dataDriver = {
 			if (c.onSuccess) c.onSuccess(tx, event, rows_affected);
 			records = null;
 		}
-		,add : function(c, onSuccess, onFail){
-			//'use strict';
+			// save records on table
+		,_addSaveOnTable : function( c, onSuccess, onFail ){
 			try
 			{
 				var that = $dhx.dataDriver,
@@ -510,7 +517,8 @@ $dhx.dataDriver = {
 				//console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dhx.dataDriver.add isOnCreate ', isOnCreate );
 					
 				$dhx.dataDriver.public[c.table].onBeforeAdd( );
-				var timer_label  = "insert operation " + $dhx.crypt.SHA2(JSON.stringify( c ));
+				
+				var timer_label  = "_addSaveOnTable operation at "+c.table+" " + $dhx.crypt.SHA2(JSON.stringify( c ));
 				console.time( timer_label );
 
 				var tx = that.db(db_name).transaction(c.table, "readwrite"),
@@ -527,13 +535,12 @@ $dhx.dataDriver = {
 				};
 				tx.onerror = function( event ) {
 					if ($dhx._enable_log) console.warn( 'error name: ', event.srcElement.error.name );
-					
 					//dhtmlx.message({
 					//	type: "error",
 					//	text: event.srcElement.error.message
 					//});
 					
-					if ($dhx._enable_log) console.warn(  '	sorry Eduardo, couldnt add record. error message: '+ event.srcElement.error.message ) ;
+					if ($dhx._enable_log) console.warn(  'sorry Eduardo, couldnt add record. error message: '+ event.srcElement.error.message ) ;
 					if ($dhx._enable_log) console.warn( 'rows affected: 0' );
 					console.timeEnd( timer_label );
 					if(c.onFail) c.onFail(tx, event, rows_affected);
@@ -622,8 +629,289 @@ $dhx.dataDriver = {
 				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
+		
+		
+		,_checkFkey : function( c ) {
+			try
+			{
+				//console.log( 'XXXXXXXXXXXXXXXXXX', c );
+				var that = $dhx.dataDriver,
+						db_name = c.db,
+						table_schema = that.dbs[db_name].schema[c.table],
+						schema = that.getTableSchema(c),
+						primary_key = schema.primary_key.keyPath
+						found = false;
+						
+						
+				var timer_label = "check fkey. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+				console.time( timer_label );
+	
+				var tx = that.db(db_name).transaction(c.table, "readonly"),
+					table = tx.objectStore(c.table);
+						
+				tx.addEventListener('complete', function( event ) {
+					console.timeEnd( timer_label );
+					if ($dhx._enable_log) console.warn( 'executed' );
+					if ($dhx._enable_log) console.warn('tx _checkFkey is completed');
+				});
+				tx.addEventListener('onerror', function( event ) {
+					console.timeEnd( timer_label );
+					dhtmlx.message({
+						type: "error",
+						text: event.target.error.message
+					});
+					if( c.onFail ) c.onFail(tx, event, event.target.error.message);
+					if ($dhx._enable_log) console.log('error on transaction');
+				});
+				tx.addEventListener('abort', function( event ) {
+					console.timeEnd( timer_label );
+					dhtmlx.message({
+						type: "error",
+						text: event.target.error.message
+					});
+					if( c.onFail ) c.onFail(tx, event, event.target.error.message);
+					if ($dhx._enable_log) console.warn('transaction aborted');
+				});
+		
+				var index = table.index(c.column);
+				var _checkFkey = index.get(c.value);
+			 
+				_checkFkey.onsuccess = function(event) {
+					var cursor = event.target.result;
+					if(cursor) 
+					{
+						if( c.onSuccess ) c.onSuccess(true, tx, event);
+					}
+					else
+					{
+						dhtmlx.message({
+							type: "error",
+							text: 'value not found'
+						});
+						if( c.onFail ) c.onFail(tx, event, 'value not found');
+					}
+				}
+			}
+			catch(e)
+			{
 
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant _checkFkey! Error message: ' + e.message);
+				//if ($dhx._enable_log) console.warn(e);
+				if( c.onFail ) c.onFail(null, null, e.message);
+			}
+			
+			
+						
+		}
+		
+		,_addCheckFkeys : function( c, onSuccess, onFail ){
+			try
+			{
+				var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[ db_name ].schema[ c.table ],
+					rows_affected = 0,
+					isOnCreate = c.isOnCreate;
+				// single record
+				if ($dhx.isObject(c.record)) {
+					if ($dhx._enable_log) console.warn('........... checking fkeys for one record ' + c.table);
+					var r = that.validRecord(table_schema, c.record);
+					if ($dhx.isObject(r)) 
+					{
+						var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify( r ));
+						that._total_fkeys_to_check[ fk_check_uid ] = Object.keys( table_schema.foreign_keys ).length;
+						that._total_fkeys_checked[ fk_check_uid ] = 0;
+						
+						for( var key in table_schema.foreign_keys )
+						{
+							if( table_schema.foreign_keys.hasOwnProperty(key) )
+							{	
+								that._checkFkey({
+									db : c.db
+									,table : table_schema.foreign_keys[ key ].table
+									,column : table_schema.foreign_keys[ key ].column
+									,value : r[ table_schema.foreign_keys[ key ].column ]
+									,onSuccess : function( found, tx, event){
+										that._total_fkeys_checked[ fk_check_uid ] = that._total_fkeys_checked[ fk_check_uid ] + 1;
+										if( that._total_fkeys_checked[ fk_check_uid ] == that._total_fkeys_to_check[ fk_check_uid ] )
+										{
+											that._addSaveOnTable( c, onSuccess, onFail );
+										}
+										
+									}
+									,onFail : function( tx, event, error_message ){
+										if ($dhx._enable_log) console.warn('sorry Eduardo,  value '+r[ table_schema.foreign_keys[ key ].column ]+' not found at the "'+table_schema.foreign_keys[ key ].table+'" foreign table! Error message: ', error_message);
+									}
+								});
+							}
+						}
+					}
+					else {
+						if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+						return;
+					}
+				}
+				// multiple record
+				else if ($dhx.isArray(c.record)) {
+					if ($dhx._enable_log) console.warn('........... checking fkeys for '+c.record.length+ ' records on ' + c.table);
+					if( c.record.length > 0 )
+					{
+						var uid_total_record_to_check = $dhx.crypt.SHA2(JSON.stringify( c.record ));
+						that._total_records_to_check[ uid_total_record_to_check ] = c.record.length;
+						that._total_records_checked[ uid_total_record_to_check ] = 0;
+						for (var i = 0; i < c.record.length; i++) {
+							var record = c.record[i];
+							var r = that.validRecord(table_schema, record);
+							if ($dhx.isObject(r)) 
+							{
+								var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify( r ));
+								that._total_fkeys_to_check[ fk_check_uid ] = Object.keys( table_schema.foreign_keys ).length;
+								that._total_fkeys_checked[ fk_check_uid ] = 0;
+								for( var key in table_schema.foreign_keys )
+								{
+									if( table_schema.foreign_keys.hasOwnProperty(key) )
+									{
+										that._checkFkey({
+											db : c.db
+											,table : table_schema.foreign_keys[ key ].table
+											,column : table_schema.foreign_keys[ key ].column
+											,value : r[ table_schema.foreign_keys[ key ].column ]
+											,onSuccess : function( found, tx, event){
+												
+												that._total_records_checked[ uid_total_record_to_check ] = 
+													that._total_records_checked[ uid_total_record_to_check ] + 1;
+													
+												that._total_fkeys_checked[ fk_check_uid ] = 
+													that._total_fkeys_checked[ fk_check_uid ] + 1;
+													
+												if( 
+													that._total_fkeys_to_check[ fk_check_uid ] == 
+														that._total_records_checked[ uid_total_record_to_check ] 
+												)
+												{
+													if( 
+														that._total_fkeys_checked[ fk_check_uid ] == 
+															that._total_fkeys_to_check[ fk_check_uid ] 
+													)
+													{
+														that._addSaveOnTable( c, onSuccess, onFail );
+													}
+												}
+											}
+											,onFail : function( tx, event, error_message ){
+												if ($dhx._enable_log) console.warn('sorry Eduardo,  value '+r[ table_schema.foreign_keys[ key ].column ]+' not found at the "'+table_schema.foreign_keys[ key ].table+'" foreign table! Error message: ' + r);
+											}
+										});
+									}
+								}
+							}
+							else {
+								if ($dhx._enable_log) console.warn('record ignored: ', JSON.stringify(record) );
+								if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+								continue;
+							}
+						}	
+					}
+					else
+					{
+						if ($dhx._enable_log) console.log('any record was passed to insert');
+					}
+				}
+				else {
+					if ($dhx._enable_log) console.warn('sorry Eduardo, I cant parse the record payload');
+					return;
+				}
+			}
+			catch(e)
+			{
+
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
+				//if ($dhx._enable_log) console.warn(e);
+				if( c.onFail ) c.onFail(null, null, e.message);
+			}
+		}
+		,add : function(c, onSuccess, onFail){
+			//'use strict';
+			try
+			{
+				var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[ db_name ].schema[ c.table ];
+					
+				$dhx.dataDriver.public[c.table].onBeforeAdd( );
+				
+				var timer_label  = "identify insert method " + $dhx.crypt.SHA2(JSON.stringify( c ));
+				console.time( timer_label );
+				
+				if( typeof table_schema.foreign_keys !== 'undefined' )
+				{
+					if( $dhx.isObject( table_schema.foreign_keys ) )
+					{
+						if( Object.keys( table_schema.foreign_keys ).length > 0 )
+						{
+							console.timeEnd( timer_label );
+							that._addCheckFkeys( c, onSuccess, onFail );
+							return;
+						}
+					}
+				}
+				
+				console.timeEnd( timer_label );
+				that._addSaveOnTable( c, onSuccess, onFail );			
+			}
+			catch(e)
+			{
+
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
+				//if ($dhx._enable_log) console.warn(e);
+				if( c.onFail ) c.onFail(null, null, e.message);
+			}
+		}
+
+		// ======== END add() methods
+
+
+		// ======== Start update() methods
 		,update : function(c){
+			//'use strict';
+			try
+			{
+				var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[ db_name ].schema[ c.table ];
+					
+				$dhx.dataDriver.public[c.table].onBeforeUpdate();
+				
+				var timer_label  = "identify update method " + $dhx.crypt.SHA2(JSON.stringify( c ));
+				console.time( timer_label );
+				
+				if( typeof table_schema.foreign_keys !== 'undefined' )
+				{
+					if( $dhx.isObject( table_schema.foreign_keys ) )
+					{
+						if( Object.keys( table_schema.foreign_keys ).length > 0 )
+						{
+							console.timeEnd( timer_label );
+							that._updateCheckFkeys( c );
+							return;
+						}
+					}
+				}
+				
+				console.timeEnd( timer_label );
+				that._updateSaveOnTable( c );			
+			}
+			catch(e)
+			{
+
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
+				//if ($dhx._enable_log) console.warn(e);
+				if( c.onFail ) c.onFail(null, null, e.message);
+			}
+		}
+		
+		
+		,_updateSaveOnTable : function( c ){
 			//'use strict';
 			//console.log( 'INSIDE UPDATE', c )
 			try
@@ -637,9 +925,8 @@ $dhx.dataDriver = {
 					table_schema = that.dbs[db_name].schema[c.table],
 					schema = that.getTableSchema(c),
 					primary_key = schema.primary_key.keyPath;
-
-				//console.time("record update. task: " + $dhx.crypt.SHA2(JSON.stringify( c )));
-				//console.timeEnd("record update. task: " + $dhx.crypt.SHA2(JSON.stringify( c )));
+					
+	
 				var timer_label = "record update. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
 				console.time( timer_label );
 
@@ -744,6 +1031,68 @@ $dhx.dataDriver = {
 				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
+		
+		,_updateCheckFkeys : function( c ){
+			try
+			{
+				var that = $dhx.dataDriver,
+					db_name = c.db,
+					table_schema = that.dbs[ db_name ].schema[ c.table ],
+					rows_affected = 0,
+					isOnCreate = c.isOnCreate;
+				// single record
+				if ($dhx.isObject(c.record)) {
+					if ($dhx._enable_log) console.warn('........... checking fkeys for one record ' + c.table);
+					var r = that.validRecord(table_schema, c.record);
+					if ($dhx.isObject(r)) 
+					{
+						var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify( r ));
+						that._total_fkeys_to_check[ fk_check_uid ] = Object.keys( table_schema.foreign_keys ).length;
+						that._total_fkeys_checked[ fk_check_uid ] = 0;
+						
+						for( var key in table_schema.foreign_keys )
+						{
+							if( table_schema.foreign_keys.hasOwnProperty(key) )
+							{	
+								that._checkFkey({
+									db : c.db
+									,table : table_schema.foreign_keys[ key ].table
+									,column : table_schema.foreign_keys[ key ].column
+									,value : r[ table_schema.foreign_keys[ key ].column ]
+									,onSuccess : function( found, tx, event){
+										that._total_fkeys_checked[ fk_check_uid ] = that._total_fkeys_checked[ fk_check_uid ] + 1;
+										if( that._total_fkeys_checked[ fk_check_uid ] == that._total_fkeys_to_check[ fk_check_uid ] )
+										{
+											that._updateSaveOnTable( c );
+										}
+									}
+									,onFail : function( tx, event, error_message ){
+										if ($dhx._enable_log) console.warn('sorry Eduardo,  value '+r[ table_schema.foreign_keys[ key ].column ]+' not found at the "'+table_schema.foreign_keys[ key ].table+'" foreign table! Error message: ', error_message);
+									}
+								});
+							}
+						}
+					}
+					else {
+						if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+						return;
+					}
+				}
+				else {
+					if ($dhx._enable_log) console.warn('sorry Eduardo, I cant parse the record payload');
+					return;
+				}
+			}
+			catch(e)
+			{
+
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
+				//if ($dhx._enable_log) console.warn(e);
+				if( c.onFail ) c.onFail(null, null, e.message);
+			}
+		}
+		// ======== End update() methods
+		
 
 		,load : function(c){
 			'use strict';
@@ -1474,9 +1823,6 @@ $dhx.dataDriver = {
 										if(data.action == 'add' && data.message == 'record added')
 										{
 											var last_id = 0;
-											
-											console.log( data );
-											
 											data.records.forEach(function(recordset, index, array) {
 												var record = [];
 
@@ -2152,7 +2498,9 @@ $dhx.dataDriver = {
 		
 		,next : function( c ) {
 			//console.log( c );
-			var that = $dhx.dataDriver,
+			try
+			{
+				var that = $dhx.dataDriver,
 					db_name = c.db,
 					table_schema = that.dbs[db_name].schema[c.table],
 					schema = that.getTableSchema(c),
@@ -2161,73 +2509,78 @@ $dhx.dataDriver = {
 					found = false,
 					sent = false;
 					
-			function notify( cursor, tx, event ){
-				$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
-					action : 'select',
-					target : 'table',
-
-					name : c.table,
-					status : 'success',
-					message : 'selected record'
-					,record_id : cursor.key
-				} );
-				if( c.onSuccess ) c.onSuccess(cursor.key, cursor.value, tx, event);
-			}
-					
-					
-			var timer_label = "get next record. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
-			console.time( timer_label );
-
-				var tx = that.db(db_name).transaction(c.table, "readonly"),
-					table = tx.objectStore(c.table);
-					
-			c.onSuccess = c.onSuccess || false;
-            c.onFail = c.onFail || false;
-			
-			if( cursor_position == 0 )
-			{
-				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(null, null, 'please select a record before calling next()');
-				if ($dhx._enable_log) console.log('please select a record before calling next()');
-			}
-					
-			tx.addEventListener('complete', function( event ) {
-				if ($dhx._enable_log) console.warn( 'executed' );
-				if ($dhx._enable_log) console.log('transaction complete', event);
-				console.timeEnd( timer_label );
-				
-				if ($dhx._enable_log) console.warn('tx next record is completed');
-			});
-			tx.addEventListener('onerror', function( event ) {
-				console.timeEnd( timer_label );
-				if( c.onFail ) c.onFail(tx, event, event.target.error.message);
-				if ($dhx._enable_log) console.log('error on transaction');
-			});
-			tx.addEventListener('abort', function( event ) {
-				console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.warn('transaction aborted');
-			});
-			var search = table.openCursor( ); // 
-			search.onsuccess = function(event) {
-				var cursor = event.target.result;
-				if(cursor) 
-				{
-					if( cursor_position == cursor.key )
-					{
-						found = true;
-					}
-					if( cursor_position != cursor.key )
-					{
-						if( found && !sent )
-						{
-							notify( cursor,tx, event )
-							sent = true;
-						}
-					}
+				function notify( cursor, tx, event ){
+					$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
+						action : 'select',
+						target : 'table',
 	
-					cursor.continue();
+						name : c.table,
+						status : 'success',
+						message : 'selected record'
+						,record_id : cursor.key
+					} );
+					if( c.onSuccess ) c.onSuccess(cursor.key, cursor.value, tx, event);
 				}
-			}			
+						
+						
+				var timer_label = "get next record. task: " + $dhx.crypt.SHA2(JSON.stringify( c ));
+				console.time( timer_label );
+	
+					var tx = that.db(db_name).transaction(c.table, "readonly"),
+						table = tx.objectStore(c.table);
+						
+				c.onSuccess = c.onSuccess || false;
+				c.onFail = c.onFail || false;
+				
+				if( cursor_position == 0 )
+				{
+					console.timeEnd( timer_label );
+					if( c.onFail ) c.onFail(null, null, 'please select a record before calling next()');
+					if ($dhx._enable_log) console.log('please select a record before calling next()');
+				}
+						
+				tx.addEventListener('complete', function( event ) {
+					if ($dhx._enable_log) console.warn( 'executed' );
+					if ($dhx._enable_log) console.log('transaction complete', event);
+					console.timeEnd( timer_label );
+					
+					if ($dhx._enable_log) console.warn('tx next record is completed');
+				});
+				tx.addEventListener('onerror', function( event ) {
+					console.timeEnd( timer_label );
+					if( c.onFail ) c.onFail(tx, event, event.target.error.message);
+					if ($dhx._enable_log) console.log('error on transaction');
+				});
+				tx.addEventListener('abort', function( event ) {
+					console.timeEnd( timer_label );
+					if ($dhx._enable_log) console.warn('transaction aborted');
+				});
+				var search = table.openCursor( ); // 
+				search.onsuccess = function(event) {
+					var cursor = event.target.result;
+					if(cursor) 
+					{
+						if( cursor_position == cursor.key )
+						{
+							found = true;
+						}
+						if( cursor_position != cursor.key )
+						{
+							if( found && !sent )
+							{
+								notify( cursor,tx, event )
+								sent = true;
+							}
+						}
+		
+						cursor.continue();
+					}
+				}
+			}
+			catch(e)
+			{
+				console.log( e.stack)	
+			}
 		}
 		
 		
@@ -3295,27 +3648,30 @@ $dhx.dataDriver = {
 						
 						}
 					}
-					$dhx.jDBdStorage.storeObject('message.'+topic, JSON.stringify(message));
+					//console.log( message );
+					if( message.message == 'record added' || message.message == 'record updated' || message.message == 'record deleted' )
+					{
+						$dhx.jDBdStorage.storeObject('message.'+topic, JSON.stringify(message));
+					}
 					$dhx.MQ.oldPublish(topic, message);
 				}
-					
-				function onStorageEvent(storageEvent){
-
-					console.log('>>>>>>>>>>>>>>>>>>>XXXXXXXXXXXX ', storageEvent);
-					if( storageEvent.key.indexOf('message.') != -1 )
-					{
-						var topic = storageEvent.key.replace('message.',"");
-						var message = JSON.parse( storageEvent.newValue );
-						
-						//console.log( JSON.parse( message ) );
-						
-						$dhx.MQ.oldPublish(topic, JSON.parse( message ));
-					}
-				}
 				
-				window.addEventListener('storage', onStorageEvent, false);
-	
-				//console.log( localDatabase.indexedDB ) ;
+				window.addEventListener('storage', function (storageEvent)
+				{
+					if( storageEvent.key )
+						if( storageEvent.key.indexOf('message.') != -1 )
+						{
+							//console.log('>>>>>>>>>>>>>>>>>>>XXXXXXXXXXXX ', storageEvent);
+							var topic = storageEvent.key.replace('message.',"");
+							if( storageEvent.newValue )
+							{
+								var message = JSON.parse( storageEvent.newValue );
+								console.log( message );
+								$dhx.MQ.oldPublish(topic, JSON.parse( message ));
+								$dhx.jDBdStorage.deleteDatabase('message.'+topic);
+							}
+						}
+				}, false);
 	
 				// lets protype indexedDB into dataDriver
 				that.protectIndexedDB();
@@ -3375,9 +3731,6 @@ $dhx.dataDriver = {
 				//console.log(e.message);	
 			}
 		}
-		
-		,_table_to_fill_on_init : 0
-		,_table_to_filled_on_init : 0
 
 		,protectIndexedDB : function( ){
 			'use strict';

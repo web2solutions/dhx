@@ -84,14 +84,70 @@ Every database provide support for:
 
 ### **Database model**
 
-	the following example creates a database called juris with a table called person.
+	the following example creates a database called juris with a table two tables and some foreign keys
 
 ```javascript
 	db = new $dhx.dataDriver.database({
 		db: 'juris'
 		, version: 1
 		, schema: {
-			persons: {
+			groups: {
+				primary_key: {
+					keyPath: "group_id"
+					, autoIncrement: false
+				}
+				, str_columns: "group_id,group"
+				, fields: [{
+					"name": "group_id"
+					, "maxLength": null
+					, "type": "hidden"
+					, "label": "group_id"
+					, "validate": ""
+					, "required": false
+					, "mask_to_use": ""
+					, "tooltip": ""
+					, "value": ""
+				}, {
+					"tooltip": ""
+					, "value": ""
+					, "type": "input"
+					, "label": "group"
+					, "name": "group"
+					, "maxLength": "255"
+					, "required": false
+					, "mask_to_use": ""
+					, "validate": ""
+				}]
+				, columns: {
+					"group": {
+						"dhtmlx_grid_width": "*"
+						, "foreign_table_name": ""
+						, "dhtmlx_grid_footer": ""
+						, "unique": false
+						, "validation": ""
+						, "foreign_column_name": ""
+						, "default": ""
+						, "dhtmlx_grid_align": "left"
+						, "dhtmlx_grid_type": "ed"
+						, "index": true
+						, "dhtmlx_form_type": "input"
+						, "required": false
+						, "ordinal_position": 2
+						, "maxlength": "255"
+						, "format": ""
+						, "type": "character varying"
+						, "has_fk": false
+						, "dhtmlx_grid_header": "group"
+						, "dhtmlx_grid_sorting": "str"
+					}
+				}
+				, records: [{
+					group_id: 1
+					, group: 'usuario'
+				}]
+			}
+
+			, persons: {
 				//collection : 'persons'
 				//,item : 'person'
 				//,
@@ -99,73 +155,81 @@ Every database provide support for:
 					autoIncrement: false
 					, keyPath: "person_id"
 				}
-				, str_columns: 'person_id,name,email,username,age,birth_date'
+				, str_columns: 'person_id,name,email,username,age,birth_date,group'
 				, fields: [{
-							"name": "person_id"
-							, "value": ""
-							, "mask_to_use": ""
-							, "label": "person_id"
-							, "validate": ""
-							, "type": "hidden"
-							, "tooltip": ""
-							, "maxLength": null
-							, "required": false
-						}, {
-							"maxLength": "255"
-							, "required": false
-							, "value": ""
-							, "mask_to_use": ""
-							, "label": "name"
-							, "name": "name"
-							, "tooltip": ""
-							, "type": "input"
-							, "validate": "NotEmpty"
-						}, {
-							"type": "input"
-							, "tooltip": ""
-							, "validate": "NotEmpty,ValidEmail"
-							, "mask_to_use": ""
-							, "label": "email"
-							, "value": ""
-							, "name": "email"
-							, "required": false
-							, "maxLength": "255"
-						}, {
-							"required": false
-							, "maxLength": "300"
-							, "tooltip": ""
-							, "type": "input"
-							, "validate": "NotEmpty"
-							, "value": ""
-							, "label": "username"
-							, "mask_to_use": ""
-							, "name": "username"
-						}, {
-							"name": "birth_date"
-							, "value": ""
-							, "mask_to_use": "date"
-							, "label": "birth_date"
-							, "validate": "NotEmpty"
-							, "tooltip": ""
-							, "type": "calendar"
-							, "maxLength": null
-							, "required": false
-							, dateformat: "%Y-%m-%d"
-							, enableTime: false
-							, readonly: true
-						}
-						, {
-							"name": "age"
-							, "value": ""
-							, "mask_to_use": "integer"
-							, "label": "age"
-							, "validate": "NotEmpty"
-							, "tooltip": ""
-							, "type": "input"
-							, "maxLength": null
-							, "required": false
-						}
-					] // end fields
+						"name": "person_id"
+						, "value": ""
+						, "mask_to_use": ""
+						, "label": "person_id"
+						, "validate": ""
+						, "type": "hidden"
+						, "tooltip": ""
+						, "maxLength": null
+						, "required": false
+					}, {
+						"maxLength": "255"
+						, "required": false
+						, "value": ""
+						, "mask_to_use": ""
+						, "label": "name"
+						, "name": "name"
+						, "tooltip": ""
+						, "type": "input"
+						, "validate": "NotEmpty"
+					}, {
+						"type": "input"
+						, "tooltip": ""
+						, "validate": "NotEmpty,ValidEmail"
+						, "mask_to_use": ""
+						, "label": "email"
+						, "value": ""
+						, "name": "email"
+						, "required": false
+						, "maxLength": "255"
+					}, {
+						"required": false
+						, "maxLength": "300"
+						, "tooltip": ""
+						, "type": "input"
+						, "validate": "NotEmpty"
+						, "value": ""
+						, "label": "username"
+						, "mask_to_use": ""
+						, "name": "username"
+					}, {
+						"name": "birth_date"
+						, "value": ""
+						, "mask_to_use": "date"
+						, "label": "birth_date"
+						, "validate": "NotEmpty"
+						, "tooltip": ""
+						, "type": "calendar"
+						, "maxLength": null
+						, "required": false
+						, dateformat: "%Y-%m-%d"
+						, enableTime: false
+						, readonly: true
+					}, {
+						"name": "age"
+						, "value": ""
+						, "mask_to_use": "integer"
+						, "label": "age"
+						, "validate": "NotEmpty"
+						, "tooltip": ""
+						, "type": "input"
+						, "maxLength": null
+						, "required": false
+					}, {
+						"name": "group"
+						, "value": ""
+						, "mask_to_use": ""
+						, "label": "group"
+						, "validate": "NotEmpty"
+						, "tooltip": ""
+						, "type": "combo"
+						, "maxLength": null
+						, "required": false
+					}] // end fields
 				
 				, columns: {
 					"name": {
@@ -273,7 +337,70 @@ Every database provide support for:
 						, "dhtmlx_grid_type": "dhxCalendar"
 						, "dhtmlx_grid_sorting": "date"
 					}
+					, "group": {
+						"default": "usuario"
+						, "dhtmlx_grid_footer": ""
+						, "unique": false
+						, "validation": ""
+						, "dhtmlx_grid_width": "*"
+						, "required": true
+						, "dhtmlx_form_type": "input"
+						, "index": true
+						, "dhtmlx_grid_type": "coro"
+						, "dhtmlx_grid_align": "left"
+						, "format": ""
+						, "maxlength": "255"
+						, "ordinal_position": 5
+						, "dhtmlx_grid_sorting": "str"
+						, "dhtmlx_grid_header": "group"
+						
+						, "type": "character varying"
+						
+						, "numeric_precision": null
+						, "numeric_scale": null
+						, "is_nullable": "NO"
+						
+						, "has_fk": true
+						, "foreign_column_name": "group"
+						, "foreign_table_name": "groups"
+					}
 				} // end columns
+				
+				, foreign_keys: {
+					group: {
+						table: 'groups'
+						, column: 'group'
+					}
+				} // end relation
+				
+				, records: [{
+						person_id: 1
+						, username: "eduardo"
+						, name: "José Eduardo Almeida"
+						, age: 30
+						, birth_date: '1984-08-28'
+						, email: "eduardo@web2solutions.com.br"
+						, group: 'usuario'
+					}
+					, {
+						person_id: 2
+						, username: "alvaro"
+						, name: "Alvaro Luiz"
+						, age: 33
+						, birth_date: '1984-03-25'
+						, email: "alvaro@web2solutions.com.br"
+						, group: 'usuario'
+					}
+					, {
+						person_id: 3
+						, username: "joao"
+						, name: "João Vicente"
+						, age: 35
+						, birth_date: '1984-03-03'
+						, email: "joao@web2solutions.com.br"
+						, group: 'usuario'
+					}
+				]
 			}
 		}
 		// call all the times you connect into a database	
