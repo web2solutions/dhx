@@ -40,11 +40,15 @@ larger amounts of structured data. IndexedDB provides a solution.* **"**
 
 	 database elements X components X server X browser windows
 
+	 ![MQ flow](http://cdn.dhtmlx.com.br/dhx/docs/DHXMQ.jpg)
+
 - Bind 'one record' DHTMLX components. Eg: forms
 
 - Sync 'multiple records' DHTMLX components. Eg: grid, scheduler
 
-- Strong typed columns and records
+- Strong typed columns
+
+- SQL like data types: character varying, date, timestamp, text, numeric, integer
 
 - Hot validation and properly masking for input of data. Eg: edit on grid, forms, etc.
 
@@ -64,21 +68,13 @@ larger amounts of structured data. IndexedDB provides a solution.* **"**
 
 - dramatically reduce HTTP requests from your client to your server
 
-
-
-### **Environment**
-
-Every database provide support for:
-
-- multiple tables
-- database versioning
-- indexed columns
 - multi record columns. Arrays.
-- primary keys
-- SQL like data types: character varying, date, timestamp, text, numeric, integer
-- hot validation for data types when handling data
-- hot format and validation for input data on every synced and bound components
-- complete API on database and table level
+
+- indexed columns
+
+- database versioning
+
+- complete API on database on table level
 
 
 
