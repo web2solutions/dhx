@@ -40,7 +40,7 @@ larger amounts of structured data. IndexedDB provides a solution.* **"**
 
 	 database elements X components X server X browser windows
 
-	 ![MQ flow](http://cdn.dhtmlx.com.br/dhx/docs/DHXMQ.jpg)
+	 ![$dhx.dataDriver stack](http://cdn.dhtmlx.com.br/dhx/docs/DHXMQ.jpg)
 
 - Bind 'one record' DHTMLX components. Eg: forms
 
