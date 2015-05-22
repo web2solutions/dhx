@@ -148,9 +148,6 @@ Every database provide support for:
 			}
 
 			, persons: {
-				//collection : 'persons'
-				//,item : 'person'
-				//,
 				primary_key: {
 					autoIncrement: false
 					, keyPath: "person_id"
