@@ -76,6 +76,10 @@ larger amounts of structured data. IndexedDB provides a solution.* **"**
 
 - complete API on database on table level
 
+- Interactive log system. Good for debuging
+
+- Benchmark of queries/requests
+
 
 
 ### **Database model**

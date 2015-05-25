@@ -6101,18 +6101,35 @@ var $dhx = {
 	*/
     ,init: function(c) {
         var self = this;
-        self.Browser.init();
+		
         if ($dhx.$_GET("_enable_log") !== null) {
             if ($dhx.$_GET("_enable_log") == "true") $dhx._enable_log = true;
         }
+		if ($dhx._enable_log) console.warn('starting $dhx');
+        self.Browser.init();
         if (typeof c !== 'undefined') {
             if (c.plugins) {}
         }
         if (!self.isDHTMLXmodified) {
             self.modifyDHTMLX();
         }
-    },
-    cdn1URL: '//cdn.dhtmlx.com.br/'
+    }
+	,extend : function(parent, child)
+	{
+		if( ! $dhx.isObject(child) )
+			child = {};
+		if( ! $dhx.isObject(parent) )
+			parent = {};
+		for(var i in parent)
+		{
+			if( parent.hasOwnProperty(i) )
+			{
+				child[ i ] = parent[ i ];	
+			}
+		}
+		return child;
+	}
+    ,cdn1URL: '//cdn.dhtmlx.com.br/'
 };
 Object.defineProperty($dhx, 'CDN', {
     //get: function() { return bValue; },

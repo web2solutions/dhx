@@ -192,40 +192,40 @@ $dhx.dataDriver = {
 								{
 									//console.log( 'XXXXXXXX>>>>>> record has ', column );
 									//console.log( record[ column ] );
-									return 'column ' + column + ' is a required column';
+									return "column '" + column + "' is a required column";
 								}
 							}
 							
-							if( schema.columns[ column ].type == 'integer' )
+							if( schema.columns[ column ].type == "integer" && schema.columns[ column ].is_nullable == "NO" )
 							{
 								if( record[ column ].toString().length > 0  )
 								{
-									if( ! that._validateValueByType(record[ column ], 'ValidInteger', column) )
-										return 'column ' + column + ' just accepts integer values. Entered value: ' + record[ column ];
+									if( ! that._validateValueByType(record[ column ], "ValidInteger", column) )
+										return "column '" + column + "' just accepts integer values. Entered value: " + record[ column ];
 								}
 							}
-							if( schema.columns[ column ].type == 'date' )
+							if( schema.columns[ column ].type == "date" && schema.columns[ column ].is_nullable == "NO" )
 							{
 								if( record[ column ].toString().length > 0  )
 								{
-									if( ! that._validateValueByType(record[ column ], 'ValidDate', column) )
-										return 'column ' + column + ' just accepts date values. Entered value: ' + record[ column ];
+									if( ! that._validateValueByType(record[ column ], "ValidDate", column) )
+										return "column '" + column + "' just accepts date values. Entered value: " + record[ column ];
 								}
 							}
-							if( schema.columns[ column ].type.indexOf('timestamp') > -1 )
+							if( schema.columns[ column ].type.indexOf("timestamp") > -1   && schema.columns[ column ].is_nullable == "NO" )
 							{
 								if( record[ column ].toString().length > 0  )
 								{
-									if( ! that._validateValueByType(record[ column ], 'ValidTime', column) )
-										return 'column ' + column + ' just accepts date timestamp values. Entered value: ' + record[ column ];
+									if( ! that._validateValueByType(record[ column ], "ValidTime", column) )
+										return "column '" + column + "' just accepts date timestamp values. Entered value: " + record[ column ];
 								}
 							}
-							if( schema.columns[ column ].type == 'numeric' )
+							if( schema.columns[ column ].type == "numeric"  && schema.columns[ column ].is_nullable == "NO" )
 							{
 								if( record[ column ].toString().length > 0  )
 								{
-									if( ! that._validateValueByType(record[ column ], 'ValidNumeric', column) )
-										return 'column ' + column + ' just accepts date numeric values. Entered value: ' + record[ column ];
+									if( ! that._validateValueByType(record[ column ], "ValidNumeric", column) )
+										return "column '" + column + "' just accepts date numeric values. Entered value: " + record[ column ];
 								}
 							}
 							
@@ -233,11 +233,11 @@ $dhx.dataDriver = {
 						}
 						else
 						{
-							//console.log( 'XXXXXXXX>>>>>> record does not have ', column );
+							//console.log( "XXXXXXXX>>>>>> record does not have ", column );
 							if( schema.columns[ column ].required == true )
 							{
 								if( schema.primary_key.keyPath != column)
-									return 'column ' + column + ' is a required column';
+									return "column '" + column + "' is a required column";
 							}
 						}
 					}
@@ -358,14 +358,6 @@ $dhx.dataDriver = {
 				table.transaction.addEventListener('complete', function( event ) {
 					var message = "table " + c.table + " created successfully";
 					if ($dhx._enable_log) console.warn(message);
-					
-					if( c.records )
-					{
-						$dhx.dataDriver.public[c.table]._initial_records = c.records;
-						
-					}
-					
-					
 					if( that.dbs[db_name].onCreate ) that.dbs[db_name].onCreate({
 						connection : that.dbs[db_name].connection.connection
 						,event : that.dbs[db_name].connection.event
@@ -558,7 +550,7 @@ $dhx.dataDriver = {
 				function persist( r ){
 					var schema = that.getTableSchema(c);
 					var primary_key = schema.primary_key.keyPath;
-					//var columns = schema.str_columns.split(',');
+					//var columns = $dhx.dataDriver._getColumnsId(c).split(',');
 					
 					if( typeof r[primary_key] === 'undefined' )
 					{
@@ -587,6 +579,12 @@ $dhx.dataDriver = {
 						persist(r);
 					}
 					else {
+						var cloneEvent = {};
+						cloneEvent.target = cloneEvent.target || {};
+						cloneEvent.target.error = cloneEvent.target.error || {};
+						cloneEvent.target.error.name = 'Type constraint';
+						cloneEvent.target.error.message = r;
+						if( c.onFail ) c.onFail(null, cloneEvent, r);
 						if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record! Error message: ' + r);
 						return;
 					}
@@ -684,11 +682,18 @@ $dhx.dataDriver = {
 					}
 					else
 					{
+						var error_message = "value "+c.value+" not found on column '"+c.column+"' from table "+c.table;
 						dhtmlx.message({
 							type: "error",
-							text: 'value not found'
+							text: error_message
 						});
-						if( c.onFail ) c.onFail(tx, event, 'value not found');
+						
+						var cloneEvent = {};
+						cloneEvent.target = cloneEvent.target || {};
+						cloneEvent.target.error = cloneEvent.target.error || {};
+						cloneEvent.target.error.name = 'Foreign Key constraint';
+						cloneEvent.target.error.message = error_message;
+						if( c.onFail ) c.onFail(tx, cloneEvent, error_message);
 					}
 				}
 			}
@@ -741,12 +746,21 @@ $dhx.dataDriver = {
 									}
 									,onFail : function( tx, event, error_message ){
 										if ($dhx._enable_log) console.warn('sorry Eduardo,  value '+r[ table_schema.foreign_keys[ key ].column ]+' not found at the "'+table_schema.foreign_keys[ key ].table+'" foreign table! Error message: ', error_message);
+										
+										if( c.onFail ) c.onFail(tx, event, error_message);
 									}
 								});
 							}
 						}
 					}
 					else {
+						var cloneEvent = {};
+						cloneEvent.target = cloneEvent.target || {};
+						cloneEvent.target.error = cloneEvent.target.error || {};
+						cloneEvent.target.error.name = 'Type constraint';
+						cloneEvent.target.error.message = r;
+						if( c.onFail ) c.onFail(null, cloneEvent, r);
+						
 						if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
 						return;
 					}
@@ -800,12 +814,15 @@ $dhx.dataDriver = {
 											}
 											,onFail : function( tx, event, error_message ){
 												if ($dhx._enable_log) console.warn('sorry Eduardo,  value '+r[ table_schema.foreign_keys[ key ].column ]+' not found at the "'+table_schema.foreign_keys[ key ].table+'" foreign table! Error message: ' + r);
+												if( c.onFail ) c.onFail(tx, event, error_message);
 											}
 										});
 									}
 								}
 							}
 							else {
+								
+								
 								if ($dhx._enable_log) console.warn('record ignored: ', JSON.stringify(record) );
 								if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
 								continue;
@@ -1039,35 +1056,73 @@ $dhx.dataDriver = {
 					db_name = c.db,
 					table_schema = that.dbs[ db_name ].schema[ c.table ],
 					rows_affected = 0,
-					isOnCreate = c.isOnCreate;
+					isOnCreate = c.isOnCreate,
+					need_to_check = false;
 				// single record
 				if ($dhx.isObject(c.record)) {
 					if ($dhx._enable_log) console.warn('........... checking fkeys for one record ' + c.table);
-					var r = that.validRecord(table_schema, c.record);
+					var r = that.validRecordUpdate(table_schema, c.record);
+					
+					
 					if ($dhx.isObject(r)) 
 					{
 						var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify( r ));
 						that._total_fkeys_to_check[ fk_check_uid ] = Object.keys( table_schema.foreign_keys ).length;
 						that._total_fkeys_checked[ fk_check_uid ] = 0;
 						
+						if( that._total_fkeys_to_check[ fk_check_uid ] == 0 )
+						{
+							if ($dhx._enable_log) console.warn('does not need to check fkey for ' + r);
+							that._updateSaveOnTable( c );
+							return;	
+						}
+						
+						for( var column in r)
+						{
+							if ( r.hasOwnProperty(column) )
+							{
+								for( var key in table_schema.foreign_keys)
+								{
+									if ( table_schema.foreign_keys.hasOwnProperty(key) )
+									{
+										if( key == column)
+										{
+											need_to_check = true;
+										}
+									}
+								}
+							}
+						}
+						
+						if( ! need_to_check )
+						{
+							if ($dhx._enable_log) console.warn('does not need to check fkey for ' + r);
+							that._updateSaveOnTable( c );
+							return;
+						}
+						
 						for( var key in table_schema.foreign_keys )
 						{
 							if( table_schema.foreign_keys.hasOwnProperty(key) )
 							{	
+								// need to check
+								if ($dhx._enable_log) console.warn('need to check fkey for ' + key);
 								that._checkFkey({
-									db : c.db
-									,table : table_schema.foreign_keys[ key ].table
-									,column : table_schema.foreign_keys[ key ].column
-									,value : r[ table_schema.foreign_keys[ key ].column ]
-									,onSuccess : function( found, tx, event){
-										that._total_fkeys_checked[ fk_check_uid ] = that._total_fkeys_checked[ fk_check_uid ] + 1;
-										if( that._total_fkeys_checked[ fk_check_uid ] == that._total_fkeys_to_check[ fk_check_uid ] )
-										{
-											that._updateSaveOnTable( c );
+									db: c.db
+									, table: table_schema.foreign_keys[key].table
+									, column: table_schema.foreign_keys[key].column
+									, value: r[table_schema.foreign_keys[key].column]
+									, onSuccess: function (found, tx, event) {
+										that._total_fkeys_checked[fk_check_uid] = that._total_fkeys_checked[fk_check_uid] + 1;
+										if (that._total_fkeys_checked[fk_check_uid] == that._total_fkeys_to_check[fk_check_uid]) {
+											that._updateSaveOnTable(c);
 										}
 									}
-									,onFail : function( tx, event, error_message ){
-										if ($dhx._enable_log) console.warn('sorry Eduardo,  value '+r[ table_schema.foreign_keys[ key ].column ]+' not found at the "'+table_schema.foreign_keys[ key ].table+'" foreign table! Error message: ', error_message);
+									, onFail: function (tx, event, error_message) {
+										if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
+											key].table + '" foreign table! Error message: ', error_message);
+											
+											if( c.onFail ) c.onFail(tx, event, error_message);
 									}
 								});
 							}
@@ -1147,17 +1202,7 @@ $dhx.dataDriver = {
 						if ($dhx._enable_log) console.log('transaction complete - data selected      ', event);
 						if ($dhx._enable_log) console.warn( 'rows affected: ' + rows_affected );
 						console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify( c )));
-						
-						$dhx.MQ.publish( that.dbs[ db_name ].root_topic + "." + c.table, {
-							action : 'load',
-							target : 'table',
-							name : c.table,
-							status : 'success',
-							message : 'loaded data'
-							,records : records
-						} );
-						
-
+	
 						if (c.onSuccess) c.onSuccess(records, rows_affected, tx, event);
 						records = null;
 					}
@@ -1490,7 +1535,14 @@ $dhx.dataDriver = {
 				var db_name = c.db, timer_label = "getCurrentRecord operation " + c.table;
 				console.time(timer_label);
 
-				//$dhx.dataDriver.public[c.table]._internal_cursor_position
+				if( $dhx.dataDriver.public[c.table]._internal_cursor_position == 0 )
+				{
+					console.timeEnd( timer_label );
+					if ($dhx._enable_log)
+						console.warn('sorry Eduardo, record '+$dhx.dataDriver.public[c.table]._internal_cursor_position+' not found! ');
+					if (c.onFail) c.onFail(currentRecordRequest, event, 'not found' );
+					return;
+				}
 
 				var tx = that.db(db_name).transaction(c.table, "readonly");
 				var table = tx.objectStore(c.table)
@@ -1526,7 +1578,7 @@ $dhx.dataDriver = {
 					else
 					{
 						console.timeEnd( timer_label );
-						if ($dhx._enable_log) console.warn('sorry Eduardo, record '+record_id+' not found! ');
+						if ($dhx._enable_log) console.warn('sorry Eduardo, record '+$dhx.dataDriver.public[c.table]._internal_cursor_position+' not found! ');
 						if (c.onFail) c.onFail(currentRecordRequest, event, 'not found' );
 						return;
 					}
@@ -1621,6 +1673,78 @@ $dhx.dataDriver = {
 			//component.clearAll();
 			$dhx.dataDriver.public[c.table].load(function(records, rows_affected, tx, event) {
 				
+				$dhx.MQ.publish( that.dbs[ c.db ].root_topic + "." + c.table, {
+					action : 'load',
+					target : 'table',
+					name : c.table,
+					status : 'success',
+					message : 'sync grid'
+					,records : records
+				} );
+				
+				if (c.onSuccess) c.onSuccess(rows_affected);
+			}, function(tx, event, records, rows_affected) {
+				if (c.onFail) c.onFail(rows_affected);
+			});
+		}
+		
+		,_syncComboData : function(  c, component ){
+			'use strict';
+			var that = $dhx.dataDriver;
+			$dhx.dataDriver.public[c.table].load(function(records, rows_affected, tx, event) {
+				
+				$dhx.MQ.publish( that.dbs[ c.db ].root_topic + "." + c.table, {
+					action : 'load',
+					target : 'table',
+					name : c.table,
+					target_id : component._id,
+					status : 'success',
+					message : 'sync combo'
+					,records : records
+				} );
+				
+				if (c.onSuccess) c.onSuccess(rows_affected);
+			}, function(tx, event, records, rows_affected) {
+				if (c.onFail) c.onFail(rows_affected);
+			});
+		}
+		
+		,_syncSelectData : function(  c, component ){
+			'use strict';
+			var that = $dhx.dataDriver;
+			$dhx.dataDriver.public[c.table].load(function(records, rows_affected, tx, event) {
+				
+				$dhx.MQ.publish( that.dbs[ c.db ].root_topic + "." + c.table, {
+					action : 'load',
+					target : 'table',
+					name : c.table,
+					target_id : component._id,
+					status : 'success',
+					message : 'sync select'
+					,records : records
+				} );
+				
+				if (c.onSuccess) c.onSuccess(rows_affected);
+			}, function(tx, event, records, rows_affected) {
+				if (c.onFail) c.onFail(rows_affected);
+			});
+		}
+		
+		,_syncSelectGridData : function(  c, component ){
+			'use strict';
+			var that = $dhx.dataDriver;
+			$dhx.dataDriver.public[c.table].load(function(records, rows_affected, tx, event) {
+				
+				$dhx.MQ.publish( that.dbs[ c.db ].root_topic + "." + c.table, {
+					action : 'load',
+					target : 'table',
+					name : c.table,
+					target_id : component._id,
+					status : 'success',
+					message : 'sync selectGrid'
+					,records : records
+				} );
+				
 				if (c.onSuccess) c.onSuccess(rows_affected);
 			}, function(tx, event, records, rows_affected) {
 				if (c.onFail) c.onFail(rows_affected);
@@ -1697,7 +1821,427 @@ $dhx.dataDriver = {
 			});
 		}
 
-		//,_synced_components : []
+		,_syncSelect : function( c, component, hash ){
+			'use strict';
+			//console.log( c );
+			try
+			{
+				var that = $dhx.dataDriver;
+				if ($dhx._enable_log) console.log("this component is a select");
+				component._id = hash.component_id;
+				component._type = hash.type;
+				component._subscriber = function (topic, data) {
+					var schema = that.getTableSchema(c);
+					var primary_key = schema.primary_key.keyPath
+					//var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+					//console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
+					if (data.target == 'table') {
+						if (data.name == c.table) { //data.name == c.table
+							if ($dhx._enable_log) {
+								console.warn(
+									hash.component_id + ' received message sent to it: '
+									, data.target, data.name
+								);
+							}
+							if (data.action == 'add' && data.message == 'record added') {
+								data.records.forEach(function (recordset, index, array) {
+									var obj = {};
+									for (i in recordset)
+										if (recordset.hasOwnProperty(i)) obj[i] = recordset[i];
+									if (c.$init) c.$init(obj);
+									console.log(new Option(obj.text, obj.value))
+									component.options.add(new Option(obj.text, obj.value));
+								});
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'update' && data.message == 'record updated') {
+								
+							}
+							else if (data.action == 'delete' && data.message == 'record deleted') {
+								console.log( component.options )
+								
+								//component.options
+							}
+							else if (data.action == 'clear' && data.message == 'table is empty') {
+								component.clearAll();
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'load' && data.message == 'sync select') {
+								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+								try {
+									//component.clearAll();
+									var records = data.records;
+									var final_records = [];
+									var schema = $dhx.dataDriver.getTableSchema(c);
+									var primary_key = schema.primary_key.keyPath;
+									//var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+									records.forEach(function (recordset, index, array) {
+										var obj = {};
+										for (i in recordset.record)
+											if (recordset.record.hasOwnProperty(i)) obj[i] = recordset.record[i];
+										if (c.$init) c.$init(obj);
+										component.options.add(new Option(obj.text,obj.value));
+									});
+								}
+								catch (e) {
+									console.log(e.stack);
+								}
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+						}
+					}
+				}
+				component._subscriber_token = $dhx.MQ.subscribe(
+					$dhx.dataDriver.dbs[c.db].root_topic + "." + c.table
+					, component._subscriber
+				);
+				that._syncSelectData(c, component);
+				if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+				
+			}catch(e)
+			{
+				console.log(e.stack)	
+			}
+		}
+		
+		,_syncSelectGrid : function( c, component, hash ){
+			'use strict';
+			//console.log( c );
+			try
+			{
+				var that = $dhx.dataDriver;
+				if ($dhx._enable_log) console.log("this component is a selectGrid");
+				component._id = hash.component_id;
+				component._type = hash.type;
+				component._subscriber = function (topic, data) {
+					var schema = that.getTableSchema(c);
+					var primary_key = schema.primary_key.keyPath
+					var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+					//console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
+					if (data.target == 'table') {
+						if (data.name == c.table) { //data.name == c.table
+							if ($dhx._enable_log) {
+								console.warn(
+									hash.component_id + ' received message sent to it: '
+									, data.target, data.name
+								);
+							}
+							if (data.action == 'add' && data.message == 'record added') {
+								data.records.forEach(function (recordset, index, array) {
+									var obj = {};
+									for (i in recordset)
+										if (recordset.hasOwnProperty(i)) obj[i] = recordset[i];
+									if (c.$init) c.$init(obj);
+									component.put(obj.value, obj.text);
+								});
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'update' && data.message == 'record updated') {
+								
+							}
+							else if (data.action == 'delete' && data.message == 'record deleted') {
+								console.log( component.options )
+								
+								//component.options
+							}
+							else if (data.action == 'clear' && data.message == 'table is empty') {
+								component.clearAll();
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'load' && data.message == 'sync selectGrid') {
+								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+								try {
+									//component.clearAll();
+									var records = data.records;
+									var final_records = [];
+									var schema = $dhx.dataDriver.getTableSchema(c);
+									var primary_key = schema.primary_key.keyPath;
+									var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+									records.forEach(function (recordset, index, array) {
+										var obj = {};
+										for (i in recordset.record)
+											if (recordset.record.hasOwnProperty(i)) obj[i] = recordset.record[i];
+										if (c.$init) c.$init(obj);
+										//console.log('XXXXXXXXXXXXXXXXXXXXX', obj);
+										//console.log('XXXXXXXXXXXXXXXXXXXXX', component);
+										component.put(obj.value, obj.text);
+										
+									});
+								}
+								catch (e) {
+									console.log(e.stack);
+								}
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+						}
+					}
+				}
+				component._subscriber_token = $dhx.MQ.subscribe(
+					$dhx.dataDriver.dbs[c.db].root_topic + "." + c.table
+					, component._subscriber
+				);
+				that._syncSelectGridData(c, component);
+				if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+				
+			}catch(e)
+			{
+				console.log(e.stack)	
+			}
+		}
+		
+		,_syncCombo : function( c, component, hash ){
+			'use strict';
+			//console.log( c );
+			try
+			{
+				var that = $dhx.dataDriver;
+				if ($dhx._enable_log) console.log("this component is a combo");
+				component._id = hash.component_id;
+				component._type = hash.type;
+				component._subscriber = function (topic, data) {
+					var schema = that.getTableSchema(c);
+					var primary_key = schema.primary_key.keyPath
+					var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+					//console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
+					if (data.target == 'table')
+					{
+						if (data.name == c.table) //data.name == c.table
+						{
+							if ($dhx._enable_log) {
+								console.warn(
+									hash.component_id + ' received message sent to it: '
+									, data.target, data.name
+								);
+							}
+							if (data.action == 'add' && data.message == 'record added') {
+								var records = [];
+								data.records.forEach(function (recordset, index, array) {
+									var obj = {};
+									for (i in recordset)
+										if (recordset.hasOwnProperty(i)) obj[i] = recordset[i];
+									if (c.$init) c.$init(obj);
+									records.push([obj.value, obj.text]);
+								});
+								component.addOption(records);
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'update' && data.message == 'record updated') {
+								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+								
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'delete' && data.message == 'record deleted') {
+								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+								//component.deleteRow(data.record_id);
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'clear' && data.message == 'table is empty') {
+								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+								component.clearAll();
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+							else if (data.action == 'load' && data.message == 'sync combo') {
+								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+								try {
+									//component.clearAll();
+									var records = data.records;
+									var final_records = [];
+									var schema = $dhx.dataDriver.getTableSchema(c);
+									var primary_key = schema.primary_key.keyPath;
+									var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+									records.forEach(function (recordset, index, array) {
+										//console.log(recordset);
+										var obj = {};
+										for (i in recordset.record)
+											if (recordset.record.hasOwnProperty(i)) obj[i] = recordset.record[i];
+										if (c.$init) c.$init(obj);
+										final_records.push([obj.value, obj.text]);
+									});
+									component.clearAll(true);
+									component.addOption(final_records);
+								}
+								catch (e) {
+									console.log(e.stack);
+								}
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							}
+						}
+					}
+				}
+				component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
+				// clear all data from combo and parses the table selected data
+				that._syncComboData(c, component);
+				if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+				
+			}catch(e)
+			{
+				console.log(e.stack)	
+			}
+		}
+		,_syncGrid : function( c, component, hash ){
+			'use strict';
+			//console.log( c );
+			try
+			{
+				var that = $dhx.dataDriver;
+				if ($dhx._enable_log) console.log("this component is a grid");
+				var schema = that.getTableSchema(c);
+				var primary_key = schema.primary_key.keyPath
+				var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+				component._subscriber = function (topic, data) {
+						var schema = that.getTableSchema(c);
+						var primary_key = schema.primary_key.keyPath
+						var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+						//console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
+						if (data.target == 'table') {
+							if (data.name == c.table) {
+								if ($dhx._enable_log) {
+									console.warn(
+										hash.component_id + ' received message about it synced table: '
+										, data.target, data.name
+									);
+								}
+								if (data.action == 'add' && data.message == 'record added') {
+									var last_id = 0;
+									data.records.forEach(function (recordset, index, array) {
+										var record = [];
+										columns.forEach(function (column, index_, array_) {
+											record[index_] = recordset[column];
+										});
+										component.addRow(recordset[primary_key], record);
+										last_id = recordset[primary_key];
+										if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+									});
+									component.selectRowById(last_id, false, true, true);
+								}
+								else if (data.action == 'update' && data.message == 'record updated') {
+									//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+									for (var column in data.record) {
+										if (data.record.hasOwnProperty(column)) {
+											var colIndex = component.getColIndexById(column);
+											component.cells(data.record_id, colIndex).setValue(data.record[column]);
+										}
+									}
+									if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+								}
+								else if (data.action == 'delete' && data.message == 'record deleted') {
+									//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+									component.deleteRow(data.record_id);
+									if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+								}
+								else if (data.action == 'select' && data.message == 'selected record') {
+									//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+									component.selectRowById(data.record_id, false, true, false);
+									if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+								}
+								else if (data.action == 'clear' && data.message == 'table is empty') {
+									//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+									component.clearAll();
+									if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+								}
+								else if (data.action == 'load' && data.message == 'sync grid') {
+									//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+									try {
+										//component.clearAll();
+										var records = data.records;
+										var data = {
+											rows: []
+										};
+										var schema = $dhx.dataDriver.getTableSchema(c);
+										var primary_key = schema.primary_key.keyPath;
+										var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+										records.forEach(function (recordset, index, array) {
+											var record = [];
+											columns.forEach(function (column, index_, array_) {
+												record[index_] = recordset.record[column];
+											});
+											data.rows.push({
+												id: recordset.record[primary_key]
+												, data: record
+											})
+										});
+										component.parse(data, "json"); //takes the name and format of the data source
+									}
+									catch (e) {
+										console.log(e.stack);
+									}
+									if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+								}
+							}
+						}
+					}
+					// pro feature
+					//component.attachEvent("onXLE", function(grid_obj,count){
+					//	$dhx.dataDriver.public[c.table].getCursor( function( cursor, tx, event ){
+					//			component.selectRowById( cursor, false, true, true );
+					//		}, function( cursor, tx, event ){
+					//	} );
+					//});
+				if (c.auto_configure) {
+					component.setHeader($dhx.dataDriver._getColumnsHeader(c)); //the headers of columns 
+					component.setColTypes($dhx.dataDriver._getColumnsType(c)); //the types of columns  
+					component.setColSorting($dhx.dataDriver._getColumnsSorting(c)); //the sorting types 
+					component.setColAlign($dhx.dataDriver._getColumnsAlign(c)); //the alignment of columns		
+					component.setInitWidths($dhx.dataDriver._getColumnsWidth(c)); //the widths of columns  
+				}
+				component.setColumnIds($dhx.dataDriver._getColumnsId(c));
+				if (c.auto_configure) {
+					component.init(); //finishes initialization and renders the grid on the page
+					//console.log(  'XXXXXXXXXXXXXXXX>>>>>>>>>>>>>>>>', schema );
+					component.fk_combos = [];
+					for (var fk in schema.foreign_keys) {
+						var table = schema.foreign_keys[fk].table;
+						var column = schema.foreign_keys[fk].column;
+						var colIndex = component.getColIndexById(fk);
+						component.fk_combos[fk] = component.getCombo(colIndex);
+						//component._id = hash.component_id;
+						//component._type = hash.type;
+						$dhx.dataDriver.public[table].sync.selectGrid({
+							component: component.fk_combos[fk]
+							, component_id: '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk
+							, $init: function (obj) {
+									obj.value = obj[column];
+									obj.text = obj[column];
+								} // not mandatory, default false
+								
+							, onSuccess: function () {
+							}
+							, onFail: function () {}
+						});
+					}
+					//var select = component.getCombo(component.getColIndexById("group"));
+					//var combo = component.getColumnCombo(component.getColIndexById("group"));//takes the column index
+					//combo.enableFilteringMode(true);
+					//combo.put("left", "left");
+					//combo.put("right", "right");
+					//combo.put("center", "center");
+				}
+				if (c.paginate) {
+				}
+				else {
+					component.enableSmartRendering(true);
+				}
+				component.setDateFormat("%Y-%m-%d");
+				component.attachEvent("onRowSelect", function (new_row, ind) {
+					$dhx.dataDriver.public[c.table].setCursor(new_row, function () {
+					}, function () {
+						component.clearSelection();
+					});
+				});
+				component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
+				// if user setted saveOnEdit = true
+				if (component.saveOnEdit) {
+					that._prepareGridSaveOnEdit(c, component);
+				} // end if saveOnEdit
+				// clear all data from grid and parses the table selected data
+				that._syncGridData(c, component);
+				if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+				
+			}catch(e)
+			{
+				console.log(e.stack)	
+			}
+		}
 		,sync : function( c ){
 			'use strict';
 			//console.log( c );
@@ -1706,42 +2250,22 @@ $dhx.dataDriver = {
 				var that = $dhx.dataDriver;
 				// START validate request configuration
 				if ((typeof c.db === 'undefined') || (c.db.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "db is missing when creating a dataset"
-                    });
                     if (c.onFail) c.onFail("db is missing when creating a dataset");
                     return false;
                 }
 				if ((typeof c.table === 'undefined') || (c.table.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "table is missing when creating a dataset"
-                    });
                     if (c.onFail) c.onFail("table is missing when creating a dataset");
                     return false;
                 }
 				if ((typeof c.type === 'undefined') || (c.type.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "type of component is missing when creating a dataset"
-                    });
                     if (c.onFail) c.onFail("type is missing when creating a dataset");
                     return false;
                 }
                 if ((typeof c.component === 'undefined')) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "component is missing when syncing"
-                    });
                     if (c.onFail) c.onFail("component is missing when syncing");
                     return false;
                 }
                 if (!$dhx.isObject(c.component)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "component is not an object"
-                    });
                     if (c.onFail) c.onFail("component is not an object");
                     return false;
                 }
@@ -1769,6 +2293,7 @@ $dhx.dataDriver = {
 					component_id: c.component_id,
 					component: c.component,
 					type : c.type
+					,synced_table : c.table
 				};
 				if (typeof c.$init === 'function') {
 					component_settings["$init"] = c.$init;
@@ -1784,178 +2309,20 @@ $dhx.dataDriver = {
 							//if( $dhx._enable_log ) console.log( "this component is a tree" );
 							if (c.onFail) c.onFail("tree can not be synced");
 						}
-						else if (hash.type == 'combo') {
-							if ($dhx._enable_log) console.log("this component is a combo");
-							component.clearAll(true);
-							var records = [];
-							$dhx.dataDriver.public[c.table].data.forEach(function(record, index_row, array_row) {
-								// lets create a copy of the object, avoiding changes on the original referenced record ( js is mutable)
-								var obj = {};
-								for (i in record)
-									if (record.hasOwnProperty(i)) obj[i] = record[i];
-								if (c.$init) c.$init(obj);
-								records.push([obj.value, obj.text]);
-							});
-							component.addOption(records);
-							if (c.onSuccess) c.onSuccess();
+						else if (hash.type == 'combo')
+						{
+							that._syncCombo(c, component, hash);
+						}
+						else if (hash.type == 'select') 
+						{
+							that._syncSelect(c, component, hash);
+						}
+						else if (hash.type == 'selectGrid') 
+						{
+							that._syncSelectGrid(c, component, hash);
 						}
 						else if (hash.type == 'grid') {
-							var schema = that.getTableSchema(c);
-							var primary_key = schema.primary_key.keyPath
-							var columns = schema.str_columns.split(',');
-							component._subscriber = function( topic, data ){
-								
-								var schema = that.getTableSchema(c);
-								var primary_key = schema.primary_key.keyPath
-								var columns = schema.str_columns.split(',');
-								//console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
-								if(data.target == 'table')
-								{
-									if(data.name == c.table)
-									{
-										if( $dhx._enable_log )
-										{
-											console.warn( 
-												hash.component_id + ' received message about it synced table: '
-												, data.target, data.name 
-											);
-										}
-										if(data.action == 'add' && data.message == 'record added')
-										{
-											var last_id = 0;
-											data.records.forEach(function(recordset, index, array) {
-												var record = [];
-
-												columns.forEach(function(column, index_, array_) {
-													record[ index_ ] = recordset[ column ];
-												});
-												component.addRow(recordset[primary_key], record);
-												last_id = recordset[primary_key];
-												if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
-											});
-											component.selectRowById( last_id, false, true, true );
-										}
-										else if(data.action == 'update' && data.message == 'record updated')
-										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											for(var column in data.record)
-											{
-												if(data.record.hasOwnProperty( column ))	
-												{
-													var colIndex = component.getColIndexById(column);
-													component.cells(data.record_id, colIndex).setValue( data.record[column] );
-												}
-											}
-											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
-										}
-										else if(data.action == 'delete' && data.message == 'record deleted')
-										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											component.deleteRow(data.record_id);
-											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
-										}
-										else if(data.action == 'select' && data.message == 'selected record')
-										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											component.selectRowById( data.record_id, false, true, false );
-											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
-										}
-										else if(data.action == 'clear' && data.message == 'table is empty')
-										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-											component.clearAll();
-											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
-										}
-										else if(data.action == 'load' && data.message == 'loaded data')
-										{
-											//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
-											try
-											{
-												//component.clearAll();
-												var records = data.records;
-												var data={
-													rows:[]
-												};
-												var schema = $dhx.dataDriver.getTableSchema(c);
-												var primary_key = schema.primary_key.keyPath;
-												var columns = schema.str_columns.split(',');
-												records.forEach(function(recordset, index, array) {
-													var record = [];
-													columns.forEach(function(column, index_, array_) {
-														record[index_] = recordset.record[column];
-													});
-													data.rows.push({ id:recordset.record[primary_key], data: record})
-												});
-												
-												component.parse(data, "json"); //takes the name and format of the data source
-											}catch(e)
-											{
-												console.log( e.stack );
-											}
-											
-											
-											if( $dhx._enable_log ) console.warn( hash.component_id + ' updated ' );
-										}
-										
-									}
-								}
-							}
-							// pro feature
-							//component.attachEvent("onXLE", function(grid_obj,count){
-							//	$dhx.dataDriver.public[c.table].getCursor( function( cursor, tx, event ){
-							//			component.selectRowById( cursor, false, true, true );
-							//		}, function( cursor, tx, event ){
-							//	} );
-							//});
-							
-							if( c.auto_configure )
-							{
-								component.setHeader($dhx.dataDriver._getColumnsHeader(c)); //the headers of columns 
-								component.setColTypes($dhx.dataDriver._getColumnsType(c)); //the types of columns  
-								component.setColSorting($dhx.dataDriver._getColumnsSorting(c)); //the sorting types 
-								component.setColAlign($dhx.dataDriver._getColumnsAlign(c)); //the alignment of columns		
-								component.setInitWidths($dhx.dataDriver._getColumnsWidth(c)); //the widths of columns  
-							}
-							
-							component.setColumnIds($dhx.dataDriver._getColumnsId(c));
-							
-							if( c.auto_configure )
-							{
-								component.init(); //finishes initialization and renders the grid on the page 
-							}
-							
-							if( c.paginate )
-							{
-								
-							}
-							else
-							{
-								component.enableSmartRendering(true);	
-							}
-							
-							
-							component.setDateFormat("%Y-%m-%d");
-							component.attachEvent("onRowSelect", function (new_row, ind)
-							{								
-								$dhx.dataDriver.public[c.table].setCursor( new_row, function(){
-													
-									}, function(){
-										component.clearSelection();
-								} );
-							});
-							
-							$dhx.MQ.subscribe( $dhx.dataDriver.dbs[ c.db ].root_topic + "." + c.table, component._subscriber );
-
-							// if user setted saveOnEdit = true
-							if (component.saveOnEdit)
-							{
-								that._prepareGridSaveOnEdit(c, component);
-							} // end if saveOnEdit
-
-							// clear all data from grid and parses the table selected data
-							that._syncGridData(c, component);
-							
-							if ($dhx._enable_log) console.warn( hash.component_id, ' is synced');
+							that._syncGrid(c, component, hash);
 
 						} // end if grid
 						else if (hash.type == 'form') {
@@ -1986,42 +2353,23 @@ $dhx.dataDriver = {
 				var that = $dhx.dataDriver;
 				// START validate request configuration
 				if ((typeof c.db === 'undefined') || (c.db.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "db is missing when creating a dataset"
-                    });
-                    if (c.onFail) c.onFail("db is missing when creating a dataset");
+                    if (c.onFail) c.onFail("db is missing when binding");
                     return false;
                 }
 				if ((typeof c.table === 'undefined') || (c.table.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "table is missing when creating a dataset"
-                    });
-                    if (c.onFail) c.onFail("table is missing when creating a dataset");
+                    if (c.onFail) c.onFail("table is missing when binding");
                     return false;
                 }
 				if ((typeof c.type === 'undefined') || (c.type.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "type of component is missing when creating a dataset"
-                    });
-                    if (c.onFail) c.onFail("type is missing when creating a dataset");
+
+                    if (c.onFail) c.onFail("type is missing when binding");
                     return false;
                 }
                 if ((typeof c.component === 'undefined')) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "component is missing when syncing"
-                    });
-                    if (c.onFail) c.onFail("component is missing when syncing");
+                    if (c.onFail) c.onFail("component is missing binding");
                     return false;
                 }
                 if (!$dhx.isObject(c.component)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "component is not an object"
-                    });
                     if (c.onFail) c.onFail("component is not an object");
                     return false;
                 }
@@ -2062,29 +2410,11 @@ $dhx.dataDriver = {
 				{
 					if (hash.component_id == c.component_id) {
 						var component = hash.component;
-						if (hash.type == 'tree') {
-							//if( $dhx._enable_log ) console.log( "this component is a tree" );
-							if (c.onFail) c.onFail("warn can not be bound");
-
-						}
-						else if (hash.type == 'combo') {
-							if ($dhx._enable_log) console.log("this component is a combo");
-							if (c.onFail) c.onFail("warn can not be bound");
-						}
-						else if (hash.type == 'grid') {
-							if( $dhx._enable_log ) console.warn( "grid can not be bound" );
-							if (c.onFail) c.onFail("grid can not be bound");
-
-						} // end if grid
-						else if (hash.type == 'form') {
+						if (hash.type == 'form') {
 							//if ($dhx._enable_log) console.log("this component is a form");
 							var prepare = false;
-							
-							
-                             //console.log(hash);
-							 
-							 component._id = hash.component_id;
-							 component._type = hash.type;
+							component._id = hash.component_id;
+							component._type = hash.type;
 							
 							if( typeof hash.prepare !== 'undefined' )
 							{
@@ -2092,6 +2422,66 @@ $dhx.dataDriver = {
 								{
 									prepare = true;
 									$dhx.dhtmlx.prepareForm(hash.component_id, hash.prepare.settings, hash.component);
+									
+									$dhx.dhtmlx.formFields[ hash.component_id ].forEach(function (field, index, array)
+									{
+										if( field.type == 'combo' )
+										{
+											if( typeof field.dhx_table !== 'undefined' )
+											{
+												if( typeof field.dhx_prop_text !== 'undefined' )
+												{
+													if( typeof field.dhx_prop_value !== 'undefined' )
+													{
+														var dhxCombo = component.getCombo(field.name);
+														
+														$dhx.dataDriver.public[field.dhx_table].sync.combo({
+															component: dhxCombo
+															, component_id: component._id + '_combo_'+field.name
+															,$init: function(obj) {
+																	obj.value = obj[field.dhx_prop_value];
+																	obj.text = obj[field.dhx_prop_text];
+															 } // not mandatory, default false
+															, onSuccess: function () {
+																
+															}
+															, onFail: function () {
+																
+															}
+														});
+													}
+												}
+											}
+										}
+										else if( field.type == 'select' )
+										{
+											if( typeof field.dhx_table !== 'undefined' )
+											{
+												if( typeof field.dhx_prop_text !== 'undefined' )
+												{
+													if( typeof field.dhx_prop_value !== 'undefined' )
+													{
+														var dhxSelect = component.getSelect(field.name);
+														
+														$dhx.dataDriver.public[field.dhx_table].sync.select({
+															component: dhxSelect
+															, component_id: component._id + '_select_'+field.name
+															,$init: function(obj) {
+																	obj.value = obj[field.dhx_prop_value];
+																	obj.text = obj[field.dhx_prop_text];
+															 } // not mandatory, default false
+															, onSuccess: function () {
+																
+															}
+															, onFail: function () {
+																
+															}
+														});
+													}
+												}
+											}
+										}
+									});
 								}
 							}
 							
@@ -2176,7 +2566,7 @@ $dhx.dataDriver = {
 										{
 											var schema = that.getTableSchema(c);
 											var primary_key = schema.primary_key.keyPath
-											var columns = schema.str_columns.split(',');
+											var columns = $dhx.dataDriver._getColumnsId(c).split(',');
 
 
 										}
@@ -2209,49 +2599,32 @@ $dhx.dataDriver = {
 				var that = $dhx.dataDriver;
 				// START validate request configuration
 				if ((typeof c.db === 'undefined') || (c.db.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "db is missing when creating a dataset"
-                    });
-                    if (c.onFail) c.onFail("db is missing when creating a dataset");
+
+                    if (c.onFail) c.onFail("db is missing when syncing");
                     return false;
                 }
 				if ((typeof c.table === 'undefined') || (c.table.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "table is missing when creating a dataset"
-                    });
-                    if (c.onFail) c.onFail("table is missing when creating a dataset");
+
+                    if (c.onFail) c.onFail("table is missing when syncing");
                     return false;
                 }
 				if ((typeof c.type === 'undefined') || (c.type.length === 0)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "type of component is missing when creating a dataset"
-                    });
-                    if (c.onFail) c.onFail("type is missing when creating a dataset");
+
+                    if (c.onFail) c.onFail("type is missing when syncing");
                     return false;
                 }
                 if ((typeof c.component === 'undefined')) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "component is missing when syncing"
-                    });
+
                     if (c.onFail) c.onFail("component is missing when syncing");
                     return false;
                 }
                 if (!$dhx.isObject(c.component)) {
-                    dhtmlx.message({
-                        type: "error",
-                        text: "component is not an object"
-                    });
+
                     if (c.onFail) c.onFail("component is not an object");
                     return false;
                 }
 				// END validate request configuration
-				// SET default callbacks
-				c.onSuccess = c.onSuccess || false;
-				c.onFail = c.onFail || false;
+	
 				// START - Add component to ARRAY of bound components of this table
 				if ($dhx._enable_log) console.warn("called unbind for: " + c.component_id + " on " + c.table);
 				var a_components = $dhx.dataDriver.public[c.table]._bound_components;
@@ -2260,9 +2633,45 @@ $dhx.dataDriver = {
 					var hash = a_components[ x ];
 					var component = hash.component;
 					if (hash.component_id == c.component_id) {
+						
+						$dhx.dhtmlx.formFields[hash.component_id].forEach(function (field, index, array)
+						{
+							if (field.type == 'combo') {
+								if (typeof field.dhx_table !== 'undefined') {
+									var dhxCombo = component.getCombo(field.name);
+									$dhx.dataDriver.public[field.dhx_table].unsync.combo({
+										component: component
+										, component_id: component._id + '_combo_' + field.name
+										, onSuccess: function () {
+											
+										}
+										, onFail: function () {
+											
+										}
+									});
+								}
+							}
+							else if (field.type == 'select') {
+								if (typeof field.dhx_table !== 'undefined') {
+									var dhxCombo = component.getSelect(field.name);
+									$dhx.dataDriver.public[field.dhx_table].unsync.select({
+										component: component
+										, component_id: component._id + '_select_' + field.name
+										, onSuccess: function () {
+											
+										}
+										, onFail: function () {
+											
+										}
+									});
+								}
+							}
+						});
+						
 						if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unbound");
 						$dhx.dataDriver.public[c.table]._bound_components.splice(x, 1);
 						$dhx.MQ.unsubscribe( component._subscriber_token );
+						
 						if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unbound");
 						return;
 					}
@@ -2273,6 +2682,99 @@ $dhx.dataDriver = {
 			catch(e)
 			{
 				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant unbind '+c.component_id+'! Error message: ' + e.message);
+				if( c.onFail ) c.onFail(null, null, e.message);
+			}
+		}
+		
+		
+		,unsync : function( c ){
+			'use strict';
+			//console.log( c );
+			try
+			{
+				var that = $dhx.dataDriver;
+				// START validate request configuration
+				if ((typeof c.db === 'undefined') || (c.db.length === 0)) {
+
+                    if (c.onFail) c.onFail("db is missing when unsyncing");
+                    return false;
+                }
+				if ((typeof c.table === 'undefined') || (c.table.length === 0)) {
+
+                    if (c.onFail) c.onFail("table is missing when unsyncing");
+                    return false;
+                }
+				if ((typeof c.type === 'undefined') || (c.type.length === 0)) {
+
+                    if (c.onFail) c.onFail("type is missing when unsyncing");
+                    return false;
+                }
+                if ((typeof c.component === 'undefined')) {
+
+                    if (c.onFail) c.onFail("component is missing when syncing");
+                    return false;
+                }
+                if (!$dhx.isObject(c.component)) {
+
+                    if (c.onFail) c.onFail("component is not an object");
+                    return false;
+                }
+				// END validate request configuration
+				
+				//console.log( c );
+	
+				// START - Add component to ARRAY of synced components of this table
+				if ($dhx._enable_log) console.warn("called unsync for: " + c.component_id + " on " + c.table);
+				var a_components = $dhx.dataDriver.public[c.table]._synced_components;
+				for( var x = 0; x < a_components.length; x++)
+				{
+					var hash = a_components[ x ];
+					var component = hash.component;
+					if (hash.component_id == c.component_id) {						
+						if( c.type == 'grid' )
+						{
+							var schema = that.getTableSchema(c);
+							var primary_key = schema.primary_key.keyPath;
+							
+							for (var fk in schema.foreign_keys) {
+								var table = schema.foreign_keys[fk].table;
+								var column = schema.foreign_keys[fk].column;
+								var colIndex = component.getColIndexById(fk);
+								component.fk_combos[fk] = component.getCombo(colIndex);
+								//component._id = hash.component_id;
+								//component._type = hash.type;
+								$dhx.dataDriver.public[table].unsync.selectGrid({
+									component: component.fk_combos[fk]
+									, component_id: '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk
+									, onSuccess: function () {
+									}
+									, onFail: function () {}
+								});
+							}
+							if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unsynced");
+							$dhx.dataDriver.public[c.table]._synced_components.splice(x, 1);
+							$dhx.MQ.unsubscribe( component._subscriber_token );
+							if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unsynced");
+							return;
+						}
+						else
+						{
+							if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unsynced");
+							$dhx.dataDriver.public[c.table]._synced_components.splice(x, 1);
+							$dhx.MQ.unsubscribe( component._subscriber_token );
+							if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unsynced");
+							return;
+						}
+						
+						
+					}
+				}
+				if ($dhx._enable_log) console.warn("component not found. it was not unsynced");
+				if( c.onFail ) c.onFail("component not found. it was not unsynced");
+			}
+			catch(e)
+			{
+				if ($dhx._enable_log) console.warn('sorry Eduardo, I cant unsync '+c.component_id+'! Error message: ' + e.message);
 				if( c.onFail ) c.onFail(null, null, e.message);
 			}
 		}
@@ -2334,7 +2836,7 @@ $dhx.dataDriver = {
 				clone = {},
 				schema = that.getTableSchema(c),
 				primary_key = schema.primary_key.keyPath,
-				//columns = schema.str_columns.split(','),
+				//columns = $dhx.dataDriver._getColumnsId(c).split(','),
 				record_id = hash[primary_key];
             
 			for( var column_name in hash )
@@ -2399,19 +2901,23 @@ $dhx.dataDriver = {
 				error_message = event.target.error.message,
 				column_name = that._extractColumnFromErrorMessage( error_message ),
 				input_form_label = component.getItemLabel(column_name),
+				input_form_type = component.getItemType(column_name),
 				input_form = null;
+	
 				
-			if (component._type == "combo") {
+			if (input_form_type == "combo") {
 				input_form = component.getCombo(column_name);
 				input_form.openSelect();
 			}
-			else if (component._type == "editor") {}
-			else if (component._type == "multiselect") {
+			else if (input_form_type == "editor") {
+				
+			}
+			else if (input_form_type == "multiselect") {
 				input_form = component.getInput(column_name);
 				var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
 				that._setInputHighlighted(field, component);
 			}
-			else if (component._type == "select") {
+			else if (input_form_type == "select") {
 				component.getSelect(column_name);
 				var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
 				that._setInputHighlighted(field, component);
@@ -2946,14 +3452,16 @@ $dhx.dataDriver = {
 					self = this,
 					topic = 'database.' + c.db;
 					
-			that._table_to_fill_on_init = Object.keys($dhx.dataDriver.public).length;
+			that._table_to_fill_on_init = Object.keys(that.dbs[db_name].records).length;
+			
+			
+			//c.records
+			
 			//console.log( that._table_to_fill_on_init );
-			for (var table in $dhx.dataDriver.public) {
-				if ($dhx.dataDriver.public.hasOwnProperty(table)) 
+			for (var table in that.dbs[db_name].records) {
+				if (that.dbs[db_name].records.hasOwnProperty(table)) 
 				{
-					//console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _addInitialRecords SENDING TRUE ');
-					
-					$dhx.dataDriver.public[table].add( $dhx.dataDriver.public[table]._initial_records, function (tx, event, rows_affected) {
+					$dhx.dataDriver.public[table].add( that.dbs[db_name].records[table], function (tx, event, rows_affected) {
 							that._table_to_filled_on_init = that._table_to_filled_on_init + 1;
 							if (that._table_to_filled_on_init == that._table_to_fill_on_init) {
 								that._setReady(c, connection, event);
@@ -2963,11 +3471,8 @@ $dhx.dataDriver = {
 						, function (tx, event, rows_affected) {
 							
 					} , true);
-						
-						
 				}
 			}
-			
 		}
 		,_setReady :  function( c, connection, event ){
 			var that = $dhx.dataDriver,
@@ -2979,16 +3484,21 @@ $dhx.dataDriver = {
 			$dhx.MQ.publish(topic, {
 				action: 'ready'
 				, target: 'database'
-
 				, name: db_name
 				, status: 'success'
 				, message: 'database is ready'
+				,onReady : c.onReady
+				,onReadyO : {
+					connection: connection
+					, event: event
+					, message: 'ready'
+				}
 			});
-			if (c.onReady) c.onReady({
+			/*if (c.onReady) c.onReady({
 				connection: connection
 				, event: event
 				, message: 'ready'
-			});	
+			});	*/
 			
 		}
 		,_createDatabase : function( c, self ){
@@ -3023,6 +3533,8 @@ $dhx.dataDriver = {
 					db: database
 					, name: db_name
 					, schema: schema
+					, records: c.records
+					, settings: c.settings
 					, version: c.version
 					, connection: connection
 					, event: event
@@ -3073,18 +3585,34 @@ $dhx.dataDriver = {
 					, name: db_name
 					, version: c.version
 					, schema: schema
+					, records: c.records
+					, settings: c.settings
 					, connection: connection
 					, event: event
 					, subscriber: function (msg, data) {
 						if ($dhx._enable_log) console.warn('DB received message: ', msg, data);
+						
+						if( data.action == 'ready' && data.name == db_name && data.status == 'success' )
+						{
+							if( data.onReady ) data.onReady( data.onReadyO );
+						}
 					}
 					, root_topic: topic
 				};
 				$dhx.MQ.subscribe(topic, that.dbs[db_name].subscriber);
-				if (upgraded)
-					that._addInitialRecords(c, connection, event);
+				
+				if( c.records )
+				{
+					if (upgraded)
+						that._addInitialRecords(c, connection, event);
+					else
+						that._setReady(c, connection, event);
+				}
 				else
-					that._setReady(c, connection, event);
+				{
+					that._setReady(c, connection, event);	
+				}
+				
 			};
 			// public SCHEMA API
 			self.schema = {}; // public schema API
@@ -3191,7 +3719,6 @@ $dhx.dataDriver = {
 							, _synced_components: []
 							, _bound_components: []
 							, _internal_cursor_position: 0
-							, _initial_records: []
 							, onAddRecord: false
 							, onUpdateRecord: false
 							, onDeleteRecord: false
@@ -3493,6 +4020,45 @@ $dhx.dataDriver = {
 											, onFail: c.onFail
 										});
 									}
+									,combo: function (c) {
+										//console.log( c );
+										that.sync({
+											db: db_name
+											, table: table
+											, component: c.component
+											, type: 'combo'
+											, $init: c.$init
+											, component_id: c.component_id
+											, onSuccess: c.onSuccess
+											, onFail: c.onFail
+										});
+									}
+									,select: function (c) {
+										//console.log( c );
+										that.sync({
+											db: db_name
+											, table: table
+											, component: c.component
+											, type: 'select'
+											, $init: c.$init
+											, component_id: c.component_id
+											, onSuccess: c.onSuccess
+											, onFail: c.onFail
+										});
+									}
+									,selectGrid: function (c) {
+										//console.log( c );
+										that.sync({
+											db: db_name
+											, table: table
+											, component: c.component
+											, type: 'selectGrid'
+											, $init: c.$init
+											, component_id: c.component_id
+											, onSuccess: c.onSuccess
+											, onFail: c.onFail
+										});
+									}
 									, dataview: function (c) {
 										that.sync({
 											db: db_name
@@ -3537,6 +4103,58 @@ $dhx.dataDriver = {
 											, table: table
 											, component: c.component
 											, type: 'form'
+											, component_id: c.component_id
+											, onSuccess: c.onSuccess
+											, onFail: c.onFail
+										});
+									}
+								}
+							})(db_name, table)
+							, unsync: (function (db_name, table) {
+								return {
+									combo: function (c) {
+										//console.log( c );
+										that.unsync({
+											db: db_name
+											, table: table
+											, component: c.component
+											, type: 'combo'
+											, component_id: c.component_id
+											, onSuccess: c.onSuccess
+											, onFail: c.onFail
+										});
+									}
+									,select: function (c) {
+										//console.log( c );
+										that.unsync({
+											db: db_name
+											, table: table
+											, component: c.component
+											, type: 'select'
+											, component_id: c.component_id
+											, onSuccess: c.onSuccess
+											, onFail: c.onFail
+										});
+									}
+									,selectGrid: function (c) {
+										//console.log( c );
+										that.unsync({
+											db: db_name
+											, table: table
+											, component: c.component
+											, type: 'selectGrid'
+											, component_id: c.component_id
+											, onSuccess: c.onSuccess
+											, onFail: c.onFail
+										});
+									}
+									,grid: function (c) {
+										//console.log( c );
+										that.unsync({
+											db: db_name
+											, table: table
+											, component: c.component
+											, type: 'grid'
 											, component_id: c.component_id
 											, onSuccess: c.onSuccess
 											, onFail: c.onFail
@@ -3757,6 +4375,22 @@ $dhx.dataDriver = {
 
 		}
 		
+		,_getColumnsByOrdinalPosition : function(columns, position){
+			'use strict';
+			for( var x = 0; x < columns.length; x++)
+			{
+				var column = columns[ x ];
+				if( column.ordinal_position == position )
+				{
+					return column;
+				}
+			}
+			if ($dhx._enable_log) console.warn(
+				'sorry Eduardo, I cant _getColumnsByOrdinalPosition! Error message: ordinal position not found'
+			);
+			return {};
+		}
+		
 		,_getColumnsId : function(c){
 			'use strict';
 			var that = $dhx.dataDriver,
@@ -3766,21 +4400,19 @@ $dhx.dataDriver = {
 				sorted = [primary_key];
 			
 			for( var hash in schema.columns )
-				columns.push(hash);
-			
-			 columns.sort(function(a, b) {
-                    return a.ordinal_position - b.ordinal_position;
-             });
-			 
-			 
+			{
+				if( schema.columns.hasOwnProperty( hash ) )
+					columns.push( schema.columns[ hash ] );
+			}
+			columns.sort(function(a, b) {
+                  return a.ordinal_position - b.ordinal_position;
+            });
 			for( var index = 0; index < columns.length; index++)
 			{
 				var column = columns[ index ];
-				sorted.push( column );
+				sorted.push( column.name );
 			}
-			 
-			 
-			 return sorted.join(',');
+			return sorted.join(',');
 		}
 		
 		,_getColumnsHeader : function(c){
@@ -3792,22 +4424,20 @@ $dhx.dataDriver = {
 				sorted = [primary_key];
 			
 			for( var hash in schema.columns )
-				columns.push(schema.columns[ hash ]);
-			
-			 columns.sort(function(a, b) {
-                    return a.ordinal_position - b.ordinal_position;
-             });
-			 
-			 
+			{
+				if( schema.columns.hasOwnProperty( hash ) )
+					columns.push( schema.columns[ hash ] );
+			}
+			columns.sort(function(a, b) {
+                  return a.ordinal_position - b.ordinal_position;
+            });
 			for( var index = 0; index < columns.length; index++)
 			{
 				//console.log(columns[ index ])
 				var column = columns[ index ];
 				sorted.push( column.dhtmlx_grid_header );
 			}
-			 
-			 
-			 return sorted.join(',');
+			return sorted.join(',');
 		}
 		
 		
@@ -3822,22 +4452,19 @@ $dhx.dataDriver = {
 				sorted = ['*'];
 			
 			for( var hash in schema.columns )
-				columns.push(schema.columns[ hash ]);
-			
-			 columns.sort(function(a, b) {
-                    return a.ordinal_position - b.ordinal_position;
-             });
-			 
-			 
+			{
+				if( schema.columns.hasOwnProperty( hash ) )
+					columns.push( schema.columns[ hash ] );
+			}
+			columns.sort(function(a, b) {
+                  return a.ordinal_position - b.ordinal_position;
+            });
 			for( var index = 0; index < columns.length; index++)
 			{
-				//console.log(columns[ index ])
 				var column = columns[ index ];
 				sorted.push( column.dhtmlx_grid_width );
 			}
-			 
-			 
-			 return sorted.join(',');
+			return sorted.join(',');
 		}
 		
 		,_getColumnsAlign : function(c){
@@ -3849,22 +4476,20 @@ $dhx.dataDriver = {
 				sorted = ['right'];
 			
 			for( var hash in schema.columns )
-				columns.push(schema.columns[ hash ]);
-			
-			 columns.sort(function(a, b) {
-                    return a.ordinal_position - b.ordinal_position;
-             });
-			 
-			 
+			{
+				if( schema.columns.hasOwnProperty( hash ) )
+					columns.push( schema.columns[ hash ] );
+			}
+			columns.sort(function(a, b) {
+                  return a.ordinal_position - b.ordinal_position;
+            });
 			for( var index = 0; index < columns.length; index++)
 			{
 				//console.log(columns[ index ])
 				var column = columns[ index ];
 				sorted.push( column.dhtmlx_grid_align );
 			}
-			 
-			 
-			 return sorted.join(',');
+			return sorted.join(',');
 		}
 		
 		,_getColumnsType : function(c){
@@ -3877,24 +4502,19 @@ $dhx.dataDriver = {
 			
 			for( var hash in schema.columns )
 			{
-				//console.log( schema.columns[ hash ] );
-				columns.push(schema.columns[ hash ]);
+				if( schema.columns.hasOwnProperty( hash ) )
+					columns.push( schema.columns[ hash ] );
 			}
-			
-			 columns.sort(function(a, b) {
-                    return a.ordinal_position - b.ordinal_position;
-             });
-			 
-			 
+			columns.sort(function(a, b) {
+                  return a.ordinal_position - b.ordinal_position;
+            });
 			for( var index = 0; index < columns.length; index++)
 			{
 				var column = columns[ index ];
 				//console.log( column );
 				sorted.push( columns[ index ].dhtmlx_grid_type );
 			}
-			 
-			 
-			 return sorted.join(',');
+			return sorted.join(',');
 		}
 		
 		,_getColumnsSorting : function(c){
@@ -3906,21 +4526,19 @@ $dhx.dataDriver = {
 				sorted = ['int'];
 			
 			for( var hash in schema.columns )
-				columns.push(schema.columns[ hash ]);
-			
-			 columns.sort(function(a, b) {
-                    return a.ordinal_position - b.ordinal_position;
-             });
-			 
-			 
+			{
+				if( schema.columns.hasOwnProperty( hash ) )
+					columns.push( schema.columns[ hash ] );
+			}
+			columns.sort(function(a, b) {
+                  return a.ordinal_position - b.ordinal_position;
+            });
 			for( var index = 0; index < columns.length; index++)
 			{
 				var column = columns[ index ];
 				sorted.push( columns[ index ].dhtmlx_grid_sorting );
 			}
-			 
-			 
-			 return sorted.join(',');
+			return sorted.join(',');
 		}
 
 		,_setInputMask : function(input, mask_to_use){
