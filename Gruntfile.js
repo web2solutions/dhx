@@ -111,7 +111,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-readme');
+	//grunt.loadNpmTasks('grunt-readme');
 	
-	grunt.registerTask('default', ['readme', 'uglify' ]);
+	grunt.registerTask('default', [/*'readme'*/, 'uglify' ]);
 };
