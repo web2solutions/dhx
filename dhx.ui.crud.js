@@ -12,11 +12,13 @@ $dhx.ui.crud = {
 	}
 };
 $dhx.ui._cruds = [];
+
+$dhx.ui.controller = [];
 $dhx.ui.crud.simple = function( configuration ){
 	try {
 		
 		$dhx.init();
-		var that = $dhx.ui.crud, self = this;
+		var that = $dhx.ui.crud, self = this, defaultView = $dhx.ui.crud.simple.View;
 		
 		self.base_path  = $dhx.CDN;
 		self.appName = configuration.collection + '_app';
@@ -29,17 +31,40 @@ $dhx.ui.crud.simple = function( configuration ){
 		
 		self.configuration = configuration;
 		self.configuration.wrapper = self.configuration.wrapper || document.body;
+		
+		
+		if( configuration.customView )
+		{
+			defaultView	= configuration.customView;
+		}
 	
 			
 		$dhx.ui.crud.simple.View.settings.base_path = configuration.base_path;
 		$dhx.ui.crud.simple.View.settings.application_path = $dhx.ui.crud.simple.View.settings.base_path + "dbDemo/";
 		$dhx.ui.crud.simple.View.settings.icons_path = $dhx.ui.crud.simple.View.settings.application_path + "icons/";
+		
+		
 		//self.view.settings.icons_path = $dhx.ui.crud.simple.View.settings.icons_path;
 		$dhx.ui.crud.simple.View.settings.ribbon.icons_path = $dhx.ui.crud.simple.View.settings.application_path + "icons_terrace/";
+		$dhx.ui.crud.simple.View.settings.menu.icons_path = $dhx.ui.crud.simple.View.settings.application_path + "icons_terrace/";
 		$dhx.ui.crud.simple.View.settings.dhtmlx_codebase_path = configuration.base_path + 'codebase4.2_std/';
 		
-		self.view = new $dhx.ui.crud.simple.View( self );
-		self.view.render();
+		//self.view = new $dhx.ui.crud.simple.View( self );
+		//self.view.render();
+		
+		
+		
+		this.view = $dhx.extend( defaultView, {} );
+		//alert( 'pushing ' + self.appId )
+		$dhx.ui.controller[ self.appId ] = this;
+		
+		console.log( this.view );
+		
+		self.view.render( this );
+		
+		
+		
+		console.log( this.view );
 		
 	}
 	catch (e) {

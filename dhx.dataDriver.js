@@ -1017,6 +1017,7 @@ $dhx.dataDriver = {
 							message : 'record updated'
 							,record_id : record_id
 							,record : record
+							,old_record : c.old_record
 						} );
 						
 						console.timeEnd( timer_label );
@@ -1435,7 +1436,7 @@ $dhx.dataDriver = {
 					{
 						$dhx.dataDriver.public[c.table]._internal_cursor_position = record_id;
 						console.timeEnd( timer_label );
-						$dhx.dataDriver.public[c.table].onAfterCursorChange( record_id );
+						$dhx.dataDriver.public[c.table].onAfterCursorChange( record_id, c.table );
 						if (c.onSuccess) c.onSuccess(recordIdRequest, event, data);
 					}
 					else
@@ -1774,7 +1775,9 @@ $dhx.dataDriver = {
 						$dhx.showDirections("saving data ... ");
 						component.setRowTextBold(rId);
 						var hash = {};
+						var old_hash = {}
 						hash[component.getColumnId(cInd)] = nValue;
+						old_hash[component.getColumnId(cInd)] = oValue;
 						var validation = table_schema.columns[column_name].validation;
 						if (table_schema.columns[column_name].required) {
 							if (nValue == "") {
@@ -1799,7 +1802,7 @@ $dhx.dataDriver = {
 								return false;
 							}
 						}
-						$dhx.dataDriver.public[c.table].update(rId, hash, function() {
+						$dhx.dataDriver.public[c.table].update(rId, hash, old_hash, function() {
 							dhtmlx.message({
 								text: "data updated"
 							});
@@ -1938,6 +1941,25 @@ $dhx.dataDriver = {
 							}
 							else if (data.action == 'update' && data.message == 'record updated') {
 								
+								var obj = {};
+								for (var i in data.record)
+									if (data.record.hasOwnProperty(i)) obj[i] = data.record[i];
+								if (c.$init) c.$init(obj);
+								
+								
+								var objo = {};
+								for (var i in data.old_record)
+									if (data.old_record.hasOwnProperty(i)) objo[i] = data.old_record[i];
+								if (c.$init) c.$init(objo);
+								
+								//console.log(component.values);
+								component.values.forEach(function (value, index, array) {
+									 if( value == objo.value)
+									 {
+										 component.keys[ index ] = obj.value;
+										 component.values[ index ] = obj.text;
+									 }
+								});
 							}
 							else if (data.action == 'delete' && data.message == 'record deleted') {
 								console.log( component.options )
@@ -2178,6 +2200,9 @@ $dhx.dataDriver = {
 					//	} );
 					//});
 				if (c.auto_configure) {
+					
+					
+					
 					component.setHeader($dhx.dataDriver._getColumnsHeader(c)); //the headers of columns 
 					component.setColTypes($dhx.dataDriver._getColumnsType(c)); //the types of columns  
 					component.setColSorting($dhx.dataDriver._getColumnsSorting(c)); //the sorting types 
@@ -2869,7 +2894,7 @@ $dhx.dataDriver = {
 			delete clone[primary_key];
             if ($dhx._enable_log) console.warn('trying to save existing record: ', clone);
             component.lock();
-			$dhx.dataDriver.public[c.table].update( record_id, clone, function( tx, event, rows_affected )
+			$dhx.dataDriver.public[c.table].update( record_id, clone, null, function( tx, event, rows_affected )
 			{
                     component.unlock();
 					if ($dhx._enable_log) console.warn('record saved. rows_affected: ', rows_affected);
@@ -3645,11 +3670,11 @@ $dhx.dataDriver = {
 								}
 								//
 								
-							, onAfterCursorChange: function (cursor_id) {
+							, onAfterCursorChange: function (cursor_id, table) {
 								var eventStr = 'onAfterCursorChange';
 								if (typeof that.events[eventStr] !== 'undefined') {
 									that.events[eventStr].forEach(function (fnCallBack, index, array) {
-										fnCallBack(cursor_id);
+										fnCallBack(cursor_id, table);
 									});
 								}
 							}
@@ -3753,12 +3778,13 @@ $dhx.dataDriver = {
 									,isOnCreate : isOnCreate
 								});
 							}
-							, update: function (record_id, record, onSuccess, onFail) {
+							, update: function (record_id, record, old_record, onSuccess, onFail) {
 								that.update({
 									db: db_name
 									, table: table
 									, record_id: record_id
 									, record: record
+									, old_record: old_record
 									, onSuccess: onSuccess
 									, onFail: onFail
 								});

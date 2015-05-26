@@ -26,7 +26,7 @@ $dhx.ui.crud.simple.View.Record = {
 
 	,render : function( configuration, schema ){
 		var self = $dhx.ui.crud.simple.View.Record;
-		//console.log( configuration )
+		console.log( configuration )
 		configuration = configuration || {};
 		var uid = configuration.record_id;
 		var tabId = self.strTabID + uid;		
@@ -41,6 +41,12 @@ $dhx.ui.crud.simple.View.Record = {
 			}
 		}
 		
+		console.log( schema );
+		console.log( schema );
+		console.log( schema );
+		console.log( schema );
+		console.log( schema );
+		
 		schema.getRecord( uid, function(record, recordRequest, event)
 		{
 				configuration.wrapper.addTab(uid, uid, null, null, true, true);
@@ -50,7 +56,8 @@ $dhx.ui.crud.simple.View.Record = {
 						type: "settings"
 						, position: "label-left"
 						, labelWidth: 160
-						, inputWidth: 700
+						, inputWidth: (configuration.is_generic) ? 
+							($dhx.ui.crud.simple.View.settings.app_generic.window.width - 160 - 170) :  ($dhx.windowWidth - 300 )
 						, inputHeight: 30
 						, labelHeight: 30
 					}, {
@@ -61,8 +68,11 @@ $dhx.ui.crud.simple.View.Record = {
 						, list: []
 					}]
 				}
+				
+				//$dhx.ui.crud.simple.View.settings.app_generic.window.height
+				//$dhx.ui.crud.simple.View.settings.app_generic.window.width
 	
-				$dhx.dataDriver.dbs[configuration.db].settings.persons.form.template.forEach(function (field, index_, array_) {
+				$dhx.dataDriver.dbs[configuration.db].settings[configuration.table].form.template.forEach(function (field, index_, array_) {
 					var ffield = {}
 					ffield.type = 'template';
 		

@@ -11,15 +11,114 @@ $dhx.ui.crud.simple.View.settings = {
 		, pattern: "1C", // string, layout's pattern
 		skin: "dhx_terrace", // string, optional, "dhx_skyblue", "dhx_web", "dhx_terrace"
 	}
+	, menu: {
+		icons_path: ''
+		, onload: function () {
+			// console.log("menu loaded");
+		}
+		, onclick: function (id) {
+			// console.log("menu clicked, id="+id);
+		}
+		
+		, items: [{
+			id: "file"
+			, text: "File"
+			, items: [{
+				id: "insert"
+				, text: "<u>N</u>ew"
+				, img: "new.gif"
+			}, {
+				id: "sep0"
+				, type: "separator"
+			}, {
+				id: "open"
+				, text: "<u>O</u>pen selected"
+				, img: "open.gif"
+				, disabled : true
+			}/*, {
+				id: "save"
+				, text: "Save"
+				, img: "save.gif"
+			}, {
+				id: "saveAs"
+				, text: "Save As..."
+				, enabled: false
+				, img_disabled: "save_as_dis.gif"
+			}, {
+				id: "sep1"
+				, type: "separator"
+			}, {
+				id: "print"
+				, text: "Print"
+				, img: "print.gif"
+			}, {
+				id: "pageSetup"
+				, text: "Page Setup"
+				, enabled: false
+				, img_disabled: "settings.gif"
+			}, {
+				id: "sep2"
+				, type: "separator"
+			}, {
+				id: "close"
+				, text: "Close"
+				, img: "close.png"
+			}*/]
+		}, {
+			id: "edit"
+			, text: "Edit"
+			, items: [
+			{
+				id: "update"
+				, text: "<u>U</u>pdate selected"
+				, img: "edit.png"
+				, disabled : true
+			}/*,
+			{
+				id: "edit_undo"
+				, text: "Undo"
+				, img: "undo.gif"
+			}, {
+				id: "edit_redo"
+				, text: "Redo"
+				, img: "redo.gif"
+			}, {
+				id: "sep3"
+				, type: "separator"
+			}, {
+				id: "edit_select_all"
+				, text: "Select All"
+				, img: "selection.gif"
+			}, {
+				id: "sep4"
+				, type: "separator"
+			}, {
+				id: "edit_cut"
+				, text: "Cut"
+				, img: "cut.gif"
+			}, {
+				id: "edit_copy"
+				, text: "Copy"
+				, img: "copy.gif"
+			}, {
+				id: "edit_paste"
+				, text: "Paste"
+				, img: "paste.gif"
+			}*/]
+		}, {
+			id: "help"
+			, text: "Help"
+			, items: []
+		}]
+	}
 	, ribbon: {
 		icons_path: ""
 		, items: [{
-			id: "block_1"
+			id: "block_records"
 			, type: 'block'
 			, text: 'records management'
 			, mode: 'cols'
 			, list: [
-				//{type: "separator", id: "sep5"},
 				{
 					type: "button"
 					, id: "insert"
@@ -64,11 +163,12 @@ $dhx.ui.crud.simple.View.settings = {
 				}
 			]
 		}, {
-			id: "block_1"
+			id: "block_nav"
 			, type: 'block'
 			, text: 'navigation'
 			, mode: 'cols'
-			, list: [{
+			, list: [
+				{
 					type: "button"
 					, id: "first"
 					, text: 'go to the<br>first record'
@@ -90,7 +190,7 @@ $dhx.ui.crud.simple.View.settings = {
 					, text: 'go to next'
 					, img: 'next.png'
 				}
-			, ]
+			]
 		}, {
 			id: "dhx_foreign_table_management"
 			, type: 'block'
@@ -179,6 +279,17 @@ $dhx.ui.crud.simple.View.settings = {
 			}]
 		}
 	}
+	,app_generic: {
+		window: {
+			"left": $dhx.getPagePosition("x", 940, 550)
+			, "top": $dhx.getPagePosition("y", 940, 550)
+			, "width": 940
+			, "height": 550
+			, "icon": "form.png"
+			, "icon_dis": "form.png"
+			, skin: "dhx_terrace"
+		}
+	}
 	, Search: {
 		window: {
 			"left": $dhx.getPagePosition("x", 490, 330)
@@ -223,4 +334,4 @@ $dhx.ui.crud.simple.View.settings = {
 			}]
 		}
 	}
-}
+};

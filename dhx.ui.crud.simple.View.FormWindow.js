@@ -58,9 +58,13 @@ $dhx.ui.crud.simple.View.FormWindow = {
 		self.form[uid] = self.layout[uid].cells('a').attachForm($dhx.ui.crud.simple.View.settings.FormWindow.form.template);
 		//$dhx.dhtmlx.prepareForm("$dhx.ui.crud.simple.View.form" + uid, $dhx.ui.crud.simple.View.settings.FormWindow.form, self.form[ uid ]);
 		if ($dhx.isNumber(uid))
+		{
 			self.form[uid].isEditing = true;
+		}
 		else
+		{
 			self.form[uid].isEditing = false;
+		}
 		schema.bind.form({
 			component: self.form[uid]
 			, component_id: "$dhx.ui.crud.simple.View.form." + uid + "."
@@ -83,7 +87,7 @@ $dhx.ui.crud.simple.View.FormWindow = {
 	, render: function (configuration) {
 		var self = $dhx.ui.crud.simple.View.FormWindow;
 		configuration = configuration || {};
-		var uid = typeof configuration.record_id === 'undefined' ? 'new' : configuration.record_id;
+		var uid = typeof configuration.record_id === 'undefined' ? 'new_'+configuration.table : configuration.record_id;
 		self.table[uid] = configuration.table;
 		if ($dhx.ui.window_manager.isWindow(self.strWindowID + uid)) {
 			self.window[uid].show();
@@ -96,8 +100,14 @@ $dhx.ui.crud.simple.View.FormWindow = {
 		self._window(uid, configuration.schema);
 		self._layout(uid);
 		self._form(uid, db_settings, configuration.schema);
-		if (configuration.fnCallBack) configuration.fnCallBack();
+		if (configuration.fnCallBack)
+		{
+			 configuration.fnCallBack();
+		}
 		//self.Builder.render();
 		$dhx.hideDirections();
+		
+		
+		
 	}
 };
