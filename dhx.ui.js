@@ -365,3 +365,32 @@ $dhx.ui = $dhx.ui || {
         });
     }
 };
+
+
+$dhx.ui.$Application = (function()
+{
+	
+	return{};
+})();
+
+
+
+$dhx.ui.$Session = (function()
+{
+	
+	return{};
+})();
+
+Object.defineProperty($dhx.ui.$Session, 'SessionID', {
+	//get: function() { return bValue; },
+	//set: function(newValue) { },
+	value: ( 
+		typeof $dhx.REST.API.session.client_session_id !== 'undefined' ? 
+		$dhx.REST.API.session.client_session_id : -1 
+	),
+	enumerable: true,
+	configurable: false,
+	writable: true
+});
+	
+$dhx.ui.$Session = $dhx.extend( $dhx.REST.API.session );
