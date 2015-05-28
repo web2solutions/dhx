@@ -770,6 +770,20 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	- onXLE() event	fires when the data loading is finished and a component or data is rendered
 	- onXLS() event	fires when starts loading data
 
+	- add new record on related table when adding a record on main table
+	- permissions
+	- let capitalize
+	- let latinize
+	- user set grid dimensions
+	- update main grid column when editing a sub crud
+
+
+
+
+	Limitations:
+
+	- Dont create FKs pointing to text columns ... only to primary key columns
+
 
 
 

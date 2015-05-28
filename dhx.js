@@ -1,4 +1,4 @@
-﻿/*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true, maxerr : 1000, indent : 2, sloppy : true */
+/*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true, maxerr : 1000, indent : 2, sloppy : true */
 /*global $dhx, dhtmlx, Element */
 /*masks*/
 
@@ -15,270 +15,273 @@ var loading_gif = "data:image/gif;base64,R0lGODlh8wAzANUAALzd67DV5a3S4KrP4KjP3aD
 // Reference: http://es5.github.io/#x15.4.4.19
 if (!Array.prototype.map) {
 
-  Array.prototype.map = function(callback, thisArg) {
+    Array.prototype.map = function(callback, thisArg) {
 
-    var T, A, k;
+        var T, A, k;
 
-    if (this == null) {
-      throw new TypeError(' this is null or not defined');
-    }
+        if (this == null) {
+            throw new TypeError(' this is null or not defined');
+        }
 
-    // 1. Let O be the result of calling ToObject passing the |this| 
-    //    value as the argument.
-    var O = Object(this);
+        // 1. Let O be the result of calling ToObject passing the |this| 
+        //    value as the argument.
+        var O = Object(this);
 
-    // 2. Let lenValue be the result of calling the Get internal 
-    //    method of O with the argument "length".
-    // 3. Let len be ToUint32(lenValue).
-    var len = O.length >>> 0;
+        // 2. Let lenValue be the result of calling the Get internal 
+        //    method of O with the argument "length".
+        // 3. Let len be ToUint32(lenValue).
+        var len = O.length >>> 0;
 
-    // 4. If IsCallable(callback) is false, throw a TypeError exception.
-    // See: http://es5.github.com/#x9.11
-    if (typeof callback !== 'function') {
-      throw new TypeError(callback + ' is not a function');
-    }
+        // 4. If IsCallable(callback) is false, throw a TypeError exception.
+        // See: http://es5.github.com/#x9.11
+        if (typeof callback !== 'function') {
+            throw new TypeError(callback + ' is not a function');
+        }
 
-    // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-    if (arguments.length > 1) {
-      T = thisArg;
-    }
+        // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        if (arguments.length > 1) {
+            T = thisArg;
+        }
 
-    // 6. Let A be a new array created as if by the expression new Array(len) 
-    //    where Array is the standard built-in constructor with that name and 
-    //    len is the value of len.
-    A = new Array(len);
+        // 6. Let A be a new array created as if by the expression new Array(len) 
+        //    where Array is the standard built-in constructor with that name and 
+        //    len is the value of len.
+        A = new Array(len);
 
-    // 7. Let k be 0
-    k = 0;
+        // 7. Let k be 0
+        k = 0;
 
-    // 8. Repeat, while k < len
-    while (k < len) {
+        // 8. Repeat, while k < len
+        while (k < len) {
 
-      var kValue, mappedValue;
+            var kValue, mappedValue;
 
-      // a. Let Pk be ToString(k).
-      //   This is implicit for LHS operands of the in operator
-      // b. Let kPresent be the result of calling the HasProperty internal 
-      //    method of O with argument Pk.
-      //   This step can be combined with c
-      // c. If kPresent is true, then
-      if (k in O) {
+            // a. Let Pk be ToString(k).
+            //   This is implicit for LHS operands of the in operator
+            // b. Let kPresent be the result of calling the HasProperty internal 
+            //    method of O with argument Pk.
+            //   This step can be combined with c
+            // c. If kPresent is true, then
+            if (k in O) {
 
-        // i. Let kValue be the result of calling the Get internal 
-        //    method of O with argument Pk.
-        kValue = O[k];
+                // i. Let kValue be the result of calling the Get internal 
+                //    method of O with argument Pk.
+                kValue = O[k];
 
-        // ii. Let mappedValue be the result of calling the Call internal 
-        //     method of callback with T as the this value and argument 
-        //     list containing kValue, k, and O.
-        mappedValue = callback.call(T, kValue, k, O);
+                // ii. Let mappedValue be the result of calling the Call internal 
+                //     method of callback with T as the this value and argument 
+                //     list containing kValue, k, and O.
+                mappedValue = callback.call(T, kValue, k, O);
 
-        // iii. Call the DefineOwnProperty internal method of A with arguments
-        // Pk, Property Descriptor
-        // { Value: mappedValue,
-        //   Writable: true,
-        //   Enumerable: true,
-        //   Configurable: true },
-        // and false.
+                // iii. Call the DefineOwnProperty internal method of A with arguments
+                // Pk, Property Descriptor
+                // { Value: mappedValue,
+                //   Writable: true,
+                //   Enumerable: true,
+                //   Configurable: true },
+                // and false.
 
-        // In browsers that support Object.defineProperty, use the following:
-        // Object.defineProperty(A, k, {
-        //   value: mappedValue,
-        //   writable: true,
-        //   enumerable: true,
-        //   configurable: true
-        // });
+                // In browsers that support Object.defineProperty, use the following:
+                // Object.defineProperty(A, k, {
+                //   value: mappedValue,
+                //   writable: true,
+                //   enumerable: true,
+                //   configurable: true
+                // });
 
-        // For best browser support, use the following:
-        A[k] = mappedValue;
-      }
-      // d. Increase k by 1.
-      k++;
-    }
+                // For best browser support, use the following:
+                A[k] = mappedValue;
+            }
+            // d. Increase k by 1.
+            k++;
+        }
 
-    // 9. return A
-    return A;
-  };
+        // 9. return A
+        return A;
+    };
 }
 
 
 // Production steps of ECMA-262, Edition 5, 15.4.4.21
 // Reference: http://es5.github.io/#x15.4.4.21
 if (!Array.prototype.reduce) {
-  Array.prototype.reduce = function(callback /*, initialValue*/) {
-    'use strict';
-    if (this == null) {
-      throw new TypeError('Array.prototype.reduce called on null or undefined');
-    }
-    if (typeof callback !== 'function') {
-      throw new TypeError(callback + ' is not a function');
-    }
-    var t = Object(this), len = t.length >>> 0, k = 0, value;
-    if (arguments.length == 2) {
-      value = arguments[1];
-    } else {
-      while (k < len && !(k in t)) {
-        k++; 
-      }
-      if (k >= len) {
-        throw new TypeError('Reduce of empty array with no initial value');
-      }
-      value = t[k++];
-    }
-    for (; k < len; k++) {
-      if (k in t) {
-        value = callback(value, t[k], k, t);
-      }
-    }
-    return value;
-  };
+    Array.prototype.reduce = function(callback /*, initialValue*/ ) {
+        'use strict';
+        if (this == null) {
+            throw new TypeError('Array.prototype.reduce called on null or undefined');
+        }
+        if (typeof callback !== 'function') {
+            throw new TypeError(callback + ' is not a function');
+        }
+        var t = Object(this),
+            len = t.length >>> 0,
+            k = 0,
+            value;
+        if (arguments.length == 2) {
+            value = arguments[1];
+        } else {
+            while (k < len && !(k in t)) {
+                k++;
+            }
+            if (k >= len) {
+                throw new TypeError('Reduce of empty array with no initial value');
+            }
+            value = t[k++];
+        }
+        for (; k < len; k++) {
+            if (k in t) {
+                value = callback(value, t[k], k, t);
+            }
+        }
+        return value;
+    };
 }
 
 
 // Production steps of ECMA-262, Edition 5, 15.4.4.17
 // Reference: http://es5.github.io/#x15.4.4.17
 if (!Array.prototype.some) {
-  Array.prototype.some = function(fun/*, thisArg*/) {
-    'use strict';
+    Array.prototype.some = function(fun /*, thisArg*/ ) {
+        'use strict';
 
-    if (this == null) {
-      throw new TypeError('Array.prototype.some called on null or undefined');
-    }
+        if (this == null) {
+            throw new TypeError('Array.prototype.some called on null or undefined');
+        }
 
-    if (typeof fun !== 'function') {
-      throw new TypeError();
-    }
+        if (typeof fun !== 'function') {
+            throw new TypeError();
+        }
 
-    var t = Object(this);
-    var len = t.length >>> 0;
+        var t = Object(this);
+        var len = t.length >>> 0;
 
-    var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
-    for (var i = 0; i < len; i++) {
-      if (i in t && fun.call(thisArg, t[i], i, t)) {
-        return true;
-      }
-    }
+        var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+        for (var i = 0; i < len; i++) {
+            if (i in t && fun.call(thisArg, t[i], i, t)) {
+                return true;
+            }
+        }
 
-    return false;
-  };
+        return false;
+    };
 }
 
 
 if (!Array.prototype.every) {
-  Array.prototype.every = function(callbackfn, thisArg) {
-    'use strict';
-    var T, k;
+    Array.prototype.every = function(callbackfn, thisArg) {
+        'use strict';
+        var T, k;
 
-    if (this == null) {
-      throw new TypeError('this is null or not defined');
-    }
-
-    // 1. Let O be the result of calling ToObject passing the this 
-    //    value as the argument.
-    var O = Object(this);
-
-    // 2. Let lenValue be the result of calling the Get internal method
-    //    of O with the argument "length".
-    // 3. Let len be ToUint32(lenValue).
-    var len = O.length >>> 0;
-
-    // 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
-    if (typeof callbackfn !== 'function') {
-      throw new TypeError();
-    }
-
-    // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-    if (arguments.length > 1) {
-      T = thisArg;
-    }
-
-    // 6. Let k be 0.
-    k = 0;
-
-    // 7. Repeat, while k < len
-    while (k < len) {
-
-      var kValue;
-
-      // a. Let Pk be ToString(k).
-      //   This is implicit for LHS operands of the in operator
-      // b. Let kPresent be the result of calling the HasProperty internal 
-      //    method of O with argument Pk.
-      //   This step can be combined with c
-      // c. If kPresent is true, then
-      if (k in O) {
-
-        // i. Let kValue be the result of calling the Get internal method
-        //    of O with argument Pk.
-        kValue = O[k];
-
-        // ii. Let testResult be the result of calling the Call internal method
-        //     of callbackfn with T as the this value and argument list 
-        //     containing kValue, k, and O.
-        var testResult = callbackfn.call(T, kValue, k, O);
-
-        // iii. If ToBoolean(testResult) is false, return false.
-        if (!testResult) {
-          return false;
+        if (this == null) {
+            throw new TypeError('this is null or not defined');
         }
-      }
-      k++;
-    }
-    return true;
-  };
+
+        // 1. Let O be the result of calling ToObject passing the this 
+        //    value as the argument.
+        var O = Object(this);
+
+        // 2. Let lenValue be the result of calling the Get internal method
+        //    of O with the argument "length".
+        // 3. Let len be ToUint32(lenValue).
+        var len = O.length >>> 0;
+
+        // 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
+        if (typeof callbackfn !== 'function') {
+            throw new TypeError();
+        }
+
+        // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        if (arguments.length > 1) {
+            T = thisArg;
+        }
+
+        // 6. Let k be 0.
+        k = 0;
+
+        // 7. Repeat, while k < len
+        while (k < len) {
+
+            var kValue;
+
+            // a. Let Pk be ToString(k).
+            //   This is implicit for LHS operands of the in operator
+            // b. Let kPresent be the result of calling the HasProperty internal 
+            //    method of O with argument Pk.
+            //   This step can be combined with c
+            // c. If kPresent is true, then
+            if (k in O) {
+
+                // i. Let kValue be the result of calling the Get internal method
+                //    of O with argument Pk.
+                kValue = O[k];
+
+                // ii. Let testResult be the result of calling the Call internal method
+                //     of callbackfn with T as the this value and argument list 
+                //     containing kValue, k, and O.
+                var testResult = callbackfn.call(T, kValue, k, O);
+
+                // iii. If ToBoolean(testResult) is false, return false.
+                if (!testResult) {
+                    return false;
+                }
+            }
+            k++;
+        }
+        return true;
+    };
 }
-    /*if (!Element.prototype.addEventListener) {
-      var oListeners = {};
-      function runListeners(oEvent) {
-        if (!oEvent) { oEvent = window.event; }
-        for (var iLstId = 0, iElId = 0, oEvtListeners = oListeners[oEvent.type]; iElId < oEvtListeners.aEls.length; iElId++) {
-          if (oEvtListeners.aEls[iElId] === this) {
-            for (iLstId; iLstId < oEvtListeners.aEvts[iElId].length; iLstId++) { oEvtListeners.aEvts[iElId][iLstId].call(this, oEvent); }
-            break;
-          }
-        }
+/*if (!Element.prototype.addEventListener) {
+  var oListeners = {};
+  function runListeners(oEvent) {
+    if (!oEvent) { oEvent = window.event; }
+    for (var iLstId = 0, iElId = 0, oEvtListeners = oListeners[oEvent.type]; iElId < oEvtListeners.aEls.length; iElId++) {
+      if (oEvtListeners.aEls[iElId] === this) {
+        for (iLstId; iLstId < oEvtListeners.aEvts[iElId].length; iLstId++) { oEvtListeners.aEvts[iElId][iLstId].call(this, oEvent); }
+        break;
       }
-    	//Element.prototype.addEventListener = function (sEventType, fListener , useCapture (will be ignored!) )
-      Element.prototype.addEventListener = function (sEventType, fListener) {
-        if (oListeners.hasOwnProperty(sEventType)) {
-          var oEvtListeners = oListeners[sEventType];
-          for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
-            if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
-          }
-          if (nElIdx === -1) {
-            oEvtListeners.aEls.push(this);
-            oEvtListeners.aEvts.push([fListener]);
-            this["on" + sEventType] = runListeners;
-          } else {
-            var aElListeners = oEvtListeners.aEvts[nElIdx];
-            if (this["on" + sEventType] !== runListeners) {
-              aElListeners.splice(0);
-              this["on" + sEventType] = runListeners;
-            }
-            for (var iLstId = 0; iLstId < aElListeners.length; iLstId++) {
-              if (aElListeners[iLstId] === fListener) { return; }
-            }
-            aElListeners.push(fListener);
-          }
-        } else {
-          oListeners[sEventType] = { aEls: [this], aEvts: [ [fListener] ] };
+    }
+  }
+	//Element.prototype.addEventListener = function (sEventType, fListener , useCapture (will be ignored!) )
+  Element.prototype.addEventListener = function (sEventType, fListener) {
+    if (oListeners.hasOwnProperty(sEventType)) {
+      var oEvtListeners = oListeners[sEventType];
+      for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
+        if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
+      }
+      if (nElIdx === -1) {
+        oEvtListeners.aEls.push(this);
+        oEvtListeners.aEvts.push([fListener]);
+        this["on" + sEventType] = runListeners;
+      } else {
+        var aElListeners = oEvtListeners.aEvts[nElIdx];
+        if (this["on" + sEventType] !== runListeners) {
+          aElListeners.splice(0);
           this["on" + sEventType] = runListeners;
         }
-      };
-    	//Element.prototype.removeEventListener = function (sEventType, fListener , useCapture (will be ignored!))
-      Element.prototype.removeEventListener = function (sEventType, fListener ) {
-        if (!oListeners.hasOwnProperty(sEventType)) { return; }
-        var oEvtListeners = oListeners[sEventType];
-        for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
-          if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
+        for (var iLstId = 0; iLstId < aElListeners.length; iLstId++) {
+          if (aElListeners[iLstId] === fListener) { return; }
         }
-        if (nElIdx === -1) { return; }
-        for (var iLstId = 0, aElListeners = oEvtListeners.aEvts[nElIdx]; iLstId < aElListeners.length; iLstId++) {
-          if (aElListeners[iLstId] === fListener) { aElListeners.splice(iLstId, 1); }
-        }
-      };
+        aElListeners.push(fListener);
+      }
+    } else {
+      oListeners[sEventType] = { aEls: [this], aEvts: [ [fListener] ] };
+      this["on" + sEventType] = runListeners;
     }
-    */
+  };
+	//Element.prototype.removeEventListener = function (sEventType, fListener , useCapture (will be ignored!))
+  Element.prototype.removeEventListener = function (sEventType, fListener ) {
+    if (!oListeners.hasOwnProperty(sEventType)) { return; }
+    var oEvtListeners = oListeners[sEventType];
+    for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
+      if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
+    }
+    if (nElIdx === -1) { return; }
+    for (var iLstId = 0, aElListeners = oEvtListeners.aEvts[nElIdx]; iLstId < aElListeners.length; iLstId++) {
+      if (aElListeners[iLstId] === fListener) { aElListeners.splice(iLstId, 1); }
+    }
+  };
+}
+*/
 Array.prototype.dataCount = function() {
     'use strict';
     return this.length;
@@ -342,40 +345,40 @@ if (!String.prototype.trim) {
     })();
 }
 Array.prototype.clean = function(deleteValue) {
-  for (var i = 0; i < this.length; i++) {
-    if (this[i] == deleteValue) {         
-      this.splice(i, 1);
-      i--;
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == deleteValue) {
+            this.splice(i, 1);
+            i--;
+        }
     }
-  }
-  return this;
+    return this;
 };
 
 String.prototype.extenso = function(c) {
-            var ex = [
-                ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"],
-                ["dez", "vinte", "trinta", "quarenta", "cinqüenta", "sessenta", "setenta", "oitenta", "noventa"],
-                ["cem", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"],
-                ["mil", "milhão", "bilhão", "trilhão", "quadrilhão", "quintilhão", "sextilhão", "setilhão", "octilhão", "nonilhão", "decilhão", "undecilhão", "dodecilhão", "tredecilhão", "quatrodecilhão", "quindecilhão", "sedecilhão", "septendecilhão", "octencilhão", "nonencilhão"]
-            ];
-            var a, n, v, i, n = this.replace(c ? /[^,\d]/g : /\D/g, "").split(","),
-                e = " e ",
-                $ = "real",
-                d = "centavo",
-                sl;
-            for (var f = n.length - 1, l, j = -1, r = [], s = [], t = ""; ++j <= f; s = []) {
-                j && (n[j] = (("." + n[j]) * 1).toFixed(2).slice(2));
-                if (!(a = (v = n[j]).slice((l = v.length) % 3).match(/\d{3}/g), v = l % 3 ? [v.slice(0, l % 3)] : [], v = a ? v.concat(a) : v).length) continue;
-                for (a = -1, l = v.length; ++a < l; t = "") {
-                    if (!(i = v[a] * 1)) continue;
-                    i % 100 < 20 && (t += ex[0][i % 100]) || i % 100 + 1 && (t += ex[1][(i % 100 / 10 >> 0) - 1] + (i % 10 ? e + ex[0][i % 10] : ""));
-                    s.push((i < 100 ? t : !(i % 100) ? ex[2][i == 100 ? 0 : i / 100 >> 0] : (ex[2][i / 100 >> 0] + e + t)) + ((t = l - a - 2) > -1 ? " " + (i > 1 && t > 0 ? ex[3][t].replace("ão", "ões") : ex[3][t]) : ""));
-                }
-                a = ((sl = s.length) > 1 ? (a = s.pop(), s.join(" ") + e + a) : s.join("") || ((!j && (n[j + 1] * 1 > 0) || r.length) ? "" : ex[0][0]));
-                a && r.push(a + (c ? (" " + (v.join("") * 1 > 1 ? j ? d + "s" : (/0{6,}$/.test(n[0]) ? "de " : "") + $.replace("l", "is") : j ? d : $)) : ""));
-            }
-            return r.join(e);
+    var ex = [
+        ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"],
+        ["dez", "vinte", "trinta", "quarenta", "cinqüenta", "sessenta", "setenta", "oitenta", "noventa"],
+        ["cem", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"],
+        ["mil", "milhão", "bilhão", "trilhão", "quadrilhão", "quintilhão", "sextilhão", "setilhão", "octilhão", "nonilhão", "decilhão", "undecilhão", "dodecilhão", "tredecilhão", "quatrodecilhão", "quindecilhão", "sedecilhão", "septendecilhão", "octencilhão", "nonencilhão"]
+    ];
+    var a, n, v, i, n = this.replace(c ? /[^,\d]/g : /\D/g, "").split(","),
+        e = " e ",
+        $ = "real",
+        d = "centavo",
+        sl;
+    for (var f = n.length - 1, l, j = -1, r = [], s = [], t = ""; ++j <= f; s = []) {
+        j && (n[j] = (("." + n[j]) * 1).toFixed(2).slice(2));
+        if (!(a = (v = n[j]).slice((l = v.length) % 3).match(/\d{3}/g), v = l % 3 ? [v.slice(0, l % 3)] : [], v = a ? v.concat(a) : v).length) continue;
+        for (a = -1, l = v.length; ++a < l; t = "") {
+            if (!(i = v[a] * 1)) continue;
+            i % 100 < 20 && (t += ex[0][i % 100]) || i % 100 + 1 && (t += ex[1][(i % 100 / 10 >> 0) - 1] + (i % 10 ? e + ex[0][i % 10] : ""));
+            s.push((i < 100 ? t : !(i % 100) ? ex[2][i == 100 ? 0 : i / 100 >> 0] : (ex[2][i / 100 >> 0] + e + t)) + ((t = l - a - 2) > -1 ? " " + (i > 1 && t > 0 ? ex[3][t].replace("ão", "ões") : ex[3][t]) : ""));
         }
+        a = ((sl = s.length) > 1 ? (a = s.pop(), s.join(" ") + e + a) : s.join("") || ((!j && (n[j + 1] * 1 > 0) || r.length) ? "" : ex[0][0]));
+        a && r.push(a + (c ? (" " + (v.join("") * 1 > 1 ? j ? d + "s" : (/0{6,}$/.test(n[0]) ? "de " : "") + $.replace("l", "is") : j ? d : $)) : ""));
+    }
+    return r.join(e);
+}
 var base64 = {};
 base64.PADCHAR = '=';
 base64.ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -384,8 +387,7 @@ base64.makeDOMException = function() {
     var e, tmp;
     try {
         return new DOMException(DOMException.INVALID_CHARACTER_ERR);
-    }
-    catch (tmp) {
+    } catch (tmp) {
         // not available, just passback a duck-typed equiv
         // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Error
         // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Error/prototype
@@ -631,8 +633,7 @@ function currency_mask(input_object, which_event, number_of_digits, number_of_de
                 if ((siz >= (number_of_decimals + 13)) && (siz <= (number_of_decimals + 15))) {
                     input_object.value = vr.substr(0, siz - (number_of_decimals + 12)) + '' + vr.substr(siz - (number_of_decimals + 12), 3) + '' + vr.substr(siz - (number_of_decimals + 9), 3) + '' + vr.substr(siz - (number_of_decimals + 6), 3) + '' + vr.substr(siz - (number_of_decimals + 3), 3) + '.' + vr.substr(siz - number_of_decimals, siz);
                 }
-            }
-            else if (number_of_decimals == 0) {
+            } else if (number_of_decimals == 0) {
                 if (siz <= 3) {
                     input_object.value = vr;
                 }
@@ -670,8 +671,7 @@ function currency_mask(input_object, which_event, number_of_digits, number_of_de
                 }
             }
         }
-    }
-    else if ((window.event.keyCode != 8) && (window.event.keyCode != 9) && (window.event.keyCode != 13) && (window.event.keyCode != 35) && (window.event.keyCode != 36) && (window.event.keyCode != 46)) {
+    } else if ((window.event.keyCode != 8) && (window.event.keyCode != 9) && (window.event.keyCode != 13) && (window.event.keyCode != 35) && (window.event.keyCode != 36) && (window.event.keyCode != 46)) {
         window.event.cancelBubble = true;
         window.event.returnValue = false;
     }
@@ -699,44 +699,44 @@ function setSelectInvalid(objInput) {
 };
 
 function currencyFormat(fld, milSep, decSep, e) {
-        var sep = 0;
-        var key = '';
-        var i = j = 0;
-        var len = len2 = 0;
-        var strCheck = '0123456789';
-        var aux = aux2 = '';
-        var whichCode = (window.Event) ? e.which : e.keyCode;
-        if (whichCode == 13) return true; // Enter
-        key = String.fromCharCode(whichCode); // Get key value from key code
-        if (strCheck.indexOf(key) == -1) return false; // Not a valid key
-        len = fld.value.length;
-        for (i = 0; i < len; i++)
-            if ((fld.value.charAt(i) != '0') && (fld.value.charAt(i) != decSep)) break;
-        aux = '';
-        for (; i < len; i++)
-            if (strCheck.indexOf(fld.value.charAt(i)) != -1) aux += fld.value.charAt(i);
-        aux += key;
-        len = aux.length;
-        if (len == 0) fld.value = '';
-        if (len == 1) fld.value = '0' + decSep + '0' + aux;
-        if (len == 2) fld.value = '0' + decSep + aux;
-        if (len > 2) {
-            aux2 = '';
-            for (j = 0, i = len - 3; i >= 0; i--) {
-                if (j == 3) {
-                    aux2 += milSep;
-                    j = 0;
-                }
-                aux2 += aux.charAt(i);
-                j++;
+    var sep = 0;
+    var key = '';
+    var i = j = 0;
+    var len = len2 = 0;
+    var strCheck = '0123456789';
+    var aux = aux2 = '';
+    var whichCode = (window.Event) ? e.which : e.keyCode;
+    if (whichCode == 13) return true; // Enter
+    key = String.fromCharCode(whichCode); // Get key value from key code
+    if (strCheck.indexOf(key) == -1) return false; // Not a valid key
+    len = fld.value.length;
+    for (i = 0; i < len; i++)
+        if ((fld.value.charAt(i) != '0') && (fld.value.charAt(i) != decSep)) break;
+    aux = '';
+    for (; i < len; i++)
+        if (strCheck.indexOf(fld.value.charAt(i)) != -1) aux += fld.value.charAt(i);
+    aux += key;
+    len = aux.length;
+    if (len == 0) fld.value = '';
+    if (len == 1) fld.value = '0' + decSep + '0' + aux;
+    if (len == 2) fld.value = '0' + decSep + aux;
+    if (len > 2) {
+        aux2 = '';
+        for (j = 0, i = len - 3; i >= 0; i--) {
+            if (j == 3) {
+                aux2 += milSep;
+                j = 0;
             }
-            fld.value = '';
-            len2 = aux2.length;
-            for (i = len2 - 1; i >= 0; i--) fld.value += aux2.charAt(i);
-            fld.value += decSep + aux.substr(len - 2, len);
+            aux2 += aux.charAt(i);
+            j++;
         }
-        return false;
+        fld.value = '';
+        len2 = aux2.length;
+        for (i = len2 - 1; i >= 0; i--) fld.value += aux2.charAt(i);
+        fld.value += decSep + aux.substr(len - 2, len);
     }
+    return false;
+}
 
 /*======================= $dhx FW ========================*/
 var $dhx = {
@@ -754,14 +754,13 @@ var $dhx = {
             script.type = 'text/javascript';
             if (script.readyState) { //IE
                 script.onreadystatechange = function() {
-					console.log( script.readyState );
+                    console.log(script.readyState);
                     if (script.readyState == 'loaded' || script.readyState == 'complete') {
                         script.onreadystatechange = null;
                         callback();
                     }
                 };
-            }
-            else { //Others
+            } else { //Others
                 script.onload = function() {
                     callback();
                 };
@@ -785,8 +784,7 @@ var $dhx = {
                     if ($dhx.environment != "production") self.queue[uid].push(path + "?uistring=" + (new Date()).getTime());
                     else self.queue[uid].push(path);
                 });
-            }
-            else {
+            } else {
                 self.queue[uid].push(url);
             }
             $dhx.showDirections("Loading_Files");
@@ -799,17 +797,14 @@ var $dhx = {
                 var first_on_queue = self.queue[uid].shift();
                 try {
                     document.getElementById("$dhx_splash_div_file_info").innerHTML = 'loading <br>' + first_on_queue.split("/")[first_on_queue.split("/").length - 1];
-                }
-                catch (e) {}
+                } catch (e) {}
                 $dhx.lScript(first_on_queue, function() {
                     try {
                         document.getElementById("$dhx_splash_div_file_info").innerHTML = '';
-                    }
-                    catch (e) {}
+                    } catch (e) {}
                     self.process_queue(callback, uid);
                 });
-            }
-            else {
+            } else {
                 $dhx.hideDirections();
                 callback();
             }
@@ -838,8 +833,7 @@ var $dhx = {
                     node.setAttribute("type", "text/css");
                     if (url.indexOf("?") != -1) node.setAttribute("href", url);
                     else node.setAttribute("href", url);
-                }
-                else {
+                } else {
                     nodeType = "script";
                     node = document.createElement(nodeType);
                     node.setAttribute("type", "text/javascript");
@@ -848,22 +842,20 @@ var $dhx = {
                 }
                 node.setAttribute("id", url);
                 if (node.readyState) {
-                    
+
                     node.onreadystatechange = function() {
                         if (node.readyState == 'loaded' || node.readyState == 'complete') {
-                            console.log( node.readyState );
+                            console.log(node.readyState);
                             node.onreadystatechange = null;
                             //console.log("loaded  " + url);
                             callback();
                         }
                     };
-                }
-                else {
+                } else {
                     //console.log(type);
                     if (url.indexOf(".css") != -1) {
                         callback();
-                    }
-                    else {
+                    } else {
                         //console.log("no ie");
                         //console.log(node.onload);
                         node.onload = function() {
@@ -871,12 +863,12 @@ var $dhx = {
                             //console.log("loaded  " + url);
                             callback();
                         };
-						
-						node.onerror = function( e ) {
+
+                        node.onerror = function(e) {
                             if ($dhx._enable_log) console.log("error on loading file: " + e.target.src.split("/")[e.target.src.split("/").length - 1]);
                             //console.log("loaded  " + url);
                             document.getElementById("$dhx_splash_div_file_info").innerHTML = '<br>error</b> when loading the file: <br>' + e.target.src.split("/")[e.target.src.split("/").length - 1];
-							//callback();
+                            //callback();
                         };
                     }
                 }
@@ -884,8 +876,7 @@ var $dhx = {
                 document.getElementsByTagName('head')[0].appendChild(node);
                 //s = document.getElementsByTagName('script')[0];
                 //s.parentNode.insertBefore(node, s);
-            }
-            else {
+            } else {
                 //console.log("already exist");
                 callback();
             }
@@ -897,8 +888,7 @@ var $dhx = {
         isEmpty: function(val) {
             if (val) {
                 return ((val === null) || val.length == 0 || /^\s+$/.test(val))
-            }
-            else {
+            } else {
                 return true
             }
         },
@@ -933,8 +923,7 @@ var $dhx = {
                     c = m.substring(2, m.length - 1);
                     if (c >= -32768 && c <= 65535) {
                         d = d.replace(m, String.fromCharCode(c))
-                    }
-                    else {
+                    } else {
                         d = d.replace(m, "")
                     }
                 }
@@ -947,8 +936,7 @@ var $dhx = {
             if (dbl) {
                 if (this.EncodeType == "numerical") {
                     s = s.replace(/&/g, "&#38;")
-                }
-                else {
+                } else {
                     s = s.replace(/&/g, "&amp;")
                 }
             }
@@ -961,8 +949,7 @@ var $dhx = {
                 s = s.replace(/&#/g, "##AMPHASH##");
                 if (this.EncodeType == "numerical") {
                     s = s.replace(/&/g, "&#38;")
-                }
-                else {
+                } else {
                     s = s.replace(/&/g, "&amp;")
                 }
                 s = s.replace(/##AMPHASH##/g, "&#")
@@ -984,27 +971,23 @@ var $dhx = {
                     s = s.replace(/\"/g, "&quot;");
                     s = s.replace(/</g, "&lt;");
                     s = s.replace(/>/g, "&gt;")
-                }
-                else {
+                } else {
                     s = s.replace(/\'/g, "&#39;");
                     s = s.replace(/\"/g, "&#34;");
                     s = s.replace(/</g, "&#60;");
                     s = s.replace(/>/g, "&#62;")
                 }
                 return s
-            }
-            else {
+            } else {
                 return ""
             }
         },
         hasEncoded: function(s) {
             if (/&#[0-9]{1,5};/g.test(s)) {
                 return true
-            }
-            else if (/&[A-Z]{2,6};/gi.test(s)) {
+            } else if (/&[A-Z]{2,6};/gi.test(s)) {
                 return true
-            }
-            else {
+            } else {
                 return false
             }
         },
@@ -1036,28 +1019,7 @@ var $dhx = {
             return -1
         }
     },
-    getMousePosition: function(e, cordinate) {
-        //console.log("mouse");
-        var isIE = document.all ? true : false;
-        var _x;
-        var _y;
-        if (!isIE) {
-            _x = e.pageX - 200;
-            _y = e.pageY - 150;
-        }
-        if (isIE) {
-            _x = (e.clientX + document.documentElement.scrollLeft + document.body.scrollLeft) - 200;
-            _y = (e.clientY + document.documentElement.scrollTop + document.body.scrollTop) + 150;
-        }
-        if (cordinate == "y") {
-            //console.log(cordinate + ": " + _y);
-            return _y;
-        }
-        else {
-            //console.log(cordinate + ": " + _x);
-            return _x;
-        }
-    },
+
     getElementPosition: function(x, cordinate) {
         //console.log("element");
         var o = document.getElementById(x);
@@ -1069,8 +1031,7 @@ var $dhx = {
         if (cordinate == "y") {
             //console.log(cordinate + ": " + _y);
             return t - 150;
-        }
-        else {
+        } else {
             //console.log(cordinate + ": " + _x);
             return l - 200;
         }
@@ -1085,27 +1046,23 @@ var $dhx = {
                 if (!(document.documentElement.scrollTop == 0)) {
                     t = d.documentElement.scrollTop;
                     l = d.documentElement.clientWidth;
-                }
-                else {
+                } else {
                     t = d.body.scrollTop;
                     l = document.body.clientWidth;
                 }
-            }
-            else {
+            } else {
                 t = w.pageYOffset;
                 l = w.innerWidth;
             }
             l = (l / 2) - (width / 2);
             if (window.innerHeight) {
                 t = t + (window.innerHeight / 2) - (height / 2);
-            }
-            else {
+            } else {
                 t = t + (document.body.clientHeight / 2) - (height / 2);
             }
             if (cordinate == "y") {
                 return t;
-            }
-            else {
+            } else {
                 return l;
             }
         }
@@ -1164,8 +1121,7 @@ var $dhx = {
                 this.versionSearchString = data[i].versionSearch || data[i].identity;
                 if (dataString) {
                     if (dataString.indexOf(data[i].subString) != -1) return data[i].identity;
-                }
-                else if (dataProp) return data[i].identity;
+                } else if (dataProp) return data[i].identity;
             }
         },
         searchVersion: function(dataString) {
@@ -1272,13 +1228,11 @@ var $dhx = {
             if (w.innerWidth) {
                 self.windowWidth = w.innerWidth;
                 self.windowHeight = w.innerHeight;
-            }
-            else { // old IEs
+            } else { // old IEs
                 if (!(d.documentElement.scrollTop == 0)) {
                     $dhx.windowWidth = d.documentElement.clientWidth;
                     $dhx.windowHeight = d.documentElement.clientHeight;
-                }
-                else {
+                } else {
                     $dhx.windowWidth = d.body.clientWidth;
                     $dhx.windowHeight = d.body.clientHeight;
                 }
@@ -1288,15 +1242,15 @@ var $dhx = {
 		@function checkBrowserStuff -  check if the current browser is able to run AJAX applications
 		@return {boolean} - true / false
 	*/
-       
-    ,hideDirections: function() {
+
+    ,
+    hideDirections: function() {
         try {
             document.getElementById("$dhx_wrapper_splash").parentNode.removeChild(document.getElementById("$dhx_wrapper_splash"));
             document.getElementById("$dhx_splash").parentNode.removeChild(document.getElementById("$dhx_splash"));
             document.getElementById("$dhx_splash_div_file_info").parentNode.removeChild(document.getElementById("$dhx_splash_div_file_info"));
             //document.getElementById("$dhx_splash").style.display = "none";
-        }
-        catch (e) {}
+        } catch (e) {}
     },
     showDirections: function(m) {
         var self = this,
@@ -1327,62 +1281,55 @@ var $dhx = {
         div_splash.style.left = ((self.windowWidth / 2) - 250) + "px";
         div_splash.style.zIndex = "11";
         //div_splash.style.backgroundColor = "#ffffff";
-        div_splash.style.backgroundImage = "url('"+splash_base64+"')";
-		
+        div_splash.style.backgroundImage = "url('" + splash_base64 + "')";
+
         div_splash.style.backgroundRepeat = "no-repeat";
         div_splash.style.opacity = "1";
         div_splash.style.textAlign = "left";
-		
-		div_file_info = document.createElement("DIV");
-		div_file_info.setAttribute("style", "white-space:nowrap;font-size:14px; font-family: 'Raleway', sans-serif;font-size:11px; color:white;");
-		div_file_info.setAttribute("id", '$dhx_splash_div_file_info');
-		div_file_info.style.width = "400px";
-		div_file_info.style.height = "30px";
-		div_file_info.style.position = "fixed";
-		div_file_info.style.top = ((self.windowHeight / 2) - 30 ) + "px";
-		div_file_info.style.left = ((self.windowWidth / 2) - 150) + "px";
-		div_file_info.style.zIndex = "12";
-		//div_file_info.style.backgroundImage = "url(" + $dhx_location + "imgs/splash.png)";
-		
-		
-		
-		
+
+        div_file_info = document.createElement("DIV");
+        div_file_info.setAttribute("style", "white-space:nowrap;font-size:14px; font-family: 'Raleway', sans-serif;font-size:11px; color:white;");
+        div_file_info.setAttribute("id", '$dhx_splash_div_file_info');
+        div_file_info.style.width = "400px";
+        div_file_info.style.height = "30px";
+        div_file_info.style.position = "fixed";
+        div_file_info.style.top = ((self.windowHeight / 2) - 30) + "px";
+        div_file_info.style.left = ((self.windowWidth / 2) - 150) + "px";
+        div_file_info.style.zIndex = "12";
+        //div_file_info.style.backgroundImage = "url(" + $dhx_location + "imgs/splash.png)";
+
+
+
+
         if (m == "MSXML") {
             template = template + '<b>Your browser is out of date</b> <br>';
             template = template + 'Your computer does not have a necessary component installed <br>';
             template = template + '<b>Please click <a target="_blank" style="color:#003399;" href="http://www.microsoft.com/en-us/download/details.aspx?id=19662" title="download">here</a> to install the component or use Firefox or Google Chrome</b>';
-        }
-        else if (m == "COMPONENTS_DISABLED") {
+        } else if (m == "COMPONENTS_DISABLED") {
             template = template + 'You are running Internet Explorer under <b>"no add-ons"</b> mode, <br>';
             template = template + 'or ActiveXs are disabled <br>';
             template = template + 'Close your browser and open the Internet Explorer again by reaching:<br><b>Start menu -> All Programs -> Internet Explorer</b>';
-        }
-        else if (m == "PDF_MISSING") {
+        } else if (m == "PDF_MISSING") {
             template = template + 'The Acrobat Reader plugin could not be found! <br>';
             template = template + 'If you are running IE, the ActiveXs may be disabled. Try to enable it. <br>';
             template = template + 'You can also try to install Acrobat reader. <b>Please click <a target="_blank" style="color:#003399;" href="http://get.adobe.com/br/reader/" title="download">here</a> to download and install free Acrobat Reader</b>';
-        }
-        else if (m == "BROWSER_VERSION_OUT_TO_DATE") {
+        } else if (m == "BROWSER_VERSION_OUT_TO_DATE") {
             template = template + 'You are running ' + $dhx.Browser.name + ' ' + $dhx.Browser.version + '.<br>';
             template = template + 'This version is not supported anymore.<br>';
             template = template + 'Please download and install a new version of it.';
-        }
-        else if (m == "BROWSER_NOT_ALLOWED") {
+        } else if (m == "BROWSER_NOT_ALLOWED") {
             template = template + 'You are running ' + $dhx.Browser.name + ' ' + $dhx.Browser.version + '.<br>';
             template = template + 'This Browser vendor is not supported.<br>';
             template = template + 'List of supported browsers: <b>Internet Explorer 8+, Safari, Chrome 13+, Firefox 5+</b>';
-        }
-        else if (m == "Loading_Files") {
+        } else if (m == "Loading_Files") {
             template = template + '';
             template = template + '<b>Loading files ...</b><br>';
             template = template + 'please wait!';
-        }
-        else if (typeof m === 'undefined') {
+        } else if (typeof m === 'undefined') {
             template = template + '';
             template = template + '<b> ...</b><br>';
             template = template + 'please wait!';
-        }
-        else {
+        } else {
             template = template + '';
             template = template + m;
             //template = template + 'please wait!';
@@ -1395,14 +1342,12 @@ var $dhx = {
                 document.body.appendChild(div_wrapper);
                 document.body.appendChild(div_splash);
                 document.body.appendChild(div_file_info);
-            }
-            catch (e) {
+            } catch (e) {
                 document.getElementsByTagName('body')[0].appendChild(div_wrapper);
                 document.getElementsByTagName('body')[0].appendChild(div_splash);
                 document.getElementsByTagName('body')[0].appendChild(div_file_info);
             }
-        }
-        else {
+        } else {
             document.getElementById("$dhx_wrapper_splash").style.display = "block";
             document.getElementById("$dhx_splash").style.display = "block";
             document.getElementById("$dhx_splash_div_file_info").style.display = "block";
@@ -1413,8 +1358,7 @@ var $dhx = {
             document.getElementById("$dhx_wrapper_loading_wheel").parentNode.removeChild(document.getElementById("$dhx_wrapper_loading_wheel"));
             document.getElementById("$dhx_loading_wheel").parentNode.removeChild(document.getElementById("$dhx_loading_wheel"));
             //document.getElementById("$dhx_splash").style.display = "none";
-        }
-        catch (e) {}
+        } catch (e) {}
     },
     progressOn: function(m) {
         var self = this,
@@ -1445,7 +1389,7 @@ var $dhx = {
         div_splash.style.left = ((self.windowWidth / 2) - 121) + "px";
         div_splash.style.zIndex = "999999";
         //div_splash.style.backgroundColor = "#ffffff";
-        div_splash.style.backgroundImage = "url('"+loading_gif+"')";
+        div_splash.style.backgroundImage = "url('" + loading_gif + "')";
         div_splash.style.backgroundRepeat = "no-repeat";
         div_splash.style.opacity = "1";
         div_splash.style.textAlign = "left";
@@ -1458,20 +1402,17 @@ var $dhx = {
             try {
                 document.body.appendChild(div_wrapper);
                 document.body.appendChild(div_splash);
-            }
-            catch (e) {
+            } catch (e) {
                 document.getElementsByTagName('body')[0].appendChild(div_wrapper);
                 document.getElementsByTagName('body')[0].appendChild(div_splash);
             }
-        }
-        else {
+        } else {
             document.getElementById("$dhx_wrapper_loading_wheel").parentNode.removeChild(document.getElementById("$dhx_wrapper_loading_wheel"));
             document.getElementById("$dhx_loading_wheel").parentNode.removeChild(document.getElementById("$dhx_loading_wheel"));
             try {
                 document.body.appendChild(div_wrapper);
                 document.body.appendChild(div_splash);
-            }
-            catch (e) {
+            } catch (e) {
                 document.getElementsByTagName('body')[0].appendChild(div_wrapper);
                 document.getElementsByTagName('body')[0].appendChild(div_splash);
             }
@@ -1507,13 +1448,11 @@ var $dhx = {
                     str += tn[Number(n[i + 1])] + ' ';
                     i++;
                     sk = 1;
-                }
-                else if (n[i] != 0) {
+                } else if (n[i] != 0) {
                     str += tw[n[i] - 2] + ' ';
                     sk = 1;
                 }
-            }
-            else if (n[i] != 0) {
+            } else if (n[i] != 0) {
                 str += dg[n[i]] + ' ';
                 if ((x - i) % 3 == 0) str += 'hundred ';
                 sk = 1;
@@ -1531,7 +1470,7 @@ var $dhx = {
         return str.replace(/\s+/g, ' ');
         //}
     },
-    
+
 
     isArray: function(what) {
         return Object.prototype.toString.call(what) === '[object Array]';
@@ -1571,8 +1510,7 @@ var $dhx = {
     getParentByID: function(id) {
             try {
                 return document.getElementById(id).parentNode;
-            }
-            catch (e) {
+            } catch (e) {
                 return false;
             }
         }
@@ -1627,8 +1565,7 @@ var $dhx = {
                             //ob = window[level][className];
                             last_level = window[level];
                             first_level = false;
-                        }
-                        else {
+                        } else {
                             //console.log(last_level);
                             last_level[level] = last_level[level] || {};
                             //console.log(last_level[ level ]);
@@ -1646,8 +1583,7 @@ var $dhx = {
                     }
                     //console.log(className);
                     //console.log( root.NameSpace.usingNameSpace );
-                }
-                else {
+                } else {
                     ((parentClass) && parentClass != null) ? window[className] = Object.create(parentClass): window[className] = {};
                     ob = window[className];
                     for (var item in objClass[className]) {
@@ -1795,26 +1731,20 @@ var $dhx = {
                     if (k == 'ctrl' || k == 'control') {
                         kp++;
                         modifiers.ctrl.wanted = true;
-                    }
-                    else if (k == 'shift') {
+                    } else if (k == 'shift') {
                         kp++;
                         modifiers.shift.wanted = true;
-                    }
-                    else if (k == 'alt') {
+                    } else if (k == 'alt') {
                         kp++;
                         modifiers.alt.wanted = true;
-                    }
-                    else if (k == 'meta') {
+                    } else if (k == 'meta') {
                         kp++;
                         modifiers.meta.wanted = true;
-                    }
-                    else if (k.length > 1) { //If it is a special key
+                    } else if (k.length > 1) { //If it is a special key
                         if (special_keys[k] == code) kp++;
-                    }
-                    else if (opt['keycode']) {
+                    } else if (opt['keycode']) {
                         if (opt['keycode'] == code) kp++;
-                    }
-                    else { //The special keys did not match
+                    } else { //The special keys did not match
                         if (character == k) kp++;
                         else {
                             if (shift_nums[character] && e.shiftKey) { //Stupid Shift key bug created by using lowercase
@@ -1920,8 +1850,7 @@ var $dhx = {
                                 var node = null;
                                 if ($dhx.isArray(nodeObj[nodeText])) {
                                     this.fromJSON(nodeObj, false, pNode, xmlDoc);
-                                }
-                                else {
+                                } else {
                                     pNodeName = nodeText;
                                     node = xmlDoc.createElement(pNodeName);
                                     var attributes = nodeObj[nodeText];
@@ -1943,8 +1872,7 @@ var $dhx = {
         serialize: function(xmlNode) {
             if (typeof window.XMLSerializer != "undefined") {
                 return (new window.XMLSerializer()).serializeToString(xmlNode);
-            }
-            else if (typeof xmlNode.xml != "undefined") {
+            } else if (typeof xmlNode.xml != "undefined") {
                 return xmlNode.xml;
             }
             return "";
@@ -2009,13 +1937,11 @@ var $dhx = {
                     });
                     var newcookie = self.get(cookieName) + "&" + keyName + "=" + value + "";
                     self.set(cookieName, newcookie, lngDays);
-                }
-                else {
+                } else {
                     self.set(cookieName, "" + keyName + "=" + value + "", 360);
                 }
                 return true;
-            }
-            catch (e) {
+            } catch (e) {
                 //console.log(e.stack);
                 return false;
             }
@@ -2033,8 +1959,7 @@ var $dhx = {
                 if (cookievalue == "") return false;
                 try {
                     cookievaluesep = cookievalue.split("&");
-                }
-                catch (e) {
+                } catch (e) {
                     return false;
                 }
                 for (c = 0; c < cookievaluesep.length; c++) {
@@ -2042,12 +1967,10 @@ var $dhx = {
                     if (cookienamevalue.length > 1) //it has multi valued cookie
                     {
                         if (cookienamevalue[0] == cookiekey) return unescape(cookienamevalue[1].toString().replace(/\+/gi, " "));
-                    }
-                    else return false;
+                    } else return false;
                 }
                 return false;
-            }
-            catch (e) {
+            } catch (e) {
                 return false;
             }
         }
@@ -2116,16 +2039,14 @@ var $dhx = {
                     QS[key].Item = function(e) {
                         if (typeof e == un) {
                             return QS[key];
-                        }
-                        else {
+                        } else {
                             if (typeof e == n) {
                                 var a = QS[key][Math.ceil(e)];
                                 if (typeof a == un) {
                                     Err(e1 + "(\"" + key + "\").Item(" + e + ")");
                                 }
                                 return a;
-                            }
-                            else {
+                            } else {
                                 Err("ERROR: Expecting numeric input in\r\nRequest.QueryString(\"" + key + "\").Item(\"" + e + "\")");
                             }
                         }
@@ -2133,8 +2054,7 @@ var $dhx = {
                     QS[key].Item.toString = function(e) {
                         if (typeof e == un) {
                             return QS[key].toString();
-                        }
-                        else {
+                        } else {
                             var a = QS[key][e];
                             if (typeof a == un) {
                                 Err(e1 + "(\"" + key + "\").Item(" + e + ")");
@@ -2147,8 +2067,7 @@ var $dhx = {
                         if (t == r) {
                             var a = QS[key][e];
                             return (typeof a != un && a && a.toString() ? e : "");
-                        }
-                        else {
+                        } else {
                             Err(e3 + "(" + (e ? e : "") + ")");
                         }
                     }
@@ -2173,8 +2092,7 @@ var $dhx = {
                     var ty = typeof o[i];
                     if (ty == "object") {
                         s += TS(o[i]);
-                    }
-                    else if (ty != f) {
+                    } else if (ty != f) {
                         s += o[i] + ", ";
                     }
                 }
@@ -2231,8 +2149,7 @@ var $dhx = {
                         if (preAmpAt != l) {
                             if (eqAt != -1) {
                                 AVTK(URID(LS.substring(preAmpAt, eqAt)), URID(LS.substring(eqAt + 1, l)));
-                            }
-                            else if (preAmpAt != l - 1) {
+                            } else if (preAmpAt != l - 1) {
                                 AVTK(URID(LS.substring(preAmpAt, l)), "");
                             }
                         }
@@ -2258,8 +2175,7 @@ var $dhx = {
             QS.Item = function(e) {
                 if (typeof e == un) {
                     return LS;
-                }
-                else {
+                } else {
                     if (typeof e == n) {
                         var e = Math.ceil(e);
                         var c = 0;
@@ -2269,8 +2185,7 @@ var $dhx = {
                             }
                         }
                         Err(e1 + "().Item(" + e + ")");
-                    }
-                    else {
+                    } else {
                         return QS[KM(e, QS)];
                     }
                 }
@@ -2289,13 +2204,11 @@ var $dhx = {
                             return i;
                         }
                     }
-                }
-                else if (t == r) {
+                } else if (t == r) {
                     var e = KM(e, QS);
                     var a = QS[e];
                     return (typeof a != un && a && a.toString() ? e : "");
-                }
-                else {
+                } else {
                     Err(e2 + "().Key(" + (e ? e : "") + ")");
                 }
                 Err(e1 + "().Item(" + e + ")");
@@ -2306,8 +2219,7 @@ var $dhx = {
             this.QueryString = function(k) {
                 if (typeof k == un) {
                     return QS;
-                }
-                else {
+                } else {
                     if (typeof k == n) {
                         return QS.Item(k);
                     }
@@ -2336,8 +2248,7 @@ var $dhx = {
                             return x;
                         }
                         return t;
-                    }
-                    else {
+                    } else {
                         return QS[k];
                     }
                 }
@@ -2354,8 +2265,7 @@ var $dhx = {
             this.QueryString.Item = function(e) {
                 if (typeof e == un) {
                     return LS.toString();
-                }
-                else {
+                } else {
                     if (typeof e == n) {
                         var e = Math.ceil(e);
                         var c = 0;
@@ -2365,8 +2275,7 @@ var $dhx = {
                             }
                         }
                         Err(e1 + ".Item(" + e + ")");
-                    }
-                    else {
+                    } else {
                         return QS[KM(e, QS)];
                     }
                 }
@@ -2388,13 +2297,11 @@ var $dhx = {
                             return i;
                         }
                     }
-                }
-                else if (t == r) {
+                } else if (t == r) {
                     var e = KM(e, QS);
                     var a = QS[e];
                     return (typeof a != un && a && a.toString() ? e : "");
-                }
-                else {
+                } else {
                     Err(e2 + ".Key(" + (e ? e : "") + ")");
                 }
                 Err(e1 + ".Item(" + e + ")");
@@ -2453,11 +2360,9 @@ var $dhx = {
                                 if (data.client_id) {
                                     self.clientID[configuration.pipe] = data.client_id;
                                 }
-                            }
-                            else {}
+                            } else {}
                             if (configuration.onMessage) configuration.onMessage(data, messageEvent);
-                        }
-                        else
+                        } else
                         if (configuration.onMessage) configuration.onMessage({
                             msg: "no data when onMessage"
                         }, messageEvent);
@@ -2483,16 +2388,14 @@ var $dhx = {
                                     //	dataObj["type"] = m["type"];
                                     //m["data"] = JSON.stringify( dataObj );
                                     m = JSON.stringify(m);
-                                }
-                                else {
+                                } else {
                                     if (m && m != null && m != "") {
                                         m = JSON.stringify({
                                             type: "message",
                                             message: m,
                                             routing_key: self.defaultRouting_key
                                         });
-                                    }
-                                    else {
+                                    } else {
                                         dhtmlx.message({
                                             type: "error",
                                             text: "Hey Mark, I can't send an empty message"
@@ -2506,8 +2409,7 @@ var $dhx = {
                                 //console.log( m );
                                 self.Socket[configuration.pipe].send(m);
                                 //console.log(m);
-                            }
-                            catch (e) {
+                            } catch (e) {
                                 console.log(e);
                             }
                         }
@@ -2538,8 +2440,7 @@ var $dhx = {
                     }
                 }
                 return self.Socket[configuration.pipe];
-            }
-            else {
+            } else {
                 return {
                     send: function() {
                         console.log("$dhx socket: browser not supported");
@@ -2568,22 +2469,19 @@ var $dhx = {
                 return function(el, type, fn) {
                     if (el && el.nodeName || el === window) {
                         el.addEventListener(type, fn, false);
-                    }
-                    else if (el && el.length) {
+                    } else if (el && el.length) {
                         for (var i = 0; i < el.length; i++) {
                             addEvent(el[i], type, fn);
                         }
                     }
                 };
-            }
-            else {
+            } else {
                 return function(el, type, fn) {
                     if (el && el.nodeName || el === window) {
                         el.attachEvent('on' + type, function() {
                             return fn.call(el, window.event);
                         });
-                    }
-                    else if (el && el.length) {
+                    } else if (el && el.length) {
                         for (var i = 0; i < el.length; i++) {
                             addEvent(el[i], type, fn);
                         }
@@ -2663,50 +2561,51 @@ var $dhx = {
             return s.join("");
         }
     }
-	
-	// From MDN
-	,notify : function (title, text, img) {
-		img = img || 'http://cdn.dhtmlx.com.br/dhx/notify.png';
-		// Let's check if the browser supports notifications
-		if (!"Notification" in window) {
-			console.log("This browser does not support notifications.");
-		}
-		// Let's check if the user is okay to get some notification
-		else if (Notification.permission === "granted") {
-			// If it's okay let's create a notification
-			var notification = new Notification(title, {
-				body: text
-				, icon: img
-			});
-			//window.navigator.vibrate(500);
-		}
-		// Otherwise, we need to ask the user for permission
-		// Note, Chrome does not implement the permission static property
-		// So we have to check for NOT 'denied' instead of 'default'
-		else if (Notification.permission !== 'denied') {
-			Notification.requestPermission(function (permission) {
-				// Whatever the user answers, we make sure Chrome stores the information
-				if (!('permission' in Notification)) {
-					Notification.permission = permission;
-				}
-				// If the user is okay, let's create a notification
-				if (permission === "granted") {
-					var notification = new Notification(title, {
-						body: text
-						, icon: img
-					});
-					window.navigator.vibrate(500);
-				}
-			});
-		}
-		// At last, if the user already denied any notification, and you 
-		// want to be respectful there is no need to bother him any more.
-		// now we need to update the value of notified to "yes" in this particular data object, so the
-		// notification won't be set off on it again
-		// first open up a transaction as usual
-		//var objectStore = db.transaction(['toDoList'], "readwrite").objectStore('toDoList');
-		// get the to-do list object that has this title as it's title
-		/*var objectStoreTitleRequest = objectStore.get(title);
+
+    // From MDN
+    ,
+    notify: function(title, text, img) {
+        img = img || 'http://cdn.dhtmlx.com.br/dhx/notify.png';
+        // Let's check if the browser supports notifications
+        if (!"Notification" in window) {
+            console.log("This browser does not support notifications.");
+        }
+        // Let's check if the user is okay to get some notification
+        else if (Notification.permission === "granted") {
+            // If it's okay let's create a notification
+            var notification = new Notification(title, {
+                body: text,
+                icon: img
+            });
+            //window.navigator.vibrate(500);
+        }
+        // Otherwise, we need to ask the user for permission
+        // Note, Chrome does not implement the permission static property
+        // So we have to check for NOT 'denied' instead of 'default'
+        else if (Notification.permission !== 'denied') {
+            Notification.requestPermission(function(permission) {
+                // Whatever the user answers, we make sure Chrome stores the information
+                if (!('permission' in Notification)) {
+                    Notification.permission = permission;
+                }
+                // If the user is okay, let's create a notification
+                if (permission === "granted") {
+                    var notification = new Notification(title, {
+                        body: text,
+                        icon: img
+                    });
+                    window.navigator.vibrate(500);
+                }
+            });
+        }
+        // At last, if the user already denied any notification, and you 
+        // want to be respectful there is no need to bother him any more.
+        // now we need to update the value of notified to "yes" in this particular data object, so the
+        // notification won't be set off on it again
+        // first open up a transaction as usual
+        //var objectStore = db.transaction(['toDoList'], "readwrite").objectStore('toDoList');
+        // get the to-do list object that has this title as it's title
+        /*var objectStoreTitleRequest = objectStore.get(title);
 		objectStoreTitleRequest.onsuccess = function () {
 			// grab the data object returned as the result
 			var data = objectStoreTitleRequest.result;
@@ -2719,13 +2618,14 @@ var $dhx = {
 				displayData();
 			}
 		}*/
-	}
-	
-	
-	
-	
-	
-    ,jDBdStorage: {
+    }
+
+
+
+
+
+    ,
+    jDBdStorage: {
         storeObject: function(dataset_name, dataOBJ) {
             if ($dhx._enable_log) console.time("storeObject " + dataset_name);
             localStorage.setItem(dataset_name, JSON.stringify(dataOBJ));
@@ -2742,7 +2642,7 @@ var $dhx = {
             localStorage.setItem(dataset_name, JSON.stringify(payload));
             if ($dhx._enable_log) console.timeEnd("save dataset " + dataset_name);
         },
-		deleteDatabase: function(dataset_name) {
+        deleteDatabase: function(dataset_name) {
             if ($dhx._enable_log) console.time("delete dataset " + dataset_name);
             localStorage.removeItem(dataset_name);
             if ($dhx._enable_log) console.timeEnd("delete dataset " + dataset_name);
@@ -2756,16 +2656,14 @@ var $dhx = {
                 var parsed = JSON.parse(currently_store_string);
                 if ($dhx._enable_log) console.timeEnd("parse dataset " + dataset_name);
                 return parsed;
-            }
-            else return localStorage[dataset_name];
+            } else return localStorage[dataset_name];
         },
         getTotalRecords: function(dataset_name) {
             var currently_store_string = localStorage[dataset_name];
             if (localStorage[dataset_name]) {
                 var array = JSON.parse(currently_store_string);
                 return array.length;
-            }
-            else return 0;
+            } else return 0;
         }
     },
     jDBd: {
@@ -2881,8 +2779,7 @@ var $dhx = {
                                 if (json.status == "success") {
                                     $dhx.isArray(json[c.api_service.collection_name]) ? c.data = json[c.api_service.collection_name] : c.data = [];
                                     self._create(c);
-                                }
-                                else self._create(c);
+                                } else self._create(c);
                             },
                             onFail: function(request) {
                                 //var json = JSON.parse( request.response );
@@ -2893,12 +2790,9 @@ var $dhx = {
                                 self._create(c);
                             }
                         });
-                    }
-                    else self._create(c);
-                }
-                else self._create(c);
-            }
-            catch (e) {
+                    } else self._create(c);
+                } else self._create(c);
+            } catch (e) {
                 if (c.onFail) c.onFail(e.stack);
                 console.log(e.stack);
             }
@@ -3009,8 +2903,7 @@ var $dhx = {
                     });
                     //if( $dhx._enable_log ) console.log("XXXXXXX end interating over bound components");
                     return true;
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "dataset " + c.data_set_name + " not found"
@@ -3152,8 +3045,7 @@ var $dhx = {
                 });
                 //if( $dhx._enable_log ) console.log("XXXXXXX end interating over bound components");
                 return bound;
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -3390,8 +3282,7 @@ var $dhx = {
                                 //if( $dhx._enable_log ) console.log( "this component is a tree" );
                                 if (c.onFail) c.onFail("tree can not be synced");
                                 synced = false;
-                            }
-                            else if (typeof component._selOption !== 'undefined') {
+                            } else if (typeof component._selOption !== 'undefined') {
                                 if ($dhx._enable_log) console.log("this component is a combo");
                                 component.clearAll(true);
                                 var records = [];
@@ -3406,8 +3297,7 @@ var $dhx = {
                                 component.addOption(records);
                                 if (c.onSuccess) c.onSuccess();
                                 synced = true;
-                            }
-                            else if (typeof component.isTreeGrid !== 'undefined') {
+                            } else if (typeof component.isTreeGrid !== 'undefined') {
                                 if ($dhx._enable_log) console.log("this component is a grid");
                                 component.clearAll();
                                 component.api_service = c.api_service;
@@ -3420,11 +3310,9 @@ var $dhx = {
                                         if (stage == 0) {
                                             // format and mask here
                                             return true;
-                                        }
-                                        else if (stage == 1) {
+                                        } else if (stage == 1) {
                                             return true;
-                                        }
-                                        else if (stage == 2) {
+                                        } else if (stage == 2) {
                                             if (nValue != oValue) {
                                                 //$dhx.showDirections("saving data ... ");
                                                 component.setRowTextBold(rId);
@@ -3480,21 +3368,18 @@ var $dhx = {
 									self.setCursor({ data_set_name : c.data_set_name, position : null});
 								*/
                                 synced = true;
-                            }
-                            else if (typeof component._changeFormId !== 'undefined') {
+                            } else if (typeof component._changeFormId !== 'undefined') {
                                 //if( $dhx._enable_log ) console.log( "form can not be synced" );
                                 if (c.onFail) c.onFail("form can not be synced");
                                 synced = false;
-                            }
-                            else {
+                            } else {
                                 if (c.onFail) c.onFail("unknow component when syncing");
                             }
                         }
                     });
                     //if( $dhx._enable_log ) console.log("XXXXXXX end interating over synced components");
                     return synced;
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "dataset " + c.data_set_name + " not found"
@@ -3547,8 +3432,7 @@ var $dhx = {
                                 data: obj.data
                             });
                         }
-                    }
-                    else if (c.filter.length == 2) {
+                    } else if (c.filter.length == 2) {
                         var matches = false;
                         if (typeof c.filter[0] !== 'undefined' && typeof c.filter[1] !== 'undefined') {
                             if ($dhx.isFunction(c.filter[0])) {
@@ -3565,8 +3449,7 @@ var $dhx = {
                                 data: obj.data
                             });
                         }
-                    }
-                    else {
+                    } else {
                         var obj = {};
                         for (i in row)
                             if (row.hasOwnProperty(i)) obj[i] = row[i];
@@ -3576,8 +3459,7 @@ var $dhx = {
                             data: obj.data
                         });
                     }
-                }
-                else {
+                } else {
                     var obj = {};
                     for (i in row)
                         if (row.hasOwnProperty(i)) obj[i] = row[i];
@@ -3606,8 +3488,7 @@ var $dhx = {
                 //if( $dhx._enable_log ) console.log( c.data_set_name );
                 if (typeof self.data_sets[c.data_set_name] !== 'undefined') {
                     return self.data_sets[c.data_set_name].data;
-                }
-                else return [];
+                } else return [];
             }
             /*
 					c = {
@@ -3651,8 +3532,7 @@ var $dhx = {
             if (index_found >= 0) {
                 //if( $dhx._enable_log ) console.log( self.data_sets[ c.data_set_name ].data[ index_found ] );
                 return data[index_found];
-            }
-            else return record;
+            } else return record;
         },
         setCursor: function(c) {
             var self = $dhx.jDBd,
@@ -3695,20 +3575,17 @@ var $dhx = {
                         text: "the dataset " + c.data_set_name + " has no index with value: " + c.position
                     });
                     return self.data_sets[c.data_set_name].cursorPosition;
-                }
-                else {
+                } else {
                     self.data_sets[c.data_set_name]._bound_components.forEach(function(hash, index, array) {
                         var component = hash.component;
                         //if( $dhx._enable_log ) console.log(component);
                         if (typeof component.mytype !== 'undefined') {
                             //if( $dhx._enable_log ) console.log( "tree can not be bound" );
                             //if( $dhx._enable_log ) console.log(component.mytype);
-                        }
-                        else if (typeof component.isTreeGrid !== 'undefined') {
+                        } else if (typeof component.isTreeGrid !== 'undefined') {
                             //if( $dhx._enable_log ) console.log( "grid can not be bound" );
                             //if( $dhx._enable_log ) console.log(component.isTreeGrid);
-                        }
-                        else if (typeof component._changeFormId !== 'undefined') {
+                        } else if (typeof component._changeFormId !== 'undefined') {
                             if ($dhx._enable_log) console.log("setting cursor for the bound form " + hash.component_id);
                             //if( $dhx._enable_log ) console.log( self.getCurrentRecord( { data_set_name : c.data_set_name } ) );
                             var record = self.getCurrentRecord({
@@ -3720,8 +3597,7 @@ var $dhx = {
                             if (hash.$init) hash.$init(obj);
                             try {
                                 component.setFormData(obj);
-                            }
-                            catch (e) {
+                            } catch (e) {
                                 console.warn('Phisycal component is not available. Did you unbind the destroeyd bound components?');
                                 //console.log(e.stack);
                             }
@@ -3729,8 +3605,7 @@ var $dhx = {
                     });
                     return self.data_sets[c.data_set_name].cursorPosition;
                 }
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -3750,8 +3625,7 @@ var $dhx = {
             }
             if (typeof self.data_sets[c.data_set_name] !== 'undefined') {
                 return self.data_sets[c.data_set_name].cursorPosition;
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -3799,16 +3673,14 @@ var $dhx = {
                             });
                             return record;
                         }
-                    }
-                    else {
+                    } else {
                         dhtmlx.message({
                             type: "error",
                             text: "this " + c.data_set_name + " dataset has no records"
                         });
                         return record;
                     }
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "dataset " + c.data_set_name + " not found"
@@ -3905,8 +3777,7 @@ var $dhx = {
                 //if( $dhx._enable_log ) console.log(component);
                 if (typeof component.mytype !== 'undefined') {
                     if ($dhx._enable_log) console.log("this component is a tree");
-                }
-                else if (typeof component.isTreeGrid !== 'undefined') {
+                } else if (typeof component.isTreeGrid !== 'undefined') {
                     if ($dhx._enable_log) console.log("this component is a grid");
                     component.clearAll();
                     var grid_data = self.getDataForGrid({
@@ -3916,9 +3787,7 @@ var $dhx = {
                     });
                     component.parse(grid_data, "json");
                     //self.data_sets[c.data_set_name].data
-                }
-                else if (typeof component._changeFormId !== 'undefined') {}
-                else if (typeof component._selOption !== 'undefined') {
+                } else if (typeof component._changeFormId !== 'undefined') {} else if (typeof component._selOption !== 'undefined') {
                     if ($dhx._enable_log) console.log("this component is a combo");
                 }
             });
@@ -3939,16 +3808,14 @@ var $dhx = {
                 if (data.length > 0) {
                     c.primary_key = c.primary_key || self.data_sets[c.data_set_name].primary_key;
                     return data[0][c.primary_key];
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "this " + c.data_set_name + " dataset has no records"
                     });
                     return record;
                 }
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -3980,16 +3847,14 @@ var $dhx = {
                         if (typeof data[c.index][self.data_sets[c.data_set_name].primary_key] !== 'undefined') return data[c.index][self.data_sets[c.data_set_name].primary_key];
                         else return null;
                     else return null;
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "this " + c.data_set_name + " dataset has no records"
                     });
                     return null;
                 }
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -4031,16 +3896,14 @@ var $dhx = {
                         });
                         return null;
                     }
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "this " + c.data_set_name + " dataset has no records"
                     });
                     return null;
                 }
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -4063,16 +3926,14 @@ var $dhx = {
                 if (data.length > 0) {
                     c.primary_key = c.primary_key || self.data_sets[c.data_set_name].primary_key;
                     return data[data.length - 1][c.primary_key];
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "this " + c.data_set_name + " dataset has no records"
                     });
                     return record;
                 }
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -4107,8 +3968,7 @@ var $dhx = {
 						data_set_name: c.data_set_name,
 						position: next_cursor_id
 					});*/
-                }
-                else {
+                } else {
                     dhtmlx.message({
                         type: "error",
                         text: "there is no next record on this dataset"
@@ -4155,8 +4015,7 @@ var $dhx = {
 					data_set_name: c.data_set_name,
 					position: next_cursor_id
 				});*/
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "there is no previous record on this dataset"
@@ -4188,8 +4047,7 @@ var $dhx = {
                 var current_data = self.data_sets[c.data_set_name].data;
                 try {
                     current_data.sort(sortFunction);
-                }
-                catch (e) {
+                } catch (e) {
                     dhtmlx.message({
                         type: "error",
                         text: "could not sort data"
@@ -4287,8 +4145,7 @@ var $dhx = {
                                     position: self.data_sets[c.data_set_name].data[0][self.data_sets[c.data_set_name].primary_key]
                                 });
                                 component.selectRow(component.getRowIndex(self.data_sets[c.data_set_name].data[0][self.data_sets[c.data_set_name].primary_key]), true, false, true);
-                            }
-                            else self.data_sets[c.data_set_name].cursorPosition = null;
+                            } else self.data_sets[c.data_set_name].cursorPosition = null;
                         }
                         if (typeof component._changeFormId !== 'undefined') {}
                     });
@@ -4324,16 +4181,14 @@ var $dhx = {
                                             if (json.status == "success") {
                                                 try {
                                                     _delete(index);
-                                                }
-                                                catch (e) {
+                                                } catch (e) {
                                                     dhtmlx.message({
                                                         type: "error",
                                                         text: "don't deleted. reason: " + json.response
                                                     });
                                                     if (c.onFail) c.onFail("don't deleted. reason: ", e.stack);
                                                 }
-                                            }
-                                            else {
+                                            } else {
                                                 dhtmlx.message({
                                                     type: "error",
                                                     text: "don't deleted. reason: " + json.response
@@ -4350,20 +4205,17 @@ var $dhx = {
                                             if (c.onFail) c.onFail("don't deleted. reason: " + json.response);
                                         }
                                     }); // call del
-                                }
-                                else // if not live
+                                } else // if not live
                                 {
                                     _delete(index);
                                 }
                                 //}
                                 //else // if not c.api_service.del_end_point
                                 //	_delete(index);
-                            }
-                            else // not c.api_service
+                            } else // not c.api_service
                                 _delete(index);
                 }); // end foreach
-            }
-            else {
+            } else {
                 dhtmlx.message({
                     type: "error",
                     text: "dataset " + c.data_set_name + " not found"
@@ -4411,8 +4263,7 @@ var $dhx = {
                         //if( $dhx._enable_log ) console.log(component);
                         if (typeof component.mytype !== 'undefined') {
                             //if( $dhx._enable_log ) console.log( "this component is a tree" );
-                        }
-                        else if (typeof component.isTreeGrid !== 'undefined') {
+                        } else if (typeof component.isTreeGrid !== 'undefined') {
                             if ($dhx._enable_log) console.log("this component is a grid");
                             var obj = {};
                             for (i in c.record)
@@ -4431,9 +4282,7 @@ var $dhx = {
                             if ($dhx.isNumber(index)) component.addRow(obj[c.primary_key], data, index);
                             else component.addRow(obj[c.primary_key], data);
                             component.selectRow(component.getRowIndex(obj[c.primary_key]), true, false, true);
-                        }
-                        else if (typeof component._changeFormId !== 'undefined') {}
-                        else if (typeof component._selOption !== 'undefined') {
+                        } else if (typeof component._changeFormId !== 'undefined') {} else if (typeof component._selOption !== 'undefined') {
                             if ($dhx._enable_log) console.log("this component is a combo");
                             var records = [];
                             var obj = {};
@@ -4444,8 +4293,7 @@ var $dhx = {
                             try {
                                 component.addOption(records);
                                 component.selectOption(component.getIndexByValue(obj.value));
-                            }
-                            catch (e) {
+                            } catch (e) {
                                 if ($dhx._enable_log) console.log(e.stack);
                             }
                         }
@@ -4504,8 +4352,7 @@ var $dhx = {
                                         if (json.status == "success") {
                                             var data = [];
                                             _insert(json[c.primary_key]);
-                                        }
-                                        else {
+                                        } else {
                                             dhtmlx.message({
                                                 type: "error",
                                                 text: "don't saved. reason: " + json.response
@@ -4521,18 +4368,15 @@ var $dhx = {
                                     if (c.onFail) c.onFail("don't saved. reason: " + request);
                                 }
                             });
-                        }
-                        else // if not c.live
+                        } else // if not c.live
                         {
                             _insert((new Date().getTime()));
                         }
-                    }
-                    else // if not c.api_service.post_end_point
+                    } else // if not c.api_service.post_end_point
                     {
                         _insert((new Date().getTime()));
                     }
-                }
-                else // if not c.api_service
+                } else // if not c.api_service
                 {
                     _insert((new Date().getTime()));
                 }
@@ -4614,8 +4458,7 @@ var $dhx = {
                                             // try to set new cell value
                                             try {
                                                 component.cells(c.record_id, component.getColIndexById(i)).setValue(obj[i]);
-                                            }
-                                            catch (e) {
+                                            } catch (e) {
                                                 if ($dhx._enable_log) console.log(e.stack);
                                             }
                                         }
@@ -4675,8 +4518,7 @@ var $dhx = {
                                     if (json.status == "success") {
                                         var data = [];
                                         _update(json[c.primary_key]);
-                                    }
-                                    else {
+                                    } else {
                                         dhtmlx.message({
                                             type: "error",
                                             text: "don't saved. reason: " + json.response
@@ -4692,8 +4534,7 @@ var $dhx = {
                                 if (c.onFail) c.onFail("don't saved. reason: " + request);
                             }
                         });
-                    }
-                    else // if not c.live
+                    } else // if not c.live
                     {
                         _update(c.record_id);
                     }
@@ -4702,8 +4543,7 @@ var $dhx = {
                     //{
                     //	_update(c.record_id);
                     //}
-                }
-                else // if not c.api_service
+                } else // if not c.api_service
                 {
                     _update(c.record_id);
                 }
@@ -4801,8 +4641,7 @@ var $dhx = {
                             if (json.status == "success") {
                                 $dhx.isArray(json[configuration.api_service.collection_name]) ? configuration.data = json[configuration.api_service.collection_name] : configuration.data = [];
                                 self._create();
-                            }
-                            else self._create();
+                            } else self._create();
                         },
                         onFail: function(request) {
                             //var json = JSON.parse( request.response );
@@ -4813,12 +4652,9 @@ var $dhx = {
                             self._create();
                         }
                     });
-                }
-                else self._create(configuration);
-            }
-            else self._create(configuration);
-        }
-        catch (e) {
+                } else self._create(configuration);
+            } else self._create(configuration);
+        } catch (e) {
             if (configuration.onFail) configuration.onFail(e.stack);
         };
         this._create = function() {
@@ -5000,9 +4836,10 @@ var $dhx = {
             return $dhx.jDBd.sort(c);
         }
     }
-    
-	
-	,crypt: {
+
+
+    ,
+    crypt: {
         /**
          *
          *  Secure Hash Algorithm (SHA1)
@@ -5046,12 +4883,10 @@ var $dhx = {
                         var c = string.charCodeAt(n);
                         if (c < 128) {
                             utftext += String.fromCharCode(c);
-                        }
-                        else if ((c > 127) && (c < 2048)) {
+                        } else if ((c > 127) && (c < 2048)) {
                             utftext += String.fromCharCode((c >> 6) | 192);
                             utftext += String.fromCharCode((c & 63) | 128);
-                        }
-                        else {
+                        } else {
                             utftext += String.fromCharCode((c >> 12) | 224);
                             utftext += String.fromCharCode(((c >> 6) & 63) | 128);
                             utftext += String.fromCharCode((c & 63) | 128);
@@ -5253,12 +5088,10 @@ var $dhx = {
                     var c = string.charCodeAt(n);
                     if (c < 128) {
                         utftext += String.fromCharCode(c);
-                    }
-                    else if ((c > 127) && (c < 2048)) {
+                    } else if ((c > 127) && (c < 2048)) {
                         utftext += String.fromCharCode((c >> 6) | 192);
                         utftext += String.fromCharCode((c & 63) | 128);
-                    }
-                    else {
+                    } else {
                         utftext += String.fromCharCode((c >> 12) | 224);
                         utftext += String.fromCharCode(((c >> 6) & 63) | 128);
                         utftext += String.fromCharCode((c & 63) | 128);
@@ -5426,8 +5259,7 @@ var $dhx = {
                                 if (DHTMLXForm.getItemValue(field.trigger).indexOf(value + "-,-") == -1) /* nao aberta */ {
                                     var fstr = DHTMLXForm.getItemValue(field.trigger) + value + "-,-";
                                     DHTMLXForm.setItemValue(field.trigger, fstr);
-                                }
-                                else {
+                                } else {
                                     var oldWord = value + "-,-";
                                     var fstr = DHTMLXForm.getItemValue(field.trigger).replace(new RegExp(oldWord, "g"), "");
                                     DHTMLXForm.setItemValue(field.trigger, fstr);
@@ -5451,8 +5283,7 @@ var $dhx = {
                     // catch the type of the item
                     try {
                         formField.type = formField.type || "button";
-                    }
-                    catch (e) {
+                    } catch (e) {
                         //console.log('formField.type = formField.type || "button" : ' + e.stack || e.message);
                         //console.log(formField);
                     }
@@ -5467,54 +5298,46 @@ var $dhx = {
                         if (typeof self.formFields[uid] === 'undefined') {
                             self.formFields[uid] = [];
                         }
-                    }
-                    catch (e) {
+                    } catch (e) {
                         //console.log("if(! self.formFields[ uid ]) === " + e.stack || e.message);
                     }
                     // if the item has a "block" type, we need to catch the items inside of the list property of the block
                     if (type == "block") {
                         if (appended_on_the_fly) {
                             self._setFormFieldsToBind(formField.list, uid, true); // use this same function to catch the items inside of the list
-                        }
-                        else {
+                        } else {
                             self._setFormFieldsToBind(formField.list, uid); // use this same function to catch the items inside of the list
                         }
-                    }
-                    else if (type == "label" && formField.list) {
+                    } else if (type == "label" && formField.list) {
                         //if(formField.list)
                         //{
                         if (appended_on_the_fly) {
                             self._setFormFieldsToBind(formField.list, uid, true); // use this same function to catch the items inside of the list
-                        }
-                        else {
+                        } else {
                             self._setFormFieldsToBind(formField.list, uid); // use this same function to catch the items inside of the list
                         }
                         //}
-                    }
-                    else if (type == "checkbox" && formField.list) {
+                    } else if (type == "checkbox" && formField.list) {
                         //if(formField.list)
                         //{
                         if (appended_on_the_fly) {
                             self.formFields[uid].unshift(formField);
                             self.formFields_tofill[uid] = self.formFields_tofill[uid] + 1;
                             self._setFormFieldsToBind(formField.list, uid, true); // use this same function to catch the items inside of the list
-                        }
-                        else {
+                        } else {
                             self.formFields[uid].push(formField);
                             self.formFields_tofill[uid] = self.formFields_tofill[uid] + 1;
                             self._setFormFieldsToBind(formField.list, uid); // use this same function to catch the items inside of the list
                         }
                         //}
-                    }
-                    else if (type == "fieldset" && formField.list) {
+                    } else if (type == "fieldset" && formField.list) {
                         //if(formField.list)
                         //{
                         if (appended_on_the_fly) {
                             self.formFields[uid].unshift(formField);
                             self.formFields_tofill[uid] = self.formFields_tofill[uid] + 1;
                             self._setFormFieldsToBind(formField.list, uid, true); // use this same function to catch the items inside of the list
-                        }
-                        else {
+                        } else {
                             self.formFields[uid].push(formField);
                             self.formFields_tofill[uid] = self.formFields_tofill[uid] + 1;
                             self._setFormFieldsToBind(formField.list, uid); // use this same function to catch the items inside of the list
@@ -5527,16 +5350,14 @@ var $dhx = {
                         if (appended_on_the_fly) {
                             self.formFields[uid].unshift(formField);
                             //console.log("unshift")
-                        }
-                        else {
+                        } else {
                             self.formFields[uid].push(formField);
                             //console.log("push")
                         }
                         self.formFields_tofill[uid] = self.formFields_tofill[uid] + 1;
                     }
                 }
-            }
-            catch (e) {
+            } catch (e) {
                 //console.log("_setFormFieldsToBind method " + e.stack || e.message);
             }
         },
@@ -5563,62 +5384,52 @@ var $dhx = {
                     if (mask_to_use == "currency") {
                         try {
                             id = DHTMLXForm.getInput(name).id;
-                        }
-                        catch (e) {
+                        } catch (e) {
                             id = DHTMLXForm.getInput(name).getAttribute("id");
                         }
                         $("#" + id).priceFormat({
                             prefix: ''
                         });
-                    }
-                    else if (mask_to_use == "can_currency") {
+                    } else if (mask_to_use == "can_currency") {
                         try {
                             id = DHTMLXForm.getInput(name).id;
-                        }
-                        catch (e) {
+                        } catch (e) {
                             id = DHTMLXForm.getInput(name).getAttribute("id");
                         }
                         $("#" + id).priceFormat({
                             prefix: 'CAN '
                         });
-                    }
-                    else if (mask_to_use == "integer") {
+                    } else if (mask_to_use == "integer") {
                         DHTMLXForm.getInput(name).onkeydown = function(event) {
                             only_integer(this);
                         };
-                    }
-                    else if (mask_to_use == "us_phone") {
+                    } else if (mask_to_use == "us_phone") {
                         DHTMLXForm.getInput(name).onkeypress = function(event) {
                             phone_mask(this);
                         };
                         DHTMLXForm.getInput(name).maxLength = "13";
-                    }
-                    else if (mask_to_use == "expiration_date") {
+                    } else if (mask_to_use == "expiration_date") {
                         DHTMLXForm.getInput(name).onkeypress = function(event) {
                             expiration_date(this);
                         };
                         DHTMLXForm.getInput(name).maxLength = "5";
-                    }
-                    else if (mask_to_use == "cvv") {
+                    } else if (mask_to_use == "cvv") {
                         DHTMLXForm.getInput(name).onkeydown = function(event) {
                             only_integer(this);
                         };
                         DHTMLXForm.getInput(name).maxLength = "4";
-                    }
-                    else if (mask_to_use == "credit_card") {
+                    } else if (mask_to_use == "credit_card") {
                         DHTMLXForm.getInput(name).onkeydown = function(event) {
                             only_integer(this);
                         };
                         DHTMLXForm.getInput(name).maxLength = "16";
-                    }
-                    else if (mask_to_use == "time") {
+                    } else if (mask_to_use == "time") {
                         //console.log("time mask")
                         DHTMLXForm.getInput(name).onkeydown = function(event) {
                             time_mask(this, event);
                         };
                         DHTMLXForm.getInput(name).maxLength = "8";
-                    }
-                    else if (mask_to_use == "SSN") {
+                    } else if (mask_to_use == "SSN") {
                         DHTMLXForm.getInput(name).onkeypress = function(event) {
                             ssn_mask(this);
                         };
@@ -5671,8 +5482,7 @@ var $dhx = {
                         label = field.label || "";
                         try {
                             value = DHTMLXForm.getInput(fieldname).value;
-                        }
-                        catch (e) {
+                        } catch (e) {
                             value = hash[fieldname] || "";
                         }
                         validate = field.validate || "";
@@ -5824,8 +5634,7 @@ var $dhx = {
                                         });
                                         return;
                                     }
-                                }
-                                else {
+                                } else {
                                     if (value.split(":")[0] > 23 || value.split(":")[1] > 59) {
                                         self._setInputHighlighted(field, uid, DHTMLXForm);
                                         dhtmlx.message({
@@ -5876,8 +5685,7 @@ var $dhx = {
                                         text: self.text_labels.validation_ValidExpirationdate(label)
                                     });
                                     return;
-                                }
-                                else {
+                                } else {
                                     var month = value.split("/")[0];
                                     var year = value.split("/")[1];
                                     if (isNaN(month) || isNaN(year)) {
@@ -5936,17 +5744,13 @@ var $dhx = {
             if (type == "combo") {
                 var fcombo = DHTMLXForm.getCombo(name);
                 fcombo.openSelect();
-            }
-            else if (type == "editor") {
+            } else if (type == "editor") {
                 //var feditor = DHTMLXForm.getEditor(name);
-            }
-            else if (type == "multiselect") {
+            } else if (type == "multiselect") {
                 self._setInputInvalid(DHTMLXForm.getSelect(name), uid);
-            }
-            else if (type == "select") {
+            } else if (type == "select") {
                 self._setInputInvalid(DHTMLXForm.getSelect(name), uid);
-            }
-            else {
+            } else {
                 self._setInputInvalid(DHTMLXForm.getInput(name));
             }
         }
@@ -5958,6 +5762,19 @@ var $dhx = {
             if (self.isDHTMLXmodified) {
                 return;
             }
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
             if (typeof dtmlXMLLoaderObject !== 'undefined') {
                 dtmlXMLLoaderObject.prototype.loadXML = function(a, b, c, d) {
                     this.rSeed && (a += (a.indexOf("?") != -1 ? "&" : "?") + "a_dhx_rSeed=" + (new Date).valueOf());
@@ -5973,10 +5790,10 @@ var $dhx = {
                     this.xmlDoc.setRequestHeader("X-browser-screen-width", screen.width);
                     this.xmlDoc.setRequestHeader("X-browser-screen-height", screen.height);
                     this.xmlDoc.setRequestHeader("X-Company-ID", $dhx.REST.API.company_id || 0);
-					this.xmlDoc.setRequestHeader("X-Company-Branch-ID", $dhx.REST.API.company_branch_id || 0);
-					this.xmlDoc.setRequestHeader("X-Person-Group", $dhx.REST.API.group || 0);
-					this.xmlDoc.setRequestHeader("X-Person-ID", $dhx.REST.API.person_id || 0);
-					//this.xmlDoc.setRequestHeader("X-Person-Type", $dhx.REST.API.person_type || '');
+                    this.xmlDoc.setRequestHeader("X-Company-Branch-ID", $dhx.REST.API.company_branch_id || 0);
+                    this.xmlDoc.setRequestHeader("X-Person-Group", $dhx.REST.API.group || 0);
+                    this.xmlDoc.setRequestHeader("X-Person-ID", $dhx.REST.API.person_id || 0);
+                    //this.xmlDoc.setRequestHeader("X-Person-Type", $dhx.REST.API.person_type || '');
                     this.xmlDoc.setRequestHeader("X-client-session-id", $dhx.REST.API.client_session_id || 0);
                     this.xmlDoc.setRequestHeader("Authorization", "Digest " + $dhx.crypt.base64_encode($dhx.REST.API.token));
                     this.xmlDoc.send(c);
@@ -6099,13 +5916,18 @@ var $dhx = {
         /**
 		@function init -  performs all the necessary tasks before let the user to use the $dhx object
 	*/
-    ,init: function(c) {
+        ,
+    init: function(c) {
         var self = this;
-		
+
         if ($dhx.$_GET("_enable_log") !== null) {
             if ($dhx.$_GET("_enable_log") == "true") $dhx._enable_log = true;
+			console.log(
+				"%c $dhx framework started ", 
+				'background: #00ebbe; color: #fff; font-size: 12px; padding: 12px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
+			);
         }
-		if ($dhx._enable_log) console.warn('starting $dhx');
+        if ($dhx._enable_log) console.warn('starting $dhx');
         self.Browser.init();
         if (typeof c !== 'undefined') {
             if (c.plugins) {}
@@ -6113,23 +5935,20 @@ var $dhx = {
         if (!self.isDHTMLXmodified) {
             self.modifyDHTMLX();
         }
-    }
-	,extend : function(parent, child)
-	{
-		if( ! $dhx.isObject(child) )
-			child = {};
-		if( ! $dhx.isObject(parent) )
-			parent = {};
-		for(var i in parent)
-		{
-			if( parent.hasOwnProperty(i) )
-			{
-				child[ i ] = parent[ i ];	
-			}
-		}
-		return child;
-	}
-    ,cdn1URL: '//cdn.dhtmlx.com.br/'
+    },
+    extend: function(parent, child) {
+        if (!$dhx.isObject(child))
+            child = {};
+        if (!$dhx.isObject(parent))
+            parent = {};
+        for (var i in parent) {
+            if (parent.hasOwnProperty(i)) {
+                child[i] = parent[i];
+            }
+        }
+        return child;
+    },
+    cdn1URL: '//cdn.dhtmlx.com.br/'
 };
 Object.defineProperty($dhx, 'CDN', {
     //get: function() { return bValue; },
@@ -6156,6 +5975,5 @@ Object.defineProperty($dhx, 'Author', {
     writable: false
 });
 window.onload = function() {
-    $dhx.init();
+    //$dhx.init();
 };
-
