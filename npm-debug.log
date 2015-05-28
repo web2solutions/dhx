@@ -1,0 +1,170 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'grunt-string-replace',
+1 verbose cli   '--save-dev' ]
+2 info using npm@2.10.1
+3 info using node@v0.12.4
+4 verbose install initial load of /Users/eduardoalmeida/apps/dhx/package.json
+5 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt/package.json
+6 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt-autoprefixer/package.json
+7 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt-contrib-jshint/package.json
+8 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt-contrib-uglify/package.json
+9 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt-contrib-watch/package.json
+10 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt-jsbeautifier/package.json
+11 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt-readme/package.json
+12 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/grunt-version/package.json
+13 verbose installManyTop reading scoped package data from /Users/eduardoalmeida/apps/dhx/node_modules/jshint-stylish/package.json
+14 info package.json grunt@0.4.5 No license field.
+15 info package.json grunt-readme@0.4.5 No license field.
+16 info package.json grunt-contrib-watch@0.6.1 No license field.
+17 info package.json grunt-jsbeautifier@0.2.10 No license field.
+18 info package.json grunt-contrib-uglify@0.9.1 No license field.
+19 info package.json grunt-version@1.0.0 No license field.
+20 info package.json grunt-contrib-jshint@0.11.2 No license field.
+21 verbose readDependencies loading dependencies from /Users/eduardoalmeida/apps/dhx/package.json
+22 silly cache add args [ 'grunt-string-replace', null ]
+23 verbose cache add spec grunt-string-replace
+24 silly cache add parsed spec { raw: 'grunt-string-replace',
+24 silly cache add   scope: null,
+24 silly cache add   name: 'grunt-string-replace',
+24 silly cache add   rawSpec: '',
+24 silly cache add   spec: '*',
+24 silly cache add   type: 'range' }
+25 silly addNamed grunt-string-replace@*
+26 verbose addNamed "*" is a valid semver range for grunt-string-replace
+27 silly addNameRange { name: 'grunt-string-replace', range: '*', hasData: false }
+28 silly mapToRegistry name grunt-string-replace
+29 silly mapToRegistry using default registry
+30 silly mapToRegistry registry https://registry.npmjs.org/
+31 silly mapToRegistry uri https://registry.npmjs.org/grunt-string-replace
+32 verbose addNameRange registry:https://registry.npmjs.org/grunt-string-replace not in flight; fetching
+33 verbose request uri https://registry.npmjs.org/grunt-string-replace
+34 verbose request no auth needed
+35 info attempt registry request try #1 at 3:23:31 AM
+36 verbose request using bearer token for auth
+37 verbose request id 263f85ffb4ff8458
+38 http request GET https://registry.npmjs.org/grunt-string-replace
+39 http 200 https://registry.npmjs.org/grunt-string-replace
+40 silly get cb [ 200,
+40 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+40 silly get     etag: '"8XM9CKVIUV50BBM5XO33DRS6T"',
+40 silly get     'content-type': 'application/json',
+40 silly get     'cache-control': 'max-age=60',
+40 silly get     'content-length': '37234',
+40 silly get     'accept-ranges': 'bytes',
+40 silly get     date: 'Thu, 28 May 2015 06:23:51 GMT',
+40 silly get     via: '1.1 varnish',
+40 silly get     connection: 'keep-alive',
+40 silly get     'x-served-by': 'cache-atl6224-ATL',
+40 silly get     'x-cache': 'MISS',
+40 silly get     'x-cache-hits': '0',
+40 silly get     'x-timer': 'S1432794230.842680,VS0,VE386',
+40 silly get     vary: 'Accept' } ]
+41 verbose get saving grunt-string-replace to /Users/eduardoalmeida/.npm/registry.npmjs.org/grunt-string-replace/.cache.json
+42 silly addNameRange number 2 { name: 'grunt-string-replace', range: '*', hasData: true }
+43 silly addNameRange versions [ 'grunt-string-replace',
+43 silly addNameRange   [ '0.1.0',
+43 silly addNameRange     '0.1.0-1',
+43 silly addNameRange     '0.1.1',
+43 silly addNameRange     '0.1.1-1',
+43 silly addNameRange     '0.2.0',
+43 silly addNameRange     '0.2.1',
+43 silly addNameRange     '0.2.2',
+43 silly addNameRange     '0.2.3',
+43 silly addNameRange     '0.2.4',
+43 silly addNameRange     '0.2.5-rc1',
+43 silly addNameRange     '0.2.5',
+43 silly addNameRange     '0.2.6',
+43 silly addNameRange     '0.2.7',
+43 silly addNameRange     '0.2.8',
+43 silly addNameRange     '1.0.0',
+43 silly addNameRange     '1.1.0',
+43 silly addNameRange     '1.1.1',
+43 silly addNameRange     '1.2.0' ] ]
+44 silly addNamed grunt-string-replace@1.2.0
+45 verbose addNamed "1.2.0" is a plain semver version for grunt-string-replace
+46 silly mapToRegistry name grunt-string-replace
+47 silly mapToRegistry using default registry
+48 silly mapToRegistry registry https://registry.npmjs.org/
+49 silly mapToRegistry uri https://registry.npmjs.org/grunt-string-replace
+50 verbose addRemoteTarball https://registry.npmjs.org/grunt-string-replace/-/grunt-string-replace-1.2.0.tgz not in flight; adding
+51 verbose addRemoteTarball [ 'https://registry.npmjs.org/grunt-string-replace/-/grunt-string-replace-1.2.0.tgz',
+51 verbose addRemoteTarball   '3f1a5f939b2751eb128ea14257a6a336bc7d5e1c' ]
+52 info retry fetch attempt 1 at 3:23:33 AM
+53 info attempt registry request try #1 at 3:23:33 AM
+54 http fetch GET https://registry.npmjs.org/grunt-string-replace/-/grunt-string-replace-1.2.0.tgz
+55 verbose request using bearer token for auth
+56 http fetch 200 https://registry.npmjs.org/grunt-string-replace/-/grunt-string-replace-1.2.0.tgz
+57 silly fetchAndShaCheck shasum 3f1a5f939b2751eb128ea14257a6a336bc7d5e1c
+58 verbose addTmpTarball /var/folders/7v/w0hy7m7n1533nfywdtsnq0fc0000gn/T/npm-68122-cd8f333f/registry.npmjs.org/grunt-string-replace/-/grunt-string-replace-1.2.0.tgz not in flight; adding
+59 verbose addTmpTarball already have metadata; skipping unpack for grunt-string-replace@1.2.0
+60 silly cache afterAdd grunt-string-replace@1.2.0
+61 verbose afterAdd /Users/eduardoalmeida/.npm/grunt-string-replace/1.2.0/package/package.json not in flight; writing
+62 verbose afterAdd /Users/eduardoalmeida/.npm/grunt-string-replace/1.2.0/package/package.json written
+63 silly install resolved [ { name: 'grunt-string-replace',
+63 silly install resolved     description: 'Replaces strings on files by using string or regex patterns. Attempts to be a String.prototype.replace adapter task for your grunt project.',
+63 silly install resolved     version: '1.2.0',
+63 silly install resolved     homepage: 'https://github.com/erickrdch/grunt-string-replace',
+63 silly install resolved     author:
+63 silly install resolved      { name: 'Erick Ruiz de Chavez',
+63 silly install resolved        email: 'erick@erch.co',
+63 silly install resolved        url: 'http://erickruizdechavez.com' },
+63 silly install resolved     repository:
+63 silly install resolved      { type: 'git',
+63 silly install resolved        url: 'git://github.com/erickrdch/grunt-string-replace.git' },
+63 silly install resolved     bugs: { url: 'https://github.com/erickrdch/grunt-string-replace/issues' },
+63 silly install resolved     licenses: [ [Object] ],
+63 silly install resolved     main: 'tasks/string-replace',
+63 silly install resolved     bin: { 'grunt-string-replace': 'bin/grunt-string-replace' },
+63 silly install resolved     engines: { node: '>= 0.8.0', npm: '>= 1.4.15' },
+63 silly install resolved     scripts: { test: 'grunt --verbose' },
+63 silly install resolved     peerDependencies: { grunt: '^0.4.0' },
+63 silly install resolved     devDependencies:
+63 silly install resolved      { 'grunt-contrib-clean': '^0.6.0',
+63 silly install resolved        'grunt-contrib-copy': '^0.8.0',
+63 silly install resolved        'grunt-contrib-jshint': '^0.11.2',
+63 silly install resolved        'grunt-contrib-nodeunit': '^0.4.1',
+63 silly install resolved        'grunt-contrib-watch': '^0.6.1' },
+63 silly install resolved     keywords: [ 'gruntplugin', 'string', 'replace', 'regex' ],
+63 silly install resolved     dependencies: { async: '^0.9.0', chalk: '^1.0.0' },
+63 silly install resolved     gitHead: '9f49dbead5dfee08dcaed6ee7579c8b1a2146594',
+63 silly install resolved     _id: 'grunt-string-replace@1.2.0',
+63 silly install resolved     _shasum: '3f1a5f939b2751eb128ea14257a6a336bc7d5e1c',
+63 silly install resolved     _from: 'grunt-string-replace@*',
+63 silly install resolved     _npmVersion: '2.8.4',
+63 silly install resolved     _nodeVersion: '0.12.2',
+63 silly install resolved     _npmUser: { name: 'erickrdch', email: 'erick@erch.co' },
+63 silly install resolved     dist:
+63 silly install resolved      { shasum: '3f1a5f939b2751eb128ea14257a6a336bc7d5e1c',
+63 silly install resolved        tarball: 'http://registry.npmjs.org/grunt-string-replace/-/grunt-string-replace-1.2.0.tgz' },
+63 silly install resolved     maintainers: [ [Object] ],
+63 silly install resolved     directories: {},
+63 silly install resolved     _resolved: 'https://registry.npmjs.org/grunt-string-replace/-/grunt-string-replace-1.2.0.tgz' } ]
+64 info install grunt-string-replace@1.2.0 into /Users/eduardoalmeida/apps/dhx
+65 info installOne grunt-string-replace@1.2.0
+66 verbose installOne of grunt-string-replace to /Users/eduardoalmeida/apps/dhx not in flight; installing
+67 warn locking Error: EACCES, open '/Users/eduardoalmeida/.npm/_locks/grunt-string-replace-072a551a8c6a72cf.lock'
+67 warn locking     at Error (native)
+67 warn locking  /Users/eduardoalmeida/.npm/_locks/grunt-string-replace-072a551a8c6a72cf.lock failed { [Error: EACCES, open '/Users/eduardoalmeida/.npm/_locks/grunt-string-replace-072a551a8c6a72cf.lock']
+67 warn locking   errno: -13,
+67 warn locking   code: 'EACCES',
+67 warn locking   path: '/Users/eduardoalmeida/.npm/_locks/grunt-string-replace-072a551a8c6a72cf.lock' }
+68 verbose stack Error: Attempt to unlock /Users/eduardoalmeida/apps/dhx/node_modules/grunt-string-replace, which hasn't been locked
+68 verbose stack     at unlock (/usr/local/lib/node_modules/npm/lib/utils/locker.js:66:11)
+68 verbose stack     at cb (/usr/local/lib/node_modules/npm/lib/install.js:1017:5)
+68 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:1021:20
+68 verbose stack     at /usr/local/lib/node_modules/npm/lib/utils/locker.js:40:9
+68 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/lockfile/lockfile.js:149:38)
+68 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/lockfile/lockfile.js:177:38
+68 verbose stack     at FSReqWrap.oncomplete (fs.js:95:15)
+69 verbose cwd /Users/eduardoalmeida/apps/dhx
+70 error Darwin 13.4.0
+71 error argv "node" "/usr/local/bin/npm" "install" "grunt-string-replace" "--save-dev"
+72 error node v0.12.4
+73 error npm  v2.10.1
+74 error Attempt to unlock /Users/eduardoalmeida/apps/dhx/node_modules/grunt-string-replace, which hasn't been locked
+75 error If you need help, you may report this error at:
+75 error     <https://github.com/npm/npm/issues>
+76 verbose exit [ 1, true ]

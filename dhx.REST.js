@@ -1,7 +1,7 @@
 $dhx.REST = {
         API: {
             appName: "REST API Javascript client",
-            version: 0.1,
+            version : '1.0.3',
             apiURL: "http://api.dhtmlx.com.br",
             apiURLdev: "http://api.web2.eti.br:3000",
             apiURLtest: "http://api.web2.eti.br:3000",

@@ -2,6 +2,7 @@
 /*global $dhx, dhtmlx, dhtmlXLayoutObject, dbDemo */
 
 $dhx.ui = $dhx.ui || {
+	version : '1.0.3',
     cdn_address: $dhx.CDN,
     require: function(dependencies, callBack) {
         'use strict';

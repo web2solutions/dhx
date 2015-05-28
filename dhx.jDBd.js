@@ -1,4 +1,5 @@
 $dhx.jDBd = {
+	version : '1.0.3',
 	data_sets: {} // store arrays
 	/*
 			c = {

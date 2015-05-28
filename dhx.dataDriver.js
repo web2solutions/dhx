@@ -1,7 +1,7 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true, maxerr : 1000, indent : 2, sloppy : true */
 /*global $dhx, dhtmlx, Element */
 $dhx.dataDriver = {
-
+	version : '1.0.3',
     dbs: {}
 
     ,

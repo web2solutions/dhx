@@ -1,6 +1,6 @@
 {
   "name": "dhx",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Agile JS framework for realtime web apps",
   "main": "Gruntfile.js",
   "dependencies": {
@@ -13,6 +13,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-jsbeautifier": "^0.2.10",
     "grunt-readme": "^0.4.5",
+    "grunt-version": "^1.0.0",
     "jshint-stylish": "^2.0.0"
   },
   "scripts": {

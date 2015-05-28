@@ -740,6 +740,7 @@ function currencyFormat(fld, milSep, decSep, e) {
 
 /*======================= $dhx FW ========================*/
 var $dhx = {
+	version : '1.0.3',
     _enable_log: false,
     windowWidth: 0,
     windowHeight: 0,
