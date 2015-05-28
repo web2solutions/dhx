@@ -2292,12 +2292,7 @@ $dhx.dataDriver = {
                                                 if (typeof field.dhx_prop_value !== 'undefined') {
                                                     var dhxCombo = component.getCombo(field.name);
 													
-													console.log( field );
-													console.log( dhxCombo );
-													console.log( dhxCombo );
-													console.log( dhxCombo );
-													console.log( dhxCombo );
-													console.log( dhxCombo );
+													
 													
 													var dhx_crud_rapid_button = document.createElement('img');
 													dhx_crud_rapid_button.setAttribute('class', 'dhx_crud_rapid_button');
@@ -3883,7 +3878,7 @@ $dhx.dataDriver = {
                                     that.sync({
                                         db: db_name,
                                         table: table,
-                                        component: c.componet,
+                                        component: c.component,
                                         type: 'dataview',
                                         component_id: c.component_id,
                                         onSuccess: c.onSuccess,
@@ -3894,7 +3889,7 @@ $dhx.dataDriver = {
                                     that.sync({
                                         db: db_name,
                                         table: table,
-                                        component: c.componet,
+                                        component: c.component,
                                         type: 'scheduler',
                                         component_id: c.component_id,
                                         onSuccess: c.onSuccess,
@@ -3905,7 +3900,7 @@ $dhx.dataDriver = {
                                     that.sync({
                                         db: db_name,
                                         table: table,
-                                        component: c.componet,
+                                        component: c.component,
                                         type: 'chart',
                                         component_id: c.component_id,
                                         onSuccess: c.onSuccess,
