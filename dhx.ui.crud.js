@@ -75,7 +75,7 @@ $dhx.ui.crud.simple = function(configuration) {
         //alert( 'pushing ' + self.appId )
         $dhx.ui.controller[self.appId] = this;
 
-        console.log(this.view);
+        //console.log(this.view);
 
         self.view.render(this);
 
@@ -83,7 +83,7 @@ $dhx.ui.crud.simple = function(configuration) {
 
 		
 
-        console.log(this.view);
+        //console.log(this.view);
 
     } catch (e) {
         if ($dhx._enable_log) console.log(">>> error when starting component:");
