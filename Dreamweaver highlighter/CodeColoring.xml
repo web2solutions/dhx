@@ -56,14 +56,14 @@ Text]]>
 <html>
 <body bgcolor="#FFFFFF">
 &nbsp;
-<cfoutput> 
+<cfoutput>
   <table width="75%" border="1">
-    <tr> 
+    <tr>
       <td>#Recordset1.Item#</td>
       <td>#Recordset1.Description#</td>
     </tr>
   </table>
-</cfoutput> 
+</cfoutput>
 <p><a href="index.htm"><cfoutput>#Recordset1.Description#</cfoutput></a></p>
 </body>
 </html>
@@ -94,7 +94,7 @@ Text]]>
 <body>
   <table>
     <% while (myResultSet.next()) { %>
-    <tr> 
+    <tr>
       <td><%= myResultSet.getString("EXT_NUM") %></td>
       <td><%= myResultSet.getString("NAME") %></td>
     </tr>
@@ -109,7 +109,7 @@ Text]]>
 ]]>
                 </sampleText>
                 <sampleText doctypes="PHP_MySQL">
-<![CDATA[<?php 
+<![CDATA[<?php
 mysql_connect ($host, $user, $password);
 $result = mysql_db_query ("database","select * from table");
 while ($row = mysql_fetch_assoc ($result))
@@ -133,9 +133,9 @@ mysql_free_result ($result);
 <![CDATA[<%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
 <script language="vb" runat="server">
-  Sub Page_Load(sender As Object, e As EventArgs) 
+  Sub Page_Load(sender As Object, e As EventArgs)
     ' Create local connection
-    Dim myConnection As SqlConnection 
+    Dim myConnection As SqlConnection
     Dim myCommand As SqlDataAdapter
     DIm myCount As Integer
     myConnection = New SqlConnection("server=localhost;uid=sa;" & _
@@ -179,14 +179,14 @@ mysql_free_result ($result);
 <html>
 <script runat="server">
   string SortExpression;
-  ICollection CreateDataSource() 
+  ICollection CreateDataSource()
   {
     DataTable dt = new DataTable();
     DataRow dr;
     Random Rand_Num = new Random();
     dt.Columns.Add(new DataColumn("StringValue", typeof(string)));
     dt.Columns.Add(new DataColumn("CurrencyValue", typeof(double)));
-    for (int i = 0; i < 15; i++) 
+    for (int i = 0; i < 15; i++)
     {
       dr = dt.NewRow();
       dr[0] = "Item " + i.ToString();
@@ -315,6 +315,7 @@ mysql_free_result ($result);
                         <keyword>in</keyword>
                         <keyword>instanceof</keyword>
                         <keyword>item</keyword>
+<keyword>defineProperty</keyword>
                         <keyword>new</keyword>
                         <keyword>null</keyword>
                         <keyword>return</keyword>
@@ -322,6 +323,7 @@ mysql_free_result ($result);
                         <keyword>this</keyword>
                         <keyword>self</keyword>
                         <keyword>that</keyword>
+<keyword>parent</keyword>
                         <keyword>throw</keyword>
                         <keyword>true</keyword>
                         <keyword>try</keyword>
@@ -330,14 +332,21 @@ mysql_free_result ($result);
                         <keyword>void</keyword>
                         <keyword>while</keyword>
                         <keyword>with</keyword>
-                        
-                        
-                        
-                        
+
+
+
+
                 </keywords>
                 <keywords MMString:name="CodeColoring/CodeColoring/CodeColor_JavascriptNative/keywords/name" id="CodeColor_JavascriptNative">
-                        
+
                         <keyword>type</keyword>
+<keyword>required</keyword>
+<keyword>validation</keyword>
+<keyword>maxlength</keyword>
+<keyword>unique</keyword>
+<keyword>keyPath</keyword>
+<keyword>autoIncrement</keyword>
+<keyword>serial</keyword>
                         <keyword>id</keyword>
                         <keyword>label</keyword>
                         <keyword>disabled</keyword>
@@ -345,29 +354,50 @@ mysql_free_result ($result);
                         <keyword>child</keyword>
                         <keyword>checked</keyword>
                         <keyword>group</keyword>
-                        
+
+<keyword>record</keyword>
+<keyword>user</keyword>
+<keyword>user_name</keyword>
+<keyword>client_session_id</keyword>
+<keyword>person_id</keyword>
+<keyword>company_id</keyword>
+<keyword>company_branch_id</keyword>
+<keyword>storage_quota</keyword>
+<keyword>time_zone</keyword>
+
+
+<keyword>combo</keyword>
+<keyword>grid</keyword>
+<keyword>select</keyword>
+<keyword>selectGrid</keyword>
+<keyword>multiSelect</keyword>
+<keyword>component</keyword>
+
+
+
+
                         <keyword>forEach</keyword>
-                        
+
                         <keyword>display</keyword>
                         <keyword>innerHTML</keyword>
-                        
-                        
-                        
+
+
+
                         <keyword>loadScript</keyword>
-                        
-                        
+
+
                         <keyword>windowWidth</keyword>
                         <keyword>windowHeight</keyword>
                         <keyword>getElementsByTagName</keyword>
                         <keyword>appendChild</keyword>
                         <keyword>createElement</keyword>
                         <keyword>readyState</keyword>
-                        
-                        
+
+
                         <keyword>isPlugin</keyword>
                         <keyword>searchVersion</keyword>
                         <keyword>searchString</keyword>
-                        
+
                         <keyword>image_path</keyword>
                         <keyword>viewport</keyword>
                         <keyword>left</keyword>
@@ -377,16 +407,16 @@ mysql_free_result ($result);
                         <keyword>enableAutoViewport</keyword>
                         <keyword>icon</keyword>
                         <keyword>icon_dis</keyword>
-                        
+
                         <keyword>pattern</keyword>
                         <keyword>dhx_globalImgPath</keyword>
                         <keyword>globalSkin</keyword>
                         <keyword>skin</keyword>
-                        
-                        
+
+
                         <keyword>add</keyword>
                         <keyword>update</keyword>
-                        
+
                         <keyword>get</keyword>
                         <keyword>set</keyword>
                         <keyword>setByKey</keyword>
@@ -396,17 +426,17 @@ mysql_free_result ($result);
                         <keyword>getByKey</keyword>
                         <keyword>getByKey</keyword>
                         <keyword>getByKey</keyword>
-                        
+
                         <keyword>text</keyword>
                         <keyword>img_disabled</keyword>
                         <keyword>icon_path</keyword>
-                        
-                        
+
+
                         <keyword>lScript</keyword>
                         <keyword>getMousePosition</keyword>
                         <keyword>getElementPosition</keyword>
                         <keyword>getPagePosition</keyword>
-                        
+
                         <keyword>getAndSetWindowDimension</keyword>
                         <keyword>checkBrowserStuff</keyword>
                         <keyword>showDirections</keyword>
@@ -414,11 +444,11 @@ mysql_free_result ($result);
                         <keyword>isObject</keyword>
                         <keyword>isNumber</keyword>
                         <keyword>toCurrency</keyword>
-                        
+
                         <keyword>checkBrowserStuff</keyword>
-                        
-                        
-                        
+
+
+
                         <keyword>toReal</keyword>
                         <keyword>pega</keyword>
                         <keyword>HTML</keyword>
@@ -438,13 +468,21 @@ mysql_free_result ($result);
                         <keyword>hasOwnProperty</keyword>
                         <keyword>isArray</keyword>
                         <keyword>setAttribute</keyword>
+
+
                         
-                        
-                        <keyword>bindcombo</keyword>
-                        <keyword>unbindcombo</keyword>
                         <keyword>table</keyword>
-                        
+			<keyword>column</keyword>
+
+			<keyword>tables</keyword>
+			<keyword>db</keyword>
+
                         <keyword>uid</keyword>
+<keyword>appId</keyword>
+<keyword>appName</keyword>
+<keyword>base_path</keyword>
+<keyword>collection</keyword>
+<keyword>simple</keyword>
                         <keyword>name</keyword>
                         <keyword>label</keyword>
                         <keyword>Footer</keyword>
@@ -465,6 +503,43 @@ mysql_free_result ($result);
 						<keyword>authorize</keyword>
 						<keyword>list</keyword>
 						<keyword>insert</keyword>
+<keyword>dropDatabase</keyword>
+<keyword>drop</keyword>
+<keyword>dropTable</keyword>
+<keyword>createTable</keyword>
+<keyword>protectIndexedDB</keyword>
+
+<keyword>bindcombo</keyword>
+<keyword>unbindcombo</keyword>
+
+<keyword>remove</keyword>
+<keyword>clearAll</keyword>
+<keyword>count</keyword>
+<keyword>getTableSizeInBytes</keyword>
+<keyword>dataCount</keyword>
+<keyword>count</keyword>
+<keyword>getCursor</keyword>
+<keyword>getCurrentRecord</keyword>
+<keyword>getRecord</keyword>
+<keyword>filter</keyword>
+<keyword>first</keyword>
+<keyword>exist</keyword>
+<keyword>last</keyword>
+<keyword>next</keyword>
+<keyword>dataCount</keyword>
+<keyword>previous</keyword>
+<keyword>_getColumnsId</keyword>
+<keyword>_getColumnsHeader</keyword>
+<keyword>_getColumnsType</keyword>
+<keyword>_getColumnsSorting</keyword>
+<keyword>_getColumnsAlign</keyword>
+<keyword>_getColumnsWidth</keyword>
+<keyword>setCursor</keyword>
+<keyword>dataView</keyword>
+<keyword>scheduler</keyword>
+<keyword>chart</keyword>
+
+
 						<keyword>prepareForm</keyword>
 						<keyword>setFormFieldsToBind</keyword>
 						<keyword>setFormMasks</keyword>
@@ -482,7 +557,7 @@ mysql_free_result ($result);
 						<keyword>message</keyword>
 						<keyword>queue</keyword>
 						<keyword>checkMAPRequirements</keyword>
-                        
+
                         <keyword>onblur</keyword>
                         <keyword>onfocus</keyword>
                         <keyword>onresize</keyword>
@@ -490,20 +565,32 @@ mysql_free_result ($result);
                         <keyword>onbeforeunload</keyword>
                         <keyword>onerror</keyword>
                         <keyword>onkeydown</keyword>
-                        <keyword>onkeyup</keyword>                
+                        <keyword>onkeyup</keyword>
                         <keyword>length</keyword>
                         <keyword>toFixed</keyword>
                         <keyword>prototype</keyword>
-                        
+
                         <keyword>onload</keyword>
                         <keyword>onreadystatechange</keyword>
                         <keyword>onSuccess</keyword>
-						<keyword>onFail</keyword>
-                        
-                        
-                        
-                        
-                        
+<keyword>onFail</keyword>
+<keyword>onConnect</keyword>
+<keyword>onReady</keyword>
+
+<keyword>onDisconnect</keyword>
+<keyword>onLoad</keyword>
+<keyword>onCreate</keyword>
+<keyword>onFail</keyword>
+<keyword>_enable_log</keyword>
+<keyword>onupgradeneeded</keyword>
+<keyword>indexedDB</keyword>
+
+
+
+
+
+
+
                         <keyword>abs</keyword>
                         <keyword>acos</keyword>
                         <keyword>Array</keyword>
@@ -540,11 +627,11 @@ mysql_free_result ($result);
                         <keyword>getUTCDate</keyword>
                         <keyword>getUTCDay</keyword>
                         <keyword>getUTCFullYear</keyword>
-                        <keyword>getUTCHours</keyword>                        
-                        <keyword>getUTCMilliseconds</keyword>      
+                        <keyword>getUTCHours</keyword>
+                        <keyword>getUTCMilliseconds</keyword>
                         <keyword>getUTCMinutes</keyword>
                         <keyword>getUTCMonth</keyword>
-                        <keyword>getUTCSeconds</keyword>      
+                        <keyword>getUTCSeconds</keyword>
                         <keyword>getYear</keyword>
                         <keyword>Image</keyword>
                         <keyword>indexOf</keyword>
@@ -624,58 +711,123 @@ mysql_free_result ($result);
                 <keywords id="CodeColor_JavascriptNumber">
                         <keyword>Infinity</keyword>
                         <keyword>Nan</keyword>
-                        
-                        
-						
-                        
-                        
+
+<keyword>version</keyword>
+<keyword>maxlength</keyword>
+<keyword>disconnect</keyword>
+<keyword>validIndexConf</keyword>
+<keyword>validTableConf</keyword>
+<keyword>c</keyword>
+<keyword>require</keyword>
+<keyword>window_manager</keyword>
+<keyword>CDN</keyword>
+
+
+<keyword>crud</keyword>
+<keyword>$dhx</keyword>
+<keyword>simple</keyword>
+<keyword>REST</keyword>
+<keyword>ui</keyword>
+<keyword>dataDriver</keyword>
+<keyword>start</keyword>
+<keyword>render</keyword>
+<keyword>dhxPDF</keyword>
+<keyword>extend</keyword>
+<keyword>$init</keyword>
+
+<keyword>bind</keyword>
+<keyword>unbind</keyword>
+<keyword>sync</keyword>
+<keyword>unsync</keyword>
+<keyword>extend</keyword>
+<keyword>extend</keyword>
+<keyword>extend</keyword>
+<keyword>extend</keyword>
+<keyword>extend</keyword>
+<keyword>extend</keyword>
+
+<keyword>validDSN</keyword>
+<keyword>browserPassed</keyword>
+<keyword>dbs</keyword>
+<keyword>result</keyword>
+<keyword>warn</keyword>
+<keyword>primary_key</keyword>
+<keyword>create</keyword>
+
+
                 </keywords>
                 <keywords MMString:name="CodeColoring/CodeColoring/CodeColor_JavascriptClient/keywords/name" id="CodeColor_JavascriptClient">
-                        
+
                         <keyword>W2</keyword>
-                        <keyword>CAIRS</keyword>
+                        
                         <keyword>ext</keyword>
                         <keyword>cookie</keyword>
                         <keyword>Browser</keyword>
                         <keyword>shortcut</keyword>
                         <keyword>xml</keyword>
+
+
 						<keyword>MAP</keyword>
+
+
+
+
+
 						<keyword>API</keyword>
+
 						<keyword>request</keyword>
+<keyword>connection</keyword>
+
 						<keyword>response</keyword>
 						<keyword>status</keyword>
 						<keyword>resource</keyword>
 						<keyword>format</keyword>
+<keyword>schema</keyword>
+
+<keyword>columns</keyword>
+<keyword>format</keyword>
+<keyword>records</keyword>
 						<keyword>payload</keyword>
 						<keyword>responseType</keyword>
 						<keyword>params</keyword>
 						<keyword>JSON</keyword>
 						<keyword>onDemand</keyword>
 						<keyword>configuration</keyword>
-						
+
 						<keyword>queue</keyword>
-						
-                        
+
+
                         <keyword>items</keyword>
-                        
+
                         <keyword>dataBrowser</keyword>
                         <keyword>dataOS</keyword>
-                        
-                        
+
+
                         <keyword>dhtmlx</keyword>
                         <keyword>idioma</keyword>
                         <keyword>Model</keyword>
+
+
+ <keyword>$Session</keyword>
+<keyword>$Application</keyword>
+<keyword>session</keyword>
+			<keyword>settings</keyword>
+			<keyword>View</keyword>
+<keyword>view</keyword>
+<keyword>controller</keyword>
                         <keyword>model</keyword>
                         <keyword>database</keyword>
                         <keyword>Modulos</keyword>
-                        
+
                         <keyword>stack</keyword>
                         <keyword>jDBd</keyword>
+			<keyword>console</keyword>
+
                         <keyword>className</keyword>
-                        
+
                         <keyword>style</keyword>
-                        
-                        
+
+
                         <keyword>alert</keyword>
                         <keyword>all</keyword>
                         <keyword>anchor</keyword>
@@ -710,7 +862,7 @@ mysql_free_result ($result);
                         <keyword>italics</keyword>
                         <keyword>javaEnabled</keyword>
                         <keyword>link</keyword>
-                        
+
                         <keyword>log</keyword>
                         <keyword>mimeTypes</keyword>
                         <keyword>moveAbove</keyword>
@@ -1107,7 +1259,7 @@ h2, .head2 {
                 <blockEnd><![CDATA[-->]]></blockEnd>
                 <blockStart doctypes="DWTemplate" scheme="innerText"><![CDATA[<!--\s*#Template]]></blockStart>
                 <blockEnd><![CDATA[-->]]></blockEnd>
-                
+
                 <blockStart doctypes="DWTemplate" scheme="innerText"><![CDATA[<!--\s*TemplateBeginEditable]]></blockStart>
                 <blockEnd><![CDATA[-->]]></blockEnd>
                 <blockStart doctypes="DWTemplate" scheme="innerText"><![CDATA[<!--\s*TemplateEndEditable]]></blockStart>
@@ -1152,7 +1304,7 @@ h2, .head2 {
                 <blockEnd><![CDATA[-->]]></blockEnd>
                 <blockStart doctypes="DWTemplate" scheme="innerText"><![CDATA[<!--\s*TemplateInfo]]></blockStart>
                 <blockEnd><![CDATA[-->]]></blockEnd>
-                
+
                 <defaultText MMString:name="CodeColor_TemplateCommentText/defaultText/name" id="CodeColor_TemplateCommentText" />
                 <stringStart MMString:name="CodeColor_TemplateCommentAttr/stringStart/name" id="CodeColor_TemplateCommentAttr"><![CDATA["]]></stringStart>
                 <stringEnd><![CDATA["]]></stringEnd>
@@ -1226,6 +1378,8 @@ h2, .head2 {
                         <keyword>CONTAINS</keyword>
                         <keyword>continue</keyword>
                         <keyword>default</keyword>
+
+
                         <keyword>do</keyword>
                         <keyword>DOES</keyword>
                         <keyword>else</keyword>
@@ -1409,7 +1563,7 @@ h2, .head2 {
                         <keyword>GetContextRoot</keyword>
                         <keyword>GetCurrentTemplatePath</keyword>
                         <keyword>GetDirectoryFromPath</keyword>
-                        <keyword>GetEncoding</keyword>                        
+                        <keyword>GetEncoding</keyword>
                         <keyword>GetException</keyword>
                         <keyword>GetFileFromPath</keyword>
                         <keyword>GetFileInfo</keyword>
@@ -2247,6 +2401,7 @@ h2, .head2 {
                         <keyword>page</keyword>
                         <keyword>pageContext</keyword>
                         <keyword>request</keyword>
+			<keyword>connection</keyword>
                         <keyword>response</keyword>
                         <keyword>session</keyword>
                 </keywords>
