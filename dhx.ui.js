@@ -301,7 +301,7 @@ $dhx.ui = $dhx.ui || {
                 dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.js");
             }
         }
-        dependencies.push($dhx.ui.cdn_address + "dhx/css/dhx.ui.css");	
+        dependencies.push($dhx.ui.cdn_address + "dhx/ui/css/dhx.ui.css");	
 		if( typeof $dhx.ui.data == 'undefined' )
 		{
 			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.data.js");
