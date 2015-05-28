@@ -1,4 +1,4 @@
-# dhx [![NPM version ](https://badge.fury.io/js/dhx.png)](http://badge.fury.io/js/dhx) 
+# dhx [![NPM version](https://badge.fury.io/js/dhx.png)](http://badge.fury.io/js/dhx) 
 
 > Agile JS framework for realtime web apps
 
@@ -8,7 +8,7 @@
 
   Copyright 2015 José Eduardo Perotta de Almeida.
 
-Personal use only - GNU General Public License as published by the Free Software Foundation but for personal use only.
+AGPL
 
 
 ### BUGS AND LIMITATIONS
