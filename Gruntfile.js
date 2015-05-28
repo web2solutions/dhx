@@ -19,7 +19,7 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish'),
             },
             uses_defaults: [
-                'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search'
+                'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js'
             ],
             with_overrides: {
                 options: {
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: [
-                   'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search'
+                   'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js'
                 ],
                 tasks: [
                     'uglify'
@@ -87,12 +87,12 @@ module.exports = function(grunt) {
                 files: [{
                         expand: true,
                         src: [
-                           'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search'
+                           'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js'
                         ],
                         dest: 'build', //cwd: 'app/scripts'
                     }]
                     /*src: [
-                            'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js'
+                            'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js'
                         ],
 		  dest: 'build/<%= pkg.name %>.min.js'*/
             }
