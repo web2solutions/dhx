@@ -119,25 +119,9 @@ $dhx.ui.crud.simple.View = {
     destroy: function(appId, schema) {
         try {
             var self = $dhx.ui.controller[appId].view;
-            //console.log( );
-            //console.log( $dhx.ui.controller );
-            //alert( 'destroy ' + appId );
-            //alert( $dhx.ui.controller[ appId ].appId );
             $dhx.showDirections("starting view ... ");
 
             self.grid.destructor();
-
-            //self.menu[ appId ].unload();
-            //self.menu[ appId ] = null;
-            //self.ribbon[ appId ].unload();
-            //self.ribbon[ appId ] = null;
-
-            //self.tab.unload();
-            //self.tab = null;
-            //self.layout.unload();
-            //self.layout = null;
-
-            '$dhx.ui.crud.simple.groups_app'
 
             var table = appId.split('crud.simple.')[1];
             table = table.split("_")[0]
@@ -190,14 +174,14 @@ $dhx.ui.crud.simple.View = {
     ,
     _layout: function(appId) {
         var self = $dhx.ui.controller[appId].view;
-
-        console.log($dhx.ui.controller[appId])
-		console.log(self.window)
-
         if ($dhx.ui.controller[appId].configuration.wrapper === document.body)
+		{
             self.layout = new dhtmlXLayoutObject($dhx.ui.crud.simple.View.settings.layout);
+		}
         else
+		{
             self.layout = self.window[ appId ].attachLayout($dhx.ui.crud.simple.View.settings.layout);
+		}
 
         self.layout.cells('a').hideHeader();
         self.task_bar = self.layout.attachStatusBar();
@@ -266,10 +250,6 @@ $dhx.ui.crud.simple.View = {
             self.status_bar = self.tab.cells('records').attachStatusBar();
             self.status_bar.setText(status_bar.template);
         }
-
-
-
-
         self.tab.attachEvent("onTabClose", function(id) {
             try {
                 //self.Record.wrapper.clean( parseInt( id ) );
@@ -285,26 +265,7 @@ $dhx.ui.crud.simple.View = {
     _grid: function(appId, status_bar, schema) {
         var self = $dhx.ui.controller[appId].view;
         self.grid = self.tab.cells('records').attachGrid();
-
-        // enable live edit via $dhx.dataDriver
         self.grid.saveOnEdit = true;
-
-        /*
-			the sync() method will internally do:
-			
-				if auto_configure : true
-					setHeader(); setColumnIds(); setColTypes();  setColSorting();  setColAlign();  
-					setInitWidths(); init();  
-					
-				if paginate ! true 
-					enableSmartRendering(true); 
-			
-			- auto setDateFormat("%Y-%m-%d");
-			- auto creates a MQ subscriber for grid
-			- auto syncs grid with table for all CRUD operations
-			
-			Note: if you want to personalu the grid look, please do it by editing your model
-		*/
         schema.sync.grid({
             component: self.grid,
             component_id: 'main_grid_' + appId,
@@ -314,7 +275,6 @@ $dhx.ui.crud.simple.View = {
                 status_bar._setStatusError('could not syn grid');
             }
         });
-
         //self.grid.attachEvent("onRowSelect", function (new_row, ind)
         //{								
         //});
@@ -424,12 +384,9 @@ $dhx.ui.crud.simple.View = {
 			else if (id == 'pdf') {
                self.grid.toPDFX('codebase/grid-pdf-php/generate.php','color',true);
             } 
-			
-			
-			//
-			else if (id == 'find') {
-                
-				
+	
+			else if (id == 'find')
+			{
 				$dhx.ui.crud.simple.View.Search.render( {
                     database: $dhx.ui.controller[appId].database,
                     table: $dhx.ui.controller[appId].collection,
@@ -469,12 +426,9 @@ $dhx.ui.crud.simple.View = {
     controller: []
 
     ,
-    render: function(controller) {
-
-        //alert( appId );
+    render: function(controller) 
+	{
         var appId = controller.appId;
-
-        console.log('XXXXXXXXXXXXXMMMMMMXXXXXMMMMXXX', controller);
 
         var self = $dhx.ui.controller[appId],
             schema = $dhx.ui.data.model.db[controller.database].schema[controller.collection],
@@ -487,21 +441,15 @@ $dhx.ui.crud.simple.View = {
         //	controller.configuration.wrapper.bringToTop();
         //	return;
         //}	
-
-
+		$dhx.showDirections("starting view ... ");
 
         self = $dhx.ui.controller[appId].view;
-
-
-        $dhx.showDirections("starting view ... ");
 		
 		if ($dhx.ui.controller[appId].configuration.wrapper !== document.body)
 		{
             self._window(appId, status_bar, schema);
 			
 		}
-		
-		
 		
         self._layout(appId);
 
@@ -513,15 +461,10 @@ $dhx.ui.crud.simple.View = {
 
         self.tab.tabs("records").setText($dhx.ui.controller[appId].collection.toUpperCase());
 
-
         if ($dhx.ui.controller[appId].configuration.wrapper === document.body)
 		{
             self._ribbon(appId, status_bar, schema);
-			
 		}
-
-
-
 
         var cc = 0;
         var addded = false;
