@@ -671,6 +671,22 @@ $dhx.REST = {
                             configurable: false,
                             writable: false
                         });
+						Object.defineProperty($dhx.REST.API, 'session', {
+                            value: {
+								user : $dhx.REST.API.user
+								,user_name : $dhx.REST.API.user_name
+								,client_session_id : $dhx.REST.API.client_session_id
+								,person_id : $dhx.REST.API.person_id
+								,group : $dhx.REST.API.group
+								,company_id : $dhx.REST.API.company_id
+								,company_branch_id : $dhx.REST.API.company_branch_id
+								,storage_quota : $dhx.REST.API.storage_quota
+								,time_zone : $dhx.REST.API.time_zone
+							},
+                            enumerable: true,
+                            configurable: false,
+                            writable: false
+                        });
                         $dhx.REST.API.default_payload = "";
                         $dhx.REST.API.auth_request = request;
                         self._blockWhenTokenExpires();
