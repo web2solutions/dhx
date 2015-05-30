@@ -5,6 +5,7 @@ $dhx.ui.crud.simple.View = {
 
     layout: null,
     menu: [],
+	menu_grid : [],
     ribbon: [],
     tab: null,
     grid: null,
@@ -17,47 +18,47 @@ $dhx.ui.crud.simple.View = {
 
     ,
     status_bar: function(appId, icons_path) {
-        this.template = "<div id='status_info'>Initializing " + $dhx.ui.controller[appId].appName + "</div><div id='expiration_info' title='time remaining for token expiration' class='expiration_info'></div><div id='user_info'><img id='user_info_status' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABvUlEQVR4XpWRy0tbQRjFz9yH3hgtruzGRqRx47aoaxvBdboo7qTtrst2WRAfDcZo/wAR/BPiRroouHHZFqmCT9DEV0uiYmjD9OZO5k5nRiPk0Rvyg8vhG74535nvEtSQTC6mXdeNozlwHGetzmB6es6fmvpAJAhCCIHZ2QQs1KMvPx5+jSByX1e1klYi/2E2ds5K2D7IaoOZmY93kSWiGapH9oqB0beiZ+iVkOjaajUyZVW7qd7BYLQXBiEwTAMED406cgU71AlWoo0N/roeTNOEadnwhY9C4Tc8z6uaSAv5/yfwfFNOd+QlIs0YyrwNjLGGT5E7UW8XVQa3lKM9bMF2OuG0AcwtAoTgHbaQjfVhEpC6ggqxnqdZqyae/mp50XWJJ2vbIB1hnI1HEVnfQzn3E3gz1q/+pc85F0FknkcEZ54u2HVOK6dFfU5SqU9pSmkcAUxu6tg6hfmoG+WbPC5eDkEzv5B4f3xyxL9sfBaHR/tC6daPb/f6XamapCcqWP6XVl5y9blFCJZOMscIOSGcnmdgWTaub65gGIbUPGxZKwRj8M0SLiZGHnagIMlUQqAJz3Y3ET3fRwOW/wEKrjnBHaxMrAAAAABJRU5ErkJggg==' /> <span>Not authorized yet</span></div><div id='data_transfer_info'> no data transferred</div><div id='socket_info' class='data_transfer_info'>socket: disconnected</div><div id='errors_info'>no errors</div>"
+        this.template = "<div class='status_info' id='status_info_"+appId+"'>Initializing " + $dhx.ui.controller[appId].appName + "</div><div class='expiration_info' id='expiration_info_"+appId+"' title='time remaining for token expiration'></div><div class='user_info' id='user_info_"+appId+"'><img id='user_info_status_"+appId+"' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABvUlEQVR4XpWRy0tbQRjFz9yH3hgtruzGRqRx47aoaxvBdboo7qTtrst2WRAfDcZo/wAR/BPiRroouHHZFqmCT9DEV0uiYmjD9OZO5k5nRiPk0Rvyg8vhG74535nvEtSQTC6mXdeNozlwHGetzmB6es6fmvpAJAhCCIHZ2QQs1KMvPx5+jSByX1e1klYi/2E2ds5K2D7IaoOZmY93kSWiGapH9oqB0beiZ+iVkOjaajUyZVW7qd7BYLQXBiEwTAMED406cgU71AlWoo0N/roeTNOEadnwhY9C4Tc8z6uaSAv5/yfwfFNOd+QlIs0YyrwNjLGGT5E7UW8XVQa3lKM9bMF2OuG0AcwtAoTgHbaQjfVhEpC6ggqxnqdZqyae/mp50XWJJ2vbIB1hnI1HEVnfQzn3E3gz1q/+pc85F0FknkcEZ54u2HVOK6dFfU5SqU9pSmkcAUxu6tg6hfmoG+WbPC5eDkEzv5B4f3xyxL9sfBaHR/tC6daPb/f6XamapCcqWP6XVl5y9blFCJZOMscIOSGcnmdgWTaub65gGIbUPGxZKwRj8M0SLiZGHnagIMlUQqAJz3Y3ET3fRwOW/wEKrjnBHaxMrAAAAABJRU5ErkJggg==' /> <span>Not authorized yet</span></div><div class='data_transfer_info' id='data_transfer_info_"+appId+"'> no data transferred</div><div class='errors_info' id='errors_info_"+appId+"'>no errors</div>"
         this._setStatus = function(m) {
-            document.getElementById("status_info").innerHTML = m;
+            document.getElementById("status_info_"+appId).innerHTML = m;
         }
         this._setStatusError = function(m) {
-            document.getElementById("errors_info").innerHTML = m;
+            document.getElementById("errors_info_"+appId).innerHTML = m;
         }
         this._setStatusDataTransfer = function(m, isActive) {
             /*dhtmlx.message({
 					text: m
 				});*/
             if (isActive) {
-                document.getElementById("data_transfer_info").innerHTML = m;
-                document.getElementById("data_transfer_info").style.backgroundImage = "url(" + icons_path + "network.gif)";
+                document.getElementById("data_transfer_info_"+appId).innerHTML = m;
+                document.getElementById("data_transfer_info_"+appId).style.backgroundImage = "url(" + icons_path + "network.gif)";
             } else {
-                document.getElementById("data_transfer_info").innerHTML = m;
-                document.getElementById("data_transfer_info").style.backgroundImage = "url(" + icons_path + "network-accept.png)";
+                document.getElementById("data_transfer_info_"+appId).innerHTML = m;
+                document.getElementById("data_transfer_info_"+appId).style.backgroundImage = "url(" + icons_path + "network-accept.png)";
             }
         }
         this._setStatusSocket = function(m, isOffline) {
             dhtmlx.message({
                 text: m
             });
-            document.getElementById("socket_info").innerHTML = "socket: " + m;
-            document.getElementById("socket_info").style.backgroundImage = "url(" + icons_path + "socket.gif)";
+            document.getElementById("socket_info_"+appId).innerHTML = "socket: " + m;
+            document.getElementById("socket_info_"+appId).style.backgroundImage = "url(" + icons_path + "socket.gif)";
             if (isOffline)
-                document.getElementById("socket_info").style.backgroundImage = "url(" + icons_path + "socket_disconnected.png)";
+                document.getElementById("socket_info_"+appId).style.backgroundImage = "url(" + icons_path + "socket_disconnected.png)";
         }
 
         this._setStatusUser = function(m, ok) {
             if (typeof ok === 'undefined') {
                 ok = true;
             }
-            document.getElementById("user_info").getElementsByTagName("span")[0].innerHTML = m;
+            document.getElementById("user_info_"+appId).getElementsByTagName("span")[0].innerHTML = m;
             if (ok) {
-                document.getElementById("user_info_status").src = "" + icons_path + "online.png";
+                document.getElementById("user_info_status_"+appId).src = "" + icons_path + "online.png";
                 //dhtmlx.message({
                 //	text: m
                 //});
             } else {
-                document.getElementById("user_info_status").src = "" + icons_path + "offline.png";
+                document.getElementById("user_info_status_"+appId).src = "" + icons_path + "offline.png";
                 dhtmlx.message({
                     type: "error",
                     text: m
@@ -73,6 +74,12 @@ $dhx.ui.crud.simple.View = {
 
             self.menu[appId].setItemDisabled('update');
             self.menu[appId].setItemDisabled('open');
+			self.menu_grid[appId].setItemDisabled('update');
+            self.menu_grid[appId].setItemDisabled('open');
+			
+			self.menu[appId].setItemDisabled('delete');
+			self.menu_grid[appId].setItemDisabled('delete');
+			
             if (!self.ribbon[appId])
                 return
             self.ribbon[appId].disable('delete');
@@ -85,6 +92,11 @@ $dhx.ui.crud.simple.View = {
             var self = $dhx.ui.controller[appId].view;
             self.menu[appId].setItemEnabled('update');
             self.menu[appId].setItemEnabled('open');
+			self.menu_grid[appId].setItemEnabled('update');
+            self.menu_grid[appId].setItemEnabled('open');
+			
+			self.menu[appId].setItemEnabled('delete');
+			self.menu_grid[appId].setItemEnabled('delete');
             if (!self.ribbon[appId])
                 return
             self.ribbon[appId].enable('delete');
@@ -210,7 +222,106 @@ $dhx.ui.crud.simple.View = {
                         table: $dhx.ui.controller[appId].collection,
                         schema: schema
                     });
-            } else if (id == 'open') {
+            } 
+			else if (id == 'find') {
+               $dhx.ui.crud.simple.View.Search.render( {
+                    database: $dhx.ui.controller[appId].database,
+                    table: $dhx.ui.controller[appId].collection,
+                    schema: schema,
+					appId : appId
+                });
+            }
+			
+			else if (id == 'open') {
+                if (self.grid.getSelectedRowId())
+                    self.helpers.viewRecord(self.grid.getSelectedRowId(), appId, schema);
+            } 
+			else if (id == 'pdf') {
+               self.grid.dhxPDF($dhx.ui.cdn_address + 'dhx/ui/bin/2pdf/generate.php','color',true, false, false, false, appId);
+            } 
+			else {
+
+                if (id.indexOf('table.') > -1) {
+                    var table = id.split('.')[1];
+
+                    console.log(fk_tables);
+                    for (var column in fk_tables) {
+                        console.log(fk_tables)
+                        var uid = column + "." + fk_tables[column].table;
+                        //alert( 'onClick ' + appId);
+
+                        //alert(fk_tables[column].table)
+                        self.openedCRUD[uid] = new $dhx.ui.crud.simple({
+                            database: $dhx.ui.controller[appId].database,
+                            collection: fk_tables[column].table,
+                            base_path: $dhx.ui.crud.simple.View.settings.base_path
+                        });
+                    }
+                }
+            }
+        });
+    }
+	
+	
+
+    ,
+    _tab: function(appId, status_bar) {
+        var self = $dhx.ui.controller[appId].view;
+        //alert();
+        self.tab = self.layout.cells('a').attachTabbar($dhx.ui.crud.simple.View.settings.tab);
+
+        if ($dhx.ui.controller[appId].configuration.wrapper === document.body) {
+            self.status_bar = self.tab.cells('records').attachStatusBar();
+            self.status_bar.setText(status_bar.template);
+        }
+        self.tab.attachEvent("onTabClose", function(id) {
+            try {
+                //self.Record.wrapper.clean( parseInt( id ) );
+            } catch (e) {
+                //console.log(e.stack)	
+            }
+            return true;
+        });
+    }
+
+
+	,
+    _menu_grid: function(appId, status_bar, fk_tables, schema) {
+        //alert('menu' +  appId);
+        var self = $dhx.ui.controller[appId].view;
+        self.menu_grid[appId] = new dhtmlXMenuObject();
+		self.menu_grid[appId].setSkin($dhx.ui.skin);
+		self.menu_grid[appId].setIconsPath($dhx.ui.crud.simple.View.settings.menu_grid.icons_path);
+		self.menu_grid[appId].renderAsContextMenu();
+		self.menu_grid[appId].loadStruct($dhx.ui.crud.simple.View.settings.menu_grid);
+        self.menu_grid[appId].attachEvent("onClick", function(id) {
+            if (id == 'print') {
+
+            } else if (id == 'insert') {
+                $dhx.ui.crud.simple.View.FormWindow.render({
+                    database: $dhx.ui.controller[appId].database,
+                    table: $dhx.ui.controller[appId].collection,
+                    schema: schema
+                });
+            } else if (id == 'update') {
+                if (self.grid.getSelectedRowId())
+                    $dhx.ui.crud.simple.View.FormWindow.render({
+                        record_id: self.grid.getSelectedRowId(),
+                        database: $dhx.ui.controller[appId].database,
+                        table: $dhx.ui.controller[appId].collection,
+                        schema: schema
+                    });
+            }
+			else if (id == 'find') {
+               $dhx.ui.crud.simple.View.Search.render( {
+                    database: $dhx.ui.controller[appId].database,
+                    table: $dhx.ui.controller[appId].collection,
+                    schema: schema,
+					appId : appId
+                });
+            }
+			
+			 else if (id == 'open') {
                 if (self.grid.getSelectedRowId())
                     self.helpers.viewRecord(self.grid.getSelectedRowId(), appId, schema);
             } 
@@ -241,30 +352,12 @@ $dhx.ui.crud.simple.View = {
     }
 
     ,
-    _tab: function(appId, status_bar) {
-        var self = $dhx.ui.controller[appId].view;
-        //alert();
-        self.tab = self.layout.cells('a').attachTabbar($dhx.ui.crud.simple.View.settings.tab);
-
-        if ($dhx.ui.controller[appId].configuration.wrapper === document.body) {
-            self.status_bar = self.tab.cells('records').attachStatusBar();
-            self.status_bar.setText(status_bar.template);
-        }
-        self.tab.attachEvent("onTabClose", function(id) {
-            try {
-                //self.Record.wrapper.clean( parseInt( id ) );
-            } catch (e) {
-                //console.log(e.stack)	
-            }
-            return true;
-        });
-    }
-
-
-    ,
     _grid: function(appId, status_bar, schema) {
         var self = $dhx.ui.controller[appId].view;
         self.grid = self.tab.cells('records').attachGrid();
+		
+		self.grid.enableContextMenu(self.menu_grid[appId]);
+		
         self.grid.saveOnEdit = true;
         schema.sync.grid({
             component: self.grid,
@@ -456,8 +549,13 @@ $dhx.ui.crud.simple.View = {
         var status_bar = new self.status_bar(appId, $dhx.ui.crud.simple.View.settings.icons_path);
 
         self._tab(appId, status_bar);
+		
+		
+		self._menu_grid(appId, status_bar, fk_tables, schema);
         self._grid(appId, status_bar, schema);
-        self._menu(appId, status_bar, fk_tables, schema);
+		
+		self._menu(appId, status_bar, fk_tables, schema);
+        
 
         self.tab.tabs("records").setText($dhx.ui.controller[appId].collection.toUpperCase());
 
@@ -469,10 +567,17 @@ $dhx.ui.crud.simple.View = {
         var cc = 0;
         var addded = false;
         for (var column in fk_tables) {
-            if (!addded) self.menu[appId].addNewSibling("edit", "fkeys_table", "Related tables", false);
-            addded = true
+            if (!addded) self.menu[appId].addNewSibling("edit", "fkeys_table", $dhx.ui.language.AnotherRecords, false);
+            addded = true;
+			
+			
 
-            self.menu[appId].addNewChild("fkeys_table", cc, 'table.' + fk_tables[column].table, 'edit ' + fk_tables[column].table + " table", false, "form.gif");
+            self.menu[appId].addNewChild(
+				"fkeys_table", cc, 'table.' + fk_tables[column].table, 
+				$dhx.ui.language.EditNameTable(fk_tables[column].table), 
+				false, "form.gif"
+			);
+			
             cc = cc + 1;
         }
 

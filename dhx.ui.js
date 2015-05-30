@@ -3,6 +3,7 @@
 
 $dhx.ui = $dhx.ui || {
 	version : '1.0.3',
+	skin : "dhx_terrace",
     cdn_address: $dhx.CDN,
     require: function(dependencies, callBack) {
         'use strict';
@@ -301,7 +302,11 @@ $dhx.ui = $dhx.ui || {
                 dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.js");
             }
         }
-        dependencies.push($dhx.ui.cdn_address + "dhx/ui/css/dhx.ui.css");	
+        dependencies.push($dhx.ui.cdn_address + "dhx/ui/css/dhx.ui.css");
+		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.js");
+		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.pt-br.js");
+		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.Session.js");	
+		
 		if( typeof $dhx.ui.data == 'undefined' )
 		{
 			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.data.js");
@@ -313,6 +318,9 @@ $dhx.ui = $dhx.ui || {
 			dependencies.push($dhx.ui.cdn_address + "dhx/latinize.js");
 			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.MQ.js");
 		}
+		
+		
+		
 		
 		if( typeof $dhx.ui.crud == 'undefined' )
 		{
@@ -366,32 +374,3 @@ $dhx.ui = $dhx.ui || {
         });
     }
 };
-
-
-$dhx.ui.$Application = (function()
-{
-	
-	return{};
-})();
-
-
-
-$dhx.ui.$Session = (function()
-{
-	
-	return{};
-})();
-
-Object.defineProperty($dhx.ui.$Session, 'SessionID', {
-	//get: function() { return bValue; },
-	//set: function(newValue) { },
-	value: ( 
-		typeof $dhx.REST.API.session.client_session_id !== 'undefined' ? 
-		$dhx.REST.API.session.client_session_id : -1 
-	),
-	enumerable: true,
-	configurable: false,
-	writable: true
-});
-	
-$dhx.ui.$Session = $dhx.extend( $dhx.REST.API.session );

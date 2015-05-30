@@ -26,11 +26,11 @@ html,body{
 				
 		}*/
 		
-		#status_info, .status_info{
+		.status_info{
 			float:left;
 			position:relative;
 		}
-		#user_info, .user_info{
+		.user_info{
 			float:right;
 			width:180px;
 			height:28px;
@@ -40,13 +40,13 @@ html,body{
 			overflow:hidden;
 		}
 		
-		#user_info img, .user_info img{
+		.user_info img{
 			position:absolute;
 			left:3px;
 			top:7px;
 		}
 		
-		#data_transfer_info, .data_transfer_info{
+		.data_transfer_info{
 			float:right;
 			width:180px;
 			height:28px;
@@ -80,7 +80,7 @@ html,body{
 			
 		}
 		
-		#data_transfer_info img, .data_transfer_info img{
+		.data_transfer_info img{
 			position:absolute;
 			left:3px;
 			top:7px;
@@ -88,7 +88,7 @@ html,body{
 		
 		
 		
-		#errors_info, .errors_info{
+		.errors_info{
 			float:right;
 			width:148px;
 			height:28px;

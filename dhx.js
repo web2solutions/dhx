@@ -319,6 +319,10 @@ if (!Array.prototype.contains) {
         return false;
     }
 }
+
+String.prototype.CFC = function() {
+    return '<u>'+ this.charAt(0).toUpperCase() + '</u>' + this.slice(1);
+}
 String.prototype.soundex = function(p) {
     var i, j, l, r, p = isNaN(p) ? 4 : p > 10 ? 10 : p < 4 ? 4 : p,
         m = {

@@ -56,13 +56,16 @@ $dhx.ui.crud.simple = function(configuration) {
 
 
         $dhx.ui.crud.simple.View.settings.base_path = configuration.base_path;
-        $dhx.ui.crud.simple.View.settings.application_path = $dhx.ui.crud.simple.View.settings.base_path + "dbDemo/";
+        $dhx.ui.crud.simple.View.settings.application_path = $dhx.ui.crud.simple.View.settings.base_path + "dhx/ui/";
         $dhx.ui.crud.simple.View.settings.icons_path = $dhx.ui.crud.simple.View.settings.application_path + "icons/";
 
 
         //self.view.settings.icons_path = $dhx.ui.crud.simple.View.settings.icons_path;
         $dhx.ui.crud.simple.View.settings.ribbon.icons_path = $dhx.ui.crud.simple.View.settings.application_path + "icons_terrace/";
         $dhx.ui.crud.simple.View.settings.menu.icons_path = $dhx.ui.crud.simple.View.settings.application_path + "icons_terrace/";
+		$dhx.ui.crud.simple.View.settings.menu_grid.icons_path = $dhx.ui.crud.simple.View.settings.application_path + "icons_terrace/";
+		
+		
         $dhx.ui.crud.simple.View.settings.dhtmlx_codebase_path = configuration.base_path + 'codebase4.2_std/';
 
         //self.view = new $dhx.ui.crud.simple.View( self );
