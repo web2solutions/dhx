@@ -22,7 +22,7 @@ $dhx.dataDriver = {
                 $dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
                 return false;
             }
-            console.log("Browser is OK");
+            console.log("Browser is OK for $dhx.dataDriver");
             return true;
         } else if ($dhx.Browser.name == "Firefox") {
             if ($dhx.Browser.version < 31) {
@@ -30,7 +30,7 @@ $dhx.dataDriver = {
                 $dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
                 return false;
             }
-            console.log("Browser is OK");
+            console.log("Browser is OK for $dhx.dataDriver");
             return true;
         } else if ($dhx.Browser.name == "Opera") {
             if ($dhx.Browser.version < 27) {
@@ -38,7 +38,7 @@ $dhx.dataDriver = {
                 $dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
                 return false;
             }
-            console.log("Browser is OK");
+            console.log("Browser is OK for $dhx.dataDriver");
             return true;
         } else if ($dhx.Browser.name == "Safari") {
             if ($dhx.Browser.version < 7) {
@@ -53,7 +53,7 @@ $dhx.dataDriver = {
             //	return false;
             //}
             //
-            console.log("Browser is OK");
+            console.log("Browser is OK for $dhx.dataDriver");
             return true;
         } else if ($dhx.Browser.name == "Explorer") {
             console.log("Browser vendor not allowed");
