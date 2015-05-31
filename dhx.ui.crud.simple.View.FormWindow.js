@@ -7,14 +7,31 @@ $dhx.ui.crud.simple.View.FormWindow = {
     form: []
 
     ,
-    _window: function(uid, schema) {
-        var self = $dhx.ui.crud.simple.View.FormWindow;
+    _window: function(uid, schema, db_settings) {
+        var self = $dhx.ui.crud.simple.View.FormWindow, left, top, width, height;
+		
+		
+		if( db_settings.form.template.length > 9 )
+		{
+			left = $dhx.getPagePosition("x", 950, 430)
+			top = $dhx.getPagePosition("y", 950, 430)
+			width = 950;
+			height = 430;
+		}
+		else
+		{
+			left = $dhx.ui.crud.simple.View.settings.FormWindow.window.left;
+			top = $dhx.ui.crud.simple.View.settings.FormWindow.window.top;
+			width = $dhx.ui.crud.simple.View.settings.FormWindow.window.width;
+			height = $dhx.ui.crud.simple.View.settings.FormWindow.window.height;
+		}
+		
         self.window[uid] = new $dhx.ui.window({
             id: self.strWindowID + uid,
-            left: $dhx.ui.crud.simple.View.settings.FormWindow.window.left,
-            top: $dhx.ui.crud.simple.View.settings.FormWindow.window.top,
-            width: $dhx.ui.crud.simple.View.settings.FormWindow.window.width,
-            height: $dhx.ui.crud.simple.View.settings.FormWindow.window.height,
+            left: left,
+            top: top,
+            width: width,
+            height: height,
         });
         self.window[uid].button('park').hide();
         self.window[uid].button('minmax').hide();
@@ -38,7 +55,7 @@ $dhx.ui.crud.simple.View.FormWindow = {
         } else {
 
         }
-        self.window[uid].setText("Fill out the fields");
+        self.window[uid].setText($dhx.ui.language.Filloutthefields);
         self.status_bar = self.window[uid].attachStatusBar();
     }
 
@@ -53,9 +70,38 @@ $dhx.ui.crud.simple.View.FormWindow = {
     ,
     _form: function(uid, db_settings, schema) {
         var self = $dhx.ui.crud.simple.View.FormWindow;
-        $dhx.ui.crud.simple.View.settings.FormWindow.form.template[1].list = db_settings.form.template;
-        self.form[uid] = self.layout[uid].cells('a').attachForm($dhx.ui.crud.simple.View.settings.FormWindow.form.template);
-        //$dhx.dhtmlx.prepareForm("$dhx.ui.crud.simple.View.form" + uid, $dhx.ui.crud.simple.View.settings.FormWindow.form, self.form[ uid ]);
+        //
+		
+		
+		var form_template = $dhx.extend( $dhx.ui.crud.simple.View.settings.FormWindow.form );
+		
+		if( db_settings.form.template.length <= 9 )
+		{
+			form_template.template[1].list[0].list = db_settings.form.template;
+			form_template.template[1].list[2].list = [];
+			//form_template.template[1].list = db_settings.form.template;
+		}
+		else
+		{
+			form_template.template[1].list[2].list = [];
+			form_template.template[1].list[0].list = [];
+			for( var x = 0; x < db_settings.form.template.length; x++)
+			{
+				console.log( field );
+				var field = db_settings.form.template[x];
+				if( x % 2 )
+				{
+					form_template.template[1].list[2].list.push(field);
+				}
+				else
+				{
+					form_template.template[1].list[0].list.push(field);
+				}
+			}
+		}
+		
+		self.form[uid] = self.layout[uid].cells('a').attachForm(form_template.template);
+        //$dhx.dhtmlx.prepareForm("$dhx.ui.crud.simple.View.form" + uid, form_template, self.form[ uid ]);
         if ($dhx.isNumber(uid)) {
             self.form[uid].isEditing = true;
         } else {
@@ -70,7 +116,7 @@ $dhx.ui.crud.simple.View.FormWindow = {
 
             ,
             prepare: {
-                settings: $dhx.ui.crud.simple.View.settings.FormWindow.form
+                settings: form_template
             }
             //,component_settings : 
 
@@ -98,15 +144,17 @@ $dhx.ui.crud.simple.View.FormWindow = {
         configuration = configuration || {};
         var uid = typeof configuration.record_id === 'undefined' ? 'new_' + configuration.table : configuration.record_id;
         self.table[uid] = configuration.table;
+		
         if ($dhx.ui.window_manager.isWindow(self.strWindowID + uid)) {
             self.window[uid].show();
             self.window[uid].bringToTop();
             return;
         }
-
-        var db_settings = $dhx.ui.data.model.settings[configuration.database][configuration.table];
+		
+		var db_settings = $dhx.ui.data.model.settings[configuration.database][configuration.table];		
+       
         $dhx.showDirections("starting view ... ");
-        self._window(uid, configuration.schema);
+        self._window(uid, configuration.schema, db_settings);
         self._layout(uid);
         self._form(uid, db_settings, configuration.schema);
         if (configuration.fnCallBack) {
