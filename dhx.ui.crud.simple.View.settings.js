@@ -9,7 +9,7 @@ $dhx.ui.crud.simple.View.settings = {
 		//parent: typeof dbDemo.configuration.wrapper === 'undefined' ? document.body : dbDemo.configuration.wrapper, // id/object, parent container where the layout will be located
 		parent: document.body
 		, pattern: "1C", // string, layout's pattern
-		skin: "dhx_terrace", // string, optional, "dhx_skyblue", "dhx_web", "dhx_terrace"
+		skin: $dhx.ui.skin, // string, optional, "dhx_skyblue", "dhx_web", $dhx.ui.skin
 	}
 	, menu: {
 		icons_path: ''
@@ -19,7 +19,7 @@ $dhx.ui.crud.simple.View.settings = {
 		, onclick: function (id) {
 			// console.log("menu clicked, id="+id);
 		}
-		
+		,top_text : '$dhx'
 		, items: [{
 			id: "file"
 			, text: $dhx.ui.language.File
@@ -27,6 +27,7 @@ $dhx.ui.crud.simple.View.settings = {
 					id: "insert"
 					, text: $dhx.ui.language.New
 					, img: "new.gif"
+					,hotkey: "Ctrl+Alt+N"
 				}, {
 					id: "sep0"
 					, type: "separator"
@@ -35,12 +36,14 @@ $dhx.ui.crud.simple.View.settings = {
 					, text: $dhx.ui.language.FindRecords
 					, img: "view.png"
 					, img_disabled: "view_dis.png"
+					,hotkey: "Ctrl+Alt+V"
 				}, {
 					id: "open"
 					, text: $dhx.ui.language.OpenSelected
 					, img: "open.gif"
 					, img_disabled: "open_dis.gif"
 					, disabled: true
+					,hotkey: "Ctrl+Alt+O"
 				}, {
 					id: "sep1"
 					, type: "separator"
@@ -48,6 +51,7 @@ $dhx.ui.crud.simple.View.settings = {
 					id: "pdf"
 					, text: $dhx.ui.language.PDFVersion
 					, img: "print.gif"
+					,hotkey: "Ctrl+Shit+P"
 				}
 			]
 		}, {
@@ -59,6 +63,7 @@ $dhx.ui.crud.simple.View.settings = {
 					, img: "edit.png"
 					, img_disabled: "edit_dis.png"
 					, disabled: true
+					,hotkey: "Ctrl+Alt+U"
 				},
 				{
 					id: "delete"
@@ -66,6 +71,7 @@ $dhx.ui.crud.simple.View.settings = {
 					, img: "delete.png"
 					, img_disabled: "delete_dis.png"
 					, disabled: true
+					,hotkey: "Del"
 				}
 			]
 		}, {
@@ -90,9 +96,12 @@ $dhx.ui.crud.simple.View.settings = {
 					,img : 'editor.png'
 					, items: [
 						{
-							id: $dhx.ui.language.Portuguese
-							, text: "<u>P</u>ortugês"
+							id: 'portuguese'
+							, text: $dhx.ui.language.Portuguese
 							, img: "flags/pt-br.png"
+							,type : 'radio'
+							,group: "idiom"
+							,checked : ( $dhx.ui.i18n.getUserIdiom() == 'pt-br' ) ? true : ($dhx.ui.i18n.idiom == 'pt-br' ? true : false)
 						},{
 							id: "sep1670"
 							, type: "separator"
@@ -100,7 +109,102 @@ $dhx.ui.crud.simple.View.settings = {
 							id: "english"
 							, text: $dhx.ui.language.English
 							, img: "flags/en.png"
+							,type : 'radio'
+							,group: "idiom"
+							,checked : ( $dhx.ui.i18n.getUserIdiom() == 'en-us' ) ? true : ($dhx.ui.i18n.idiom == 'en-us' ? true : false)
 						}
+					]
+				}
+				, {
+					id: "skin"
+					, text: $dhx.ui.language.Selectskin
+					,img : 'skin.png'
+					, items: [
+						{
+							id: 'dhx_skyblue'
+							, text: 'skyblue'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_skyblue' && $dhx.ui.getUserSkin().skin_subset == 'dhx_skyblue') ? true : false
+								) : false
+						}, {
+							
+							//skin_subset
+							id: "light-green"
+							, text: 'light-green'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_skyblue' && $dhx.ui.getUserSkin().skin_subset == 'light-green') ? true : false
+								) : false
+						}, {
+							id: "clouds"
+							, text: 'clouds'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_skyblue' && $dhx.ui.getUserSkin().skin_subset == 'clouds') ? true : false
+								) : false
+						}, {
+							id: "pink-yellow"
+							, text: 'pink-yellow'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_skyblue' && $dhx.ui.getUserSkin().skin_subset == 'pink-yellow') ? true : false
+								) : false
+						},{
+							id: "sep16709"
+							, type: "separator"
+						}, {
+							id: "dhx_terrace"
+							, text: 'terrace'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_terrace' && $dhx.ui.getUserSkin().skin_subset == 'dhx_terrace') ? true : false
+								) : true
+						}, {
+							id: "terrace-blue"
+							, text: 'terrace-blue'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_terrace' && $dhx.ui.getUserSkin().skin_subset == 'terrace-blue') ? true : false
+								) : false
+						},{
+							id: "sep167094"
+							, type: "separator"
+						}, {
+							id: "dhx_web"
+							, text: 'web'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_web' && $dhx.ui.getUserSkin().skin_subset == 'dhx_web') ? true : false
+								) : false
+						}
+						,{
+							id: "web-green"
+							, text: 'web-green'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_web' && $dhx.ui.getUserSkin().skin_subset == 'web-green') ? true : false
+								) : false
+						}
+						
+						
+						//
 					]
 				}
 			]
@@ -285,18 +389,18 @@ $dhx.ui.crud.simple.View.settings = {
 	
 	, FormWindow: {
 		window: {
-			"left": $dhx.getPagePosition("x", 490, 330)
-			, "top": $dhx.getPagePosition("y", 490, 330)
-			, "width": 490
-			, "height": 330
+			"left": $dhx.getPagePosition("x", 530, 430)
+			, "top": $dhx.getPagePosition("y", 530, 430)
+			, "width": 530
+			, "height": 430
 			, "icon": "form.png"
 			, "icon_dis": "form.png"
-			, skin: "dhx_terrace"
+			, skin: $dhx.ui.skin
 		}
 		, layout: {
 			parent: document.body, // id/object, parent container where the layout will be located
 			pattern: "1C", // string, layout's pattern
-			skin: "dhx_terrace", // string, optional, "dhx_skyblue", "dhx_web", "dhx_terrace"
+			skin: $dhx.ui.skin, // string, optional, "dhx_skyblue", "dhx_web", $dhx.ui.skin
 		}
 		, form: {
 			"template": [{
@@ -308,7 +412,29 @@ $dhx.ui.crud.simple.View.settings = {
 				type: 'block'
 				, inputWidth: 'auto'
 				, inputHeight: 'auto'
-				, list: []
+				, list: [
+					{
+						type: 'block'
+						, inputWidth: 'auto'
+						, inputHeight: 'auto'
+						, list: [
+						
+						
+						]
+					},{
+							type: 'newcolumn'
+					}
+					,{
+						type: 'block'
+						, inputWidth: 'auto'
+						, inputHeight: 'auto'
+						, list: [
+						
+						
+						]
+					}
+				
+				]
 			}, {
 				type: 'block'
 				, inputWidth: 'auto'
@@ -317,13 +443,27 @@ $dhx.ui.crud.simple.View.settings = {
 					type: "button"
 					, value: "update record"
 					, name: "x_special_button_update" // x_special_button_update id automatically recognized when binding a form to a dataset
-				}, {
-					type: 'newcolumn'
-				}, {
-					type: "button"
-					, value: "save new record"
-					, name: "x_special_button_save" // x_special_button_save id automatically recognized when binding a form to a dataset
-				}]
+				}
+				
+			,{
+					type: 'block'
+					, inputWidth: 'auto'
+					, inputHeight: 'auto'
+					, list: [
+						{
+							type: "button"
+							, value: "save and add new record"
+							, name: "x_special_button_save" // x_special_button_save id automatically recognized when binding a form to a dataset
+						}, {
+							type: 'newcolumn'
+						}, {
+							type: "button"
+							, value: "save and close"
+							, name: "x_special_button_save" // x_special_button_save id automatically recognized when binding a form to a dataset
+						}
+					]
+				}
+				]
 			}]
 		}
 	}
@@ -335,7 +475,7 @@ $dhx.ui.crud.simple.View.settings = {
 			, "height": 550
 			, "icon": "form.png"
 			, "icon_dis": "form.png"
-			, skin: "dhx_terrace"
+			, skin: $dhx.ui.skin
 		}
 	}
 	, Search: {
@@ -346,12 +486,12 @@ $dhx.ui.crud.simple.View.settings = {
 			, "height": 330
 			, "icon": "form.png"
 			, "icon_dis": "form.png"
-			, skin: "dhx_terrace"
+			, skin: $dhx.ui.skin
 		}
 		, layout: {
 			parent: document.body, // id/object, parent container where the layout will be located
 			pattern: "1C", // string, layout's pattern
-			skin: "dhx_terrace", // string, optional, "dhx_skyblue", "dhx_web", "dhx_terrace"
+			skin: $dhx.ui.skin, // string, optional, "dhx_skyblue", "dhx_web", $dhx.ui.skin
 		}
 		, form: {
 			"template": [{
