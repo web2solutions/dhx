@@ -1,3 +1,5 @@
+/*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
+/*global $dhx, dhtmlx, dhtmlXLayoutObject */
 $dhx.ui.i18n['pt-br'] = {
 //$dhx.ui.language = {
 	// menu
@@ -35,7 +37,30 @@ $dhx.ui.i18n['pt-br'] = {
 	,gotolast : 'ir para o último'
 	,gotoprevious : 'ir para o anterior'
 	,gotonext : 'ir para o próximo'
+	,Filloutthefields : 'Preencha os campos'
 	
+	,ChangeIdiomAgreement : 'A janela será recarregada para que as novas configurações tenham efeito. <br><br> Isto também irá gerar um cookie em seu navegador.<br><br> Você deseja continuar?'
+	,ChangeskinAgreement  : 'A janela será recarregada para que as novas configurações tenham efeito. <br><br> Isto também irá gerar um cookie em seu navegador.<br><br> Você deseja continuar?'
+	,continue : 'continuar'
+	,cancelar : 'cancelar'
+	,Selectskin : 'Selecionar skin'.CFC()
 	
+	,Initializing : 'Inicializando'
+	,time_remaining_for_token_expiration : 'tempo restante até a sessão expirar'
+	,no_data_transferred : 'nenhum dado transferido'
+	,Notauthorizedyet : 'Não autorizado'
+	,no_errors : 'nenhum erro'
+	,could_not_sync_grid : 'impossivel sincronizar grid'
+	,counting_records : 'estimando registros'
+	,total_records : 'número de registros'
+	,getting_quota_information : 'solicitando informações de disco'
+	,used : 'usado'
+	,remaining : 'restante'
+	,Quota_information : 'Uso de disco'
+	,requesting_first_record : 'solicitando primeiro registro'
+	,requesting_next_record : 'solicitando próximo registro'
+	,requesting_previous_record : 'solicitando registro anterior'
+	,requesting_last_record : 'solicitando último registro'
+	,selected : 'registro selecionado'
 };
-$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );
+//$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );
