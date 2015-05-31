@@ -40,12 +40,19 @@ $dhx.ui.crud.simple.View.Search = {
 	
 	
 	,_form : function( uid, db_settings, schema, controllerAppId ){
-		 var self = $dhx.ui.crud.simple.View.Search, that = $dhx.ui.controller[controllerAppId];
+		 var self = $dhx.ui.crud.simple.View.Search, that = $dhx.ui.crud.controller[controllerAppId];
 		
 		$dhx.ui.crud.simple.View.settings.Search.form.template[1].list = db_settings.form.template;
         self.form[uid] = self.layout[uid].cells('a').attachForm($dhx.ui.crud.simple.View.settings.Search.form.template);
 		
 		
+		
+		var hash = {};
+		self.form[uid].forEachItem(function(name){
+			hash[name] = '';
+		});
+		
+		self.form[uid].setFormData(hash);
 		
 		self.form[ uid ].attachEvent("onButtonClick", function(name)
 		{
@@ -67,7 +74,6 @@ $dhx.ui.crud.simple.View.Search = {
 						var schema = $dhx.dataDriver.getTableSchema(c);
 						var primary_key = schema.primary_key.keyPath
 						var columns = $dhx.dataDriver._getColumnsId(c).split(',');
-						alert(columns);
 						var data = [];
 						columns.forEach(function (column, index_, array_) {
 							data[index_] = record[column];
@@ -117,7 +123,7 @@ $dhx.ui.crud.simple.View.Search = {
         	schema= configuration.schema,
 			controllerAppId = configuration.appId;
 		
-		self.controller[ uid ] = $dhx.ui.controller[controllerAppId];
+		self.controller[ uid ] = $dhx.ui.crud.controller[controllerAppId];
 		
 		var uid = configuration.table;
 		self.table[uid] = configuration.table;
