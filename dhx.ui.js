@@ -1,9 +1,10 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
-/*global $dhx, dhtmlx, dhtmlXLayoutObject, dbDemo */
+/*global $dhx, dhtmlx, dhtmlXLayoutObject */
 
-$dhx.ui = $dhx.ui || {
+$dhx.ui = {
 	version : '1.0.3',
 	skin : "dhx_terrace",
+	skin_subset : "",
     cdn_address: $dhx.CDN,
     require: function(dependencies, callBack) {
         'use strict';
@@ -275,6 +276,65 @@ $dhx.ui = $dhx.ui || {
 				complete();
 			};
 	}
+	,setUserSkin : function(skin){
+		dhtmlx.confirm({
+			type:"confirm-warning",
+			text: $dhx.ui.language.ChangeskinAgreement,
+			ok: $dhx.ui.language.continue,
+			// dhtmlx BUG
+			cancel: $dhx.ui.language.cancel,
+			callback: function(result)
+			{
+				if(result == true)
+				{
+					$dhx.ui.skin_subset = skin;
+					if( skin == 'terrace-blue')
+					{
+						self.skin = 'dhx_terrace';
+					}
+					else if( skin == 'light-green')
+					{
+						self.skin = 'dhx_skyblue';
+					}
+					else if( skin == 'clouds')
+					{
+						self.skin = 'dhx_skyblue';
+					}
+					else if( skin == 'pink-yellow')
+					{
+						self.skin = 'dhx_skyblue';
+					}
+					else if( skin == 'web-green')
+					{
+						self.skin = 'dhx_web';
+					}
+					else
+					{
+						self.skin = skin;
+					}
+					$dhx.cookie.set( "dhx_skin", self.skin, 99999999 );
+					$dhx.cookie.set( "dhx_skin_subset", skin, 99999999 );
+					location.reload();	
+				}
+			}
+		});
+	}
+	,getUserSkin : function(){
+		var skin = false;
+		//alert($dhx.cookie.get( "dhx_skin" ))
+		if( typeof $dhx.cookie.get( "dhx_skin" ) !== 'undefined')
+		{
+			if( $dhx.cookie.get( "dhx_skin" ) != null )
+			{
+				skin = { 
+					skin :$dhx.cookie.get( "dhx_skin" ),
+					skin_subset : $dhx.cookie.get( "dhx_skin_subset")
+				}
+			}
+		}
+		//alert(skin)
+		return skin;
+	}
     ,start: function(c) {
         'use strict';
         var self = $dhx.ui,
@@ -287,6 +347,20 @@ $dhx.ui = $dhx.ui || {
 				dependencies = require;
 			}
 		}
+		
+		if( c.skin )
+		{
+			self.skin = c.skin.skin;
+			self.skin_subset = c.skin.skin_subset;
+		}
+		
+		if( self.getUserSkin() )
+		{
+			//alert();
+			var skin = self.getUserSkin();
+			self.skin = skin.skin;
+			self.skin_subset = skin.skin_subset;
+		}
 
         if (window.location.host.indexOf('web2.eti.br') != -1) {
             $dhx.environment = "test";
@@ -297,14 +371,59 @@ $dhx.ui = $dhx.ui || {
 
         if (c.dhtmlx) {
             if (typeof window.dhx4 === 'undefined') {
-                dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.css");
-                dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/terrace/dhtmlx.css");
+				
+				//alert($dhx.ui.skin);
+				//alert($dhx.ui.skin_subset);
+				
+                if( self.skin == 'dhx_skyblue')
+				{
+					
+					if( self.skin_subset == 'light-green')
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/light-green/dhtmlx.css");
+					}
+					else if( self.skin_subset == 'clouds')
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/clouds/dhtmlx.css");
+					}
+					else if( self.skin_subset == 'pink-yellow')
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/pink-yellow/dhtmlx.css");
+					}else
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.css");
+					}
+				}
+                else if( self.skin == 'dhx_terrace')
+				{
+					
+					if( self.skin_subset == 'terrace-blue')
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/terrace-blue/dhtmlx.css");
+					}else
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/terrace/dhtmlx.css");
+					}
+				}
+				
+				else if( self.skin == 'dhx_web')
+				{
+					
+					if( self.skin_subset == 'web-green')
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/web-green/dhtmlx.css");
+					}else
+					{
+						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/skins/web/dhtmlx.css");
+					}
+				}
+				
+				
+				//
                 dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.js");
             }
         }
         dependencies.push($dhx.ui.cdn_address + "dhx/ui/css/dhx.ui.css");
-		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.js");
-		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.pt-br.js");
 		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.Session.js");	
 		
 		if( typeof $dhx.ui.data == 'undefined' )
@@ -325,6 +444,7 @@ $dhx.ui = $dhx.ui || {
 		if( typeof $dhx.ui.crud == 'undefined' )
 		{
 			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.js");
+			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.js");
 			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.js");
 			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.settings.js");
 			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.Record.js");
@@ -341,36 +461,44 @@ $dhx.ui = $dhx.ui || {
 
         //typeof window.JSON === 'undefined' ? 
 		dependencies.unshift($dhx.ui.cdn_address + "dhx/ui/js/json3.min.js");// : "";
-
-        $dhx.ui.require(dependencies, function() {
-            $dhx.init();
-
-            self._window_manager();
-
-            if ($dhx._enable_log) console.warn('starting $dhx.ui');
-            window.dhx4.dateFormat = {
-                en: "%Y-%m-%d",
-                pt: "%Y-%m-%d"
-            };
+		
+		var i18n_dep = [];
+		i18n_dep.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.js");
+		i18n_dep.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.pt-br.js");
+		i18n_dep.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.en-us.js");
+		$dhx.ui.require(i18n_dep, function() {
 			
-			self.dhxPDF();
+			$dhx.ui.i18n.start();		
+			$dhx.ui.require(dependencies, function()
+			{
+				$dhx.init();
+				self._window_manager();
+	
+				if ($dhx._enable_log) console.warn('starting $dhx.ui');
+				window.dhx4.dateFormat = {
+					en: "%Y-%m-%d",
+					pt: "%Y-%m-%d"
+				};
+				
+				self.dhxPDF();
+	
+				$dhx.ui.data.model.start({
+					db: c.db,
+					version: c.version,
+					schema: c.schema,
+					settings: c.settings,
+					records: c.records,
+					onSuccess: function() {
+						// call onStart for $dhx.ui.start()
+						if (c.onStart) c.onStart();
+					},
+					onFail: function() {
+	
+					}
+				})
+			});
 			
 			
-
-            $dhx.ui.data.model.start({
-                db: c.db,
-                version: c.version,
-                schema: c.schema,
-                settings: c.settings,
-                records: c.records,
-                onSuccess: function() {
-                    // call onStart for $dhx.ui.start()
-                    if (c.onStart) c.onStart();
-                },
-                onFail: function() {
-
-                }
-            })
-        });
+		});
     }
 };
