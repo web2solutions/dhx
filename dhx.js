@@ -3485,6 +3485,10 @@ var $dhx = {
 				'background: #00ebbe; color: #fff; font-size: 12px; padding: 12px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
 			);
         }
+		console.log(
+				"%c under the hood, guy? why? \n\n\n thank you for reading my code", 
+				'background: red; color: #fff; font-size: 30px; padding: 30px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
+			);
         if ($dhx._enable_log) console.warn('starting $dhx');
         self.Browser.init();
         if (typeof c !== 'undefined') {
