@@ -4,12 +4,13 @@
 
 ## $dhx.ui
 
- - high capacity database pool
  - i18n
  - skining
  - module loader
  - dhtmlx window stack control
  - PDF viewer
+ - PDF generator
+ - Excel generator
 
 
 ## $dhx.ui.data
@@ -53,6 +54,7 @@
       
       window.onload = function() {
         $dhx.ui.start( {
+            // load dhtmlx suite files?
           dhtmlx : true
           ,db : db_name
           ,version :2
