@@ -5,6 +5,8 @@
 
 ## dhx cruds
 
+![$dhx.ui.crud.simple print](http://cdn.dhtmlx.com.br/dhx/docs/dhx.ui.crud.simple.png)
+
 ```javascript
       var crud = null;
       var db_name = 'juris';
