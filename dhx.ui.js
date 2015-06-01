@@ -502,3 +502,89 @@ $dhx.ui = {
 		});
     }
 };
+
+$dhx.ui.helpers = {
+	column : {
+		toFormField : function( column ){
+			
+			
+			/*
+			name: 'group'
+								, numeric_scale: null
+								, "default": "usuario"
+								, unique: false
+								, format: ""
+								, has_fk: true
+								, dhtmlx_grid_type: "co"
+								, index: true
+								, dhtmlx_grid_sorting: "str"
+								, required: true
+								, validation: ""
+								, numeric_precision: null
+								, dhtmlx_form_type: "input"
+								, type: "character varying"
+								, foreign_table_name: "groups"
+								, dhtmlx_grid_align: "left"
+								, is_fk: false
+								, is_nullable: "NO"
+								, dhtmlx_grid_width: "*"
+								, dhtmlx_grid_header: "group"
+								, ordinal_position: 5
+								, foreign_column_name: "group"
+								, dhtmlx_grid_footer: ""
+								, maxlength: "255"
+			
+			*/
+			
+			var field = {
+				tooltip: ""
+				, mask_to_use: ""
+				, value: ""
+				, maxLength: column.maxlength
+				, required: column.required
+				, label: column.dhtmlx_grid_header
+				, validate: column.validation
+				//, options: []
+				, name: column.name
+				, dhx_prop_text: column.foreign_column_name
+				, dhx_table: column.foreign_table_name
+				, dhx_prop_value: column.foreign_column_value
+				, type: ( column.has_fk ) ? 'combo' : $dhx.ui.helpers.sqlToDhxFormType(column.type)
+			};
+			//console.log( field );
+			return field;
+		}
+	}
+	
+	
+	,sqlToDhxFormType : function($sql_type){
+		if ( $sql_type == 'integer' ) {
+			return 'input';
+		}
+		else if ( $sql_type == 'bigint' ) {
+			return 'input';
+		}
+		else if ( $sql_type == 'numeric' ) {
+			return 'input';
+		}
+		else if ( $sql_type == 'character varying' ) {
+			return 'input';
+		}
+		else if ( $sql_type == 'text' ) {
+			return 'input';
+		}
+		else if ( $sql_type == 'date' ) {
+			return 'calendar';
+		}
+		else if ( $sql_type == 'timestamp without time zone' ) {
+			return 'calendar';
+		}
+		else if ( $sql_type == 'primary_key' ) {
+			return 'hidden';
+		}
+		return '';
+	}
+}
+
+
+$dhx.ui.helpers.toFormField
