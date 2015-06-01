@@ -26,9 +26,9 @@ $dhx.ui.crud.simple.View.Search = {
             self.form[ uid ] = null;
 			return true;
 		});
-		self.window[ uid ].setText("Provide some values to search.");
+		self.window[ uid ].setText( uid.CFC() + " - " + $dhx.ui.language.Provide_some_values_to_search);
 		self.status_bar = self.window[ uid ].attachStatusBar();
-		self.status_bar.setText('search is case and special chars insentive');
+		self.status_bar.setText($dhx.ui.language.insensitivity_search);
 	}
 	
 	,_layout : function( uid ){
@@ -41,9 +41,72 @@ $dhx.ui.crud.simple.View.Search = {
 	
 	,_form : function( uid, db_settings, schema, controllerAppId ){
 		 var self = $dhx.ui.crud.simple.View.Search, that = $dhx.ui.crud.controller[controllerAppId];
-		
+		var form_id = self.strWindowID = ".form." + uid
 		$dhx.ui.crud.simple.View.settings.Search.form.template[1].list = db_settings.form.template;
         self.form[uid] = self.layout[uid].cells('a').attachForm($dhx.ui.crud.simple.View.settings.Search.form.template);
+		
+		
+		$dhx.dhtmlx.prepareForm(form_id, $dhx.ui.crud.simple.View.settings.Search.form, self.form[uid]);
+		
+		$dhx.dhtmlx.formFields[form_id].forEach(function (field, index, array) {
+			if (field.type == 'combo') {
+				if (typeof field.dhx_table !== 'undefined') {
+					if (typeof field.dhx_prop_text !== 'undefined') {
+						if (typeof field.dhx_prop_value !== 'undefined') {
+							var dhxCombo = self.form[uid].getCombo(field.name);
+							
+							//dhxCombo.DOMParent
+							$dhx.dataDriver.public[field.dhx_table].sync.combo({
+								component: dhxCombo
+								, component_id: form_id + '_combo_' + field.name
+								, $init: function (obj) {
+										obj.value = obj[field.dhx_prop_value];
+										obj.text = obj[field.dhx_prop_text];
+									} // not mandatory, default false
+								, onSuccess: function () {
+								}
+								, onFail: function () {
+								}
+							});
+						}
+					}
+				}
+			}
+			else if (field.type == 'select') {
+				if (typeof field.dhx_table !== 'undefined') {
+					if (typeof field.dhx_prop_text !== 'undefined') {
+						if (typeof field.dhx_prop_value !== 'undefined') {
+							var dhxSelect = self.form[uid].getSelect(field.name);
+							$dhx.dataDriver.public[field.dhx_table].sync.select({
+								component: dhxSelect
+								, component_id: form_id + '_select_' + field.name
+								, $init: function (obj) {
+										obj.value = obj[field.dhx_prop_value];
+										obj.text = obj[field.dhx_prop_text];
+									} // not mandatory, default false
+									
+								, onSuccess: function () {
+								}
+								, onFail: function () {
+								}
+							});
+						}
+					}
+				}
+			}
+			else
+			{
+				self.form[uid].getInput(field.name).addEventListener('keyup', function(event) {
+					if( this.value.length % 2 )
+					{
+						window.setTimeout(function(){
+							self.doSearch(uid, db_settings, schema, controllerAppId);	
+						}, 500);
+					}
+					
+				});
+			}
+		});
 		
 		
 		
@@ -58,58 +121,105 @@ $dhx.ui.crud.simple.View.Search = {
 		{
          	if (name == "search")
 			{
+				self.doSearch(uid, db_settings, schema, controllerAppId);
+			}
+			else if (name == "clear_results")
+			{
 				that.view.grid.clearAll();
-				that.view.layout.progressOn();
-				self.form[ uid ].lock();
-				//console.log( query );
-				
-				// that.model.db.schema.persons.search().where({ and :{ name : 'Jose', email : 'eduardo'} });
-				schema.search.where({
-					query : {
-						and : self.form[ uid ].getFormData(),	
-					},
-					onFound : function(record_id, record, tx, event){
-						//$dhx.notify('found: ', record, 'icons/db.png');
-						var c = { db: 'juris', table : 'persons'}
-						var schema = $dhx.dataDriver.getTableSchema(c);
-						var primary_key = schema.primary_key.keyPath
-						var columns = $dhx.dataDriver._getColumnsId(c).split(',');
-						var data = [];
+				schema.load(function(records, rows_affected, tx, event) {
+                    that.view.helpers.disableButtonActions(controllerAppId);
+					
+					var data = {
+						rows: []
+					};
+					var c = {
+						db: $dhx.ui.crud.controller[controllerAppId].database
+						, table: $dhx.ui.crud.controller[controllerAppId].collection
+					};
+					var schema = $dhx.dataDriver.getTableSchema(c);
+					var primary_key = schema.primary_key.keyPath;
+					var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+					records.forEach(function (recordset, index, array) {
+						//console.log(recordset.record)
+						var record = [];
 						columns.forEach(function (column, index_, array_) {
-							data[index_] = record[column];
+							record[index_] = recordset.record[column];
 						});
-						//that.view.grid.addRow(record_id, data);
-					}
-					,onReady : function(records, tx, event){
-						var data={
-							rows:[]
-						};
-						var c = { db: 'juris', table : 'persons'};
-						var schema = $dhx.dataDriver.getTableSchema(c);
-						var primary_key = schema.primary_key.keyPath;
-						var columns = $dhx.dataDriver._getColumnsId(c).split(',');
-						records.forEach(function(recordset, index, array) {
-							var record = [];
-							columns.forEach(function(column, index_, array_) {
-								record[index_] = recordset[column];
-							});
-							data.rows.push({ id:recordset[primary_key], data: record})
-						});
-						
-						that.view.grid.parse(data, "json"); //takes the name and format of the data source
-						
-						that.view.layout.progressOff();
-						self.form[ uid ].unlock();
-					}
-					,onerror : function(){
-						that.view.layout.progressOff();
-						self.form[ uid ].unlock();
-					}	
-				});
-				
-				
+						data.rows.push({
+							id: recordset.record[primary_key]
+							, data: record
+						})
+					});
+					that.view.grid.parse(data, "json"); //takes the name and format of the data source
+					
+					
+                }, function(tx, event, error_message) {
+                    console.log(error_message);
+                });
 			}
         });
+	}
+	
+	, doSearch: function (uid, db_settings, schema, controllerAppId) {
+		var self = $dhx.ui.crud.simple.View.Search
+			, that = $dhx.ui.crud.controller[controllerAppId];
+		that.view.grid.clearAll();
+		//that.view.layout.progressOn();
+		//self.form[uid].lock();
+		//console.log( query );
+		// that.model.db.schema.persons.search().where({ and :{ name : 'Jose', email : 'eduardo'} });
+		schema.search.where({
+			query: {
+				and: self.form[uid].getFormData()
+			, }
+			, onFound: function (record_id, record, tx, event) {
+				//$dhx.notify('found: ', record, 'icons/db.png');
+				var c = {
+					db: $dhx.ui.crud.controller[controllerAppId].database
+					, table: $dhx.ui.crud.controller[controllerAppId].collection
+				}
+				var schema = $dhx.dataDriver.getTableSchema(c);
+				var primary_key = schema.primary_key.keyPath
+				var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+				var data = [];
+				columns.forEach(function (column, index_, array_) {
+					data[index_] = record[column];
+				});
+				//that.view.grid.addRow(record_id, data);
+				self.form[uid].setFocusOnFirstActive();
+			}
+			, onReady: function (records, tx, event) {
+				var data = {
+					rows: []
+				};
+				var c = {
+					db: $dhx.ui.crud.controller[controllerAppId].database
+					, table: $dhx.ui.crud.controller[controllerAppId].collection
+				};
+				var schema = $dhx.dataDriver.getTableSchema(c);
+				var primary_key = schema.primary_key.keyPath;
+				var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+				records.forEach(function (recordset, index, array) {
+					var record = [];
+					columns.forEach(function (column, index_, array_) {
+						record[index_] = recordset[column];
+					});
+					data.rows.push({
+						id: recordset[primary_key]
+						, data: record
+					})
+				});
+				that.view.grid.parse(data, "json"); //takes the name and format of the data source
+				//that.view.layout.progressOff();
+				//self.form[uid].unlock();
+				self.form[uid].setFocusOnFirstActive();
+			}
+			, onerror: function () {
+				//that.view.layout.progressOff();
+				//self.form[uid].unlock();
+				self.form[uid].setFocusOnFirstActive();
+			}
+		});
 	}
 	
 	,table : []
