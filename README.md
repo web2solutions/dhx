@@ -27,6 +27,7 @@
  - Custom Views
  - Generic Helpers classes
  - Custom Helpers classes
+ - Scaffold tables
 
 ### $dhx.ui.crud.simple controller 
 
