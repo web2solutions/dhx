@@ -457,8 +457,34 @@ $dhx.ui.crud.simple.View = {
         self.helpers.disableButtonActions(appId);
         self.ribbon[appId].attachEvent("onClick", function(id) {
             if (id == 'select') {
-                schema.load(function(records, rows_affected, tx, event) {
-                    self.helpers.disableButtonActions(controller);
+                self.grid.clearAll();
+				schema.load(function(records, rows_affected, tx, event) {
+                    self.helpers.disableButtonActions(appId);
+					
+					var data = {
+						rows: []
+					};
+					var c = {
+						db: $dhx.ui.crud.controller[appId].database
+						, table: $dhx.ui.crud.controller[appId].collection
+					};
+					var schema = $dhx.dataDriver.getTableSchema(c);
+					var primary_key = schema.primary_key.keyPath;
+					var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+					records.forEach(function (recordset, index, array) {
+						//console.log(recordset.record)
+						var record = [];
+						columns.forEach(function (column, index_, array_) {
+							record[index_] = recordset.record[column];
+						});
+						data.rows.push({
+							id: recordset.record[primary_key]
+							, data: record
+						})
+					});
+					self.grid.parse(data, "json"); //takes the name and format of the data source
+					
+					
                 }, function(tx, event, error_message) {
                     console.log(error_message);
                 });
@@ -470,11 +496,6 @@ $dhx.ui.crud.simple.View = {
                     status_bar._setStatusError(error_message);
                 });
             } else if (id == 'getquota') {
-				
-				
-	
-				
-				
                 status_bar._setStatusDataTransfer($dhx.ui.language.getting_quota_information, true);
                 that.model.db._getQuota(function(used, remaining) {
                     used = (used / 1024 / 1024 / 1024);
@@ -580,7 +601,7 @@ $dhx.ui.crud.simple.View = {
                     schema.del(self.grid.getSelectedRowId(), function(tx, event, record_id) {
                         status_bar._setStatusDataTransfer('record deleted: ' + record_id, false);
                         //self.grid.deleteSelectedRows();
-                        self.helpers.disableButtonActions(controller);
+                        self.helpers.disableButtonActions(appId);
                     }, function(tx, event, error_message) {
                         status_bar._setStatusError(error_message);
                     });
@@ -666,8 +687,8 @@ $dhx.ui.crud.simple.View = {
         schema.attachEvent('onAfterCursorChange', function(cursor_id, table) {
 
             if (table == controller.collection) {
-                console.log(appId);
-                console.log(schema);
+                //console.log(appId);
+                //console.log(schema);
                 $dhx.ui.crud.controller[appId].view.helpers.enableButtonActions(appId);
 				
 				
