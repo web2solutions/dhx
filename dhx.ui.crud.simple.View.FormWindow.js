@@ -55,7 +55,7 @@ $dhx.ui.crud.simple.View.FormWindow = {
         } else {
 
         }
-        self.window[uid].setText($dhx.ui.language.Filloutthefields);
+        self.window[uid].setText(self.table[uid].CFC() + " - " + $dhx.ui.language.Filloutthefields);
         self.status_bar = self.window[uid].attachStatusBar();
     }
 
@@ -75,6 +75,8 @@ $dhx.ui.crud.simple.View.FormWindow = {
 		
 		var form_template = $dhx.extend( $dhx.ui.crud.simple.View.settings.FormWindow.form );
 		
+		//console.log( schema );
+		
 		if( db_settings.form.template.length <= 9 )
 		{
 			form_template.template[1].list[0].list = db_settings.form.template;
@@ -87,7 +89,7 @@ $dhx.ui.crud.simple.View.FormWindow = {
 			form_template.template[1].list[0].list = [];
 			for( var x = 0; x < db_settings.form.template.length; x++)
 			{
-				console.log( field );
+				//console.log( field );
 				var field = db_settings.form.template[x];
 				if( x % 2 )
 				{
@@ -151,7 +153,9 @@ $dhx.ui.crud.simple.View.FormWindow = {
             return;
         }
 		
-		var db_settings = $dhx.ui.data.model.settings[configuration.database][configuration.table];		
+		var db_settings = $dhx.ui.data.model.settings[configuration.database][configuration.table];	
+		
+		console.log(  );	
        
         $dhx.showDirections("starting view ... ");
         self._window(uid, configuration.schema, db_settings);
