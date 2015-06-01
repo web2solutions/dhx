@@ -42,6 +42,7 @@
           wrapper : document.body
           ,database : db_name
           ,collection : table
+          ,customView : my_Custom_View_Class_here // not mandatory, default inherits $dhx.ui.crud.simple.View
         } );  
       }
       
