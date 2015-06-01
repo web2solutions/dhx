@@ -28,7 +28,7 @@
  - Generic Helpers classes
  - Custom Helpers classes
 
-> $dhx.ui.crud.simple controller 
+### $dhx.ui.crud.simple controller 
 
 ![$dhx.ui.crud.simple print](http://cdn.dhtmlx.com.br/dhx/docs/dhx.ui.crud.simple.png)
 
