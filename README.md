@@ -4,13 +4,18 @@
 
 ## $dhx.ui
 
-**Features**
-
+ - high capacity database pool
  - i18n
  - skining
  - module loader
  - dhtmlx window container
  - PDF viewer
+
+
+## $dhx.ui.data
+
+  High capacity database shared pool. Share databases between $dhx applications
+
 
 ## $dhx.ui.crud
 
