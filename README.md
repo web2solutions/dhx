@@ -1,4 +1,4 @@
-# $dhx - Javascript and DHTMLX on steroids [![NPM version](https://badge.fury.io/js/dhx.png)](http://badge.fury.io/js/dhx) 
+# $dhx - DHTMLX on steroids [![NPM version](https://badge.fury.io/js/dhx.png)](http://badge.fury.io/js/dhx) 
 
 > Agile JS framework for realtime && offline enterprise web applications
 
