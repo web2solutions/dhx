@@ -640,9 +640,18 @@ $dhx.dataDriver = {
                 if (c.onFail) c.onFail(tx, event, event.target.error.message);
                 if ($dhx._enable_log) console.warn('transaction aborted');
             });
-
-            var index = table.index(c.column);
-            var _checkFkey = index.get(c.value);
+			
+			var index = null;
+			var _checkFkey = '';
+			if( c.column == primary_key )
+			{
+				_checkFkey = table.get(parseInt(c.value));
+			}
+			else
+			{
+				index = table.index(c.column)
+				_checkFkey = index.get(c.value)
+			}
 
             _checkFkey.onsuccess = function(event) {
                 var cursor = event.target.result;
@@ -669,17 +678,16 @@ $dhx.dataDriver = {
             //if ($dhx._enable_log) console.warn(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
-
-
-
     }
 
     ,
     _addCheckFkeys: function(c, onSuccess, onFail) {
-        try {
+	    try {
             var that = $dhx.dataDriver,
                 db_name = c.db,
                 table_schema = that.dbs[db_name].schema[c.table],
+				primary_key = table_schema.primary_key.keyPath;
+				
                 rows_affected = 0,
                 isOnCreate = c.isOnCreate;
             // single record
@@ -735,6 +743,18 @@ $dhx.dataDriver = {
                     for (var i = 0; i < c.record.length; i++) {
                         var record = c.record[i];
                         var r = that.validRecord(table_schema, record);
+						console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
+				console.log(r);
                         if ($dhx.isObject(r)) {
                             var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify(r));
                             that._total_fkeys_to_check[fk_check_uid] = Object.keys(table_schema.foreign_keys).length;
@@ -1117,6 +1137,7 @@ $dhx.dataDriver = {
                     if ($dhx._enable_log) console.log('transaction complete - data selected      ', event);
                     if ($dhx._enable_log) console.warn('rows affected: ' + rows_affected);
                     console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
+					
 
                     if (c.onSuccess) c.onSuccess(records, rows_affected, tx, event);
                     records = null;
@@ -2073,7 +2094,10 @@ $dhx.dataDriver = {
                 //console.log(  'XXXXXXXXXXXXXXXX>>>>>>>>>>>>>>>>', schema );
                 component.fk_combos = [];
                 for (var fk in schema.foreign_keys) {
-                    var table = schema.foreign_keys[fk].table;
+					var table = schema.foreign_keys[fk].table;
+                    var column_value = schema.columns[fk].foreign_column_value;
+					var column_text = schema.columns[fk].foreign_column_name;
+					//var table = schema.foreign_keys[fk].table;
                     var column = schema.foreign_keys[fk].column;
                     var colIndex = component.getColIndexById(fk);
                     component.fk_combos[fk] = component.getCombo(colIndex);
@@ -2083,8 +2107,8 @@ $dhx.dataDriver = {
                         component: component.fk_combos[fk],
                         component_id: '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk,
                         $init: function(obj) {
-                                obj.value = obj[column];
-                                obj.text = obj[column];
+                                obj.value = obj[column_value];
+                                obj.text = obj[column_text];
                             } // not mandatory, default false
 
                         ,
@@ -2306,8 +2330,6 @@ $dhx.dataDriver = {
 															schema: schema
 														});	
 													}
-
-
 													
 													//dhxCombo.DOMParent
 
@@ -2652,12 +2674,24 @@ $dhx.dataDriver = {
         onFail = onFail || false;
         if ($dhx._enable_log) console.warn('trying to save new record: ', clone);
         component.lock();
+		
         $dhx.dataDriver.public[c.table].add(clone, function(tx, event, rows_affected) {
             component.unlock();
+			
+			
+			var hash = {};
+			component.forEachItem(function(name){
+				hash[name] = '';
+			});
+			
+			component.setFormData(hash);
+			
             if ($dhx._enable_log) console.warn('record saved. rows_affected: ', rows_affected);
             (onSuccess) ? onSuccess(): "";
         }, function(tx, event, rows_affected) {
-            that._saveRecordCheckError(component, event, c);
+            
+			
+			that._saveRecordCheckError(component, event, c);
             component.unlock();
             if ($dhx._enable_log) console.warn('record not saved. rows_affected: ', rows_affected);
             (onFail) ? onFail(): "";
@@ -2700,13 +2734,17 @@ $dhx.dataDriver = {
         delete clone[primary_key];
         if ($dhx._enable_log) console.warn('trying to save existing record: ', clone);
         component.lock();
+		
+		
         $dhx.dataDriver.public[c.table].update(record_id, clone, null, function(tx, event, rows_affected) {
             component.unlock();
             if ($dhx._enable_log) console.warn('record saved. rows_affected: ', rows_affected);
             (onSuccess) ? onSuccess(): "";
         }, function(tx, event, rows_affected) {
+			
             that._saveRecordCheckError(component, event, c);
-            component.unlock();
+            
+			component.unlock();
             if ($dhx._enable_log) console.warn('record not saved. rows_affected: ', rows_affected);
             (onFail) ? onFail(): "";
         });
@@ -3179,18 +3217,43 @@ $dhx.dataDriver = {
                     if (columns[column] != '' && columns[column] != null) {
 						if( typeof cursor.value[column] !== 'undefined' )
 						{
-							var search_value = columns[column].toLowerCase().latinize();
-							var column_value = cursor.value[column].toLowerCase().latinize();
 							
-							var re = new RegExp(search_value);
-							if (re.test(column_value)) {
-								total_passed = total_passed + 1;
-								if (total_passed == total_check) {
-									rows_affected = rows_affected + 1;
-									records.push(cursor.value);
-									if (c.onFound) c.onFound(cursor.key, cursor.value, tx, event);
+							console.log(cursor.value);
+							console.log(cursor.value[column]);
+							
+							if( $dhx.isNumber(cursor.value[column]) && $dhx.isNumber(columns[column]) )
+							{
+								var search_value = new Number(columns[column]);
+								var column_value = Number(cursor.value[column]);
+								
+								if( search_value == column_value )
+								{
+									total_passed = total_passed + 1;
+									if (total_passed == total_check) {
+										rows_affected = rows_affected + 1;
+										records.push(cursor.value);
+										if (c.onFound) c.onFound(cursor.key, cursor.value, tx, event);
+									}
+								}
+
+							}
+							else
+							{
+								var search_value = columns[column].toLowerCase().latinize();
+								var column_value = cursor.value[column].toLowerCase().latinize();
+								
+								var re = new RegExp(search_value);
+								if (re.test(column_value)) {
+									total_passed = total_passed + 1;
+									if (total_passed == total_check) {
+										rows_affected = rows_affected + 1;
+										records.push(cursor.value);
+										if (c.onFound) c.onFound(cursor.key, cursor.value, tx, event);
+									}
 								}
 							}
+							
+							
 						}
                         
                     }
