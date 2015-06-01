@@ -30,7 +30,7 @@
  - Scaffold tables && it foreign keys
  - Create, Read, Update, Delete, List and Search operations
  - Full navigation over records
- - Fully integraded with $dhx.dataDriver
+ - Fully integrated with $dhx.dataDriver
 
 ### $dhx.ui.crud.simple controller 
 
