@@ -73,7 +73,7 @@
 
   Copyright 2015 José Eduardo Perotta de Almeida.
 
-AGPL
+AGPL - contact the author for commercial usage
 
 
 ### BUGS AND LIMITATIONS
