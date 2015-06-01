@@ -3,6 +3,38 @@
 > Agile JS framework for realtime web apps
 
 
+## dhx cruds
+
+```javascript
+      var crud = null;
+      var db_name = 'juris';
+      var table = 'persons';
+      
+      function StartUI(){
+        crud = new $dhx.ui.crud.simple( {
+          wrapper : document.body
+          ,database : db_name
+          ,collection : table
+        } );  
+      }
+      
+      window.onload = function() {
+        $dhx.ui.start( {
+          dhtmlx : true
+          ,db : db_name
+          ,version :2
+          ,schema : my_db_structure.schema
+          ,settings : my_db_structure.settings
+          ,records : my_db_structure.records
+          ,onStart : function()
+          {
+            StartUI()
+          } 
+        } );
+      }
+```
+
+
 
 ### LICENSE AND COPYRIGHT
 
