@@ -2,8 +2,17 @@
 
 > Agile JS framework for realtime web apps
 
+## $dhx.ui
 
-## dhx cruds
+**Features**
+
+ - i18n
+ - skining
+ - module loader
+ - dhtmlx window container
+ - PDF viewer
+
+## $dhx.ui.crud
 
   Build enterprise CRUDs with full featured MVW (Model-View-What) code with no efforts.
 
@@ -13,8 +22,6 @@
  - Custom Views
  - Generic Helpers classes
  - Custom Helpers classes
- - i18n
- - skining
  - cross window/browser/platform sync
 
 
