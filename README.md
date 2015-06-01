@@ -8,7 +8,7 @@
  - i18n
  - skining
  - module loader
- - dhtmlx window container
+ - dhtmlx window stack control
  - PDF viewer
 
 
