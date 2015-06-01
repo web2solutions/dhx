@@ -5,8 +5,20 @@
 
 ## dhx cruds
 
+  Build enterprise CRUDs with full featured MVW (Model-View-What) code with no efforts.
 
-> $dhx.ui.crud.simple module controller
+**Features**
+
+ - Generic Views
+ - Custom Views
+ - Generic Helpers classes
+ - Custom Helpers classes
+ - i18n
+ - skining
+ - cross window/browser/platform sync
+
+
+> $dhx.ui.crud.simple controller 
 
 ![$dhx.ui.crud.simple print](http://cdn.dhtmlx.com.br/dhx/docs/dhx.ui.crud.simple.png)
 
