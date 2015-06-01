@@ -5,6 +5,9 @@
 
 ## dhx cruds
 
+
+> $dhx.ui.crud.simple module
+
 ![$dhx.ui.crud.simple print](http://cdn.dhtmlx.com.br/dhx/docs/dhx.ui.crud.simple.png)
 
 ```javascript
