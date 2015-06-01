@@ -63,5 +63,11 @@ $dhx.ui.i18n['en-us'] = {
 	,requesting_previous_record : 'requesting previous record'
 	,requesting_last_record : 'requesting last record'
 	,selected : 'selected record'
+	,save_record : 'save record'
+	,update_record : 'update record'
+	,Provide_some_values_to_search : 'Provide some values to search'
+	,search : 'search'
+	,clear_results : 'clear results'
+	,insensitivity_search : 'there is no sensitivity for case or special chars when searching'
 	
 };

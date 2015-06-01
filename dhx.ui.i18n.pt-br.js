@@ -62,5 +62,11 @@ $dhx.ui.i18n['pt-br'] = {
 	,requesting_previous_record : 'solicitando registro anterior'
 	,requesting_last_record : 'solicitando último registro'
 	,selected : 'registro selecionado'
+	,save_record : 'salvar registro'
+	,update_record : 'alterar record'
+	,Provide_some_values_to_search : 'Digite algum valor para buscar'
+	,search : 'buscar'
+	,clear_results : 'limpar resultados'
+	,insensitivity_search : 'a busca é insensitiva para case e caracteres especiais'
 };
 //$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );
