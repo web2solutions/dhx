@@ -441,7 +441,7 @@ $dhx.ui.crud.simple.View.settings = {
 				, inputHeight: 'auto'
 				, list: [{
 					type: "button"
-					, value: "update record"
+					, value: $dhx.ui.language.update_record
 					, name: "x_special_button_update" // x_special_button_update id automatically recognized when binding a form to a dataset
 				}
 				
@@ -452,13 +452,7 @@ $dhx.ui.crud.simple.View.settings = {
 					, list: [
 						{
 							type: "button"
-							, value: "save and add new record"
-							, name: "x_special_button_save" // x_special_button_save id automatically recognized when binding a form to a dataset
-						}, {
-							type: 'newcolumn'
-						}, {
-							type: "button"
-							, value: "save and close"
+							, value: $dhx.ui.language.save_record
 							, name: "x_special_button_save" // x_special_button_save id automatically recognized when binding a form to a dataset
 						}
 					]
@@ -510,13 +504,13 @@ $dhx.ui.crud.simple.View.settings = {
 				, inputHeight: 'auto'
 				, list: [{
 					type: "button"
-					, value: "search"
+					, value: $dhx.ui.language.search
 					, name: "search" // x_special_button_update id automatically recognized when binding a form to a dataset
 				}, {
 					type: "newcolumn"
 				}, {
 					type: "button"
-					, value: "clear results"
+					, value: $dhx.ui.language.clear_results
 					, name: "clear_results" // x_special_button_update id automatically recognized when binding a form to a dataset
 				}]
 			}]
