@@ -3497,7 +3497,19 @@ var $dhx = {
         if (!self.isDHTMLXmodified) {
             self.modifyDHTMLXloader();
         }
-    },
+    }
+	,toArray : function(obj){
+		var array = [];
+		for( var index in obj)
+		{
+			if(obj.hasOwnProperty( index ))
+			{
+				array.push( obj[index] )
+			}
+		}
+		return array;
+	}
+	,
     extend: function(parent, child) {
         if( typeof child === 'undefined' )
 		{
