@@ -19,7 +19,7 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish'),
             },
             uses_defaults: [
-               'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js'
+               'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js','dhx.ui.Application.js','dhx.ui.Session.js', 'dhx.ui.desktop.js', 'dhx.ui.desktop.settings.js', 'dhx.ui.desktop.view.js', 'dhx.ui.desktop.view.ActiveDesktop.js', 'dhx.ui.desktop.view.TopBar.js', 'dhx.ui.desktop.view.SideBar.js', 'shim.js', 'dhx.crypt.js', 'dhx.Encoder.js', 'dhx.shortcut.js', 'dhx.Request.js', 'dhx.cookie.js', 'dhx.dhtmlx.js'
             ],
             with_overrides: {
                 options: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 
         ,
         jsbeautifier: {
-            files: ["*.js"],
+            files: ["dhtmlx.js"],
             options: {
                 //config: "path/to/configFile",
                 js: {
@@ -60,12 +60,14 @@ module.exports = function(grunt) {
             }
         }
 
-
+		,cssbeautifier : {
+		  files : ["dhtmlx.css"]
+		}
         ,
         watch: {
             scripts: {
                 files: [
-                   'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js'
+                   'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js','dhx.ui.Application.js','dhx.ui.Session.js', 'dhx.ui.desktop.js', 'dhx.ui.desktop.settings.js', 'dhx.ui.desktop.view.js', 'dhx.ui.desktop.view.ActiveDesktop.js', 'dhx.ui.desktop.view.TopBar.js', 'dhx.ui.desktop.view.SideBar.js', 'shim.js', 'dhx.crypt.js', 'dhx.Encoder.js', 'dhx.shortcut.js', 'dhx.Request.js', 'dhx.cookie.js', 'dhx.dhtmlx.js'
                 ],
                 tasks: [
                     'uglify'
@@ -82,13 +84,13 @@ module.exports = function(grunt) {
 			  options: {
 				prefix: 'version\\s+:\\s+[\'"]'
 			  },
-			  src: ['dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js']
+			  src: ['dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js','dhx.ui.Application.js','dhx.ui.Session.js', 'dhx.ui.desktop.js', 'dhx.ui.desktop.settings.js', 'dhx.ui.desktop.view.js', 'dhx.ui.desktop.view.ActiveDesktop.js', 'dhx.ui.desktop.view.TopBar.js', 'dhx.ui.desktop.view.SideBar.js', 'shim.js', 'dhx.crypt.js', 'dhx.Encoder.js', 'dhx.shortcut.js', 'dhx.Request.js', 'dhx.cookie.js', 'dhx.dhtmlx.js']
 			},
 			dhx_patch: {
 			  options: {
 				release: 'patch'
 			  },
-			  src: ['dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js'],
+			  src: ['dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js','dhx.ui.Application.js','dhx.ui.Session.js', 'dhx.ui.desktop.js', 'dhx.ui.desktop.settings.js', 'dhx.ui.desktop.view.js', 'dhx.ui.desktop.view.ActiveDesktop.js', 'dhx.ui.desktop.view.TopBar.js', 'dhx.ui.desktop.view.SideBar.js', 'shim.js', 'dhx.crypt.js', 'dhx.Encoder.js', 'dhx.shortcut.js', 'dhx.Request.js', 'dhx.cookie.js', 'dhx.dhtmlx.js'],
 			}
 		  }
         ,
@@ -100,9 +102,10 @@ module.exports = function(grunt) {
                 files: [{
                         expand: true,
                         src: [
-                           'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js'
+                           'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js', 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js','dhx.ui.Application.js','dhx.ui.Session.js', 'dhx.ui.desktop.js', 'dhx.ui.desktop.settings.js', 'dhx.ui.desktop.view.js', 'dhx.ui.desktop.view.ActiveDesktop.js', 'dhx.ui.desktop.view.TopBar.js', 'dhx.ui.desktop.view.SideBar.js', 'shim.js', 'dhx.crypt.js', 'dhx.Encoder.js', 'dhx.shortcut.js', 'dhx.Request.js', 'dhx.cookie.js', 'dhx.dhtmlx.js'//, 'dhtmlx.js'
+						   
                         ],
-                        dest: 'codebase/<%= pkg.version %>', //cwd: 'app/scripts'
+                        dest: 'codebase/', //cwd: 'app/scripts' // <%= pkg.version %>
                     }]
                     /*src: [
                             'dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js', 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js', 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js'
@@ -117,6 +120,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks("grunt-jsbeautifier");
 	grunt.loadNpmTasks('grunt-version');
+	grunt.loadNpmTasks('grunt-cssbeautifier');
     //grunt.loadNpmTasks('grunt-readme');
 
     grunt.registerTask('default', [ /*'readme'*/ , 'uglify']);

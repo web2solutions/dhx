@@ -71,6 +71,12 @@
 
 
 
+### Bug Fixes for DHTMLX Suite 4.2 std:
+
+  - fixed ribbon.unload(). When you add any function to array prototypes, you get errors when unloading DHTMLX ribbons from an application.
+  
+
+
 ### LICENSE AND COPYRIGHT
 
   Copyright 2015 José Eduardo Perotta de Almeida.

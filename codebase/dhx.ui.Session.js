@@ -1,0 +1,2 @@
+/*! dhx 2015-06-07 */
+$dhx.ui.$Application=function(){return{}}(),$dhx.ui.$Session=function(){return{}}(),Object.defineProperty($dhx.ui.$Session,"SessionID",{value:"undefined"!=typeof $dhx.REST&&"undefined"!=typeof $dhx.REST.API.session.client_session_id?$dhx.REST.API.session.client_session_id:-1,enumerable:!0,configurable:!1,writable:!0}),$dhx.REST&&($dhx.ui.$Session=$dhx.extend($dhx.REST.API.session,$dhx.ui.$Session));

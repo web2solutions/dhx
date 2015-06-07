@@ -121,6 +121,19 @@ $dhx.ui.crud.simple.View.settings = {
 					,img : 'skin.png'
 					, items: [
 						{
+							id: "Unity"
+							, text: 'Unity'
+							,type : 'radio'
+							,group: "skin"
+							,checked : ( $dhx.ui.getUserSkin() ) ? 
+								( 
+									( $dhx.ui.getUserSkin().skin == 'dhx_skyblue' && $dhx.ui.getUserSkin().skin_subset == 'Unity') ? true : false
+								) : true
+						}, {
+							id: "sep1670911"
+							, type: "separator"
+						},
+						{
 							id: 'dhx_skyblue'
 							, text: 'skyblue'
 							,type : 'radio'
@@ -169,7 +182,7 @@ $dhx.ui.crud.simple.View.settings = {
 							,checked : ( $dhx.ui.getUserSkin() ) ? 
 								( 
 									( $dhx.ui.getUserSkin().skin == 'dhx_terrace' && $dhx.ui.getUserSkin().skin_subset == 'dhx_terrace') ? true : false
-								) : true
+								) : false
 						}, {
 							id: "terrace-blue"
 							, text: 'terrace-blue'
@@ -286,80 +299,100 @@ $dhx.ui.crud.simple.View.settings = {
 	}
 	, ribbon: {
 		icons_path: ""
-		, items: [{
-			id: "block_records"
-			, type: 'block'
-			, text: $dhx.ui.language.recordsmanagement
-			, mode: 'cols'
-			, list: [{
-				type: "button"
-				, id: "insert"
-				, text: $dhx.ui.language.Newrecord
-				, isbig: true
-				, img: '32px/add.png'
+		, items: [
+			{
+				id: "block_records"
+				, type: 'block'
+				, text: $dhx.ui.language.recordsmanagement
+				, mode: 'cols'
+				, list: [{
+					type: "button"
+					, id: "insert"
+					, text: $dhx.ui.language.Newrecord
+					, isbig: true
+					, img: '32px/add.png'
+				}, {
+					type: "button"
+					, id: "open"
+					, text: $dhx.ui.language.Openrecord
+					, isbig: true
+					, img: '48px/open.gif'
+				}, {
+					type: "button"
+					, id: "find"
+					, text: $dhx.ui.language.FindRecords
+					, isbig: true
+					, img: '48px/page_find.png'
+				}, {
+					type: "button"
+					, id: "update"
+					, text: $dhx.ui.language.updateselected
+					, disabled: true
+					, img: 'edit.png'
+					, img_dis: 'edit_dis.png'
+				}, {
+					type: "button"
+					, id: "delete"
+					, text: $dhx.ui.language.deleteselected
+					, disabled: true
+					, img: 'delete.png'
+					, img_dis: 'delete_dis.png'
+				}, {
+					type: "separator"
+					, id: "sep5"
+				}, {
+					type: "button"
+					, id: "select"
+					, text: $dhx.ui.language.reloaddata
+					, img: 'reload.png'
+				}]
 			}, {
-				type: "button"
-				, id: "open"
-				, text: $dhx.ui.language.Openrecord
-				, isbig: true
-				, img: '48px/open.gif'
-			}, {
-				type: "button"
-				, id: "find"
-				, text: $dhx.ui.language.FindRecords
-				, isbig: true
-				, img: '48px/page_find.png'
-			}, {
-				type: "button"
-				, id: "update"
-				, text: $dhx.ui.language.updateselected
-				, disabled: true
-				, img: 'edit.png'
-				, img_dis: 'edit_dis.png'
-			}, {
-				type: "button"
-				, id: "delete"
-				, text: $dhx.ui.language.deleteselected
-				, disabled: true
-				, img: 'delete.png'
-				, img_dis: 'delete_dis.png'
-			}, {
-				type: "separator"
-				, id: "sep5"
-			}, {
-				type: "button"
-				, id: "select"
-				, text: $dhx.ui.language.reloaddata
-				, img: 'reload.png'
-			}]
-		}, {
-			id: "block_nav"
-			, type: 'block'
-			, text: $dhx.ui.language.quicknavigation
-			, mode: 'cols'
-			, list: [{
-				type: "button"
-				, id: "first"
-				, text:  $dhx.ui.language.gotofirstrecord
-				, isbig: true
-				, img: '48px/first.png'
-			}, {
-				type: "button"
-				, id: "last"
-				, text: $dhx.ui.language.gotolast
-				, img: 'entries.png'
-			}, {
-				type: "button"
-				, id: "previous"
-				, text: $dhx.ui.language.gotoprevious
-				, img: 'previous.png'
-			}, {
-				type: "button"
-				, id: "next"
-				, text: $dhx.ui.language.gotonext
-				, img: 'next.png'
-			}]
-		}]
+				id: "block_nav"
+				, type: 'block'
+				, text: $dhx.ui.language.quicknavigation
+				, mode: 'cols'
+				, list: [{
+					type: "button"
+					, id: "first"
+					, text:  $dhx.ui.language.gotofirstrecord
+					, isbig: true
+					, img: '48px/first.png'
+				}, {
+					type: "button"
+					, id: "last"
+					, text: $dhx.ui.language.gotolast
+					, img: 'entries.png'
+				}, {
+					type: "button"
+					, id: "previous"
+					, text: $dhx.ui.language.gotoprevious
+					, img: 'previous.png'
+				}, {
+					type: "button"
+					, id: "next"
+					, text: $dhx.ui.language.gotonext
+					, img: 'next.png'
+				}]
+			}
+			,{
+				id: "block_1_debug tools"
+				, type: 'block'
+				, text: 'debug tools'
+				, mode: 'cols'
+				, list: [
+					{
+						type: "button"
+						, id: "add1000"
+						, text: 'Add 1000 records into persons'
+					}, {
+						type: "button"
+						, id: "adderror"
+						, text: 'Add with error'
+					}
+					
+				 ]
+			}
+		]
 	}
 	, toolbar: {
 		icon_path: ""
@@ -422,7 +455,7 @@ $dhx.ui.crud.simple.View.settings = {
 						
 						]
 					},{
-							type: 'newcolumn'
+							type: 'newcolumn', offset : 21
 					}
 					,{
 						type: 'block'

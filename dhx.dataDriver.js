@@ -602,7 +602,7 @@ $dhx.dataDriver = {
     ,
     _checkFkey: function(c) {
         try {
-            //console.log( 'XXXXXXXXXXXXXXXXXX', c );
+            //console.log( 'XXXXXXX fk pra checar', c );
             var that = $dhx.dataDriver,
                 db_name = c.db,
                 table_schema = that.dbs[db_name].schema[c.table],
@@ -643,12 +643,17 @@ $dhx.dataDriver = {
 			
 			var index = null;
 			var _checkFkey = '';
+			//console.log( c.column, primary_key );
+			//console.log( ( c.column == primary_key ) );
+			
 			if( c.column == primary_key )
 			{
+				//console.log( 'XXXXXX MMMM irei procurar na pk' );
 				_checkFkey = table.get(parseInt(c.value));
 			}
 			else
 			{
+				//console.log( 'XXXXXX MMMM irei procurar no indice' );
 				index = table.index(c.column)
 				_checkFkey = index.get(c.value)
 			}
@@ -735,7 +740,7 @@ $dhx.dataDriver = {
             }
             // multiple record
             else if ($dhx.isArray(c.record)) {
-                if ($dhx._enable_log) console.warn('........... checking fkeys for ' + c.record.length + ' records on ' + c.table);
+                if ($dhx._enable_log) console.warn('........... checking fkeys for ' + c.record.length + ' records inserting in ' + c.table);
                 if (c.record.length > 0) {
                     var uid_total_record_to_check = $dhx.crypt.SHA2(JSON.stringify(c.record));
                     that._total_records_to_check[uid_total_record_to_check] = c.record.length;
@@ -743,24 +748,20 @@ $dhx.dataDriver = {
                     for (var i = 0; i < c.record.length; i++) {
                         var record = c.record[i];
                         var r = that.validRecord(table_schema, record);
-						console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
-				console.log(r);
+						//console.log('inserindo record: ', r);
+
+						
                         if ($dhx.isObject(r)) {
                             var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify(r));
                             that._total_fkeys_to_check[fk_check_uid] = Object.keys(table_schema.foreign_keys).length;
                             that._total_fkeys_checked[fk_check_uid] = 0;
                             for (var key in table_schema.foreign_keys) {
                                 if (table_schema.foreign_keys.hasOwnProperty(key)) {
+									
+									//console.log('coluna fk pra checar' + table_schema.foreign_keys[key].column);
+	
+									
+									
                                     that._checkFkey({
                                         db: c.db,
                                         table: table_schema.foreign_keys[key].table,
@@ -787,7 +788,7 @@ $dhx.dataDriver = {
                                             }
                                         },
                                         onFail: function(tx, event, error_message) {
-                                            if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ' + r);
+                                            if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', r);
                                             if (c.onFail) c.onFail(tx, event, error_message);
                                         }
                                     });
@@ -854,6 +855,9 @@ $dhx.dataDriver = {
     ,
     update: function(c) {
         //'use strict';
+		
+		console.log( 'XXXXXXX>>>>>>>>  ', c );
+		
         try {
             var that = $dhx.dataDriver,
                 db_name = c.db,
@@ -867,8 +871,26 @@ $dhx.dataDriver = {
             if (typeof table_schema.foreign_keys !== 'undefined') {
                 if ($dhx.isObject(table_schema.foreign_keys)) {
                     if (Object.keys(table_schema.foreign_keys).length > 0) {
+						var need_check = false;
+						for(var fk in table_schema.foreign_keys)
+						{
+							if( table_schema.foreign_keys.hasOwnProperty( fk ) )
+							{
+								if( c.record.hasOwnProperty( fk ) )
+								{
+									need_check = true;
+								}
+							}
+						}
                         console.timeEnd(timer_label);
-                        that._updateCheckFkeys(c);
+						if(need_check)
+						{
+                        	that._updateCheckFkeys(c);
+						}
+						else
+						{
+							that._updateSaveOnTable(c);
+						}
                         return;
                     }
                 }
@@ -1009,14 +1031,27 @@ $dhx.dataDriver = {
                     isOnCreate = c.isOnCreate,
                     need_to_check = false;
                 // single record
-                if ($dhx.isObject(c.record)) {
+                if ($dhx.isObject(c.record))
+				{
                     if ($dhx._enable_log) console.warn('........... checking fkeys for one record ' + c.table);
                     var r = that.validRecordUpdate(table_schema, c.record);
 
-
-                    if ($dhx.isObject(r)) {
+                    if ($dhx.isObject(r))
+					{
                         var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify(r));
-                        that._total_fkeys_to_check[fk_check_uid] = Object.keys(table_schema.foreign_keys).length;
+						that._total_fkeys_to_check[fk_check_uid] = 0;
+						for(var fk in table_schema.foreign_keys)
+						{
+							if( table_schema.foreign_keys.hasOwnProperty( fk ) )
+							{
+								if( c.record.hasOwnProperty( fk ) )
+								{
+									that._total_fkeys_to_check[fk_check_uid] = that._total_fkeys_to_check[fk_check_uid] + 1;
+								}
+							}
+						}
+						
+                        //that._total_fkeys_to_check[fk_check_uid] = Object.keys(table_schema.foreign_keys).length;
                         that._total_fkeys_checked[fk_check_uid] = 0;
 
                         if (that._total_fkeys_to_check[fk_check_uid] == 0) {
@@ -1029,6 +1064,7 @@ $dhx.dataDriver = {
                             if (r.hasOwnProperty(column)) {
                                 for (var key in table_schema.foreign_keys) {
                                     if (table_schema.foreign_keys.hasOwnProperty(key)) {
+										
                                         if (key == column) {
                                             need_to_check = true;
                                         }
@@ -1045,26 +1081,30 @@ $dhx.dataDriver = {
 
                         for (var key in table_schema.foreign_keys) {
                             if (table_schema.foreign_keys.hasOwnProperty(key)) {
-                                // need to check
-                                if ($dhx._enable_log) console.warn('need to check fkey for ' + key);
-                                that._checkFkey({
-                                    db: c.db,
-                                    table: table_schema.foreign_keys[key].table,
-                                    column: table_schema.foreign_keys[key].column,
-                                    value: r[table_schema.foreign_keys[key].column],
-                                    onSuccess: function(found, tx, event) {
-                                        that._total_fkeys_checked[fk_check_uid] = that._total_fkeys_checked[fk_check_uid] + 1;
-                                        if (that._total_fkeys_checked[fk_check_uid] == that._total_fkeys_to_check[fk_check_uid]) {
-                                            that._updateSaveOnTable(c);
-                                        }
-                                    },
-                                    onFail: function(tx, event, error_message) {
-                                        if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
-                                            key].table + '" foreign table! Error message: ', error_message);
-
-                                        if (c.onFail) c.onFail(tx, event, error_message);
-                                    }
-                                });
+								
+								if( c.record.hasOwnProperty( key ) )
+								{
+									// need to check
+									if ($dhx._enable_log) console.warn('need to check fkey for ' + key);
+									that._checkFkey({
+										db: c.db,
+										table: table_schema.foreign_keys[key].table,
+										column: table_schema.foreign_keys[key].column,
+										value: r[table_schema.foreign_keys[key].column],
+										onSuccess: function(found, tx, event) {
+											that._total_fkeys_checked[fk_check_uid] = that._total_fkeys_checked[fk_check_uid] + 1;
+											if (that._total_fkeys_checked[fk_check_uid] == that._total_fkeys_to_check[fk_check_uid]) {
+												that._updateSaveOnTable(c);
+											}
+										},
+										onFail: function(tx, event, error_message) {
+											if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
+												key].table + '" foreign table! Error message: ', error_message);
+	
+											if (c.onFail) c.onFail(tx, event, error_message);
+										}
+									});
+								}
                             }
                         }
                     } else {
@@ -1692,7 +1732,7 @@ $dhx.dataDriver = {
                     hash[component.getColumnId(cInd)] = nValue;
                     old_hash[component.getColumnId(cInd)] = oValue;
                     var validation = table_schema.columns[column_name].validation;
-                    if (table_schema.columns[column_name].required) {
+                    if (table_schema.columns[column_name].required || table_schema.columns[column_name].validation.indexOf('NotEmpty') >-1 ) {
                         if (nValue == "") {
                             dhtmlx.message({
                                 type: "error",
@@ -1746,8 +1786,9 @@ $dhx.dataDriver = {
             component._id = hash.component_id;
             component._type = hash.type;
             component._subscriber = function(topic, data) {
-                var schema = that.getTableSchema(c);
-                var primary_key = schema.primary_key.keyPath
+                var schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath,
+					columns = $dhx.dataDriver._getColumnsId(c).split(',');
                     //var columns = $dhx.dataDriver._getColumnsId(c).split(',');
                     //console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
                 if (data.target == 'table') {
@@ -1804,6 +1845,7 @@ $dhx.dataDriver = {
                 $dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber
             );
             that._syncSelectData(c, component);
+			//console.log('select MQ token ' + component._subscriber_token)
             if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
 
         } catch (e) {
@@ -1814,16 +1856,20 @@ $dhx.dataDriver = {
     ,
     _syncSelectGrid: function(c, component, hash) {
         'use strict';
-        //console.log( c );
+        //console.log( '>>>>>>>>>>>>> >>>>>>>>', c );
+		//alert();
+		//c.prop_value
+		//c.prop_text
         try {
             var that = $dhx.dataDriver;
             if ($dhx._enable_log) console.log("this component is a selectGrid");
             component._id = hash.component_id;
             component._type = hash.type;
-            component._subscriber = function(topic, data) {
-                var schema = that.getTableSchema(c);
-                var primary_key = schema.primary_key.keyPath
-                var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+            
+			component._subscriber = function(topic, data) {
+                var schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath,
+					columns = $dhx.dataDriver._getColumnsId(c).split(',');
                 //console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
                 if (data.target == 'table') {
                     if (data.name == c.table) { //data.name == c.table
@@ -1837,7 +1883,15 @@ $dhx.dataDriver = {
                                 var obj = {};
                                 for (i in recordset)
                                     if (recordset.hasOwnProperty(i)) obj[i] = recordset[i];
-                                if (c.$init) c.$init(obj);
+	
+								if(c.prop_value && c.prop_text)
+								{
+									if (c.$init) c.$init(obj, c.prop_value, c.prop_text);
+								}
+								else
+								{
+									if (c.$init) c.$init(obj);
+								}
                                 component.put(obj.value, obj.text);
                             });
                             if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
@@ -1846,13 +1900,28 @@ $dhx.dataDriver = {
                             var obj = {};
                             for (var i in data.record)
                                 if (data.record.hasOwnProperty(i)) obj[i] = data.record[i];
-                            if (c.$init) c.$init(obj);
+								
+                            if(c.prop_value && c.prop_text)
+							{
+								if (c.$init) c.$init(obj, c.prop_value, c.prop_text);
+							}
+							else
+							{
+								if (c.$init) c.$init(obj);
+							}
 
 
                             var objo = {};
                             for (var i in data.old_record)
                                 if (data.old_record.hasOwnProperty(i)) objo[i] = data.old_record[i];
-                            if (c.$init) c.$init(objo);
+                            if(c.prop_value && c.prop_text)
+							{
+								if (c.$init) c.$init(objo, c.prop_value, c.prop_text);
+							}
+							else
+							{
+								if (c.$init) c.$init(objo);
+							}
 
                             //console.log(component.values);
                             component.values.forEach(function(value, index, array) {
@@ -1881,8 +1950,16 @@ $dhx.dataDriver = {
                                     var obj = {};
                                     for (i in recordset.record)
                                         if (recordset.record.hasOwnProperty(i)) obj[i] = recordset.record[i];
-                                    if (c.$init) c.$init(obj);
-                                    //console.log('XXXXXXXXXXXXXXXXXXXXX', obj);
+
+									if(c.prop_value && c.prop_text)
+									{
+										if (c.$init) c.$init(obj, c.prop_value, c.prop_text);
+									}
+									else
+									{
+										if (c.$init) c.$init(obj);
+									}
+	
                                     //console.log('XXXXXXXXXXXXXXXXXXXXX', component);
                                     component.put(obj.value, obj.text);
 
@@ -1899,6 +1976,7 @@ $dhx.dataDriver = {
                 $dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber
             );
             that._syncSelectGridData(c, component);
+			//console.log('SelectGrid MQ token ' + component._subscriber_token)
             if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
 
         } catch (e) {
@@ -1916,9 +1994,9 @@ $dhx.dataDriver = {
             component._id = hash.component_id;
             component._type = hash.type;
             component._subscriber = function(topic, data) {
-                var schema = that.getTableSchema(c);
-                var primary_key = schema.primary_key.keyPath
-                var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+                var schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath,
+					columns = $dhx.dataDriver._getColumnsId(c).split(',');
                 //console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
                 if (data.target == 'table') {
                     if (data.name == c.table) //data.name == c.table
@@ -1981,6 +2059,7 @@ $dhx.dataDriver = {
             component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
             // clear all data from combo and parses the table selected data
             that._syncComboData(c, component);
+			//console.log('combo MQ token ' + component._subscriber_token)
             if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
 
         } catch (e) {
@@ -1991,97 +2070,105 @@ $dhx.dataDriver = {
         'use strict';
         //console.log( c );
         try {
-            var that = $dhx.dataDriver;
-            if ($dhx._enable_log) console.log("this component is a grid");
-            var schema = that.getTableSchema(c);
-            var primary_key = schema.primary_key.keyPath
-            var columns = $dhx.dataDriver._getColumnsId(c).split(',');
-            component._subscriber = function(topic, data) {
-                    var schema = that.getTableSchema(c);
-                    var primary_key = schema.primary_key.keyPath
-                    var columns = $dhx.dataDriver._getColumnsId(c).split(',');
-                    //console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
-                    if (data.target == 'table') {
-                        if (data.name == c.table) {
-                            if ($dhx._enable_log) {
-                                console.warn(
-                                    hash.component_id + ' received message about it synced table: ', data.target, data.name
-                                );
-                            }
-                            if (data.action == 'add' && data.message == 'record added') {
-                                var last_id = 0;
-                                data.records.forEach(function(recordset, index, array) {
-                                    var record = [];
-                                    columns.forEach(function(column, index_, array_) {
-                                        record[index_] = recordset[column];
-                                    });
-                                    component.addRow(recordset[primary_key], record);
-                                    last_id = recordset[primary_key];
-                                    if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
-                                });
-                                component.selectRowById(last_id, false, true, true);
-                            } else if (data.action == 'update' && data.message == 'record updated') {
-                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-                                for (var column in data.record) {
-                                    if (data.record.hasOwnProperty(column)) {
-                                        var colIndex = component.getColIndexById(column);
-                                        component.cells(data.record_id, colIndex).setValue(data.record[column]);
-                                    }
-                                }
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
-                            } else if (data.action == 'delete' && data.message == 'record deleted') {
-                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-                                component.deleteRow(data.record_id);
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
-                            } else if (data.action == 'select' && data.message == 'selected record') {
-                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-                                component.selectRowById(data.record_id, false, true, false);
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
-                            } else if (data.action == 'clear' && data.message == 'table is empty') {
-                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-                                component.clearAll();
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
-                            } else if (data.action == 'load' && data.message == 'sync grid') {
-                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
-                                try {
-                                    //component.clearAll();
-                                    var records = data.records;
-                                    var data = {
-                                        rows: []
-                                    };
-                                    var schema = $dhx.dataDriver.getTableSchema(c);
-                                    var primary_key = schema.primary_key.keyPath;
-                                    var columns = $dhx.dataDriver._getColumnsId(c).split(',');
-                                    records.forEach(function(recordset, index, array) {
-                                        var record = [];
-                                        columns.forEach(function(column, index_, array_) {
-                                            record[index_] = recordset.record[column];
-                                        });
-                                        data.rows.push({
-                                            id: recordset.record[primary_key],
-                                            data: record
-                                        })
-                                    });
-                                    component.parse(data, "json"); //takes the name and format of the data source
-                                } catch (e) {
-                                    console.log(e.stack);
-                                }
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
-                            }
-                        }
-                    }
-                }
-                // pro feature
-                //component.attachEvent("onXLE", function(grid_obj,count){
-                //	$dhx.dataDriver.public[c.table].getCursor( function( cursor, tx, event ){
-                //			component.selectRowById( cursor, false, true, true );
-                //		}, function( cursor, tx, event ){
-                //	} );
-                //});
+            var that = $dhx.dataDriver,
+				schema = that.getTableSchema(c),
+				total_columns_to_sync = Object.keys(schema.foreign_keys).length,
+				total_columns_synced = 0,
+				primary_key = schema.primary_key.keyPath,
+				columns = $dhx.dataDriver._getColumnsId(c).split(',');
+				
+			if ($dhx._enable_log) console.log("this component is a grid");
+				
+            component._subscriber = function (topic, data) {
+				var schema = that.getTableSchema(c),
+					primary_key = schema.primary_key.keyPath,
+					columns = $dhx.dataDriver._getColumnsId(c).split(',');
+					
+				//console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
+				if (data.target == 'table') {
+					if (data.name == c.table) {
+						if ($dhx._enable_log) {
+							console.warn(
+								hash.component_id + ' received message about it synced table: ', data.target, data.name
+							);
+						}
+						if (data.action == 'add' && data.message == 'record added') {
+							var last_id = 0;
+							data.records.forEach(function (recordset, index, array) {
+								var record = [];
+								columns.forEach(function (column, index_, array_) {
+									record[index_] = recordset[column];
+								});
+								component.addRow(recordset[primary_key], record);
+								last_id = recordset[primary_key];
+								if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+							});
+							component.selectRowById(last_id, false, true, true);
+						}
+						else if (data.action == 'update' && data.message == 'record updated') {
+							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							for (var column in data.record) {
+								if (data.record.hasOwnProperty(column)) {
+									var colIndex = component.getColIndexById(column);
+									component.cells(data.record_id, colIndex).setValue(data.record[column]);
+								}
+							}
+							if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+						}
+						else if (data.action == 'delete' && data.message == 'record deleted') {
+							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							component.deleteRow(data.record_id);
+							if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+						}
+						else if (data.action == 'select' && data.message == 'selected record') {
+							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							component.selectRowById(data.record_id, false, true, false);
+							if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+						}
+						else if (data.action == 'clear' && data.message == 'table is empty') {
+							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							component.clearAll();
+							if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+						}
+						else if (data.action == 'load' && data.message == 'sync grid') {
+							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+							try {
+								//component.clearAll();
+								var records = data.records;
+								var data = {
+									rows: []
+								};
+								var schema = $dhx.dataDriver.getTableSchema(c);
+								var primary_key = schema.primary_key.keyPath;
+								var columns = $dhx.dataDriver._getColumnsId(c).split(',');
+								records.forEach(function (recordset, index, array) {
+									var record = [];
+									columns.forEach(function (column, index_, array_) {
+										record[index_] = recordset.record[column];
+									});
+									data.rows.push({
+										id: recordset.record[primary_key]
+										, data: record
+									})
+								});
+								component.parse(data, "json"); //takes the name and format of the data source
+							}
+							catch (e) {
+								console.log(e.stack);
+							}
+							if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+						}
+					}
+				}
+			}
+			// pro feature
+			//component.attachEvent("onXLE", function(grid_obj,count){
+			//	$dhx.dataDriver.public[c.table].getCursor( function( cursor, tx, event ){
+			//			component.selectRowById( cursor, false, true, true );
+			//		}, function( cursor, tx, event ){
+			//	} );
+			//});
             if (c.auto_configure) {
-
-
-
                 component.setHeader($dhx.dataDriver._getColumnsHeader(c)); //the headers of columns 
                 component.setColTypes($dhx.dataDriver._getColumnsType(c)); //the types of columns  
                 component.setColSorting($dhx.dataDriver._getColumnsSorting(c)); //the sorting types 
@@ -2089,6 +2176,7 @@ $dhx.dataDriver = {
                 component.setInitWidths($dhx.dataDriver._getColumnsWidth(c)); //the widths of columns  
             }
             component.setColumnIds($dhx.dataDriver._getColumnsId(c));
+
             if (c.auto_configure) {
                 component.init(); //finishes initialization and renders the grid on the page
                 //console.log(  'XXXXXXXXXXXXXXXX>>>>>>>>>>>>>>>>', schema );
@@ -2097,6 +2185,7 @@ $dhx.dataDriver = {
 					var table = schema.foreign_keys[fk].table;
                     var column_value = schema.columns[fk].foreign_column_value;
 					var column_text = schema.columns[fk].foreign_column_name;
+					
 					//var table = schema.foreign_keys[fk].table;
                     var column = schema.foreign_keys[fk].column;
                     var colIndex = component.getColIndexById(fk);
@@ -2105,23 +2194,30 @@ $dhx.dataDriver = {
                     //component._type = hash.type;
                     $dhx.dataDriver.public[table].sync.selectGrid({
                         component: component.fk_combos[fk],
-                        component_id: '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk,
-                        $init: function(obj) {
-                                obj.value = obj[column_value];
-                                obj.text = obj[column_text];
+                        component_id: hash.component_id + '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk
+						,prop_value : schema.columns[fk].foreign_column_value
+						,prop_text : schema.columns[fk].foreign_column_name
+                        ,$init: function(obj, prop_value, prop_text) {
+                                obj.value = obj[prop_value];
+                                obj.text = obj[prop_text];
                             } // not mandatory, default false
 
                         ,
-                        onSuccess: function() {},
-                        onFail: function() {}
+                        onSuccess: function() {
+							total_columns_synced = total_columns_synced + 1;
+							if( total_columns_synced == total_columns_to_sync )
+							{
+								if ($dhx._enable_log) console.warn(' all columns are synced in '+ hash.component_id);
+								if ($dhx._enable_log) console.warn(' syncing the grid now ');
+								// clear all data from grid and parses the table selected data
+            					that._syncGridData(c, component);
+							}
+						},
+                        onFail: function() {
+							
+						}
                     });
                 }
-                //var select = component.getCombo(component.getColIndexById("group"));
-                //var combo = component.getColumnCombo(component.getColIndexById("group"));//takes the column index
-                //combo.enableFilteringMode(true);
-                //combo.put("left", "left");
-                //combo.put("right", "right");
-                //combo.put("center", "center");
             }
             if (c.paginate) {} else {
                 component.enableSmartRendering(true);
@@ -2132,13 +2228,19 @@ $dhx.dataDriver = {
                     component.clearSelection();
                 });
             });
-            component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
+            
             // if user setted saveOnEdit = true
             if (component.saveOnEdit) {
                 that._prepareGridSaveOnEdit(c, component);
             } // end if saveOnEdit
-            // clear all data from grid and parses the table selected data
-            that._syncGridData(c, component);
+			component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
+            
+			if(total_columns_to_sync == 0)
+			{
+				that._syncGridData(c, component);
+			}
+			
+			//console.log('grid MQ token ' + component._subscriber_token)
             if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
 
         } catch (e) {
@@ -2610,13 +2712,16 @@ $dhx.dataDriver = {
                             //component._type = hash.type;
                             $dhx.dataDriver.public[table].unsync.selectGrid({
                                 component: component.fk_combos[fk],
-                                component_id: '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk,
+                                component_id: hash.component_id + '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk,
                                 onSuccess: function() {},
                                 onFail: function() {}
                             });
                         }
                         if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unsynced");
                         $dhx.dataDriver.public[c.table]._synced_components.splice(x, 1);
+						
+						console.log( component._subscriber_token );
+						
                         $dhx.MQ.unsubscribe(component._subscriber_token);
                         if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unsynced");
                         return;
@@ -3932,6 +4037,8 @@ $dhx.dataDriver = {
                                         component: c.component,
                                         type: 'selectGrid',
                                         $init: c.$init,
+										prop_value: c.prop_value,
+										prop_text: c.prop_text,
                                         component_id: c.component_id,
                                         onSuccess: c.onSuccess,
                                         onFail: c.onFail
@@ -4306,7 +4413,7 @@ $dhx.dataDriver = {
             schema = that.getTableSchema(c),
             primary_key = schema.primary_key.keyPath,
             columns = [],
-            sorted = ['*'];
+            sorted = ['100'];
 
         for (var hash in schema.columns) {
             if (schema.columns.hasOwnProperty(hash))

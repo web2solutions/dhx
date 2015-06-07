@@ -68,5 +68,10 @@ $dhx.ui.i18n['pt-br'] = {
 	,search : 'buscar'
 	,clear_results : 'limpar resultados'
 	,insensitivity_search : 'a busca é insensitiva para case e caracteres especiais'
+	,About : 'Sobre'
+	,open : 'abrir'
+	,close : 'fechar'
+	,right_click_to_select_a_language : 'clique com botão direito para escolher um idioma'
+	,closeall : 'fechar todos'
 };
 //$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );

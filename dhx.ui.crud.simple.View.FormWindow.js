@@ -13,9 +13,9 @@ $dhx.ui.crud.simple.View.FormWindow = {
 		
 		if( db_settings.form.template.length > 9 )
 		{
-			left = $dhx.getPagePosition("x", 950, 430)
-			top = $dhx.getPagePosition("y", 950, 430)
-			width = 950;
+			left = $dhx.getPagePosition("x", 990, 430)
+			top = $dhx.getPagePosition("y", 990, 430)
+			width = 990;
 			height = 430;
 		}
 		else

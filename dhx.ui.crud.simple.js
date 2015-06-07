@@ -2,17 +2,35 @@
 /*global $dhx, dhtmlx, dhtmlXLayoutObject, dbDemo */
 
 $dhx.ui.crud.simple = function(configuration) {
+	console.log(configuration);
     try {
         var that = $dhx.ui.crud,
             self = this,
             defaultView = $dhx.ui.crud.simple.View,
 			schema = $dhx.ui.data.model.db[configuration.database].schema[configuration.collection];
+		self.appId = '$dhx.ui.crud.simple.' + configuration.collection + '_app';	
+		
+		
+		//alert( '$dhx.ui.crud.simple.View.generic.window.' + self.appId )
+		
+		//console.log('$dhx.ui.crud.simple.View.generic.window.' + self.appId)
+		//console.log(self.appId);
+		//console.log($dhx.ui.window_manager);
+		
+		if ($dhx.ui.window_manager.isWindow('$dhx.ui.crud.simple.View.generic.window.' + self.appId)) {
+			console.log(self);
+            $dhx.ui.crud.controller[self.appId].view.window[self.appId].show();
+            $dhx.ui.crud.controller[self.appId].view.window[self.appId].bringToTop();
+            return;
+        }
+		
+		//alert('passei');
 
         self.base_path = $dhx.CDN;
         self.appName = configuration.collection + '_app';
         self.database = configuration.database;
         self.version = 0.1;
-        self.appId = '$dhx.ui.crud.simple.' + configuration.collection + '_app';
+        
         self.collection = configuration.collection;
         //self.item = configuration.item;
         self.type = 'simple';
@@ -51,6 +69,9 @@ $dhx.ui.crud.simple = function(configuration) {
 		// implement destroy via new $dhx.ui.crud.simple().destroy()
 		this.destroy = function(){
 			$dhx.ui.crud.controller[self.appId].view.destroy(self.appId, schema);
+		}
+		this.close = function(){
+			self.configuration.wrapper.close();
 		}
 
 		// extend the defined view as the controller view

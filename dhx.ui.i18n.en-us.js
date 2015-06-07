@@ -69,5 +69,9 @@ $dhx.ui.i18n['en-us'] = {
 	,search : 'search'
 	,clear_results : 'clear results'
 	,insensitivity_search : 'there is no sensitivity for case or special chars when searching'
-	
+	,About : 'About'
+	,open : 'open'
+	,close : 'close'
+	,right_click_to_select_a_language : 'right click to select a language'
+	,closeall : 'close all'
 };

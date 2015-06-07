@@ -18,7 +18,7 @@ $dhx.ui.crud.simple.View = {
 
     ,
     status_bar: function(appId, icons_path) {
-        this.template = "<div class='status_info' id='status_info_"+appId+"'>"+$dhx.ui.language.Initializing+" " + $dhx.ui.crud.controller[appId].appName + "</div><div class='expiration_info' id='expiration_info_"+appId+"' title='"+$dhx.ui.language.time_remaining_for_token_expiration+"'></div><div class='user_info' id='user_info_"+appId+"'><img id='user_info_status_"+appId+"' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABvUlEQVR4XpWRy0tbQRjFz9yH3hgtruzGRqRx47aoaxvBdboo7qTtrst2WRAfDcZo/wAR/BPiRroouHHZFqmCT9DEV0uiYmjD9OZO5k5nRiPk0Rvyg8vhG74535nvEtSQTC6mXdeNozlwHGetzmB6es6fmvpAJAhCCIHZ2QQs1KMvPx5+jSByX1e1klYi/2E2ds5K2D7IaoOZmY93kSWiGapH9oqB0beiZ+iVkOjaajUyZVW7qd7BYLQXBiEwTAMED406cgU71AlWoo0N/roeTNOEadnwhY9C4Tc8z6uaSAv5/yfwfFNOd+QlIs0YyrwNjLGGT5E7UW8XVQa3lKM9bMF2OuG0AcwtAoTgHbaQjfVhEpC6ggqxnqdZqyae/mp50XWJJ2vbIB1hnI1HEVnfQzn3E3gz1q/+pc85F0FknkcEZ54u2HVOK6dFfU5SqU9pSmkcAUxu6tg6hfmoG+WbPC5eDkEzv5B4f3xyxL9sfBaHR/tC6daPb/f6XamapCcqWP6XVl5y9blFCJZOMscIOSGcnmdgWTaub65gGIbUPGxZKwRj8M0SLiZGHnagIMlUQqAJz3Y3ET3fRwOW/wEKrjnBHaxMrAAAAABJRU5ErkJggg==' /> <span>"+$dhx.ui.language.Notauthorizedyet+"</span></div><div class='data_transfer_info' id='data_transfer_info_"+appId+"'>"+$dhx.ui.language.no_data_transferred+"</div><div class='errors_info' id='errors_info_"+appId+"'>"+$dhx.ui.language.no_errors+"</div>"
+        this.template = "<div class='status_info' id='status_info_"+appId+"'>"+$dhx.ui.language.Initializing+" " + $dhx.ui.crud.controller[appId].appName + "</div><div class='data_transfer_info' id='data_transfer_info_"+appId+"'>"+$dhx.ui.language.no_data_transferred+"</div><div class='errors_info' id='errors_info_"+appId+"'>"+$dhx.ui.language.no_errors+"</div>"
         this._setStatus = function(m) {
 			try
 			{
@@ -114,39 +114,52 @@ $dhx.ui.crud.simple.View = {
     helpers: {
         disableButtonActions: function(appId) {
             var self = $dhx.ui.crud.controller[appId].view;
+			
+			try{
+				self.menu[appId].setItemDisabled('update');
+				self.menu[appId].setItemDisabled('open');
+				self.menu_grid[appId].setItemDisabled('update');
+				self.menu_grid[appId].setItemDisabled('open');
+				
+				self.menu[appId].setItemDisabled('delete');
+				self.menu_grid[appId].setItemDisabled('delete');
+				
+				if (!self.ribbon[appId])
+					return
+				self.ribbon[appId].disable('delete');
+				self.ribbon[appId].disable('update');
+				self.ribbon[appId].disable('previous');
+				self.ribbon[appId].disable('next');
+				self.ribbon[appId].disable('open');
+			}catch(e)
+			{
+				
+			}
 
-            self.menu[appId].setItemDisabled('update');
-            self.menu[appId].setItemDisabled('open');
-			self.menu_grid[appId].setItemDisabled('update');
-            self.menu_grid[appId].setItemDisabled('open');
-			
-			self.menu[appId].setItemDisabled('delete');
-			self.menu_grid[appId].setItemDisabled('delete');
-			
-            if (!self.ribbon[appId])
-                return
-            self.ribbon[appId].disable('delete');
-            self.ribbon[appId].disable('update');
-            self.ribbon[appId].disable('previous');
-            self.ribbon[appId].disable('next');
-            self.ribbon[appId].disable('open');
+            
         },
         enableButtonActions: function(appId) {
             var self = $dhx.ui.crud.controller[appId].view;
-            self.menu[appId].setItemEnabled('update');
-            self.menu[appId].setItemEnabled('open');
-			self.menu_grid[appId].setItemEnabled('update');
-            self.menu_grid[appId].setItemEnabled('open');
-			
-			self.menu[appId].setItemEnabled('delete');
-			self.menu_grid[appId].setItemEnabled('delete');
-            if (!self.ribbon[appId])
-                return
-            self.ribbon[appId].enable('delete');
-            self.ribbon[appId].enable('update');
-            self.ribbon[appId].enable('previous');
-            self.ribbon[appId].enable('next');
-            self.ribbon[appId].enable('open');
+			try{
+				self.menu[appId].setItemEnabled('update');
+				self.menu[appId].setItemEnabled('open');
+				self.menu_grid[appId].setItemEnabled('update');
+				self.menu_grid[appId].setItemEnabled('open');
+				
+				self.menu[appId].setItemEnabled('delete');
+				self.menu_grid[appId].setItemEnabled('delete');
+				if (!self.ribbon[appId])
+					return
+				self.ribbon[appId].enable('delete');
+				self.ribbon[appId].enable('update');
+				self.ribbon[appId].enable('previous');
+				self.ribbon[appId].enable('next');
+				self.ribbon[appId].enable('open');
+			}catch(e)
+			{
+				
+			}
+            
         },
         viewRecord: function(record_id, appId) {
             var self = $dhx.ui.crud.controller[appId].view;
@@ -155,7 +168,7 @@ $dhx.ui.crud.simple.View = {
             var table = appId.split('crud.simple.')[1];
             table = table.split("_")[0]
                 //alert(table)
-            var schema = $dhx.ui.data.model.db['juris'].schema[table];
+            var schema = $dhx.ui.data.model.db[$dhx.ui.crud.controller[appId].database].schema[table];
 
             var settings = {
                 wrapper: self.tab,
@@ -174,14 +187,17 @@ $dhx.ui.crud.simple.View = {
     destroy: function(appId, schema) {
         try {
             var self = $dhx.ui.crud.controller[appId].view;
-            $dhx.showDirections("starting view ... ");
-
-            self.grid.destructor();
-
+            
+			//console.log(appId);
+			//console.log($dhx.ui.crud.controller[appId].view);
+			//console.log($dhx.ui.data.model.db[$dhx.ui.crud.controller[appId].database].schema);
+			
             var table = appId.split('crud.simple.')[1];
-            table = table.split("_")[0]
+            table = table.split("_app")[0];
+			
+	
 
-            schema = $dhx.ui.data.model.db['juris'].schema[table];
+            schema = $dhx.ui.data.model.db[$dhx.ui.crud.controller[appId].database].schema[table];
 
             schema.unsync.grid({
                 component: self.grid,
@@ -194,44 +210,56 @@ $dhx.ui.crud.simple.View = {
 					alert('could not unsync grid')
                 }
             });
-            $dhx.hideDirections();
+			
+			try
+			{
+				//self.ribbon[appId].unload();
+			}catch(e)
+			{
+				//console.log(e.stack);
+			}
+			try
+			{
+				self.layout.cells('a').attachHTMLString('xx');
+			}catch(e)
+			{
+				//console.log(e.stack);
+			}
+			
+			//self.grid.destructor();
         } catch (e) {
             console.log(e.stack);
         }
     }
  
     ,_window : function( appId ){
-		 var self = $dhx.ui.crud.controller[appId].view;
-		 console.log( 'inside window' );
-		var uid = appId;
-		self.window[uid] = new $dhx.ui.window({
+		var self = $dhx.ui.crud.controller[appId].view;
+	
+		var settings = {
             id: self.strWindowID + "." + appId,
             left: $dhx.ui.crud.simple.View.settings.app_generic.window.left,
             top: $dhx.ui.crud.simple.View.settings.app_generic.window.top,
             width: $dhx.ui.crud.simple.View.settings.app_generic.window.width,
             height: $dhx.ui.crud.simple.View.settings.app_generic.window.height,
-        });
-		//self.window[ uid ].button('park').hide();
-		//self.window[ uid ].button('minmax').hide();
-		//self.window[ uid ].button('stick').hide();
-		
-		self.window[ uid ].attachEvent("onClose", function(win){
+        };
+		self.window[ appId ] = new $dhx.ui.window(settings);
+	
+		self.window[ appId ].attachEvent("onClose", function(win){
 			
 			$dhx.ui.crud.controller[appId].destroy();
 			
 			return true;
 		});
-		self.window[ uid ].setText($dhx.ui.crud.controller[appId].collection + " management");
-		//self.status_bar = self.window[ uid ].attachStatusBar();
-		//self.status_bar.setText('search is case and special chars insentive');
+		self.window[ appId].setText($dhx.ui.crud.controller[appId].collection + " management");
 	}
 
     ,
     _layout: function(appId) {
         var self = $dhx.ui.crud.controller[appId].view;
-        if ($dhx.ui.crud.controller[appId].configuration.wrapper === document.body)
+        if ($dhx.ui.crud.controller[appId].configuration.wrapper)
 		{
-            self.layout = new dhtmlXLayoutObject($dhx.ui.crud.simple.View.settings.layout);
+           $dhx.ui.crud.simple.View.settings.layout.parent = $dhx.ui.crud.controller[appId].configuration.wrapper;
+		   self.layout = new dhtmlXLayoutObject($dhx.ui.crud.simple.View.settings.layout);
 		}
         else
 		{
@@ -247,8 +275,22 @@ $dhx.ui.crud.simple.View = {
     _menu: function(appId, status_bar, fk_tables, schema) {
         //alert('menu' +  appId);
         var self = $dhx.ui.crud.controller[appId].view;
-        self.menu[appId] = self.layout.cells('a').attachMenu($dhx.ui.crud.simple.View.settings.menu);
-        self.menu[appId].attachEvent("onClick", function(id) {
+        
+		
+		if ( typeof $dhx.ui.crud.controller[appId].configuration.wrapper === 'undefined' )
+		{
+           self.menu[appId] = self.window[ appId ].attachMenu($dhx.ui.crud.simple.View.settings.menu);
+		}
+		else
+		{
+			self.menu[appId] = $dhx.ui.crud.controller[appId].configuration.wrapper.attachMenu($dhx.ui.crud.simple.View.settings.menu);
+		}
+		
+		
+        
+		
+		
+		self.menu[appId].attachEvent("onClick", function(id) {
             if (id == 'print') {
 
             } else if (id == 'insert') {
@@ -302,6 +344,9 @@ $dhx.ui.crud.simple.View = {
 			else if (id == 'clouds') {
                 $dhx.ui.setUserSkin('clouds');
             } 
+			else if (id == 'Unity') {
+                $dhx.ui.setUserSkin('Unity');
+            } 
 			//
 			else if (id == 'pink-yellow') {
                 $dhx.ui.setUserSkin('pink-yellow');
@@ -318,23 +363,14 @@ $dhx.ui.crud.simple.View = {
                $dhx.ui.i18n.setUserIdiom('en-us');
             } 
 			else {
-
+				//alert(id)
                 if (id.indexOf('table.') > -1) {
                     var table = id.split('.')[1];
-
-                    console.log(fk_tables);
-                    for (var column in fk_tables) {
-                        console.log(fk_tables)
-                        var uid = column + "." + fk_tables[column].table;
-                        //alert( 'onClick ' + appId);
-
-                        //alert(fk_tables[column].table)
-                        self.openedCRUD[uid] = new $dhx.ui.crud.simple({
+                        self.openedCRUD[table] = new $dhx.ui.crud.simple({
                             database: $dhx.ui.crud.controller[appId].database,
-                            collection: fk_tables[column].table,
+                            collection: table,
                             base_path: $dhx.ui.crud.simple.View.settings.base_path
                         });
-                    }
                 }
             }
         });
@@ -404,24 +440,49 @@ $dhx.ui.crud.simple.View = {
 			else if (id == 'pdf') {
                self.grid.dhxPDF($dhx.ui.cdn_address + 'dhx/ui/bin/2pdf/generate.php','color',true, false, false, false, appId);
             } 
+			else if (id == 'dhx_terrace') {
+                $dhx.ui.setUserSkin('dhx_terrace');
+            } 
+			else if (id == 'dhx_skyblue') {
+                $dhx.ui.setUserSkin('dhx_skyblue');
+            }
+			else if (id == 'dhx_web') {
+                $dhx.ui.setUserSkin('dhx_web');
+            } 
+			else if (id == 'web-green') {
+                $dhx.ui.setUserSkin('web-green');
+            } 
+			
+			//
+			else if (id == 'light-green') {
+                $dhx.ui.setUserSkin('light-green');
+            } 
+			else if (id == 'clouds') {
+                $dhx.ui.setUserSkin('clouds');
+            } 
+			//
+			else if (id == 'pink-yellow') {
+                $dhx.ui.setUserSkin('pink-yellow');
+            } 
+			else if (id == 'terrace-blue') {
+                $dhx.ui.setUserSkin('terrace-blue');
+            } 
+			
+			//light-green
+			else if (id == 'portuguese') {
+                $dhx.ui.i18n.setUserIdiom('pt-br');
+            } 
+			else if (id == 'english') {
+               $dhx.ui.i18n.setUserIdiom('en-us');
+            } 
 			else {
-
                 if (id.indexOf('table.') > -1) {
                     var table = id.split('.')[1];
-
-                    console.log(fk_tables);
-                    for (var column in fk_tables) {
-                        console.log(fk_tables)
-                        var uid = column + "." + fk_tables[column].table;
-                        //alert( 'onClick ' + appId);
-
-                        //alert(fk_tables[column].table)
-                        self.openedCRUD[uid] = new $dhx.ui.crud.simple({
+                        self.openedCRUD[table] = new $dhx.ui.crud.simple({
                             database: $dhx.ui.crud.controller[appId].database,
-                            collection: fk_tables[column].table,
+                            collection: table,
                             base_path: $dhx.ui.crud.simple.View.settings.base_path
                         });
-                    }
                 }
             }
         });
@@ -488,7 +549,26 @@ $dhx.ui.crud.simple.View = {
                 }, function(tx, event, error_message) {
                     console.log(error_message);
                 });
-            } else if (id == 'gettotal') {
+            } 
+			
+			else if (id == 'add1000') {
+				var records = [];
+				//$dhx.showDirections('hold on while I do some work .... ');
+				status_bar._setStatusDataTransfer('trying to add 1000 records ... ', true);
+				var start = new Date().getTime();
+				for(i = start; i < (start + 1000); i++)
+				{
+					records.push({status:1,client_group_id:1,rest_api_alowed_requests_per_day:0,storage_quota:200,company_id:1,title:"Mr",birth_date:null,group_id:1,is_offshore:0,person_id:i,is_client_group:0,rest_api_last_login:null,rest_api_access:0,brazilian_rg:null,password:"",email:i+"@web2solutions.com.br",name:"Pessoa" + i,nationality:null,company_name:null,marital_status:null,date_created:null,occupation:null,sallary:"15000.00",brazilian_inscricao_municipal:null,brazilian_titulo_eleitor:null,web_site_last_login:null,username:i+"@web2solutions.com.br",brazilian_ctps_serie:null,brazilian_ctps:null,brazilian_cpf:null,brazilian_inscricao_estadual:null,time_zone:"America/Sao_Paulo",brazilian_cnpj:null,trading_name:null,notes:null,web_site_access:0,gender:"M",brazilian_oab:null,company_branch_id:1});
+				}
+				
+				schema.add(records, function(){
+					//$dhx.hideDirections();
+					}, function( tx, event, error_message ){
+					status_bar._setStatusError(error_message);
+				});
+			}
+			
+			else if (id == 'gettotal') {
                 status_bar._setStatusDataTransfer($dhx.ui.language.counting_records, true);
                 schema.count(function(tx, event, total) {
                     status_bar._setStatusDataTransfer($dhx.ui.language.total_records + ': ' + total, false);
@@ -624,6 +704,9 @@ $dhx.ui.crud.simple.View = {
     render: function(controller) 
 	{
         var appId = controller.appId;
+		
+		//console.log(controller)
+		//console.log($dhx.crypt.SHA2(JSON.stringify(controller)))
 
         var self = $dhx.ui.crud.controller[appId],
             schema = $dhx.ui.data.model.db[controller.database].schema[controller.collection],
@@ -636,15 +719,33 @@ $dhx.ui.crud.simple.View = {
         //	controller.configuration.wrapper.bringToTop();
         //	return;
         //}	
-		$dhx.showDirections("starting view ... ");
+		//$dhx.showDirections("starting view ... ");
+		
+		
+		
+		var strWindowID = $dhx.ui.crud.simple.View.strWindowID + appId;
+		
+		
+		if ($dhx.ui.window_manager.isWindow(strWindowID)) {
+				 //console.log(self.window)
+				self.view.window[appId].show();
+				self.view.window[appId].bringToTop();
+				return;
+		}
+		 
+		
+		console.log( strWindowID );
 
         self = $dhx.ui.crud.controller[appId].view;
 		
-		if ($dhx.ui.crud.controller[appId].configuration.wrapper !== document.body)
+		if ( typeof $dhx.ui.crud.controller[appId].configuration.wrapper === 'undefined' )
 		{
-            self._window(appId, status_bar, schema);
+            
+			
+			self._window(appId, status_bar, schema);
 			
 		}
+		//return;
 		
         self._layout(appId);
 
@@ -661,10 +762,12 @@ $dhx.ui.crud.simple.View = {
 
         self.tab.tabs("records").setText($dhx.ui.crud.controller[appId].collection.toUpperCase());
 
-        if ($dhx.ui.crud.controller[appId].configuration.wrapper === document.body)
-		{
+
+		//if ($dhx.ui.crud.controller[appId].configuration.wrapper === document.body)
+		//{
             self._ribbon(appId, status_bar, schema);
-		}
+		//}
+        
 
         var cc = 0;
         var addded = false;
@@ -705,7 +808,7 @@ $dhx.ui.crud.simple.View = {
             status_bar._setStatusDataTransfer('added: ' + rows_affected + ' records', false);
         });
         schema.attachEvent('onBeforeAdd', function() {
-            //console.log('before add record');
+           status_bar._setStatusDataTransfer('trying to add records ... ', false);
         });
         status_bar._setStatusDataTransfer($dhx.ui.language.counting_records, true);
         schema.count(function(tx, event, total) {
@@ -715,13 +818,9 @@ $dhx.ui.crud.simple.View = {
             status_bar._setStatusError('error when counting records: ' + error_message);
         });
 
-        window.addEventListener('popstate', function(event) {
-            console.log('popstate fired!');
-            console.log(event);
-            console.log(event.state);
-        });
+        
 
-        history.pushState('start', 'start', '#start');
+        //history.pushState('start', 'start', '#start');
         $dhx.hideDirections();
     }
 };
