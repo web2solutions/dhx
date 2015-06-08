@@ -38,12 +38,7 @@ module.exports = function (grunt) {
 		}
 		
 		, jsbeautifier: {
-			files: ['dhx.js', 'dhx.dataDriver.js', 'dhx.REST.js', 'dhx.ui.js', 'dhx.ui.data.js', 'dhx.ui.crud.js', 'dhx.ui.crud.simple.View.js'
-				, 'dhx.ui.crud.simple.View.Record.js', 'dhx.ui.crud.simple.View.FormWindow.js', 'dhx.ui.crud.simple.View.settings.js', 'latinize.js', 'dhx.MQ.js'
-				, 'dhx.ui.crud.simple.View.Search.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.socket.js', 'dhx.xml.js', 'dhx.ui.crud.simple.js', 'dhx.ui.i18n.js'
-				, 'dhx.ui.i18n.pt-br.js', 'dhx.ui.i18n.en-us.js', 'dhx.jDBd.js', 'dhx.dataStore.js', 'dhx.ui.Application.js', 'dhx.ui.Session.js', 'dhx.ui.desktop.js'
-				, 'dhx.ui.desktop.settings.js', 'dhx.ui.desktop.view.js', 'dhx.ui.desktop.view.ActiveDesktop.js', 'dhx.ui.desktop.view.TopBar.js'
-				, 'dhx.ui.desktop.view.SideBar.js', 'shim.js', 'dhx.crypt.js', 'dhx.Encoder.js', 'dhx.shortcut.js', 'dhx.Request.js', 'dhx.cookie.js', 'dhx.dhtmlx.js']
+			files: ["dhtmlx.js"]
 			, options: {
 				//config: "path/to/configFile",
 				js: {

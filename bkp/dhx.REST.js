@@ -1,7 +1,7 @@
 $dhx.REST = {
         API: {
             appName: "REST API Javascript client",
-            version: '1.0.3',
+            version : '1.0.3',
             apiURL: "http://api.dhtmlx.com.br",
             apiURLdev: "http://api.web2.eti.br:3000",
             apiURLtest: "http://api.web2.eti.br:3000",
@@ -671,18 +671,18 @@ $dhx.REST = {
                             configurable: false,
                             writable: false
                         });
-                        Object.defineProperty($dhx.REST.API, 'session', {
+						Object.defineProperty($dhx.REST.API, 'session', {
                             value: {
-                                user: $dhx.REST.API.user,
-                                user_name: $dhx.REST.API.user_name,
-                                client_session_id: $dhx.REST.API.client_session_id,
-                                person_id: $dhx.REST.API.person_id,
-                                group: $dhx.REST.API.group,
-                                company_id: $dhx.REST.API.company_id,
-                                company_branch_id: $dhx.REST.API.company_branch_id,
-                                storage_quota: $dhx.REST.API.storage_quota,
-                                time_zone: $dhx.REST.API.time_zone
-                            },
+								user : $dhx.REST.API.user
+								,user_name : $dhx.REST.API.user_name
+								,client_session_id : $dhx.REST.API.client_session_id
+								,person_id : $dhx.REST.API.person_id
+								,group : $dhx.REST.API.group
+								,company_id : $dhx.REST.API.company_id
+								,company_branch_id : $dhx.REST.API.company_branch_id
+								,storage_quota : $dhx.REST.API.storage_quota
+								,time_zone : $dhx.REST.API.time_zone
+							},
                             enumerable: true,
                             configurable: false,
                             writable: false

@@ -18,51 +18,57 @@ $dhx.ui.data.model = {
             db_name = c.db,
             version = c.version,
             schema = c.schema
-        settings = c.settings,
+        	settings = c.settings,
             records = c.records;
 
 
         self.schema[db_name] = schema;
         self.records[db_name] = records;
-
-        var enforced_settings = {};
-        for (var table in schema) {
-            if (schema.hasOwnProperty(table)) {
-                enforced_settings[table] = {
-                    form: {
-                        template: []
-                    }
-                };
-
-                var db_config = schema[table];
-                var clone_columns = $dhx.toArray(db_config.columns);
-                clone_columns.sort(function(a, b) {
-                    return a.ordinal_position - b.ordinal_position;
-                });
-
-                clone_columns.forEach(function(column, index_, array_) {
-
-                    enforced_settings[table].form.template.push($dhx.ui.helpers.column.toFormField(column));
-
-                });
-            }
-        }
-
-
-
-
-
-        self.settings[db_name] = enforced_settings;
-
-
-
-
-
-
-
-
-
-        try {
+        
+		var enforced_settings = {};
+		for(var table in schema)
+		{
+			if( schema.hasOwnProperty(table) )
+			{
+				enforced_settings[table] = {
+					form : {
+						template : []	
+					}	
+				};
+				
+				var db_config = schema[table];
+				var clone_columns = $dhx.toArray( db_config.columns );
+				clone_columns.sort(function(a, b) {
+					return a.ordinal_position - b.ordinal_position;
+				});
+				
+				clone_columns.forEach(function (column, index_, array_) {
+					
+					enforced_settings[table].form.template.push(  $dhx.ui.helpers.column.toFormField( column ) );
+					
+				});
+			}
+		}
+		
+		
+		
+		
+		
+		self.settings[db_name] = enforced_settings;
+        
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		try {
             if ($dhx._enable_log) console.warn('starting $dhx.ui.data.model');
             self.db[db_name] = new $dhx.dataDriver.database({
                 db: db_name,

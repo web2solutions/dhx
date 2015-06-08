@@ -1,7 +1,12 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true, maxerr : 1000, indent : 2, sloppy : true */
 /*global $dhx, dhtmlx, Element */
+/*masks*/
+
+
+
+/*======================= $dhx FW ========================*/
 var $dhx = {
-    version: '1.0.3',
+	version : '1.0.3',
     _enable_log: false,
     windowWidth: 0,
     windowHeight: 0,
@@ -79,78 +84,77 @@ var $dhx = {
 	*/
     ,
     lScript: function(url, callback) {
-        var self = this,
-            arrType, type, s, nodeType, node, tag_id = url.split("?")[0];
-        //console.log("lScript");
-        //console.log(url);
-        //console.log(document.getElementById(url));
-        if (document.getElementById(url) == null) {
-            arrType = url.split(".");
-            type = arrType[arrType.length - 1];
+            var self = this,
+                arrType, type, s, nodeType, node, tag_id = url.split("?")[0];
+            //console.log("lScript");
             //console.log(url);
-            if (url.indexOf(".css") != -1) {
-                nodeType = "link";
-                node = document.createElement(nodeType);
-                //node = document.createStyleSheet(url);
-                node.setAttribute("rel", "stylesheet");
-                node.setAttribute("type", "text/css");
-                if (url.indexOf("?") != -1) node.setAttribute("href", url);
-                else node.setAttribute("href", url);
-            } else {
-                nodeType = "script";
-                node = document.createElement(nodeType);
-
-                node.setAttribute("type", "text/javascript");
-                node.async = 'true';
-                if (url.indexOf("?") != -1) node.setAttribute("src", url);
-                else node.setAttribute("src", url);
-            }
-            node.setAttribute("id", url);
-            if (node.readyState) {
-
-                node.onreadystatechange = function() {
-                    if (node.readyState == 'loaded' || node.readyState == 'complete') {
-                        console.log(node.readyState);
-                        node.onreadystatechange = null;
-                        //console.log("loaded  " + url);
-                        callback();
-                    }
-                };
-            } else {
-                //console.log(type);
+            //console.log(document.getElementById(url));
+            if (document.getElementById(url) == null) {
+                arrType = url.split(".");
+                type = arrType[arrType.length - 1];
+                //console.log(url);
                 if (url.indexOf(".css") != -1) {
-                    callback();
+                    nodeType = "link";
+                    node = document.createElement(nodeType);
+                    //node = document.createStyleSheet(url);
+					node.setAttribute("rel", "stylesheet");
+                    node.setAttribute("type", "text/css");
+                    if (url.indexOf("?") != -1) node.setAttribute("href", url);
+                    else node.setAttribute("href", url);
                 } else {
-                    //console.log("no ie");
-                    //console.log(node.onload);
-                    node.onload = function() {
-                        //console.log("loaded");
-                        //console.log("loaded  " + url);
-                        callback();
-                    };
-
-                    node.onerror = function(e) {
-                        if ($dhx._enable_log) console.log("error on loading file: " + e.target.src.split("/")[e.target.src.split("/").length - 1]);
-                        //console.log("loaded  " + url);
-                        document.getElementById("$dhx_splash_div_file_info").innerHTML = '<br>error</b> when loading the file: <br>' + e.target.src.split("/")[e.target.src.split("/").length - 1];
-                        //callback();
-                    };
+                    nodeType = "script";
+                    node = document.createElement(nodeType);
+					
+                    node.setAttribute("type", "text/javascript");
+					node.async = 'true';
+                    if (url.indexOf("?") != -1) node.setAttribute("src", url);
+                    else node.setAttribute("src", url);
                 }
+                node.setAttribute("id", url);
+                if (node.readyState) {
+
+                    node.onreadystatechange = function() {
+                        if (node.readyState == 'loaded' || node.readyState == 'complete') {
+                            console.log(node.readyState);
+                            node.onreadystatechange = null;
+                            //console.log("loaded  " + url);
+                            callback();
+                        }
+                    };
+                } else {
+                    //console.log(type);
+                    if (url.indexOf(".css") != -1) {
+                        callback();
+                    } else {
+                        //console.log("no ie");
+                        //console.log(node.onload);
+                        node.onload = function() {
+                            //console.log("loaded");
+                            //console.log("loaded  " + url);
+                            callback();
+                        };
+
+                        node.onerror = function(e) {
+                            if ($dhx._enable_log) console.log("error on loading file: " + e.target.src.split("/")[e.target.src.split("/").length - 1]);
+                            //console.log("loaded  " + url);
+                            document.getElementById("$dhx_splash_div_file_info").innerHTML = '<br>error</b> when loading the file: <br>' + e.target.src.split("/")[e.target.src.split("/").length - 1];
+                            //callback();
+                        };
+                    }
+                }
+				//console.log( url );
+                //console.log(document.getElementsByTagName('head')[0].appendChild(node));
+                document.getElementsByTagName('head')[0].appendChild(node);
+                //s = document.getElementsByTagName('script')[0];
+                //s.parentNode.insertBefore(node, s);
+            } else {
+                //console.log("already exist");
+                callback();
             }
-            //console.log( url );
-            //console.log(document.getElementsByTagName('head')[0].appendChild(node));
-            document.getElementsByTagName('head')[0].appendChild(node);
-            //s = document.getElementsByTagName('script')[0];
-            //s.parentNode.insertBefore(node, s);
-        } else {
-            //console.log("already exist");
-            callback();
         }
-    }
-
-
-    ,
-    getElementPosition: function(x, cordinate) {
+        
+     
+	 ,getElementPosition: function(x, cordinate) {
         //console.log("element");
         var o = document.getElementById(x);
         var l = o.offsetLeft;
@@ -725,16 +729,16 @@ var $dhx = {
         }
         //,utils : {
         // $dhx.utils.shortcut.add(strAtalho, fnCallback);
-
+        
 
     ,
     $_GET: function(id) {
         return $dhx.Request.QueryString(id).Item(1);
     },
-    $Request: function(id) {
+	$Request: function(id) {
         return $dhx.Request.QueryString(id).Item(1);
     },
-    param: function(id) {
+	param: function(id) {
         return $dhx.Request.QueryString(id).Item(1);
     },
     forceDownload: function(fileURI, fileName) {
@@ -742,7 +746,7 @@ var $dhx = {
         myTempWindow.document.execCommand('SaveAs', 'null', fileName);
         myTempWindow.close();
     }
-
+	
     /*
 
 		$dhx.addEvent(window, 'popstate', function (event) {
@@ -753,32 +757,32 @@ var $dhx = {
 	*/
     ,
     addEvent: (function() {
-        if (document.addEventListener) {
-            return function(el, type, fn) {
-                if (el && el.nodeName || el === window) {
-                    el.addEventListener(type, fn, false);
-                } else if (el && el.length) {
-                    for (var i = 0; i < el.length; i++) {
-                        addEvent(el[i], type, fn);
+            if (document.addEventListener) {
+                return function(el, type, fn) {
+                    if (el && el.nodeName || el === window) {
+                        el.addEventListener(type, fn, false);
+                    } else if (el && el.length) {
+                        for (var i = 0; i < el.length; i++) {
+                            addEvent(el[i], type, fn);
+                        }
                     }
-                }
-            };
-        } else {
-            return function(el, type, fn) {
-                if (el && el.nodeName || el === window) {
-                    el.attachEvent('on' + type, function() {
-                        return fn.call(el, window.event);
-                    });
-                } else if (el && el.length) {
-                    for (var i = 0; i < el.length; i++) {
-                        addEvent(el[i], type, fn);
+                };
+            } else {
+                return function(el, type, fn) {
+                    if (el && el.nodeName || el === window) {
+                        el.attachEvent('on' + type, function() {
+                            return fn.call(el, window.event);
+                        });
+                    } else if (el && el.length) {
+                        for (var i = 0; i < el.length; i++) {
+                            addEvent(el[i], type, fn);
+                        }
                     }
-                }
-            };
-        }
-    })()
-
-    ,
+                };
+            }
+        })()
+        
+        ,
     UTF8: {
         encode: function(s) {
             for (var c, i = -1, l = (s = s.split("")).length, o = String.fromCharCode; ++i < l; s[i] = (c = s[i].charCodeAt(0)) >= 127 ? o(0xc0 | (c >>> 6)) + o(0x80 | (c & 0x3f)) : s[i]);
@@ -951,8 +955,8 @@ var $dhx = {
             }
         }
         return str;
-    },
-    isDHTMLXmodified: false,
+    }
+    ,isDHTMLXmodified: false,
     modifyDHTMLXloader: function() {
             var self = this;
             if (self.isDHTMLXmodified) {
@@ -1105,15 +1109,15 @@ var $dhx = {
 
         if ($dhx.$_GET("_enable_log") !== null) {
             if ($dhx.$_GET("_enable_log") == "true") $dhx._enable_log = true;
-            console.log(
-                "%c $dhx framework started ",
-                'background: #00ebbe; color: #fff; font-size: 12px; padding: 12px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
-            );
+			console.log(
+				"%c $dhx framework started ", 
+				'background: #00ebbe; color: #fff; font-size: 12px; padding: 12px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
+			);
         }
-        //console.log(
-        //		"%c under the hood, guy? why? \n\n\n thank you for reading my code", 
-        //		'background: red; color: #fff; font-size: 30px; padding: 30px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
-        //	);
+		//console.log(
+		//		"%c under the hood, guy? why? \n\n\n thank you for reading my code", 
+		//		'background: red; color: #fff; font-size: 30px; padding: 30px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
+		//	);
         if ($dhx._enable_log) console.warn('starting $dhx');
         self.Browser.init();
         if (typeof c !== 'undefined') {
@@ -1122,101 +1126,121 @@ var $dhx = {
         if (!self.isDHTMLXmodified) {
             self.modifyDHTMLXloader();
         }
-    },
-    toArray: function(obj) {
-        var array = [];
-        for (var index in obj) {
-            if (obj.hasOwnProperty(index)) {
-                array.push(obj[index])
-            }
-        }
-        return array;
-    },
+    }
+	,toArray : function(obj){
+		var array = [];
+		for( var index in obj)
+		{
+			if(obj.hasOwnProperty( index ))
+			{
+				array.push( obj[index] )
+			}
+		}
+		return array;
+	}
+	,
     extend: function(parent, child) {
-        if (typeof child === 'undefined') {
-            child = {};
-        }
-        if (!$dhx.isObject(child)) {
-            child = {};
-        }
-        if (typeof parent === 'undefined') {
-            parent = {};
-        }
-
-        if (!$dhx.isObject(parent)) {
-            parent = {};
-        }
+        if( typeof child === 'undefined' )
+		{
+			child = {};
+		}
+		if (!$dhx.isObject(child))
+        {
+			child = {};
+		}
+        if( typeof parent === 'undefined' )
+		{
+			parent = {};
+		}
+		
+		if (!$dhx.isObject(parent))
+        {
+			parent = {};
+		}
         for (var i in parent) {
             if (parent.hasOwnProperty(i)) {
                 child[i] = parent[i];
             }
         }
         return child;
-    },
-    dhx_elements: {},
-    createElement: function(c) {
-        //console.log( JSON.stringify(c)  )
-        var element = document.createElement(c.tag_name),
-            id = c.id || 'el_' + window.dhx4.nexId();
-        element.setAttribute('style', c.style || '');
-        element.setAttribute('class', c.class || '');
-        if (c.title) element.setAttribute('title', c.title);
-
-        $dhx.dhx_elements[id] = c;
-        element.setAttribute('id', id);
-        if ($dhx.dhx_elements[id].parent) {
-            $dhx.dhx_elements[id].parent.appendChild(element);
-        } else {
-            document.body.appendChild(element);
-        }
-        if ($dhx.dhx_elements[id].html) {
-            element.innerHTML = $dhx.dhx_elements[id].html;
-        }
-
-        if ($dhx.dhx_elements[id].width) element.style.width = $dhx.dhx_elements[id].width + 'px';
-        if ($dhx.dhx_elements[id].height) element.style.height = $dhx.dhx_elements[id].height + 'px';
-
-        window.addEventListener('resize', function() {
-            for (var id in $dhx.dhx_elements) {
-                var element = document.getElementById(id);
-
-                if (typeof $dhx.dhx_elements[id].resize_width === 'undefined') {
-                    $dhx.dhx_elements[id].resize_width = false;
-                }
-                if (typeof $dhx.dhx_elements[id].resize_height === 'undefined') {
-                    $dhx.dhx_elements[id].resize_height = false;
-                }
-
-
-                if ($dhx.dhx_elements[id].resize_width == true) {
-                    element.style.width = window.innerWidth + 'px';
-                } else if ($dhx.isNumber($dhx.dhx_elements[id].resize_width) && $dhx.dhx_elements[id].resize_width != false) {
-                    element.style.width = window.innerWidth + ($dhx.dhx_elements[id].resize_width) + 'px';
-                }
-
-                if ($dhx.dhx_elements[id].resize_height == true) {
-                    element.style.height = window.innerHeight + 'px';
-                } else if ($dhx.isNumber($dhx.dhx_elements[id].resize_height) && $dhx.dhx_elements[id].resize_height != false) {
-                    element.style.height = window.innerHeight + ($dhx.dhx_elements[id].resize_height) + 'px';
-                }
-
-
-                //console.log(element);
-                //console.log($dhx.dhx_elements[ id ].resize_height);
-                //console.log($dhx.dhx_elements[ id ].resize_width);
-            }
-
-
-
-            //if($dhx.dhx_elements[ id ].resize_height) element.style.height = $dhx.dhx_elements[ id ].resize_height() + 'px';
-
-        }, true);
-
-
-        //console.log(element);
-        return element;
-    },
-    cdn1URL: '//cdn.dhtmlx.com.br/'
+    }
+	,dhx_elements : {}
+	,createElement : function( c ){
+		//console.log( JSON.stringify(c)  )
+		var element = document.createElement( c.tag_name ), id = c.id || 'el_' + window.dhx4.nexId();
+		element.setAttribute('style', c.style || '');
+		element.setAttribute('class', c.class || '');
+		if(c.title) element.setAttribute('title', c.title);
+		
+		$dhx.dhx_elements[ id ] = c;
+		element.setAttribute('id', id);
+		if($dhx.dhx_elements[ id ].parent)
+		{
+			$dhx.dhx_elements[ id ].parent.appendChild(element);
+		}
+		else
+		{
+			document.body.appendChild(element);
+		}
+		if($dhx.dhx_elements[ id ].html)
+		{
+			element.innerHTML = $dhx.dhx_elements[ id ].html;
+		}
+		
+		if($dhx.dhx_elements[ id ].width) element.style.width = $dhx.dhx_elements[ id ].width + 'px';
+		if($dhx.dhx_elements[ id ].height) element.style.height = $dhx.dhx_elements[ id ].height + 'px';
+		
+		window.addEventListener('resize', function()
+		{
+			for( var id in $dhx.dhx_elements)
+			{
+				var element = document.getElementById( id );
+				
+                if( typeof $dhx.dhx_elements[ id ].resize_width === 'undefined')
+				{
+					$dhx.dhx_elements[ id ].resize_width = false;
+				}
+				if( typeof $dhx.dhx_elements[ id ].resize_height === 'undefined')
+				{
+					$dhx.dhx_elements[ id ].resize_height = false;
+				}
+				
+				
+				if($dhx.dhx_elements[ id ].resize_width == true)
+				{ 
+					element.style.width = window.innerWidth + 'px';
+				}
+				else if( $dhx.isNumber($dhx.dhx_elements[ id ].resize_width) && $dhx.dhx_elements[ id ].resize_width != false )
+				{
+					element.style.width = window.innerWidth + ( $dhx.dhx_elements[ id ].resize_width ) + 'px';
+				}
+				
+				if($dhx.dhx_elements[ id ].resize_height == true)
+				{ 
+					element.style.height = window.innerHeight + 'px';
+				}
+				else if( $dhx.isNumber($dhx.dhx_elements[ id ].resize_height) && $dhx.dhx_elements[ id ].resize_height != false )
+				{
+					element.style.height = window.innerHeight +(  $dhx.dhx_elements[ id ].resize_height ) + 'px';
+				} 
+				
+				
+				//console.log(element);
+				//console.log($dhx.dhx_elements[ id ].resize_height);
+				//console.log($dhx.dhx_elements[ id ].resize_width);
+			}
+	
+			
+			
+			//if($dhx.dhx_elements[ id ].resize_height) element.style.height = $dhx.dhx_elements[ id ].resize_height() + 'px';
+			
+		}, true);
+		
+		
+		//console.log(element);
+		return element;
+	}
+    ,cdn1URL: '//cdn.dhtmlx.com.br/'
 };
 Object.defineProperty($dhx, 'CDN', {
     //get: function() { return bValue; },
@@ -1248,97 +1272,97 @@ window.onload = function() {
 
 
 $dhx.cookie = {
-    set: function(sKey, sValue, vEnd, bSecure) {
-        var sPath = false,
-            sDomain = window.location.hostname;
-        if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
-            return false;
-        }
-        var sExpires = "";
-        if (vEnd) {
-            switch (vEnd.constructor) {
-                case Number:
-                    sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
-                    break;
-                case String:
-                    sExpires = "; expires=" + vEnd;
-                    break;
-                case Date:
-                    sExpires = "; expires=" + vEnd.toUTCString();
-                    break;
+        set: function(sKey, sValue, vEnd, bSecure) {
+            var sPath = false,
+                sDomain = window.location.hostname;
+            if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
+                return false;
             }
-        }
-        document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=." + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
-        return true;
-    },
-    del: function(sKey, sPath, sDomain) {
-        var self = $dhx.cookie;
-        var sPath = false,
-            sDomain = window.location.hostname;
-        if (!self.hasItem(sKey)) {
-            return false;
-        }
-        document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "");
-        return true;
-    },
-    hasItem: function(sKey) {
-        if (!sKey) {
-            return false;
-        }
-        return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
-    },
-    setByKey: function(cookieName, keyName, value, lngDays) {
-        var self = $dhx.cookie;
-        try {
-            var thisCookies = unescape(self.get(cookieName));
-            if (thisCookies) {
-                thisCookies = thisCookies.split("&");
-                ///for(){
-                thisCookies.forEach(function(cookie, index, array) {
-                    cookie = cookie.split("=");
-                    //console.log(cookie[0]);
-                    //console.log(cookie);
-                    if (cookie[0] == keyName) {
-                        return;
-                    }
-                });
-                var newcookie = self.get(cookieName) + "&" + keyName + "=" + value + "";
-                self.set(cookieName, newcookie, lngDays);
-            } else {
-                self.set(cookieName, "" + keyName + "=" + value + "", 360);
+            var sExpires = "";
+            if (vEnd) {
+                switch (vEnd.constructor) {
+                    case Number:
+                        sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
+                        break;
+                    case String:
+                        sExpires = "; expires=" + vEnd;
+                        break;
+                    case Date:
+                        sExpires = "; expires=" + vEnd.toUTCString();
+                        break;
+                }
             }
+            document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=." + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
             return true;
-        } catch (e) {
-            //console.log(e.stack);
-            return false;
-        }
-    },
-    get: function(sKey) {
-        if (!sKey) {
-            return null;
-        }
-        return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
-    },
-    getByKey: function(cookiename, cookiekey) {
-        var self = $dhx.cookie;
-        try {
-            var cookievalue = self.get(cookiename);
-            if (cookievalue == "") return false;
+        },
+        del: function(sKey, sPath, sDomain) {
+            var self = $dhx.cookie;
+            var sPath = false,
+                sDomain = window.location.hostname;
+            if (!self.hasItem(sKey)) {
+                return false;
+            }
+            document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "");
+            return true;
+        },
+        hasItem: function(sKey) {
+            if (!sKey) {
+                return false;
+            }
+            return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
+        },
+        setByKey: function(cookieName, keyName, value, lngDays) {
+            var self = $dhx.cookie;
             try {
-                cookievaluesep = cookievalue.split("&");
+                var thisCookies = unescape(self.get(cookieName));
+                if (thisCookies) {
+                    thisCookies = thisCookies.split("&");
+                    ///for(){
+                    thisCookies.forEach(function(cookie, index, array) {
+                        cookie = cookie.split("=");
+                        //console.log(cookie[0]);
+                        //console.log(cookie);
+                        if (cookie[0] == keyName) {
+                            return;
+                        }
+                    });
+                    var newcookie = self.get(cookieName) + "&" + keyName + "=" + value + "";
+                    self.set(cookieName, newcookie, lngDays);
+                } else {
+                    self.set(cookieName, "" + keyName + "=" + value + "", 360);
+                }
+                return true;
+            } catch (e) {
+                //console.log(e.stack);
+                return false;
+            }
+        },
+        get: function(sKey) {
+            if (!sKey) {
+                return null;
+            }
+            return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+        },
+        getByKey: function(cookiename, cookiekey) {
+            var self = $dhx.cookie;
+            try {
+                var cookievalue = self.get(cookiename);
+                if (cookievalue == "") return false;
+                try {
+                    cookievaluesep = cookievalue.split("&");
+                } catch (e) {
+                    return false;
+                }
+                for (c = 0; c < cookievaluesep.length; c++) {
+                    cookienamevalue = cookievaluesep[c].split("=");
+                    if (cookienamevalue.length > 1) //it has multi valued cookie
+                    {
+                        if (cookienamevalue[0] == cookiekey) return unescape(cookienamevalue[1].toString().replace(/\+/gi, " "));
+                    } else return false;
+                }
+                return false;
             } catch (e) {
                 return false;
             }
-            for (c = 0; c < cookievaluesep.length; c++) {
-                cookienamevalue = cookievaluesep[c].split("=");
-                if (cookienamevalue.length > 1) //it has multi valued cookie
-                {
-                    if (cookienamevalue[0] == cookiekey) return unescape(cookienamevalue[1].toString().replace(/\+/gi, " "));
-                } else return false;
-            }
-            return false;
-        } catch (e) {
-            return false;
         }
     }
-}
