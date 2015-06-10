@@ -76,5 +76,23 @@ $dhx.ui.i18n['pt-br'] = {
     close: 'fechar',
     right_click_to_select_a_language: 'clique com botão direito para escolher um idioma',
     closeall: 'fechar todos'
+	,ControlPanel : 'Painel de Controles'
+	,minimizeall : 'minimizar todos'
+	,Click_on_a_wallpaper_to_preview : 'Clique no papel de parede para vizualizar'
+	,Walpapersettings : 'Configurações de papel de parede'
+	,Systeminformations : 'Informações do sistema'
+	,Globalformssettings : 'Configurações de formulário'
+	,setaswallpaper : 'salvar como papel de parede'
+	,click_to_open_control_panel : 'clique para abrir o Painel de Controles'
+	,capitalize_note : "Habilitando esse recurso, todas as vezes em que você digitar em um formulário o texto será automaticamente capitalizado. <br><br>Exemplo: se você digitar <strong>Nome</strong>, isso será automaticamenrte capitalizado para <strong>NOME</strong>.<br><br>Certifique-se de que realmente quer habilitar esse recurso."
+	,latinize_note : "Habilitando esse recurso, todas as vezes em que você digitar em um formulário o texto terá automaticamente todos os seus acentos covertidos em caracteres do Latin. <br><br>Exemplo: se você digitar <strong>Años</strong>, isso será automaticamente convertido para <strong>Anos</strong>.<br><br>Certifique-se de que realmente quer habilitar esse recurso."
+	,"Capitalize form inputs" : "Tornar maiúsculo o texto em campos"
+	,"Latinize form inputs" : "Latinizar o texto em campos"
+	,"capitalize text while typing" : "capitalizar texto enquanto eu digito"
+	,"latinize text while typing" : "latinizar texto enquanto eu digito"
+	,"Forms global settings" : "Configuração global de formulários"
+	,"quota usage" : "uso do disco"
+	,"Size in GB" : "Consumo em GB"
+	,'Live quota information':'Informações de uso disco'
 };
 //$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );

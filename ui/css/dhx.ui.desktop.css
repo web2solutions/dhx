@@ -14,6 +14,10 @@
     font-family: UbuntuRegular;
     src: url(../desktop/assets/fonts/Ubuntu-R.ttf);
 }
+@font-face {
+    font-family: UbuntuItalic;
+    src: url(../desktop/assets/fonts/Ubuntu-RI.ttf);
+}
 body {
     font-family: UbuntuRegular;
     font-size: 13px;
@@ -27,7 +31,7 @@ body {
     height: 100%;
     padding: 0px;
     margin: 0px;
-    background: url(../desktop/assets/wallpapers/unity.jpg) #ed774d -300px center;
+    background: #ed774d;
     z-index: 1;
     transition: all 0.6s ease-in-out;
     /* Let's enforce some hardware acceleration */
@@ -90,6 +94,7 @@ body {
   font-size:13px;
   text-shadow: 0px 1px 1px #333;
   font-weight:normal;
+  z-index: 9;
 }
 .dhx_ui_desktop_top_bar_quick_tools {
     position: absolute;
@@ -100,6 +105,7 @@ body {
     font-family: UbuntuLight;
     padding-right: 5px;
     font-size: 12px;
+	z-index: 9;
 }
 .dhx_ui_desktop_top_bar_quick_tools_settings {
     position: relative;
@@ -107,6 +113,7 @@ body {
     height: 24px;
     background: url(../desktop/assets/images/top_buttons.png) no-repeat -396px 0px;
     cursor: pointer;
+	z-index: 9;
 }
 .dhx_ui_desktop_top_bar_quick_tools_clock {
     position: relative;
@@ -119,6 +126,7 @@ body {
     cursor: wait;
     font-size: 13px;
 	color:#dfdbd2;
+	z-index: 5;
 }
 .dhx_ui_desktop_top_bar_quick_tools_transfers {
     position: relative;
@@ -127,6 +135,7 @@ body {
     width: 30px;
     background: url(../desktop/assets/images/top_buttons.png) no-repeat -169px 0px;
     margin-right: 2px;
+	z-index: 5;
 }
 .dhx_ui_desktop_top_bar_quick_tools_idioms {
     position: relative;
@@ -147,10 +156,11 @@ body {
     color: #333;
     cursor: pointer;
     margin-right: 2px;
+	z-index: 5;
 }
 .dhx_ui_desktop_side_bar {
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     top: 25px;
     left: 0px;
     width: 66px;
@@ -183,7 +193,7 @@ body {
 }
 .dhx_ui_desktop_side_bar_container {
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     width: 66px;
     padding-left: 3px;
     padding-top: 11px;
@@ -278,6 +288,54 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc666666', e
 }
 
 
+.dhx_ui_desktop_search_bar{
+	position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    z-index: 3;
+    top: 0px;
+    left: 0px;
+	background:url(../desktop/assets/images/search_bar.png) -1px -1px no-repeat;
+	transition:visibility 0.2s linear 0.4s,opacity 0.8s linear;
+	opacity:0;
+    /* Let's enforce some hardware acceleration */
+    
+  
+}
+
+.dhx_ui_desktop_search_bar_input_search{
+	background:url(../desktop/assets/images/input_search.png) no-repeat;
+	position: absolute;
+	left:77px;
+	top:35px;
+	font-family:UbuntuItalic;
+	font-size:23px;
+	color:#dfdbd2;
+	padding-left:47px;
+	padding-right:3px;
+	padding-top:4px;
+	border:0px;
+}
 
 
+.dhx_ui_desktop_search_bar_results_wrapper{
+	position: absolute;
+	left:77px;
+	top:80px;
+}
 
+.dhx_ui_desktop_search_bar_results_wrapper div{
+	
+}
+.dhx_ui_desktop_search_bar_results_wrapper div.dhx_dataview_item{
+	background:transparent;
+	color:#dfdbd2;
+  	font-size:13px;
+  	text-shadow: 0px 1px 1px #333;
+  	font-weight:normal;
+	font-family:UbuntuRegular;
+	border-right:0px !important;
+	border-bottom:1px dotted #c3c3c3 !important;
+	margin-right:6px !important;
+}

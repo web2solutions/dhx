@@ -394,7 +394,7 @@ var $dhx = {
         div_wrapper.style.position = "fixed";
         div_wrapper.style.top = "0";
         div_wrapper.style.left = "0";
-        div_wrapper.style.zIndex = "10";
+        div_wrapper.style.zIndex = "9999";
         div_wrapper.style.backgroundColor = "#000000";
         div_wrapper.style.opacity = "0.5";
         div_splash = document.createElement("DIV");
@@ -409,7 +409,7 @@ var $dhx = {
         }
         div_splash.style.top = ((self.windowHeight / 2) - 183) + "px";
         div_splash.style.left = ((self.windowWidth / 2) - 250) + "px";
-        div_splash.style.zIndex = "11";
+        div_splash.style.zIndex = "99999";
         //div_splash.style.backgroundColor = "#ffffff";
         div_splash.style.backgroundImage = "url('" + splash_base64 + "')";
 
@@ -425,7 +425,7 @@ var $dhx = {
         div_file_info.style.position = "fixed";
         div_file_info.style.top = ((self.windowHeight / 2) - 30) + "px";
         div_file_info.style.left = ((self.windowWidth / 2) - 150) + "px";
-        div_file_info.style.zIndex = "12";
+        div_file_info.style.zIndex = "999999";
         //div_file_info.style.backgroundImage = "url(" + $dhx_location + "imgs/splash.png)";
 
 
@@ -823,30 +823,9 @@ var $dhx = {
                         body: text,
                         icon: img
                     });
-                    window.navigator.vibrate(500);
                 }
             });
         }
-        // At last, if the user already denied any notification, and you 
-        // want to be respectful there is no need to bother him any more.
-        // now we need to update the value of notified to "yes" in this particular data object, so the
-        // notification won't be set off on it again
-        // first open up a transaction as usual
-        //var objectStore = db.transaction(['toDoList'], "readwrite").objectStore('toDoList');
-        // get the to-do list object that has this title as it's title
-        /*var objectStoreTitleRequest = objectStore.get(title);
-		objectStoreTitleRequest.onsuccess = function () {
-			// grab the data object returned as the result
-			var data = objectStoreTitleRequest.result;
-			// update the notified value in the object to "yes"
-			data.notified = "yes";
-			// create another request that inserts the item back into the database
-			var updateTitleRequest = objectStore.put(data);
-			// when this new request succeeds, run the displayData() function again to update the display
-			updateTitleRequest.onsuccess = function () {
-				displayData();
-			}
-		}*/
     }
 
 
@@ -1114,7 +1093,7 @@ var $dhx = {
         //		"%c under the hood, guy? why? \n\n\n thank you for reading my code", 
         //		'background: red; color: #fff; font-size: 30px; padding: 30px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
         //	);
-        if ($dhx._enable_log) console.warn('starting $dhx');
+        if ($dhx._enable_log) console.info('starting $dhx');
         self.Browser.init();
         if (typeof c !== 'undefined') {
             if (c.plugins) {}

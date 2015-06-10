@@ -676,7 +676,7 @@ $dhx.REST = {
                                 user: $dhx.REST.API.user,
                                 user_name: $dhx.REST.API.user_name,
                                 client_session_id: $dhx.REST.API.client_session_id,
-                                person_id: $dhx.REST.API.person_id,
+                                user_id: $dhx.REST.API.person_id,
                                 group: $dhx.REST.API.group,
                                 company_id: $dhx.REST.API.company_id,
                                 company_branch_id: $dhx.REST.API.company_branch_id,

@@ -1,107 +1,254 @@
-/*! dhx 2015-06-07 */
 $dhx.ui.desktop.view.SideBar = {
-    version: "1.0.3",
-    appName: "Side Bar",
-    appId: "$dhx.ui.desktop.SideBar",
-    side_bar: null,
-    side_button: [],
-    programs_contextual_menu: [],
-    _programs_contextual_menu: function(a, b) {
-        var c = $dhx.ui.desktop.view,
-            d = $dhx.ui.desktop.view.SideBar,
-            e = a.appId;
-        d.programs_contextual_menu[e] = new dhtmlXMenuObject($dhx.ui.desktop.settings.menu_contextual_programs), d.programs_contextual_menu[e].addContextZone(b), d.programs_contextual_menu[e].attachEvent("onClick", function(b) {
-            if ("open" == b) c.openCruder(a);
-            else if ("close" == b) c.openedCruds[a.collection].close();
-            else if ("close_all" == b)
-                for (var d in c.openedCruds) c.openedCruds.hasOwnProperty(d) && (console.log(d), c.openedCruds[d].close())
-        })
-    },
-    _side_bar: function() {
-        var a = ($dhx.ui.desktop.view, $dhx.ui.desktop.view.SideBar),
-            b = window.innerHeight;
-        a.side_bar = $dhx.createElement({
-            tag_name: "DIV",
-            style: "",
-            "class": "dhx_ui_desktop_side_bar",
-            id: "$dhx.ui.desktop.active_area.side_bar",
-            width: 66,
-            height: b,
-            resize_height: !0
-        }), a.side_bar_nav_top = $dhx.createElement({
-            tag_name: "DIV",
-            parent: a.side_bar,
-            style: "",
-            "class": "dhx_ui_desktop_side_bar_nav_top",
-            id: "$dhx.ui.desktop.active_area.side_bar_nav_top",
-            width: 66,
-            height: 12
-        }), a.side_bar_nav_bottom = $dhx.createElement({
-            tag_name: "DIV",
-            parent: a.side_bar,
-            style: "",
-            "class": "dhx_ui_desktop_side_bar_nav_bottom",
-            id: "$dhx.ui.desktop.active_area.side_bar_nav_top",
-            width: 66,
-            height: 12
-        }), a._side_bar_container(), a.side_bar_nav_top.addEventListener("click", function(b) {
-            a.side_bar_container.scrollTop -= 54
-        }), a.side_bar_nav_bottom.addEventListener("click", function(b) {
-            a.side_bar_container.scrollTop += 54
-        })
-    },
-    _side_bar_container: function() {
-        var a = ($dhx.ui.desktop.view, $dhx.ui.desktop.view.SideBar),
-            b = 25,
-            c = window.innerHeight,
-            d = c - b;
-        a.side_bar_container = $dhx.createElement({
-            tag_name: "DIV",
-            parent: a.side_bar,
-            style: "",
-            "class": "dhx_ui_desktop_side_bar_container",
-            id: "$dhx.ui.desktop.active_area.side_bar_container",
-            width: 66,
-            height: d - 12,
-            resize_height: -b
-        }), a.side_bar_container.style.clip = "rect(12px,66px," + (d - 11) + "px,0px)", window.addEventListener("resize", function() {
-            c = window.innerHeight - b, a.side_bar_container.style.clip = "rect(12px,66px," + (window.innerHeight - 29) + "px,0px)"
-        }, !0)
-    },
-    _button: function(a) {
-        var b = $dhx.ui.desktop.view,
-            c = $dhx.ui.desktop.view.SideBar,
-            d = d = $dhx.strip_tags(a.summary),
-            e = '<img alt="' + d + '" title="' + d + '" width="46" height="46" src="' + $dhx.ui.cdn_address + "/dhx/ui/desktop/assets/icons/" + a.icon + '" />',
-            f = {
-                tag_name: "DIV",
-                parent: c.side_bar_container,
-                style: a.style || "",
-                "class": "dhx_ui_desktop_side_button",
-                id: "$dhx.ui.desktop.active_area.side_button." + a.appId,
-                html: a.icon ? e : a.html
-            };
-        c.side_button[a.appId] = $dhx.createElement(f), "cruder" == a.type && (c.side_button[a.appId].onclick = function(c) {
-            b.openCruder(a)
-        }), c._programs_contextual_menu(a, c.side_button[a.appId].id)
-    },
-    render: function() {
-        var a = ($dhx.ui.desktop.view, $dhx.ui.desktop.view.SideBar);
-        try {
-            $dhx.showDirections("starting view ... "), a._side_bar(), $dhx.ui.desktop.Registry.cruders.forEach(function(b, c, d) {
-                a._button({
-                    appName: b.appName,
-                    appId: b.appId,
-                    summary: b.summary,
-                    module: b.module,
-                    icon: b.icon,
-                    database: b.database,
-                    collection: b.collection,
-                    type: "cruder"
-                })
-            }), $dhx.hideDirections()
-        } catch (b) {
-            console.log(b.stack)
-        }
-    }
+	version: '1.0.3'
+	, appName: 'Side Bar'
+	, appId: '$dhx.ui.desktop.SideBar'
+	
+	, side_bar: null
+	, side_button: []
+	, programs_contextual_menu : []
+	
+	
+	
+	, _programs_contextual_menu: function ( c, div ) {
+		var that = $dhx.ui.desktop.view
+			, self = $dhx.ui.desktop.view.SideBar,
+			appId = c.appId;
+		self.programs_contextual_menu[ appId ] = new dhtmlXMenuObject($dhx.ui.desktop.settings.menu_contextual_programs);
+		self.programs_contextual_menu[ appId ].addContextZone(div);
+		self.programs_contextual_menu[ appId ].attachEvent("onClick", function (id) {
+			if (id == 'open') {
+				if (c.type == 'cruder') {
+					that.openCruder( c );
+				}
+				else if (c.type == 'internal_application')
+				{
+					that.openInternalProgram(c);
+				}
+			}
+			else if (id == 'close')
+			{
+				that.openedPrograms[c.collection].close()
+			}
+			else if (id == 'close_all')
+			{
+				for(var w in that.openedPrograms)
+				{
+					if(that.openedPrograms.hasOwnProperty( w ))
+					{
+						console.log(w);
+						console.log(that.openedPrograms[w]);
+						try
+						{
+							that.openedPrograms[w].close();	
+						}
+						catch(e)
+						{
+							
+						}
+					}
+				}
+			}
+			else if (id == 'minimize_all')
+			{
+				for(var w in that.openedPrograms)
+				{
+					if(that.openedPrograms.hasOwnProperty( w))
+					{
+						console.log(w);
+						console.log(that.openedPrograms[w]);
+						try
+						{
+							that.openedPrograms[w].configuration.wrapper.hide();
+						}
+						catch(e)
+						{
+							
+						}
+						
+					}
+				}
+			}
+		});
+	}
+	
+	
+	, _side_bar: function () {
+		var that = $dhx.ui.desktop.view
+			, self = $dhx.ui.desktop.view.SideBar;
+		var total_pading_top = 25;
+		var visible_area_height = window.innerHeight;
+		self.side_bar = $dhx.createElement({
+			tag_name: 'DIV'
+			//, parent: that.ActiveDesktop.active_area
+			, style: ''
+			, class: 'dhx_ui_desktop_side_bar'
+			, id: '$dhx.ui.desktop.active_area.side_bar'
+			, width: 66
+			, height: visible_area_height
+			, resize_height: true
+		});
+		self.side_bar_nav_top = $dhx.createElement({
+			tag_name: 'DIV'
+			, parent: self.side_bar
+			, style: ''
+			, class: 'dhx_ui_desktop_side_bar_nav_top'
+			, id: '$dhx.ui.desktop.active_area.side_bar_nav_top'
+			, width: 66
+			, height: 12
+		});
+		self.side_bar_nav_bottom = $dhx.createElement({
+			tag_name: 'DIV'
+			, parent: self.side_bar
+			, style: ''
+			, class: 'dhx_ui_desktop_side_bar_nav_bottom'
+			, id: '$dhx.ui.desktop.active_area.side_bar_nav_top'
+			, width: 66
+			, height: 12
+		});
+		self._side_bar_container();
+		self.side_bar_nav_top.addEventListener("click", function (event) {
+			self.side_bar_container.scrollTop -= 54;
+			//self.side_bar_container.style.transform = 'translateY('+(self.side_bar_container.scrollTop)+'px)';
+    		//self.side_bar_container.style.transform += 'translateX('+(event.clientX-25)+'px)';
+		});
+		self.side_bar_nav_bottom.addEventListener("click", function (event) {
+			self.side_bar_container.scrollTop += 54;
+			//self.side_bar_container.style.transform = 'translateY('+(self.side_bar_container.scrollTop)+'px)';
+    		//self.side_bar_container.style.transform += 'translateX('+(event.clientX-25)+'px)';
+		});
+	}
+	
+	, _side_bar_container: function () {
+		var that = $dhx.ui.desktop.view
+			, self = $dhx.ui.desktop.view.SideBar;
+		var total_pading_top = 25;
+		var visible_area_height = window.innerHeight;
+		var container_h = visible_area_height - total_pading_top;
+		self.side_bar_container = $dhx.createElement({
+			tag_name: 'DIV'
+			, parent: self.side_bar
+			, style: ''
+			, class: 'dhx_ui_desktop_side_bar_container'
+			, id: '$dhx.ui.desktop.active_area.side_bar_container'
+			, width: 66
+			, height: container_h - 12
+			, resize_height: -total_pading_top
+		});
+		self.side_bar_container.style.clip = "rect(12px,66px," + (container_h - 11) + "px,0px)";
+		window.addEventListener('resize', function () {
+			visible_area_height = window.innerHeight - total_pading_top;
+			self.side_bar_container.style.clip = "rect(12px,66px," + (window.innerHeight - 29) + "px,0px)";
+		}, true);
+	}
+	
+	
+	, _button: function (c) {
+		var that = $dhx.ui.desktop.view
+			, self = $dhx.ui.desktop.view.SideBar;
+		//console.log(c);
+		/*
+		appName : cruder.appName
+					,appId : cruder.appId
+					,summary : cruder.summary
+					,module : cruder.module
+					,icon : cruder.icon
+					,database : cruder.database
+					,collection : cruder.collection
+					,type : 'cruder'
+		
+		*/
+		var tooltip = tooltip = $dhx.strip_tags( c.summary );
+		var strIcon = '<img alt="' + tooltip + '" title="' + tooltip + '" width="46" height="46" src="' + $dhx.ui.cdn_address + '/dhx/ui/desktop/assets/icons/' + c
+			.icon + '" />';
+		var settings = {
+			tag_name: 'DIV'
+			, parent: self.side_bar_container
+			, style: c.style || ''
+			, class: 'dhx_ui_desktop_side_button'
+			, id: '$dhx.ui.desktop.active_area.side_button.' + c.appId
+			, html: (c.icon) ? strIcon : c.html
+		};
+		self.side_button[c.appId] = $dhx.createElement(settings);
+		
+		self._programs_contextual_menu( c, self.side_button[c.appId].id );
+		
+		if (c.type == 'cruder') {
+			self.side_button[c.appId].onclick = function (event) {
+				//console.log(c);
+				that.openCruder( c );
+			}
+		}
+		else if (c.type == 'internal_application') {
+			self.side_button[c.appId].onclick = function (event) {
+				//console.log(c);
+				that.openInternalProgram(c)
+			}
+		}
+	}
+	
+	, render: function () {
+		var that = $dhx.ui.desktop.view
+			, self = $dhx.ui.desktop.view.SideBar;
+		try {
+			$dhx.showDirections("starting view ... ");		
+	
+			self._side_bar();
+			
+			
+			$dhx.ui.desktop.Registry.programs.push(new $dhx.ui.desktop.application.custom({
+				appName: "$dhx Web Desktop - App Central"
+				, appId: "$dhx.ui.desktop.AppCentral"
+				, summary: ''
+				, module: $dhx.ui.desktop.view.SearchBar
+				, icon: 'applications.png'
+				, database: $dhx.ui.desktop.database
+				, collection: 'App central'
+			}))
+			$dhx.ui.desktop.Registry.programs.push(new $dhx.ui.desktop.application.custom({
+				appName: "$dhx Web Desktop - Control Panel"
+				, appId: "$dhx.ui.desktop.ControlPanel"
+				, summary: $dhx.ui.language.ControlPanel
+				, module: $dhx.ui.desktop.view.ControlPanel
+				, icon: 'control_panel.png'
+				, database: $dhx.ui.desktop.database
+				, collection: 'Control panel'
+			}))
+			
+			
+			$dhx.ui.desktop.Registry.programs.forEach(function (cruder, index, array) {
+				//alert(cruder.database)
+				self._button({
+					appName: cruder.appName
+					, appId: cruder.appId
+					, summary: cruder.summary
+					, module: cruder.module
+					, icon: cruder.icon
+					, database: cruder.database
+					, collection: cruder.collection
+					, type: 'internal_application'
+				});
+			});
+			
+			
+			$dhx.ui.desktop.Registry.cruders.forEach(function (cruder, index, array) {
+				//alert(cruder.database)
+				self._button({
+					appName: cruder.appName
+					, appId: cruder.appId
+					, summary: cruder.summary
+					, module: cruder.module
+					, icon: cruder.icon
+					, database: cruder.database
+					, collection: cruder.collection
+					, column_to_search_id : cruder.column_to_search_id
+					, column_to_search_index : cruder.column_to_index
+					, type: 'cruder'
+				});
+			});
+			$dhx.hideDirections();
+		}
+		catch (e) {
+			console.log(e.stack);
+		}
+	}
 };

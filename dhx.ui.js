@@ -392,7 +392,8 @@ $dhx.ui = {
             dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.ActiveDesktop.js");
             dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.TopBar.js");
             dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SideBar.js");
-            //
+			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.ControlPanel.js");
+			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SearchBar.js");
         }
         if (typeof $dhx.ui.data == 'undefined') {
             dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.data.js");
@@ -433,7 +434,7 @@ $dhx.ui = {
             $dhx.ui.require(dependencies, function() {
                 $dhx.init();
                 self._window_manager();
-                if ($dhx._enable_log) console.warn('starting $dhx.ui');
+                if ($dhx._enable_log) console.info('starting $dhx.ui');
                 window.dhx4.dateFormat = {
                     en: "%Y-%m-%d",
                     pt: "%Y-%m-%d"
@@ -525,6 +526,9 @@ $dhx.ui.helpers = {
             return 'calendar';
         } else if ($sql_type == 'primary_key') {
             return 'hidden';
+        }
+		else if ($sql_type == 'boolean') {
+            return 'btn2state';
         }
         return '';
     }

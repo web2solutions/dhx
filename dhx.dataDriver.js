@@ -342,7 +342,7 @@ $dhx.dataDriver = {
             }
             table.transaction.addEventListener('complete', function(event) {
                 var message = "table " + c.table + " created successfully";
-                if ($dhx._enable_log) console.warn(message);
+                if ($dhx._enable_log) console.info(message);
                 if (that.dbs[db_name].onCreate) that.dbs[db_name].onCreate({
                     connection: that.dbs[db_name].connection.connection,
                     event: that.dbs[db_name].connection.event,
@@ -352,8 +352,8 @@ $dhx.dataDriver = {
 
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant create table ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant create table ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -369,7 +369,7 @@ $dhx.dataDriver = {
 
                 $dhx.jDBdStorage.storeObject('$dhx.db.' + c.db, JSON.stringify({}));
 
-                if ($dhx._enable_log) console.warn("Deleted database " + c.db + " successfully");
+                if ($dhx._enable_log) console.info("Deleted database " + c.db + " successfully");
                 if (c.onSuccess) c.onSuccess("Deleted database " + c.db + " successfully", req, event);
             };
             req.onerror = function(event) {
@@ -380,8 +380,8 @@ $dhx.dataDriver = {
                 if (c.onFail) c.onFail(req, event, event.target.error.message);
             };
         } catch (e) {
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant drop database ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant drop database ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -409,7 +409,7 @@ $dhx.dataDriver = {
             var str = '';
 
             tx.addEventListener('complete', function(event) {
-                if ($dhx._enable_log) console.warn('tx getTableSizeInBytes is complete done');
+                if ($dhx._enable_log) console.info('tx getTableSizeInBytes is complete done');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -417,7 +417,7 @@ $dhx.dataDriver = {
             });
 
             tx.addEventListener('abort', function(event) {
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             request.addEventListener('success', function(event) {
@@ -427,7 +427,7 @@ $dhx.dataDriver = {
                     str = str + json;
                     cursor.continue();
                 } else {
-                    if ($dhx._enable_log) console.warn('executed');
+                    if ($dhx._enable_log) console.info('executed');
                     if ($dhx._enable_log) console.log('transaction complete - DB size computed      ', event);
                     console.timeEnd("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
                     str = $dhx.UTF8.decode(str);
@@ -439,14 +439,14 @@ $dhx.dataDriver = {
             });
 
             request.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.warn('sorry Eduardo, couldnt fecth data! Error message: ' + event);
+                if ($dhx._enable_log) console.info('sorry Eduardo, couldnt fecth data! Error message: ' + event);
                 console.timeEnd("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
                 if (c.onFail) c.onFail(request, event, size);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant get table size ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant get table size ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -460,9 +460,9 @@ $dhx.dataDriver = {
             var that = $dhx.dataDriver;
             isOnCreate = isOnCreate || false;
             console.timeEnd(timer_label);
-            if ($dhx._enable_log) console.warn('executed _completeAdd operation at: ' + c.table);
+            if ($dhx._enable_log) console.info('executed _completeAdd operation at: ' + c.table);
             if ($dhx._enable_log) console.log('transaction complete      ', event);
-            if ($dhx._enable_log) console.warn('rows affected: ' + rows_affected);
+            if ($dhx._enable_log) console.info('rows affected: ' + rows_affected);
 
             $dhx.MQ.publish(that.dbs[db_name].root_topic + "." + table, {
                 action: 'add',
@@ -507,21 +507,21 @@ $dhx.dataDriver = {
                 //records = null;
             };
             tx.onerror = function(event) {
-                if ($dhx._enable_log) console.warn('error name: ', event.srcElement.error.name);
+                if ($dhx._enable_log) console.info('error name: ', event.srcElement.error.name);
                 //dhtmlx.message({
                 //	type: "error",
                 //	text: event.srcElement.error.message
                 //});
 
-                if ($dhx._enable_log) console.warn('sorry Eduardo, couldnt add record. error message: ' + event.srcElement.error.message);
-                if ($dhx._enable_log) console.warn('rows affected: 0');
+                if ($dhx._enable_log) console.info('sorry Eduardo, couldnt add record. error message: ' + event.srcElement.error.message);
+                if ($dhx._enable_log) console.info('rows affected: 0');
                 console.timeEnd(timer_label);
                 if (c.onFail) c.onFail(tx, event, rows_affected);
                 records = null;
             };
 
             tx.onabort = function(event) {
-                if ($dhx._enable_log) console.warn('   >>>>  ABORTED   <<<<  ');
+                if ($dhx._enable_log) console.info('   >>>>  ABORTED   <<<<  ');
                 if ($dhx._enable_log) console.log(event.target.error.name, event.target.error.message);
                 console.timeEnd(timer_label);
                 //if(c.onFail) c.onFail(tx, event, rows_affected);
@@ -549,7 +549,7 @@ $dhx.dataDriver = {
                 }
                 // single record
             if ($dhx.isObject(c.record)) {
-                if ($dhx._enable_log) console.warn('........... trying to insert single record on ' + c.table);
+                if ($dhx._enable_log) console.info('........... trying to insert single record on ' + c.table);
                 var r = that.validRecord(table_schema, c.record);
                 if ($dhx.isObject(r)) {
                     if ($dhx._enable_log) console.log('preparing record ', r);
@@ -562,13 +562,13 @@ $dhx.dataDriver = {
                     cloneEvent.target.error.name = 'Type constraint';
                     cloneEvent.target.error.message = r;
                     if (c.onFail) c.onFail(null, cloneEvent, r);
-                    if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record! Error message: ' + r);
+                    if ($dhx._enable_log) console.info('sorry Eduardo, invalid record! Error message: ' + r);
                     return;
                 }
             }
             // multiple record
             else if ($dhx.isArray(c.record)) {
-                if ($dhx._enable_log) console.warn('........... trying to insert ' + c.record.length + ' records on ' + c.table);
+                if ($dhx._enable_log) console.info('........... trying to insert ' + c.record.length + ' records on ' + c.table);
                 if (c.record.length > 0) {
                     for (var i = 0; i < c.record.length; i++) {
                         var record = c.record[i];
@@ -578,8 +578,8 @@ $dhx.dataDriver = {
                             rows_affected = rows_affected + 1;
                             persist(r);
                         } else {
-                            if ($dhx._enable_log) console.warn('record ignored: ', JSON.stringify(record));
-                            if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record! Error message: ' + r);
+                            if ($dhx._enable_log) console.info('record ignored: ', JSON.stringify(record));
+                            if ($dhx._enable_log) console.info('sorry Eduardo, invalid record! Error message: ' + r);
                             continue;
                         }
                     }
@@ -587,13 +587,13 @@ $dhx.dataDriver = {
                     if ($dhx._enable_log) console.log('any record was passed to insert');
                 }
             } else {
-                if ($dhx._enable_log) console.warn('sorry Eduardo, I cant parse the record payload');
+                if ($dhx._enable_log) console.info('sorry Eduardo, I cant parse the record payload');
                 return;
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -619,8 +619,8 @@ $dhx.dataDriver = {
 
             tx.addEventListener('complete', function(event) {
                 console.timeEnd(timer_label);
-                if ($dhx._enable_log) console.warn('executed');
-                if ($dhx._enable_log) console.warn('tx _checkFkey is completed');
+                if ($dhx._enable_log) console.info('executed');
+                if ($dhx._enable_log) console.info('tx _checkFkey is completed');
             });
             tx.addEventListener('onerror', function(event) {
                 console.timeEnd(timer_label);
@@ -638,7 +638,7 @@ $dhx.dataDriver = {
                     text: event.target.error.message
                 });
                 if (c.onFail) c.onFail(tx, event, event.target.error.message);
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             var index = null;
@@ -676,8 +676,8 @@ $dhx.dataDriver = {
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant _checkFkey! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant _checkFkey! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -694,7 +694,7 @@ $dhx.dataDriver = {
                 isOnCreate = c.isOnCreate;
             // single record
             if ($dhx.isObject(c.record)) {
-                if ($dhx._enable_log) console.warn('........... checking fkeys for one record ' + c.table);
+                if ($dhx._enable_log) console.info('........... checking fkeys for one record ' + c.table);
                 var r = that.validRecord(table_schema, c.record);
                 if ($dhx.isObject(r)) {
                     var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify(r));
@@ -716,7 +716,7 @@ $dhx.dataDriver = {
 
                                 },
                                 onFail: function(tx, event, error_message) {
-                                    if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', error_message);
+                                    if ($dhx._enable_log) console.info('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', error_message);
 
                                     if (c.onFail) c.onFail(tx, event, error_message);
                                 }
@@ -731,13 +731,13 @@ $dhx.dataDriver = {
                     cloneEvent.target.error.message = r;
                     if (c.onFail) c.onFail(null, cloneEvent, r);
 
-                    if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+                    if ($dhx._enable_log) console.info('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
                     return;
                 }
             }
             // multiple record
             else if ($dhx.isArray(c.record)) {
-                if ($dhx._enable_log) console.warn('........... checking fkeys for ' + c.record.length + ' records inserting in ' + c.table);
+                if ($dhx._enable_log) console.info('........... checking fkeys for ' + c.record.length + ' records inserting in ' + c.table);
                 if (c.record.length > 0) {
                     var uid_total_record_to_check = $dhx.crypt.SHA2(JSON.stringify(c.record));
                     that._total_records_to_check[uid_total_record_to_check] = c.record.length;
@@ -785,7 +785,7 @@ $dhx.dataDriver = {
                                             }
                                         },
                                         onFail: function(tx, event, error_message) {
-                                            if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', r);
+                                            if ($dhx._enable_log) console.info('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', r);
                                             if (c.onFail) c.onFail(tx, event, error_message);
                                         }
                                     });
@@ -794,8 +794,8 @@ $dhx.dataDriver = {
                         } else {
 
 
-                            if ($dhx._enable_log) console.warn('record ignored: ', JSON.stringify(record));
-                            if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+                            if ($dhx._enable_log) console.info('record ignored: ', JSON.stringify(record));
+                            if ($dhx._enable_log) console.info('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
                             continue;
                         }
                     }
@@ -803,13 +803,13 @@ $dhx.dataDriver = {
                     if ($dhx._enable_log) console.log('any record was passed to insert');
                 }
             } else {
-                if ($dhx._enable_log) console.warn('sorry Eduardo, I cant parse the record payload');
+                if ($dhx._enable_log) console.info('sorry Eduardo, I cant parse the record payload');
                 return;
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     },
@@ -839,8 +839,8 @@ $dhx.dataDriver = {
             that._addSaveOnTable(c, onSuccess, onFail);
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -891,8 +891,8 @@ $dhx.dataDriver = {
             that._updateSaveOnTable(c);
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant add record! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -931,7 +931,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('complete', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('tx update is completed');
+                if ($dhx._enable_log) console.info('tx update is completed');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -941,7 +941,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('abort', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             recordIdRequest.onsuccess = function(event) {
@@ -956,16 +956,16 @@ $dhx.dataDriver = {
                                 if (r.hasOwnProperty(i)) data[i] = r[i];
                         } else {
                             console.timeEnd(timer_label);
-                            if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record! Error message: ' + r);
+                            if ($dhx._enable_log) console.info('sorry Eduardo, invalid record! Error message: ' + r);
                             if (c.onFail) c.onFail(updateRequest, event, rows_affected);
                             return;
                         }
                     }
                     updateRequest = persist(data);
-                    //if ($dhx._enable_log) console.warn("The transaction that originated this request is ", recordIdRequest.transaction);
+                    //if ($dhx._enable_log) console.info("The transaction that originated this request is ", recordIdRequest.transaction);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.warn('sorry Eduardo, record ' + record_id + ' not found! ');
+                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + record_id + ' not found! ');
                     if (c.onFail) c.onFail(updateRequest, event, rows_affected);
                     return;
                 }
@@ -986,28 +986,28 @@ $dhx.dataDriver = {
 
                     console.timeEnd(timer_label);
 
-                    if ($dhx._enable_log) console.warn('executed');
+                    if ($dhx._enable_log) console.info('executed');
                     if ($dhx._enable_log) console.log('transaction complete      ', event);
-                    if ($dhx._enable_log) console.warn('rows affected: ' + typeof rows_affected !== 'undefined' ? 1 : 0);
+                    if ($dhx._enable_log) console.info('rows affected: ' + typeof rows_affected !== 'undefined' ? 1 : 0);
 
                     if (c.onSuccess) c.onSuccess(updateRequest, event, rows_affected);
                 });
 
                 updateRequest.addEventListener('error', function(event) {
-                    if ($dhx._enable_log) console.warn('error name: ', event.srcElement.error.name);
+                    if ($dhx._enable_log) console.info('error name: ', event.srcElement.error.name);
                     //dhtmlx.message({
                     //			type: "error",
                     //			text: event.srcElement.error.message
                     //});
-                    if ($dhx._enable_log) console.warn('	sorry Eduardo, couldnt update record. error message: ' + event.srcElement.error.message);
-                    if ($dhx._enable_log) console.warn('rows affected: 0');
+                    if ($dhx._enable_log) console.info('	sorry Eduardo, couldnt update record. error message: ' + event.srcElement.error.message);
+                    if ($dhx._enable_log) console.info('rows affected: 0');
                     console.timeEnd(timer_label);
                     if (c.onFail) c.onFail(updateRequest, event, rows_affected);
                 });
             };
         } catch (e) {
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant update by local id! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant update by local id! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1023,7 +1023,7 @@ $dhx.dataDriver = {
                     need_to_check = false;
                 // single record
                 if ($dhx.isObject(c.record)) {
-                    if ($dhx._enable_log) console.warn('........... checking fkeys for one record ' + c.table);
+                    if ($dhx._enable_log) console.info('........... checking fkeys for one record ' + c.table);
                     var r = that.validRecordUpdate(table_schema, c.record);
 
                     if ($dhx.isObject(r)) {
@@ -1041,7 +1041,7 @@ $dhx.dataDriver = {
                         that._total_fkeys_checked[fk_check_uid] = 0;
 
                         if (that._total_fkeys_to_check[fk_check_uid] == 0) {
-                            if ($dhx._enable_log) console.warn('does not need to check fkey for ' + r);
+                            if ($dhx._enable_log) console.info('does not need to check fkey for ' + r);
                             that._updateSaveOnTable(c);
                             return;
                         }
@@ -1060,7 +1060,7 @@ $dhx.dataDriver = {
                         }
 
                         if (!need_to_check) {
-                            if ($dhx._enable_log) console.warn('does not need to check fkey for ' + r);
+                            if ($dhx._enable_log) console.info('does not need to check fkey for ' + r);
                             that._updateSaveOnTable(c);
                             return;
                         }
@@ -1070,7 +1070,7 @@ $dhx.dataDriver = {
 
                                 if (c.record.hasOwnProperty(key)) {
                                     // need to check
-                                    if ($dhx._enable_log) console.warn('need to check fkey for ' + key);
+                                    if ($dhx._enable_log) console.info('need to check fkey for ' + key);
                                     that._checkFkey({
                                         db: c.db,
                                         table: table_schema.foreign_keys[key].table,
@@ -1083,7 +1083,7 @@ $dhx.dataDriver = {
                                             }
                                         },
                                         onFail: function(tx, event, error_message) {
-                                            if ($dhx._enable_log) console.warn('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
+                                            if ($dhx._enable_log) console.info('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
                                                 key].table + '" foreign table! Error message: ', error_message);
 
                                             if (c.onFail) c.onFail(tx, event, error_message);
@@ -1093,17 +1093,17 @@ $dhx.dataDriver = {
                             }
                         }
                     } else {
-                        if ($dhx._enable_log) console.warn('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+                        if ($dhx._enable_log) console.info('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
                         return;
                     }
                 } else {
-                    if ($dhx._enable_log) console.warn('sorry Eduardo, I cant parse the record payload');
+                    if ($dhx._enable_log) console.info('sorry Eduardo, I cant parse the record payload');
                     return;
                 }
             } catch (e) {
 
-                if ($dhx._enable_log) console.warn('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
-                //if ($dhx._enable_log) console.warn(e);
+                if ($dhx._enable_log) console.info('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
+                //if ($dhx._enable_log) console.info(e);
                 if (c.onFail) c.onFail(null, null, e.message);
             }
         }
@@ -1131,7 +1131,7 @@ $dhx.dataDriver = {
             c.onFail = c.onFail || false;
 
             tx.addEventListener('complete', function(event) {
-                if ($dhx._enable_log) console.warn('tx select is completed');
+                if ($dhx._enable_log) console.info('tx select is completed');
                 $dhx.hideDirections();
             });
 
@@ -1141,7 +1141,7 @@ $dhx.dataDriver = {
             });
 
             tx.addEventListener('abort', function(event) {
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
                 $dhx.hideDirections();
             });
 
@@ -1158,9 +1158,9 @@ $dhx.dataDriver = {
 
                     cursor.continue();
                 } else {
-                    if ($dhx._enable_log) console.warn('executed');
+                    if ($dhx._enable_log) console.info('executed');
                     if ($dhx._enable_log) console.log('transaction complete - data selected      ', event);
-                    if ($dhx._enable_log) console.warn('rows affected: ' + rows_affected);
+                    if ($dhx._enable_log) console.info('rows affected: ' + rows_affected);
                     console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
 
 
@@ -1170,15 +1170,15 @@ $dhx.dataDriver = {
             });
 
             request.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.warn('sorry Eduardo, couldnt fecth data! Error message: ' + event);
+                if ($dhx._enable_log) console.info('sorry Eduardo, couldnt fecth data! Error message: ' + event);
                 console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
                 if (c.onFail) c.onFail(request, event, event.target.error.message);
                 records = null;
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant select data ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant select data ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1200,7 +1200,7 @@ $dhx.dataDriver = {
             c.onFail = c.onFail || false;
 
             tx.addEventListener('complete', function(event) {
-                if ($dhx._enable_log) console.warn('tx count is completed');
+                if ($dhx._enable_log) console.info('tx count is completed');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -1226,8 +1226,8 @@ $dhx.dataDriver = {
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant count data ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant count data ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
 
@@ -1249,7 +1249,7 @@ $dhx.dataDriver = {
             var req = table.delete(parseInt(c.record_id));
 
             tx.addEventListener('complete', function(event) {
-                if ($dhx._enable_log) console.warn('tx del is completed');
+                if ($dhx._enable_log) console.info('tx del is completed');
                 //console.log( event );
             });
 
@@ -1258,7 +1258,7 @@ $dhx.dataDriver = {
             });
 
             tx.addEventListener('abort', function(event) {
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             req.onsuccess = function(event) {
@@ -1275,19 +1275,19 @@ $dhx.dataDriver = {
                     record_id: c.record_id
                 });
 
-                if ($dhx._enable_log) console.warn('executed');
+                if ($dhx._enable_log) console.info('executed');
                 if ($dhx._enable_log) console.log('transaction complete - record deleted');
                 if (c.onSuccess) c.onSuccess(tx, event, c.record_id);
             }
             req.onerror = function(event) {
                 console.timeEnd(timer_label);
-                if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete all records! Error message: ' + event);
+                if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete all records! Error message: ' + event);
                 if (c.onFail) c.onFail(tx, event, event.target.error.message);
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1308,7 +1308,7 @@ $dhx.dataDriver = {
             c.onFail = c.onFail || false;
 
             tx.addEventListener('complete', function(event) {
-                if ($dhx._enable_log) console.warn('tx cearlAll is completed');
+                if ($dhx._enable_log) console.info('tx cearlAll is completed');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -1316,12 +1316,12 @@ $dhx.dataDriver = {
             });
 
             tx.addEventListener('abort', function(event) {
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             clear_request.addEventListener('success', function(event) {
                 console.timeEnd("clearAll operation " + c.table);
-                if ($dhx._enable_log) console.warn('executed');
+                if ($dhx._enable_log) console.info('executed');
                 if ($dhx._enable_log) console.log('transaction complete - table is clear');
 
                 $dhx.MQ.publish(that.dbs[db_name].root_topic + "." + c.table, {
@@ -1338,13 +1338,13 @@ $dhx.dataDriver = {
             });
             clear_request.addEventListener('error', function(event) {
                 console.timeEnd("clearAll operation " + c.table);
-                if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete all records! Error message: ' + event);
+                if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete all records! Error message: ' + event);
                 if (c.onFail) c.onFail(tx, event, event.target.error.message);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant delete all records! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete all records! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1370,7 +1370,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('complete', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('tx setCursor is completed');
+                if ($dhx._enable_log) console.info('tx setCursor is completed');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -1380,7 +1380,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('abort', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             recordIdRequest.onsuccess = function(event) {
@@ -1392,15 +1392,15 @@ $dhx.dataDriver = {
                     if (c.onSuccess) c.onSuccess(recordIdRequest, event, data);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.warn('sorry Eduardo, record ' + record_id + ' not found! ');
+                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + record_id + ' not found! ');
                     if (c.onFail) c.onFail(recordIdRequest, event, null);
                     return;
                 }
             };
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant setCursor ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant setCursor ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1426,7 +1426,7 @@ $dhx.dataDriver = {
                 c.onFail = c.onFail || false;
 
                 tx.addEventListener('complete', function(event) {
-                    if ($dhx._enable_log) console.warn('tx getCursor is completed');
+                    if ($dhx._enable_log) console.info('tx getCursor is completed');
                 });
 
                 tx.addEventListener('onerror', function(event) {
@@ -1464,8 +1464,8 @@ $dhx.dataDriver = {
 
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getCursor ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant getCursor ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1484,7 +1484,7 @@ $dhx.dataDriver = {
             if ($dhx.dataDriver.public[c.table]._internal_cursor_position == 0) {
                 console.timeEnd(timer_label);
                 if ($dhx._enable_log)
-                    console.warn('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
+                    console.info('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
                 if (c.onFail) c.onFail(currentRecordRequest, event, 'not found');
                 return;
             }
@@ -1498,7 +1498,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('complete', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('tx getCurrentRecord is completed');
+                if ($dhx._enable_log) console.info('tx getCurrentRecord is completed');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -1508,7 +1508,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('abort', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             currentRecordRequest.addEventListener('success', function(event) {
@@ -1520,21 +1520,21 @@ $dhx.dataDriver = {
                     if (c.onSuccess) c.onSuccess(data, currentRecordRequest, event);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.warn('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
+                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
                     if (c.onFail) c.onFail(currentRecordRequest, event, 'not found');
                     return;
                 }
             });
             currentRecordRequest.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + event.target.error.message);
+                if ($dhx._enable_log) console.info('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + event.target.error.message);
                 console.timeEnd(timer_label);
 
                 if (c.onFail) c.onFail(currentRecordRequest, event, event.target.error.message);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1561,7 +1561,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('complete', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('tx getRecord is completed');
+                if ($dhx._enable_log) console.info('tx getRecord is completed');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -1571,7 +1571,7 @@ $dhx.dataDriver = {
 
             tx.addEventListener('abort', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
 
             recordRequest.addEventListener('success', function(event) {
@@ -1583,21 +1583,21 @@ $dhx.dataDriver = {
                     if (c.onSuccess) c.onSuccess(data, recordRequest, event);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.warn('sorry Eduardo, record ' + c.record_id + ' not found! ');
+                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + c.record_id + ' not found! ');
                     if (c.onFail) c.onFail(recordRequest, event, 'not found');
                     return;
                 }
             });
             recordRequest.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getRecord data ! Error message: ' + event.target.error.message);
+                if ($dhx._enable_log) console.info('sorry Eduardo, I cant getRecord data ! Error message: ' + event.target.error.message);
                 console.timeEnd(timer_label);
 
                 if (c.onFail) c.onFail(recordRequest, event, event.target.error.message);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant getRecord data ! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant getRecord data ! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -1616,6 +1616,27 @@ $dhx.dataDriver = {
                 name: c.table,
                 status: 'success',
                 message: 'sync grid',
+                records: records
+            });
+
+            if (c.onSuccess) c.onSuccess(rows_affected);
+        }, function(tx, event, records, rows_affected) {
+            if (c.onFail) c.onFail(rows_affected);
+        });
+    }
+	
+	,_syncDataViewData: function(c, component) {
+        'use strict';
+        var that = $dhx.dataDriver;
+        //component.clearAll();
+        $dhx.dataDriver.public[c.table].load(function(records, rows_affected, tx, event) {
+
+            $dhx.MQ.publish(that.dbs[c.db].root_topic + "." + c.table, {
+                action: 'load',
+                target: 'table',
+                name: c.table,
+                status: 'success',
+                message: 'sync dataview',
                 records: records
             });
 
@@ -1779,7 +1800,7 @@ $dhx.dataDriver = {
                 if (data.target == 'table') {
                     if (data.name == c.table) { //data.name == c.table
                         if ($dhx._enable_log) {
-                            console.warn(
+                            console.info(
                                 hash.component_id + ' received message sent to it: ', data.target, data.name
                             );
                         }
@@ -1792,7 +1813,7 @@ $dhx.dataDriver = {
                                 console.log(new Option(obj.text, obj.value))
                                 component.options.add(new Option(obj.text, obj.value));
                             });
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'update' && data.message == 'record updated') {
 
                         } else if (data.action == 'delete' && data.message == 'record deleted') {
@@ -1801,7 +1822,7 @@ $dhx.dataDriver = {
                             //component.options
                         } else if (data.action == 'clear' && data.message == 'table is empty') {
                             component.clearAll();
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'load' && data.message == 'sync select') {
                             //console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
                             try {
@@ -1821,7 +1842,7 @@ $dhx.dataDriver = {
                             } catch (e) {
                                 console.log(e.stack);
                             }
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         }
                     }
                 }
@@ -1831,7 +1852,7 @@ $dhx.dataDriver = {
             );
             that._syncSelectData(c, component);
             //console.log('select MQ token ' + component._subscriber_token)
-            if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+            if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
 
         } catch (e) {
             console.log(e.stack)
@@ -1859,7 +1880,7 @@ $dhx.dataDriver = {
                 if (data.target == 'table') {
                     if (data.name == c.table) { //data.name == c.table
                         if ($dhx._enable_log) {
-                            console.warn(
+                            console.info(
                                 hash.component_id + ' received message sent to it: ', data.target, data.name
                             );
                         }
@@ -1876,7 +1897,7 @@ $dhx.dataDriver = {
                                 }
                                 component.put(obj.value, obj.text);
                             });
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'update' && data.message == 'record updated') {
 
                             var obj = {};
@@ -1912,7 +1933,7 @@ $dhx.dataDriver = {
                             //component.options
                         } else if (data.action == 'clear' && data.message == 'table is empty') {
                             component.clearAll();
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'load' && data.message == 'sync selectGrid') {
                             //console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
                             try {
@@ -1940,7 +1961,7 @@ $dhx.dataDriver = {
                             } catch (e) {
                                 console.log(e.stack);
                             }
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         }
                     }
                 }
@@ -1950,7 +1971,7 @@ $dhx.dataDriver = {
             );
             that._syncSelectGridData(c, component);
             //console.log('SelectGrid MQ token ' + component._subscriber_token)
-            if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+            if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
 
         } catch (e) {
             console.log(e.stack)
@@ -1975,7 +1996,7 @@ $dhx.dataDriver = {
                     if (data.name == c.table) //data.name == c.table
                     {
                         if ($dhx._enable_log) {
-                            console.warn(
+                            console.info(
                                 hash.component_id + ' received message sent to it: ', data.target, data.name
                             );
                         }
@@ -1989,19 +2010,19 @@ $dhx.dataDriver = {
                                 records.push([obj.value, obj.text]);
                             });
                             component.addOption(records);
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'update' && data.message == 'record updated') {
                             //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'delete' && data.message == 'record deleted') {
                             //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
                             //component.deleteRow(data.record_id);
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'clear' && data.message == 'table is empty') {
                             //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
                             component.clearAll();
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         } else if (data.action == 'load' && data.message == 'sync combo') {
                             //console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
                             try {
@@ -2024,7 +2045,7 @@ $dhx.dataDriver = {
                             } catch (e) {
                                 console.log(e.stack);
                             }
-                            if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                            if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                         }
                     }
                 }
@@ -2033,12 +2054,14 @@ $dhx.dataDriver = {
             // clear all data from combo and parses the table selected data
             that._syncComboData(c, component);
             //console.log('combo MQ token ' + component._subscriber_token)
-            if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+            if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
 
         } catch (e) {
             console.log(e.stack)
         }
-    },
+    }
+	
+	,
     _syncGrid: function(c, component, hash) {
         'use strict';
         //console.log( c );
@@ -2061,7 +2084,7 @@ $dhx.dataDriver = {
                     if (data.target == 'table') {
                         if (data.name == c.table) {
                             if ($dhx._enable_log) {
-                                console.warn(
+                                console.info(
                                     hash.component_id + ' received message about it synced table: ', data.target, data.name
                                 );
                             }
@@ -2074,7 +2097,7 @@ $dhx.dataDriver = {
                                     });
                                     component.addRow(recordset[primary_key], record);
                                     last_id = recordset[primary_key];
-                                    if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                                    if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                                 });
                                 component.selectRowById(last_id, false, true, true);
                             } else if (data.action == 'update' && data.message == 'record updated') {
@@ -2085,19 +2108,19 @@ $dhx.dataDriver = {
                                         component.cells(data.record_id, colIndex).setValue(data.record[column]);
                                     }
                                 }
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                             } else if (data.action == 'delete' && data.message == 'record deleted') {
                                 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
                                 component.deleteRow(data.record_id);
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                             } else if (data.action == 'select' && data.message == 'selected record') {
                                 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
                                 component.selectRowById(data.record_id, false, true, false);
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                             } else if (data.action == 'clear' && data.message == 'table is empty') {
                                 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
                                 component.clearAll();
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                             } else if (data.action == 'load' && data.message == 'sync grid') {
                                 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
                                 try {
@@ -2123,7 +2146,7 @@ $dhx.dataDriver = {
                                 } catch (e) {
                                     console.log(e.stack);
                                 }
-                                if ($dhx._enable_log) console.warn(hash.component_id + ' updated ');
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
                             }
                         }
                     }
@@ -2173,8 +2196,8 @@ $dhx.dataDriver = {
                         onSuccess: function() {
                             total_columns_synced = total_columns_synced + 1;
                             if (total_columns_synced == total_columns_to_sync) {
-                                if ($dhx._enable_log) console.warn(' all columns are synced in ' + hash.component_id);
-                                if ($dhx._enable_log) console.warn(' syncing the grid now ');
+                                if ($dhx._enable_log) console.info(' all columns are synced in ' + hash.component_id);
+                                if ($dhx._enable_log) console.info(' syncing the grid now ');
                                 // clear all data from grid and parses the table selected data
                                 that._syncGridData(c, component);
                             }
@@ -2206,12 +2229,102 @@ $dhx.dataDriver = {
             }
 
             //console.log('grid MQ token ' + component._subscriber_token)
-            if ($dhx._enable_log) console.warn(hash.component_id, ' is synced');
+            if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
 
         } catch (e) {
             console.log(e.stack)
         }
-    },
+    }
+	
+	
+	,
+    _syncDataView: function(c, component, hash) {
+        'use strict';
+        //console.log( c );
+        try {
+            var that = $dhx.dataDriver,
+                schema = that.getTableSchema(c),
+                total_columns_to_sync = Object.keys(schema.foreign_keys).length,
+                total_columns_synced = 0,
+                primary_key = schema.primary_key.keyPath,
+                columns = $dhx.dataDriver._getColumnsId(c).split(',');
+
+            if ($dhx._enable_log) console.log("this component is a dataview");
+
+            component._subscriber = function(topic, data) {
+                    var schema = that.getTableSchema(c),
+                        primary_key = schema.primary_key.keyPath,
+                        columns = $dhx.dataDriver._getColumnsId(c).split(',');
+
+                    //console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
+                    if (data.target == 'table') {
+                        if (data.name == c.table) {
+                            if ($dhx._enable_log) {
+                                console.info(
+                                    hash.component_id + ' received message about it synced table: ', data.target, data.name
+                                );
+                            }
+                            if (data.action == 'add' && data.message == 'record added') {
+                                var last_id = 0;
+                                data.records.forEach(function(recordset, index, array) {
+                                    component.add(recordset.record);
+                                    last_id = recordset[primary_key];
+                                    if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+                                });
+								component.select(last_id);
+                            } else if (data.action == 'update' && data.message == 'record updated') {
+								component.set(data.record_id,data.record);
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+                            } else if (data.action == 'delete' && data.message == 'record deleted') {
+                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+                                component.remove(data.record_id);
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+                            } else if (data.action == 'select' && data.message == 'selected record') {
+                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+                                component.select(data.record_id);
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+                            } else if (data.action == 'clear' && data.message == 'table is empty') {
+                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+                                component.clearAll();
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+                            } else if (data.action == 'load' && data.message == 'sync dataview') {
+                                //console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+                                try {
+                                    //component.clearAll();
+                                    var records = data.records;
+									var frecords = []
+									records.forEach(function(recordset, index, array) {
+                                        frecords.push(recordset.record)
+										//component.add(recordset.record);
+                                    });
+                                    
+									//console.log(frecords);
+									
+                                    component.parse(frecords, "json"); //takes the name and format of the data source
+                                } catch (e) {
+                                    console.log(e.stack);
+                                }
+                                if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+                            }
+                        }
+                    }
+                }
+                
+
+            
+            component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
+
+            that._syncDataViewData(c, component);
+
+            //console.log('grid MQ token ' + component._subscriber_token)
+            if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
+
+        } catch (e) {
+            console.log(e.stack)
+        }
+    }
+	
+	,
     sync: function(c) {
         'use strict';
         //console.log( c );
@@ -2245,12 +2358,12 @@ $dhx.dataDriver = {
             c.onFail = c.onFail || false;
 
             // START - Add component to ARRAY of synced components of this table
-            if ($dhx._enable_log) console.warn("called sync for: " + c.component_id + " on " + c.table);
+            if ($dhx._enable_log) console.info("called sync for: " + c.component_id + " on " + c.table);
             var a_components = $dhx.dataDriver.public[c.table]._synced_components;
             for (var x = 0; x < a_components.length; x++) {
                 var hash = a_components[x];
                 if (hash.component_id == c.component_id) {
-                    if ($dhx._enable_log) console.warn(hash.component_id + " object already exist on memory, please remove it first");
+                    if ($dhx._enable_log) console.info(hash.component_id + " object already exist on memory, please remove it first");
                     //$dhx.dataDriver.public[c.table]._synced_components.splice(index, 1);
                     if (c.onFail) c.onFail(hash.component_id + " object already exist on memory, please remove it first");
                     return;
@@ -2285,6 +2398,10 @@ $dhx.dataDriver = {
                         that._syncGrid(c, component, hash);
 
                     } // end if grid
+					else if (hash.type == 'dataview') {
+                        that._syncDataView(c, component, hash);
+
+                    } // end if grid
                     else if (hash.type == 'form') {
                         //if( $dhx._enable_log ) console.log( "form can not be synced" );
                         if (c.onFail) c.onFail("form can not be synced");
@@ -2295,7 +2412,7 @@ $dhx.dataDriver = {
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant sync ' + c.component_id + ' data ! Error message: ' + e.message, e.stack);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant sync ' + c.component_id + ' data ! Error message: ' + e.message, e.stack);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2337,12 +2454,12 @@ $dhx.dataDriver = {
             c.onFail = c.onFail || false;
 
             // START - Add component to ARRAY of bound components of this table
-            if ($dhx._enable_log) console.warn("called bind for: " + c.component_id + " on " + c.table);
+            if ($dhx._enable_log) console.info("called bind for: " + c.component_id + " on " + c.table);
             var a_components = $dhx.dataDriver.public[c.table]._bound_components;
             for (var x = 0; x < a_components.length; x++) {
                 var hash = a_components[x];
                 if (hash.component_id == c.component_id) {
-                    if ($dhx._enable_log) console.warn(hash.component_id + " object already exist on memory, please remove it first");
+                    if ($dhx._enable_log) console.info(hash.component_id + " object already exist on memory, please remove it first");
                     //$dhx.dataDriver.public[c.table]._bound_components.splice(index, 1);
                     if (c.onFail) c.onFail(hash.component_id + " object already exist on memory, please remove it first");
                     return;
@@ -2397,6 +2514,8 @@ $dhx.dataDriver = {
                                                             schema: schema
                                                         });
                                                     }
+													
+													
 
                                                     //dhxCombo.DOMParent
 
@@ -2443,6 +2562,19 @@ $dhx.dataDriver = {
                                             }
                                         }
                                     }
+									else if( field.type == 'input' )
+									{
+										component.getInput(field.name).addEventListener('keyup', function(event) {
+											if( $dhx.ui.$Session.capitalize )
+											{
+												this.value = this.value.toUpperCase();
+											}
+											if( $dhx.ui.$Session.latinize )
+											{
+												this.value = this.value.latinize();
+											}
+										});
+									}
                                 });
                             }
                         }
@@ -2502,7 +2634,7 @@ $dhx.dataDriver = {
                                 if (data.name == c.table) {
                                     if ($dhx._enable_log)
                                         console
-                                        .warn(
+                                        .info(
                                             hash.component_id + ' received message about it bound table: ', data.target, data.name
                                         );
                                     if (data.action == 'add' && data.message == 'record added') {
@@ -2518,14 +2650,14 @@ $dhx.dataDriver = {
                         component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
                         //history.pushState(hash.component_id, hash.component_id, component.isEditing === true ? '#update_record' : '#add_new_record');
                         if (c.onSuccess) c.onSuccess("bound");
-                        if ($dhx._enable_log) console.warn(hash.component_id, ' is bound');
+                        if ($dhx._enable_log) console.info(hash.component_id, ' is bound');
                     } else {
                         if (c.onFail) c.onFail("unknow component when binding");
                     }
                 }
             });
         } catch (e) {
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant bind ' + c.component_id + ' data ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant bind ' + c.component_id + ' data ! Error message: ' + e.message);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2565,7 +2697,7 @@ $dhx.dataDriver = {
             // END validate request configuration
 
             // START - Add component to ARRAY of bound components of this table
-            if ($dhx._enable_log) console.warn("called unbind for: " + c.component_id + " on " + c.table);
+            if ($dhx._enable_log) console.info("called unbind for: " + c.component_id + " on " + c.table);
             var a_components = $dhx.dataDriver.public[c.table]._bound_components;
             for (var x = 0; x < a_components.length; x++) {
                 var hash = a_components[x];
@@ -2604,7 +2736,7 @@ $dhx.dataDriver = {
                         }
                     });
 
-                    if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unbound");
+                    if ($dhx._enable_log) console.info(hash.component_id + " object exist on memory. now it was unbound");
                     $dhx.dataDriver.public[c.table]._bound_components.splice(x, 1);
                     $dhx.MQ.unsubscribe(component._subscriber_token);
 
@@ -2612,10 +2744,10 @@ $dhx.dataDriver = {
                     return;
                 }
             }
-            if ($dhx._enable_log) console.warn("component not found. it was not unbound");
+            if ($dhx._enable_log) console.info("component not found. it was not unbound");
             if (c.onFail) c.onFail("component not found. it was not unbound");
         } catch (e) {
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant unbind ' + c.component_id + '! Error message: ' + e.message);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant unbind ' + c.component_id + '! Error message: ' + e.message);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2658,7 +2790,7 @@ $dhx.dataDriver = {
             //console.log( c );
 
             // START - Add component to ARRAY of synced components of this table
-            if ($dhx._enable_log) console.warn("called unsync for: " + c.component_id + " on " + c.table);
+            if ($dhx._enable_log) console.info("called unsync for: " + c.component_id + " on " + c.table);
             var a_components = $dhx.dataDriver.public[c.table]._synced_components;
             for (var x = 0; x < a_components.length; x++) {
                 var hash = a_components[x];
@@ -2682,7 +2814,7 @@ $dhx.dataDriver = {
                                 onFail: function() {}
                             });
                         }
-                        if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unsynced");
+                        if ($dhx._enable_log) console.info(hash.component_id + " object exist on memory. now it was unsynced");
                         $dhx.dataDriver.public[c.table]._synced_components.splice(x, 1);
 
                         console.log(component._subscriber_token);
@@ -2691,7 +2823,7 @@ $dhx.dataDriver = {
                         if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unsynced");
                         return;
                     } else {
-                        if ($dhx._enable_log) console.warn(hash.component_id + " object exist on memory. now it was unsynced");
+                        if ($dhx._enable_log) console.info(hash.component_id + " object exist on memory. now it was unsynced");
                         $dhx.dataDriver.public[c.table]._synced_components.splice(x, 1);
                         $dhx.MQ.unsubscribe(component._subscriber_token);
                         if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unsynced");
@@ -2701,10 +2833,10 @@ $dhx.dataDriver = {
 
                 }
             }
-            if ($dhx._enable_log) console.warn("component not found. it was not unsynced");
+            if ($dhx._enable_log) console.info("component not found. it was not unsynced");
             if (c.onFail) c.onFail("component not found. it was not unsynced");
         } catch (e) {
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant unsync ' + c.component_id + '! Error message: ' + e.message);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant unsync ' + c.component_id + '! Error message: ' + e.message);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2742,7 +2874,7 @@ $dhx.dataDriver = {
 
         onSuccess = onSuccess || false;
         onFail = onFail || false;
-        if ($dhx._enable_log) console.warn('trying to save new record: ', clone);
+        if ($dhx._enable_log) console.info('trying to save new record: ', clone);
         component.lock();
 
         $dhx.dataDriver.public[c.table].add(clone, function(tx, event, rows_affected) {
@@ -2756,14 +2888,14 @@ $dhx.dataDriver = {
 
             component.setFormData(hash);
 
-            if ($dhx._enable_log) console.warn('record saved. rows_affected: ', rows_affected);
+            if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
             (onSuccess) ? onSuccess(): "";
         }, function(tx, event, rows_affected) {
 
 
             that._saveRecordCheckError(component, event, c);
             component.unlock();
-            if ($dhx._enable_log) console.warn('record not saved. rows_affected: ', rows_affected);
+            if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
             (onFail) ? onFail(): "";
         });
     }
@@ -2802,20 +2934,20 @@ $dhx.dataDriver = {
         onFail = onFail || false;
 
         delete clone[primary_key];
-        if ($dhx._enable_log) console.warn('trying to save existing record: ', clone);
+        if ($dhx._enable_log) console.info('trying to save existing record: ', clone);
         component.lock();
 
 
         $dhx.dataDriver.public[c.table].update(record_id, clone, null, function(tx, event, rows_affected) {
             component.unlock();
-            if ($dhx._enable_log) console.warn('record saved. rows_affected: ', rows_affected);
+            if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
             (onSuccess) ? onSuccess(): "";
         }, function(tx, event, rows_affected) {
 
             that._saveRecordCheckError(component, event, c);
 
             component.unlock();
-            if ($dhx._enable_log) console.warn('record not saved. rows_affected: ', rows_affected);
+            if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
             (onFail) ? onFail(): "";
         });
     }
@@ -2901,11 +3033,11 @@ $dhx.dataDriver = {
         c.onFail = c.onFail || false;
 
         tx.addEventListener('complete', function(event) {
-            if ($dhx._enable_log) console.warn('executed');
+            if ($dhx._enable_log) console.info('executed');
             if ($dhx._enable_log) console.log('transaction complete', event);
             console.timeEnd(timer_label);
 
-            if ($dhx._enable_log) console.warn('tx first record is completed');
+            if ($dhx._enable_log) console.info('tx first record is completed');
         });
         tx.addEventListener('onerror', function(event) {
             console.timeEnd(timer_label);
@@ -2914,7 +3046,7 @@ $dhx.dataDriver = {
         });
         tx.addEventListener('abort', function(event) {
             console.timeEnd(timer_label);
-            if ($dhx._enable_log) console.warn('transaction aborted');
+            if ($dhx._enable_log) console.info('transaction aborted');
         });
         var search = table.openCursor(); // 
         search.onsuccess = function(event) {
@@ -2980,11 +3112,11 @@ $dhx.dataDriver = {
             }
 
             tx.addEventListener('complete', function(event) {
-                if ($dhx._enable_log) console.warn('executed');
+                if ($dhx._enable_log) console.info('executed');
                 if ($dhx._enable_log) console.log('transaction complete', event);
                 console.timeEnd(timer_label);
 
-                if ($dhx._enable_log) console.warn('tx next record is completed');
+                if ($dhx._enable_log) console.info('tx next record is completed');
             });
             tx.addEventListener('onerror', function(event) {
                 console.timeEnd(timer_label);
@@ -2993,7 +3125,7 @@ $dhx.dataDriver = {
             });
             tx.addEventListener('abort', function(event) {
                 console.timeEnd(timer_label);
-                if ($dhx._enable_log) console.warn('transaction aborted');
+                if ($dhx._enable_log) console.info('transaction aborted');
             });
             var search = table.openCursor(); // 
             search.onsuccess = function(event) {
@@ -3060,11 +3192,11 @@ $dhx.dataDriver = {
         }
 
         tx.addEventListener('complete', function(event) {
-            if ($dhx._enable_log) console.warn('executed');
+            if ($dhx._enable_log) console.info('executed');
             if ($dhx._enable_log) console.log('transaction complete', event);
             console.timeEnd(timer_label);
 
-            if ($dhx._enable_log) console.warn('tx previous record is completed');
+            if ($dhx._enable_log) console.info('tx previous record is completed');
         });
         tx.addEventListener('onerror', function(event) {
             console.timeEnd(timer_label);
@@ -3073,7 +3205,7 @@ $dhx.dataDriver = {
         });
         tx.addEventListener('abort', function(event) {
             console.timeEnd(timer_label);
-            if ($dhx._enable_log) console.warn('transaction aborted');
+            if ($dhx._enable_log) console.info('transaction aborted');
         });
         var search = table.openCursor(null, 'prev'); // 
         search.onsuccess = function(event) {
@@ -3129,11 +3261,11 @@ $dhx.dataDriver = {
         c.onFail = c.onFail || false;
 
         tx.addEventListener('complete', function(event) {
-            if ($dhx._enable_log) console.warn('executed');
+            if ($dhx._enable_log) console.info('executed');
             if ($dhx._enable_log) console.log('transaction complete', event);
             console.timeEnd(timer_label);
 
-            if ($dhx._enable_log) console.warn('tx last record is completed');
+            if ($dhx._enable_log) console.info('tx last record is completed');
         });
         tx.addEventListener('onerror', function(event) {
             console.timeEnd(timer_label);
@@ -3143,7 +3275,7 @@ $dhx.dataDriver = {
         tx.addEventListener('abort', function(event) {
             console.timeEnd(timer_label);
             if (c.onFail) c.onFail(tx, event, event.target.error.message);
-            if ($dhx._enable_log) console.warn('transaction aborted');
+            if ($dhx._enable_log) console.info('transaction aborted');
         });
         var search = table.openCursor(); // 
         search.onsuccess = function(event) {
@@ -3196,10 +3328,10 @@ $dhx.dataDriver = {
                 message: 'connected'
             });
 
-            if ($dhx._enable_log) console.warn('connected');
+            if ($dhx._enable_log) console.info('connected');
             return connection;
         } catch (e) {
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant connect! Error message: ' + e.message);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant connect! Error message: ' + e.message);
             if (c.onConnectError) c.onConnectError({
                 connection: null,
                 event: null,
@@ -3242,11 +3374,11 @@ $dhx.dataDriver = {
             table = tx.objectStore(c.table);
 
         tx.addEventListener('complete', function(event) {
-            if ($dhx._enable_log) console.warn('executed');
+            if ($dhx._enable_log) console.info('executed');
             if ($dhx._enable_log) console.log('transaction complete', event);
             console.timeEnd(timer_label);
             if (c.onReady) c.onReady(records, tx, event);
-            if ($dhx._enable_log) console.warn('tx search is completed');
+            if ($dhx._enable_log) console.info('tx search is completed');
             records = null;
         });
         tx.addEventListener('onerror', function(event) {
@@ -3257,7 +3389,7 @@ $dhx.dataDriver = {
         });
         tx.addEventListener('abort', function(event) {
             console.timeEnd(timer_label);
-            if ($dhx._enable_log) console.warn('transaction aborted');
+            if ($dhx._enable_log) console.info('transaction aborted');
             records = null;
         });
 
@@ -3287,8 +3419,8 @@ $dhx.dataDriver = {
                     if (columns[column] != '' && columns[column] != null) {
                         if (typeof cursor.value[column] !== 'undefined') {
 
-                            console.log(cursor.value);
-                            console.log(cursor.value[column]);
+                            //console.log(cursor.value);
+                            //console.log(cursor.value[column]);
 
                             if ($dhx.isNumber(cursor.value[column]) && $dhx.isNumber(columns[column])) {
                                 var search_value = new Number(columns[column]);
@@ -3353,11 +3485,11 @@ $dhx.dataDriver = {
             table = tx.objectStore(c.table);
 
         tx.addEventListener('complete', function(event) {
-            if ($dhx._enable_log) console.warn('executed');
+            if ($dhx._enable_log) console.info('executed');
             if ($dhx._enable_log) console.log('transaction complete', event);
             console.timeEnd(timer_label);
             if (c.onSuccess) c.onSuccess(records, tx, event);
-            if ($dhx._enable_log) console.warn('tx serialize is completed');
+            if ($dhx._enable_log) console.info('tx serialize is completed');
         });
         tx.addEventListener('onerror', function(event) {
             console.timeEnd(timer_label);
@@ -3366,7 +3498,7 @@ $dhx.dataDriver = {
         });
         tx.addEventListener('abort', function(event) {
             console.timeEnd(timer_label);
-            if ($dhx._enable_log) console.warn('transaction aborted');
+            if ($dhx._enable_log) console.info('transaction aborted');
         });
         var search = table.openCursor(); // 
         search.onsuccess = function(event) {
@@ -3417,7 +3549,7 @@ $dhx.dataDriver = {
             self = this,
             topic = 'database.' + c.db;
         $dhx.hideDirections();
-        if ($dhx._enable_log) console.warn('Database ' + db_name + ' is ready '); // , connection.result
+        if ($dhx._enable_log) console.info('Database ' + db_name + ' is ready '); // , connection.result
         $dhx.MQ.publish(topic, {
             action: 'ready',
             target: 'database',
@@ -3452,18 +3584,18 @@ $dhx.dataDriver = {
         connection.onupgradeneeded = function(event) {
             upgraded = true;
             if ($dhx._enable_log) console.log(event);
-            if ($dhx._enable_log) console.warn('db ' + db_name + ' created ');
+            if ($dhx._enable_log) console.info('db ' + db_name + ' created ');
             database = connection.result;
             database.onerror = function(event) {
                 // Generic error handler for all errors targeted at this database's
                 //alert("Database error: " + event.target.errorCode);
-                if ($dhx._enable_log) console.warn('   >>>>  DATABASE CONNECTION ERROR   <<<<  ', event);
+                if ($dhx._enable_log) console.info('   >>>>  DATABASE CONNECTION ERROR   <<<<  ', event);
             };
             database.onversionchange = function(event) {
-                if ($dhx._enable_log) console.warn('   >>>>  DATABASE VERSION CHANGED   <<<<  ');
+                if ($dhx._enable_log) console.info('   >>>>  DATABASE VERSION CHANGED   <<<<  ');
             };
             database.onabort = function(event) {
-                if ($dhx._enable_log) console.warn('   >>>>  DATABASE CONNECTION ABORTED   <<<<  ');
+                if ($dhx._enable_log) console.info('   >>>>  DATABASE CONNECTION ABORTED   <<<<  ');
                 //if ($dhx._enable_log) console.log( event );
             }
             that.dbs[db_name] = {
@@ -3495,7 +3627,7 @@ $dhx.dataDriver = {
                 }
         };
         connection.onerror = function(event) {
-            if ($dhx._enable_log) console.warn('error when tryin to connect the ' + db_name + ' database', connection.errorCode);
+            if ($dhx._enable_log) console.info('error when tryin to connect the ' + db_name + ' database', connection.errorCode);
             if (c.onFail) c.onFail({
                 connection: connection,
                 event: event,
@@ -3503,7 +3635,7 @@ $dhx.dataDriver = {
             });
         };
         connection.onblocked = function(event) {
-            if ($dhx._enable_log) console.warn('blocked');
+            if ($dhx._enable_log) console.info('blocked');
             if (c.onFail) c.onFail({
                 connection: connection,
                 event: event,
@@ -3526,7 +3658,7 @@ $dhx.dataDriver = {
                 connection: connection,
                 event: event,
                 subscriber: function(msg, data) {
-                    if ($dhx._enable_log) console.warn('DB received message: ', msg, data);
+                    if ($dhx._enable_log) console.info('DB received message: ', msg, data);
 
                     if (data.action == 'ready' && data.name == db_name && data.status == 'success') {
                         if (data.onReady) data.onReady(data.onReadyO);
@@ -3666,7 +3798,7 @@ $dhx.dataDriver = {
                             //console.log( data );
                             if (data.target == 'table') {
                                 if (data.name == table) {
-                                    if ($dhx._enable_log) console.warn('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data);
+                                    if ($dhx._enable_log) console.info('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data);
                                     //console.log( data );
                                     if (data.action == 'select' && data.message == 'selected record') {
                                         //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
@@ -4105,6 +4237,18 @@ $dhx.dataDriver = {
                                         onFail: c.onFail
                                     });
                                 }
+								,dataview: function(c) {
+                                    //console.log( c );
+                                    that.unsync({
+                                        db: db_name,
+                                        table: table,
+                                        component: c.component,
+                                        type: 'dataview',
+                                        component_id: c.component_id,
+                                        onSuccess: c.onSuccess,
+                                        onFail: c.onFail
+                                    });
+                                }
                             }
                         })(db_name, table)
 
@@ -4202,7 +4346,7 @@ $dhx.dataDriver = {
 
                     if (typeof message.onInit !== 'undefined') {
                         if (message.onInit) {
-                            if ($dhx._enable_log) console.warn('records added on init', 'I will not send cross window message');
+                            if ($dhx._enable_log) console.info('records added on init', 'I will not send cross window message');
                             return;
                         }
 
@@ -4242,23 +4386,23 @@ $dhx.dataDriver = {
 
             var currently_database_onclient = $dhx.jDBdStorage.get('$dhx.db.' + db_name);
             if (typeof currently_database_onclient === 'undefined') {
-                if ($dhx._enable_log) console.warn('there is no version for database ' + db_name + ' at indexedDB.');
-                if ($dhx._enable_log) console.warn('Lets create it ....');
+                if ($dhx._enable_log) console.info('there is no version for database ' + db_name + ' at indexedDB.');
+                if ($dhx._enable_log) console.info('Lets create it ....');
                 that._createDatabase(c, self);
             } else {
                 currently_database_onclient = JSON.parse(currently_database_onclient);
                 if (typeof currently_database_onclient.version === 'undefined') {
-                    if ($dhx._enable_log) console.warn('there is no version for database ' + db_name + ' at indexedDB.');
-                    if ($dhx._enable_log) console.warn('Lets create it ....');
+                    if ($dhx._enable_log) console.info('there is no version for database ' + db_name + ' at indexedDB.');
+                    if ($dhx._enable_log) console.info('Lets create it ....');
                     that._createDatabase(c, self);
                 } else {
-                    if ($dhx._enable_log) console.warn('there is as saved version for database ' + db_name + ' at indexedDB.');
+                    if ($dhx._enable_log) console.info('there is as saved version for database ' + db_name + ' at indexedDB.');
                     if ($dhx._enable_log) console.log(currently_database_onclient.hash, $dhx.crypt.SHA2(JSON.stringify(schema)));
                     if (currently_database_onclient.hash == $dhx.crypt.SHA2(JSON.stringify(schema))) {
-                        if ($dhx._enable_log) console.warn('old and new databases are equal. Lets open it!');
+                        if ($dhx._enable_log) console.info('old and new databases are equal. Lets open it!');
                         that._createDatabase(c, self);
                     } else {
-                        if ($dhx._enable_log) console.warn('currently database is out to date. lets update it.');
+                        if ($dhx._enable_log) console.info('currently database is out to date. lets update it.');
                         that.dropDatabase({
                             db: db_name,
                             onSuccess: function() {
@@ -4310,7 +4454,7 @@ $dhx.dataDriver = {
                 return column;
             }
         }
-        if ($dhx._enable_log) console.warn(
+        if ($dhx._enable_log) console.info(
             'sorry Eduardo, I cant _getColumnsByOrdinalPosition! Error message: ordinal position not found'
         );
         return {};
@@ -4759,8 +4903,8 @@ $dhx.dataDriver = {
             if (that.db(db_name))
                 that.db(db_name).close();
         } catch (e) {
-            if ($dhx._enable_log) console.warn('sorry Eduardo, I cant disconnect! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.warn(e);
+            if ($dhx._enable_log) console.info('sorry Eduardo, I cant disconnect! Error message: ' + e.message);
+            //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
 

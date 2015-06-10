@@ -63,7 +63,7 @@ $dhx.ui.data.model = {
 
 
         try {
-            if ($dhx._enable_log) console.warn('starting $dhx.ui.data.model');
+            if ($dhx._enable_log) console.info('starting $dhx.ui.data.model');
             self.db[db_name] = new $dhx.dataDriver.database({
                 db: db_name,
                 version: version,

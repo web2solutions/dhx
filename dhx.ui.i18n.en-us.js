@@ -77,5 +77,23 @@ $dhx.ui.i18n['en-us'] = {
     open: 'open',
     close: 'close',
     right_click_to_select_a_language: 'right click to select a language',
-    closeall: 'close all'
+    closeall: 'close all',
+	ControlPanel : 'Control Panel'
+	,minimizeall : 'minimize all'
+	,Click_on_a_wallpaper_to_preview : 'Click on a wallpaper to preview'
+	,Walpapersettings : 'Walpaper settings'
+	,Systeminformations : 'System informations'
+	,Globalformssettings : 'Global forms settings'
+	,setaswallpaper : 'set as wallpaper'
+	,click_to_open_control_panel : 'click to open Control Panel'
+	,capitalize_note : "Enabling this feature, all the times you type a text on a form, that text will be automatically capitalized. <br><br>Example: if you type <strong>Name</strong>, it will be translated to <strong>NAME</strong>.<br><br>Please make sure before turning it on."
+	,latinize_note : "Enabling this feature, all the times you type a text on a form, that text will have all it accents coverted to lating characters. <br><br>Example: if you type <strong>Años</strong>, it will be translated to <strong>Anos</strong>.<br><br>Please make sure before turning it on."
+	,"Capitalize form inputs" : "Capitalize form inputs"
+	,"Latinize form inputs" : "Latinize form inputs"
+	,"capitalize text while typing" : "capitalize text when typing"
+	,"latinize text while typing" : "latinize text when typing"
+	,"Forms global settings" : "Forms global settings"
+	,"quota usage" : "quota usage"
+	,"Size in GB" : "Size in GB"
+	,'Live quota information' : 'Live quota information'
 };

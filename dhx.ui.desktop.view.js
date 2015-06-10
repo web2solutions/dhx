@@ -1,71 +1,239 @@
-/*! dhx 2015-06-07 */
 $dhx.ui.desktop.view = {
-    version: "1.0.3",
-    appName: "$dhx Web Desktop - view module",
-    appId: "$dhx.ui.desktop.vew",
-    window: [],
-    window_context_menu: [],
-    openedCruds: [],
-    initialY: 30,
-    initialX: 60,
-    currentlyY: 30,
-    currentlyX: 60,
-    positionIncrease: !0,
-    _window: function(a) {
-        var b = $dhx.ui.desktop.view,
-            c = a.appId,
-            d = {
-                id: c,
-                left: b.currentlyX,
-                top: b.currentlyY,
-                width: $dhx.ui.desktop.settings.cruder.window.width,
-                height: $dhx.ui.desktop.settings.cruder.window.height
-            };
-        return b.positionIncrease && (b.currentlyX = b.currentlyX + 60, b.currentlyY = b.currentlyY + 30), b.positionIncrease || (b.currentlyX = b.currentlyX - 60, b.currentlyY = b.currentlyY - 30), b.currentlyX <= b.initialX && (b.positionIncrease = !0), b.currentlyY >= window.innerHeight - 300 && (b.positionIncrease = !1), b.window[c] = new $dhx.ui.window(d), b.window[c].attachEvent("onClose", function(d) {
-            return $dhx.ui.crud.controller[c].destroy(), delete b.openedCruds[a.collection], b.enableAllOpenShortcuts(c), b.disableAllCloseShortcuts(c), !0
-        }), b.window[c].setText(a.collection + " management"), b._window_context_menu(a), b.disableAllOpenShortcuts(c), b.enableAllCloseShortcuts(c), b.window[c]
-    },
-    _window_context_menu: function(a) {
-        var b = $dhx.ui.desktop.view,
-            c = a.appId;
-        b.window_context_menu[c] = b.window[c].attachContextMenu($dhx.ui.desktop.settings.menu_contextual_windows), b.window_context_menu[c].attachEvent("onClick", function(c) {
-            if ("close" == c) b.openedCruds[a.collection].close();
-            else if ("close_all" == c)
-                for (var d in that.openedCruds) b.openedCruds.hasOwnProperty(d) && (console.log(d), b.openedCruds[d].close())
-        })
-    },
-    disableAllOpenShortcuts: function(a) {
-        var b = $dhx.ui.desktop.view;
-        b.SideBar.programs_contextual_menu[a].setItemDisabled("open")
-    },
-    enableAllOpenShortcuts: function(a) {
-        var b = $dhx.ui.desktop.view;
-        b.SideBar.programs_contextual_menu[a].setItemEnabled("open")
-    },
-    disableAllCloseShortcuts: function(a) {
-        var b = $dhx.ui.desktop.view;
-        b.SideBar.programs_contextual_menu[a].setItemDisabled("close")
-    },
-    enableAllCloseShortcuts: function(a) {
-        var b = $dhx.ui.desktop.view;
-        b.SideBar.programs_contextual_menu[a].setItemEnabled("close")
-    },
-    openCruder: function(a) {
-        var b = $dhx.ui.desktop.view,
-            c = a.appId;
-        return "undefined" != typeof b.openedCruds[a.collection] ? ($dhx.ui.desktop.view.window[c].show(), void $dhx.ui.desktop.view.window[c].bringToTop()) : void(b.openedCruds[a.collection] = new $dhx.ui.crud.simple({
-            wrapper: $dhx.ui.desktop.view._window(a),
-            database: a.database,
-            collection: a.collection,
-            base_path: $dhx.ui.cdn_address
-        }))
-    },
-    render: function() {
-        var a = ($dhx.ui.desktop, $dhx.ui.desktop.view);
-        try {
-            $dhx.showDirections("starting view ... "), $dhx.ui._window_manager(), $dhx.ui.desktop.settings.base_path = $dhx.ui.cdn_address, $dhx.ui.desktop.settings.application_path = $dhx.ui.desktop.settings.base_path + "dhx/ui/", $dhx.ui.desktop.settings.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/", $dhx.ui.desktop.settings.menu_contextual.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/", $dhx.ui.desktop.settings.menu_contextual_idiom.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/", a.ActiveDesktop.render(), a.TopBar.render(), a.SideBar.render(), $dhx.hideDirections()
-        } catch (b) {
-            console.log(b.stack)
-        }
-    }
+	version: '1.0.3'
+	, appName: '$dhx Web Desktop - view module'
+	, appId: '$dhx.ui.desktop.vew'
+	
+	,window : []
+	,window_context_menu : []
+	, openedPrograms: []
+	,initialY : 30 
+	,initialX : 60
+	,currentlyY : 30 
+	,currentlyX : 60
+	,positionIncrease : true
+	
+	,_window : function( c ){
+		var self = $dhx.ui.desktop.view, appId = c.appId;
+		
+		var settings = {
+            id: appId,
+            left: self.currentlyX,
+            top: self.currentlyY,
+            width: $dhx.ui.desktop.settings.cruder.window.width,
+            height: $dhx.ui.desktop.settings.cruder.window.height,
+        };
+		
+		if( self.positionIncrease )
+		{
+			self.currentlyX = self.currentlyX + 60;
+			self.currentlyY = self.currentlyY + 30;
+		}
+		
+		if( !self.positionIncrease )
+		{
+			self.currentlyX = self.currentlyX - 60;
+			self.currentlyY = self.currentlyY - 30;
+		}
+		
+		if(  self.currentlyX <= self.initialX )
+		{
+			self.positionIncrease = true;
+		}
+		
+		if(  self.currentlyY >= ( window.innerHeight -300) )
+		{
+			self.positionIncrease = false;
+		}
+		
+		self.window[appId] = new $dhx.ui.window(settings);
+		self.window[ appId ].attachEvent("onClose", function(win)
+		{
+			if(c.onClose)
+			{
+				c.onClose();
+			}
+			delete self.window[appId];
+			//console.log( self.openedPrograms[ c.collection ] );
+			return true;
+		});
+		self.window[ appId ].setText(c.summary);
+		//console.log( 'end  window' );
+		//self.status_bar = self.window[ appId ].attachStatusBar();
+		//self.status_bar.setText('search is case and special chars insentive');
+		self._window_context_menu( c );
+				
+		return self.window[ appId ];
+	}
+	
+	
+	,_window_context_menu : function( c ){
+		var self = $dhx.ui.desktop.view, appId = c.appId;
+		self.window_context_menu[ appId ] = self.window[ appId ].attachContextMenu($dhx.ui.desktop.settings.menu_contextual_windows);
+		self.window_context_menu[ appId ].attachEvent("onClick", function (id)
+		{
+			if (id == 'close')
+			{
+				self.openedPrograms[c.collection].close()
+			}
+			else if (id == 'close_all')
+			{
+				for(var w in that.openedPrograms)
+				{
+					if(self.openedPrograms.hasOwnProperty( w))
+					{
+						console.log(w);
+						self.openedPrograms[w].close();
+					}
+				}
+			}
+		});
+
+	}
+	
+	,disableAllOpenShortcuts : function( appId ){
+		try
+		{
+			var self = $dhx.ui.desktop.view;
+			self.SideBar.programs_contextual_menu[ appId ].setItemDisabled('open');
+		}catch(e)
+		{
+			//console.log(e.stack);
+		}
+	}
+	
+	,enableAllOpenShortcuts : function( appId ){
+		try
+		{
+			var self = $dhx.ui.desktop.view;
+			self.SideBar.programs_contextual_menu[ appId ].setItemEnabled('open')
+		}catch(e)
+		{
+			//console.log(e.stack);
+		}
+	}
+	
+	,disableAllCloseShortcuts : function( appId ){
+		try
+		{
+			var self = $dhx.ui.desktop.view;
+			self.SideBar.programs_contextual_menu[ appId ].setItemDisabled('close');
+		}catch(e)
+		{
+			//console.log(e.stack);
+		}
+	}
+	
+	,enableAllCloseShortcuts : function( appId ){
+		try
+		{
+			var self = $dhx.ui.desktop.view;
+			self.SideBar.programs_contextual_menu[ appId ].setItemEnabled('close');
+		}catch(e)
+		{
+			console.log(appId, e.stack);
+		}
+	}
+	
+	,openCruder : function(c){
+		var self = $dhx.ui.desktop.view, appId = c.appId;
+		//alert(self.openedPrograms[c.collection])
+		if( typeof self.openedPrograms[c.collection] === 'undefined' )
+		{
+			c.onClose = function(){
+				$dhx.ui.crud.controller[appId].destroy();
+				//console.log( self.openedPrograms[ c.collection ] );
+				delete self.openedPrograms[ c.collection ];
+				
+				self.enableAllOpenShortcuts( appId );
+				self.disableAllCloseShortcuts( appId );
+			}
+			
+			self.openedPrograms[c.collection] = new $dhx.ui.crud.simple({
+				wrapper : $dhx.ui.desktop.view._window( c )
+				,database: c.database
+				, collection: c.collection
+				, base_path: $dhx.ui.cdn_address
+			});
+			
+			self.disableAllOpenShortcuts( appId );
+			self.enableAllCloseShortcuts( appId );
+		}
+		else
+		{
+			$dhx.ui.desktop.view.window[appId].show();
+			$dhx.ui.desktop.view.window[appId].bringToTop();
+			return;
+		}
+	}
+	
+	
+	,openInternalProgram : function(c){
+		var self = $dhx.ui.desktop.view, appId = c.appId;
+		//alert(self.openedPrograms[c.collection])
+		if( typeof self.openedPrograms[c.collection] === 'undefined' )
+		{
+			//alert(c.module.window)
+			self.openedPrograms[c.collection] = c.module;
+			c.onClose = function(){
+				delete self.openedPrograms[ c.collection ];
+				self.enableAllOpenShortcuts( appId );
+				self.disableAllCloseShortcuts( appId );
+			}
+			//console.log(c)
+			c.module.render( c );
+			
+			self.disableAllOpenShortcuts( appId );
+			self.enableAllCloseShortcuts( appId );
+		}
+		else
+		{
+			self.openedPrograms[c.collection].render( c );
+			return;
+		}
+	}
+	
+	, render: function () {
+		var that = $dhx.ui.desktop
+			, self = $dhx.ui.desktop.view;
+		try {
+			$dhx.showDirections("starting view ... ");
+			$dhx.ui._window_manager();
+			$dhx.ui.desktop.settings.base_path = $dhx.ui.cdn_address;
+			$dhx.ui.desktop.settings.application_path = $dhx.ui.desktop.settings.base_path + "dhx/ui/";
+			$dhx.ui.desktop.settings.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/";
+			$dhx.ui.desktop.settings.menu_contextual.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/";
+			$dhx.ui.desktop.settings.menu_contextual_idiom.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/";
+			$dhx.ui.desktop.settings.ControlPanel.toolbar_wallpapers.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/";
+			/*document.body.oncontextmenu = function(){
+				return false;	
+			} 
+			
+			document.onmousedown=function(event)
+			{
+			  if(event.button==2)
+			   {
+				 return false;    
+			   }
+			};*/
+			
+			self.hidden_wrapper = $dhx.createElement({
+				tag_name: 'DIV'
+				, style: 'display:none;'
+				, class: ''
+				, id: '$dhx.wrapper'
+			});
+			
+			
+			self.ActiveDesktop.render();
+			self.SearchBar.start();
+			self.TopBar.render();
+			self.SideBar.render();
+			
+			
+			$dhx.hideDirections();
+		}
+		catch (e) {
+			console.log(e.stack);
+		}
+	}
 };

@@ -9,9 +9,25 @@ $dhx.ui.$Application = (function() {
 
 $dhx.ui.$Session = (function() {
 
-    return {};
+    return {
+	
+		latinize : false
+		,capitalize : false	
+		
+	};
 })();
 
+Object.defineProperty($dhx.ui.$Session, 'user_id', {
+    //get: function() { return bValue; },
+    //set: function(newValue) { },
+    value: (
+        (typeof $dhx.REST !== 'undefined') ? (typeof $dhx.REST.API.session.user_id !== 'undefined' ?
+            $dhx.REST.API.session.user_id : 3) : 3
+    ),
+    enumerable: true,
+    configurable: false,
+    writable: true
+});
 Object.defineProperty($dhx.ui.$Session, 'SessionID', {
     //get: function() { return bValue; },
     //set: function(newValue) { },

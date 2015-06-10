@@ -123,7 +123,7 @@ $dhx.ui.crud.simple.View.FormWindow = {
 
             },
             onFail: function() {
-                $dhx.ui.crud.simple.View.settings.status_bar._setStatusError('could not bind form');
+                //$dhx.ui.crud.simple.View.settings.status_bar._setStatusError('could not bind form');
             }
         });
     }
