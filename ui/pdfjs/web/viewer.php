@@ -7,8 +7,12 @@
     <title>PDF</title>
     <link rel="stylesheet" href="viewer.css"/>
     <link rel="resource" type="application/l10n" href="locale.properties"/>
-    <script src="../../../dhx.js"></script>
+    <script src="../../../shim.js"></script>
+	<script src="../../../dhx.js"></script>
+    <script src="../../../dhx.Request.js"></script>
+    
     <script src="../../../dhx.ui.js"></script>
+    <script src="../../../shim.js"></script>
     <script src="functions.js"></script>
     <script>
 		var DEFAULT_URL = '<?php echo $_GET['pdf_name']; ?>';
