@@ -45,25 +45,7 @@ $dhx.ui.desktop.view.ControlPanel = {
 		var self = $dhx.ui.desktop.view.ControlPanel;
 		self.toolbar_forms = self.tab.cells('forms').attachToolbar($dhx.ui.desktop.settings.ControlPanel.toolbar_forms);
 		self.toolbar_forms.setIconSize(24);
-		self.toolbar_forms.attachEvent("onClick", function (id) {
-			//$dhx.ui.desktop.user_settings.wallpaper
-			schema.desktop_config.update(
-				$dhx.ui.desktop.user_settings.desktop_config_id
-				, {
-					wallpaper: self.temporaryWallpaper
-				}
-				, {
-					wallpaper: $dhx.ui.desktop.user_settings.wallpaper
-				}
-				, function () {
-					$dhx.ui.desktop.view.ActiveDesktop.active_area.style.background = "url(" + $dhx.ui.desktop.wallpappers_path +  self.temporaryWallpaper +
-						") center center no-repeat";
-					$dhx.ui.desktop.view.ActiveDesktop.active_area.style.backgroundSize = 'cover';
-				}
-				, function () {
-				}
-			)
-		});
+		
 	}
 	
 	, _form_forms: function ( schema ) {
@@ -273,9 +255,23 @@ $dhx.ui.desktop.view.ControlPanel = {
 					wallpaper: $dhx.ui.desktop.user_settings.wallpaper
 				}
 				, function () {
-					$dhx.ui.desktop.view.ActiveDesktop.active_area.style.background = "url(" + $dhx.ui.desktop.wallpappers_path +  self.temporaryWallpaper +
-						") center center no-repeat";
-					$dhx.ui.desktop.view.ActiveDesktop.active_area.style.backgroundSize = 'cover';
+					//alert('now')
+					try
+					{
+						$dhx.MQ.publish($dhx.ui.desktop.view.ActiveDesktop.appId, {
+							action: 'change wallpaper',
+							target: $dhx.ui.desktop.view.ActiveDesktop.active_area.id,
+							name: '',
+							status: 'success',
+							message: 'change wallpaper',
+							wallpaper : self.temporaryWallpaper,
+							user_id : $dhx.ui.$Session.user_id
+						});
+					}
+					catch(e)
+					{
+						console.log(e.stack)	
+					}
 				}
 				, function () {
 				}

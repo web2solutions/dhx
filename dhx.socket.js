@@ -1,194 +1,98 @@
-/*
+/*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
+/*global $dhx, dhtmlx */
 
-		var msg = {
-			type : ""	// message, subscribe, disconnect    -> mandatory
-			,routing_key : ""			-> mandatory when type = subscribe
-			,message : ""
-
-		}
-
-		var socket = $dhx.socket.connect(
-		{
-			resource : 	"ws://192.168.1.33:5000/_hippie/ws"
-			,routing_key : "users online"
-			,onOpen : function( messageEvent ){
-
-			}
-			,onClose : function( messageEvent ){
-
-			}
-			,onBeforeClose : function( client_id ){
-
-			}
-			,onBeforeSend : function( ){
-
-			}
-			,onMessage : function( data, messageEvent )
+$dhx = $dhx || {};
+$dhx.socket = $dhx.socket || {
+	message : function( m ){
+		this.action = m.action || 'none';
+		this.user_id = $dhx.ui.$Session.user_id || 6;
+		this.message = m.message || '$dhx system';       
+        this.name = m.name || 'none';
+		this.records = m.records || [];
+		this.record_id = m.record_id || -1;
+		this.status = m.status || 'none';
+		this.target = m.target || 'none';
+		this.topic = m.topic || '$dhx.socket';
+		return this;
+	}
+	,tryin : 3 // seconds
+	,connect : function( s, c, reconnect ){
+		var socket = new WebSocket(c.resource)
+		socket.onopen = function (event) {
+			//if ($dhx._enable_log) console.log('socket onopen: ');
+			// lets set the client id to the socket transaction
+			var message = s.send( { message : 'login', action : 'set user' } );	
+			if(reconnect)
 			{
-
+				if ($dhx._enable_log) console.info('socket reconnected. user id: ', message.user_id);
 			}
-			,onError : function( error ){
-
+			else
+			{
+				if ($dhx._enable_log) console.info('socket connected. user id: ', message.user_id);
 			}
-		});
-
-
-
-
-
-		$(function() {
-			// ws_path should be of the form ws://host/_hippie/ws
-			var ws_path = "ws://192.168.1.33:5000/_hippie/ws";
-			socket = new WebSocket(ws_path);
-			socket.onopen = function() {
-				$('#connection-status').text("Connected");
-			};
-			socket.onmessage = function(e) {
-				var data = JSON.parse(e.data);
-				console.log(e);
-				if (data.msg) {
-					var time = Date();
-					$('ul').prepend('<li>' + time + ': ' + data.msg + '</li>');
+			if (c.onOpen) c.onOpen(event);
+		};
+		socket.onclose = function (event) {
+			if ($dhx._enable_log) console.warn('socket closed');
+			if (c.onClose) c.onClose();
+			if (c.reConnect)
+			{
+				
+				if ($dhx._enable_log) console.warn('reconnecting in '+$dhx.socket.tryin+' seconds');
+				var timer = window.setTimeout(function(){
+					if ($dhx._enable_log) console.warn('reconnecting now');
+					s.reconnect();
+					window.clearTimeout(timer);
+				}, $dhx.socket.tryin * 1000);
+			}
+		};
+		socket.onerror = function (event) {
+			if ($dhx._enable_log) console.error('socket error');
+			if (c.onError) c.onError(event);
+		};
+		socket.onmessage = function (event) {
+			//if ($dhx._enable_log) console.log('socket onmessage: ');
+			if(typeof event.data !== 'undefined' )
+			{
+				try
+				{
+					var data = JSON.parse(event.data);
+					if ($dhx._enable_log) console.info('socket received data: ', data);
+					if (c.onMessage) c.onMessage(data, event);	
 				}
-			};
-		});
-
-		function send_msg(message) {
-			socket.send(JSON.stringify({ msg: message }));
+				catch(e)
+				{
+					console.error( e.stack );
+				}
+			}
+		};
+		return socket;
+	}
+	,service : function( c ){
+		var self = $dhx.socket, socket;
+		socket = self.connect(this, c);
+		this.send = function( m, callBack ){
+			if( $dhx.isObject(m) )
+			{
+				m = JSON.stringify(new $dhx.socket.message( m ));
+				socket.send(m);
+			}
+			else
+			{
+				dhtmlx.message({
+                    type: "error",
+                    text: 'error sending message via socket'
+                }); //
+				console.error('Please send your message in JSON format.');
+				console.info('message sent: ', m);
+				console.info('format sent: ', typeof m);
+				return {};
+			}
+			return JSON.parse(m);
 		}
-
-		*/
-$dhx.socket = {
-    Socket: [],
-    isConnected: [],
-    clientID: [],
-    defaultRouting_key: "welcome",
-    defaultPipe: "main pipe",
-    connect: function(configuration) {
-        var self = $dhx.socket;
-        if ("WebSocket" in window) {
-            configuration.pipe = configuration.pipe || self.defaultPipe;
-            if (typeof self.isConnected[configuration.pipe] === 'undefined') self.isConnected[configuration.pipe] = false;
-            if (typeof self.clientID[configuration.pipe] === 'undefined') self.clientID[configuration.pipe] = null;
-            if (!self.isConnected[configuration.pipe]) {
-                self.Socket[configuration.pipe] = new WebSocket(configuration.resource);
-                self.Socket[configuration.pipe].onopen = function() {
-                    //console.log(arguments);
-                    self.isConnected[configuration.pipe] = true;
-                    //already subscribed to welcome routing_key via on_new_listenerss
-                    //self.Socket[ configuration.pipe ].Send( 'subscribed to welcome routing_key via on_new_listeners' );
-                    /*self.Socket[ configuration.pipe ].Send( {
-							type : 'id'// message, subscribe    -> mandatory
-							,message : 'subscribing'
-						} );*/
-                    if (configuration.onOpen) configuration.onOpen(arguments);
-                };
-                self.Socket[configuration.pipe].onclose = function(messageEvent) {
-                    if (configuration.onClose) configuration.onClose();
-                };
-                self.Socket[configuration.pipe].onerror = function(error) {
-                    if (configuration.onError) configuration.onError(error);
-                };
-                self.Socket[configuration.pipe].onmessage = function(messageEvent) {
-                    //console.log( messageEvent );
-                    var data = JSON.parse(messageEvent.data);
-                    if (data) {
-                        if (data.type && data.type == "hippie.pipe.set_client_id") {
-                            if (data.client_id) {
-                                self.clientID[configuration.pipe] = data.client_id;
-                            }
-                        } else {}
-                        if (configuration.onMessage) configuration.onMessage(data, messageEvent);
-                    } else
-                    if (configuration.onMessage) configuration.onMessage({
-                        msg: "no data when onMessage"
-                    }, messageEvent);
-                };
-                /*self.Socket[ configuration.pipe ].Send = self.Socket[ configuration.pipe ].send;*/
-                self.Socket[configuration.pipe].Send = function(m, callBack) {
-                        try {
-                            if (configuration.onBeforeSend) configuration.onBeforeSend(m);
-                            if ($dhx.isObject(m)) {
-                                //console.log("im object");
-                                if (typeof m["message"] === 'undefined') {
-                                    dhtmlx.message({
-                                        type: "error",
-                                        text: "Hey Mark, I can't send an empty message"
-                                    });
-                                    return;
-                                }
-                                if (typeof m["routing_key"] === 'undefined') m["routing_key"] = self.defaultRouting_key;
-                                if (typeof m["type"] === 'undefined') m["type"] = "message";
-                                //console.log( m );
-                                //var dataObj = JSON.parse( m["data"] ) ;
-                                //if( typeof dataObj["type"] === 'undefined' )
-                                //	dataObj["type"] = m["type"];
-                                //m["data"] = JSON.stringify( dataObj );
-                                m = JSON.stringify(m);
-                            } else {
-                                if (m && m != null && m != "") {
-                                    m = JSON.stringify({
-                                        type: "message",
-                                        message: m,
-                                        routing_key: self.defaultRouting_key
-                                    });
-                                } else {
-                                    dhtmlx.message({
-                                        type: "error",
-                                        text: "Hey Mark, I can't send an empty message"
-                                    });
-                                    return;
-                                }
-                            }
-                            m = JSON.stringify({
-                                msg: m
-                            });
-                            //console.log( m );
-                            self.Socket[configuration.pipe].send(m);
-                            //console.log(m);
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }
-                    //self.Socket[ configuration.pipe ].Close = self.Socket[ configuration.pipe ].close;
-                self.Socket[configuration.pipe].Close = function() {
-                    if (configuration.onBeforeClose) configuration.onBeforeClose(self.clientID[configuration.pipe]);
-                    self.Socket[configuration.pipe].Send({
-                        type: "disconnect",
-                        clientID: self.clientID[configuration.pipe],
-                        message: "client id: " + self.clientID[configuration.pipe] + " disconnected via onBeforeClose"
-                    });
-                    self.Socket[configuration.pipe].close();
-                }
-                self.Socket[configuration.pipe].getClientID = function() {
-                    return self.clientID[configuration.pipe];
-                }
-                window.setInterval(function() {
-                    //console.log( self.Socket[ configuration.pipe ].readyState )
-                    if (self.Socket[configuration.pipe].readyState == 0)
-                        if (configuration.onError) configuration.onError("The connection is not yet open.");
-                    if (self.Socket[configuration.pipe].readyState == 2)
-                        if (configuration.onError) configuration.onError("The connection is in the process of closing.");
-                    if (self.Socket[configuration.pipe].readyState == "3")
-                        if (configuration.onError) configuration.onError("The connection is closed or couldn't be opened.");
-                }, 1000);
-                window.onbeforeunload = function(e) {
-                    self.disconnectAll();
-                }
-            }
-            return self.Socket[configuration.pipe];
-        } else {
-            return {
-                send: function() {
-                    console.log("$dhx socket: browser not supported");
-                }
-            };
-        }
-    },
-    disconnectAll: function() {
-        var self = $dhx.socket;
-        for (var routing_key in self.Socket) {
-            self.Socket[routing_key].Close();
-        }
-    }
+		this.reconnect = function(){
+			socket = self.connect(this, c, true)
+		}
+		//this
+	}
 }

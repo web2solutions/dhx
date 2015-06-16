@@ -2487,6 +2487,9 @@ $dhx.dataDriver = {
                         var prepare = false;
                         component._id = hash.component_id;
                         component._type = hash.type;
+						
+						
+						
 
                         if (typeof hash.prepare !== 'undefined') {
                             if (typeof hash.prepare.settings !== 'undefined') {
@@ -2608,6 +2611,23 @@ $dhx.dataDriver = {
                             if (name == "x_special_button_save") component.save();
                             else if (name == "x_special_button_update") component.update();
                         });
+						
+						
+						component.attachEvent("onKeyDown",function(inp, ev, name, value){
+							if(ev.keyCode == 13 || ev.keyCode == '13')
+							{
+								 if (component.isEditing == true)
+								 {
+									 component.update()
+								 }
+								 else
+								 {
+									 component.save();
+								 }
+							}
+						});
+						
+						
                         component.save = function(hash, onSuccess, onFail) {
                             if (prepare) {
                                 if ($dhx.dhtmlx.validateForm(c.component_id, component)) {
@@ -3527,21 +3547,27 @@ $dhx.dataDriver = {
 
 
         //c.records
-
-        //console.log( that._table_to_fill_on_init );
-        for (var table in that.dbs[db_name].records) {
-            if (that.dbs[db_name].records.hasOwnProperty(table)) {
-                $dhx.dataDriver.public[table].add(that.dbs[db_name].records[table], function(tx, event, rows_affected) {
+		
+		for(var x = 0; x <  that.dbs[db_name].output_tables.length; x++)
+		{
+			var table = that.dbs[db_name].output_tables[x].table_name;
+			$dhx.dataDriver.public[table].add(that.dbs[db_name].records[table], function(tx, event, rows_affected) {
                     that._table_to_filled_on_init = that._table_to_filled_on_init + 1;
                     if (that._table_to_filled_on_init == that._table_to_fill_on_init) {
                         that._setReady(c, connection, event);
                     }
                     //console.log( '???????????????? ready and all records loaded' );
-                }, function(tx, event, rows_affected) {
+            }, function(tx, event, rows_affected) {
 
-                }, true);
-            }
-        }
+           	}, true);
+		}
+
+        //console.log( that._table_to_fill_on_init );
+        //for (var table in that.dbs[db_name].records) {
+        //    if (that.dbs[db_name].records.hasOwnProperty(table)) {
+                
+        //    }
+        //}
     },
     _setReady: function(c, connection, event) {
         var that = $dhx.dataDriver,
@@ -3598,11 +3624,13 @@ $dhx.dataDriver = {
                 if ($dhx._enable_log) console.info('   >>>>  DATABASE CONNECTION ABORTED   <<<<  ');
                 //if ($dhx._enable_log) console.log( event );
             }
+			
             that.dbs[db_name] = {
                 db: database,
                 name: db_name,
                 schema: schema,
                 records: c.records,
+				output_tables : c.output_tables,
                 settings: c.settings,
                 version: c.version,
                 connection: connection,
@@ -3621,6 +3649,7 @@ $dhx.dataDriver = {
                         primary_key: c.schema[table].primary_key,
                         columns: c.schema[table].columns,
                         records: c.schema[table].records,
+						output_tables : c.schema[table].output_tables,
                         onSuccess: function(response) {},
                         onFail: function(response) {}
                     });
@@ -3647,13 +3676,16 @@ $dhx.dataDriver = {
             $dhx.jDBdStorage.storeObject('$dhx.db.' + db_name, JSON.stringify({
                 version: c.version,
                 hash: $dhx.crypt.SHA2(JSON.stringify(schema))
+				,records_size : JSON.stringify( c.records ).length
             }));
+			
             that.dbs[db_name] = {
                 db: database,
                 name: db_name,
                 version: c.version,
                 schema: schema,
                 records: c.records,
+				output_tables : c.output_tables,
                 settings: c.settings,
                 connection: connection,
                 event: event,
@@ -3670,9 +3702,20 @@ $dhx.dataDriver = {
 
             if (c.records) {
                 if (upgraded)
-                    that._addInitialRecords(c, connection, event);
+				{
+                    if( Object.keys(c.records).length > 0 )
+					{
+						that._addInitialRecords(c, connection, event);
+					}
+					else
+					{
+						that._setReady(c, connection, event);
+					}
+				}
                 else
-                    that._setReady(c, connection, event);
+                {
+					that._setReady(c, connection, event);	
+				}
             } else {
                 that._setReady(c, connection, event);
             }
@@ -4329,6 +4372,7 @@ $dhx.dataDriver = {
     },
     database: function(c) {
         //'use strict';
+	
         try {
             var that = $dhx.dataDriver,
                 db_name = c.db,
@@ -4353,9 +4397,9 @@ $dhx.dataDriver = {
                     }
                 }
                 //console.log( message );
-                if (message.message == 'record added' || message.message == 'record updated' || message.message == 'record deleted') {
+                //if (message.message == 'record added' || message.message == 'record updated' || message.message == 'record deleted') {
                     $dhx.jDBdStorage.storeObject('message.' + topic, JSON.stringify(message));
-                }
+                //}
                 $dhx.MQ.oldPublish(topic, message);
             }
 
@@ -4383,6 +4427,10 @@ $dhx.dataDriver = {
                 return;
 
             $dhx.isNumber(c.version) ? (c.version < 1 ? c.version = 1 : "") : c.version = 1;
+			
+			
+			
+			
 
             var currently_database_onclient = $dhx.jDBdStorage.get('$dhx.db.' + db_name);
             if (typeof currently_database_onclient === 'undefined') {
@@ -4397,10 +4445,32 @@ $dhx.dataDriver = {
                     that._createDatabase(c, self);
                 } else {
                     if ($dhx._enable_log) console.info('there is as saved version for database ' + db_name + ' at indexedDB.');
-                    if ($dhx._enable_log) console.log(currently_database_onclient.hash, $dhx.crypt.SHA2(JSON.stringify(schema)));
-                    if (currently_database_onclient.hash == $dhx.crypt.SHA2(JSON.stringify(schema))) {
-                        if ($dhx._enable_log) console.info('old and new databases are equal. Lets open it!');
-                        that._createDatabase(c, self);
+                    //if ($dhx._enable_log) console.log(currently_database_onclient.hash, $dhx.crypt.SHA2(JSON.stringify(schema)));
+					
+					if ( parseInt(currently_database_onclient.version) == parseInt(c.version) ) 
+					{
+						if ($dhx._enable_log) console.info('local and remote databases are equal.');
+						if( currently_database_onclient.records_size != JSON.stringify( c.records ).length )
+						{
+							if ($dhx._enable_log) console.info('need to sync data. lets create database and sync.');
+							that.dropDatabase({
+								db: db_name,
+								onSuccess: function() {
+									that._createDatabase(c, self)
+								},
+								onFail: function() {
+	
+								}
+							});
+						}
+						else
+						{
+							if ($dhx._enable_log) console.info('data sync is not necessary. lets open database.');
+                        	that._createDatabase(c, self);
+						}
+						
+						
+						
                     } else {
                         if ($dhx._enable_log) console.info('currently database is out to date. lets update it.');
                         that.dropDatabase({
@@ -4685,7 +4755,7 @@ $dhx.dataDriver = {
                 ////$dhx.dhtmlx._setInputInvalid( input );
                 dhtmlx.message({
                     type: "error",
-                    text: $dhx.dhtmlx.text_labels.validation_notEmpty(label)
+                    text: $dhx.ui.language.text_labels.validation_notEmpty(label)
                 }); //
                 return false;
             }
@@ -4696,7 +4766,7 @@ $dhx.dataDriver = {
                 //$dhx.dhtmlx._setInputInvalid( input );
                 dhtmlx.message({
                     type: "error",
-                    text: $dhx.dhtmlx.text_labels.validation_Empty(label)
+                    text: $dhx.ui.language.text_labels.validation_Empty(label)
                 });
                 return false;
             }
@@ -4708,7 +4778,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidEmail(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidEmail(label)
                     });
                     return false;
                 }
@@ -4721,7 +4791,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidInteger(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidInteger(label)
                     });
                     return false;
                 }
@@ -4734,7 +4804,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidFloat(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidFloat(label)
                     });
                     return false;
                 }
@@ -4747,7 +4817,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidNumeric(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidNumeric(label)
                     });
                     return false;
                 }
@@ -4760,7 +4830,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidAplhaNumeric(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidAplhaNumeric(label)
                     });
                     return false;
                 }
@@ -4773,7 +4843,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidDatetime(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidDatetime(label)
                     });
                     return false;
                 }
@@ -4786,7 +4856,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidDate(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidDate(label)
                     });
                     return false;
                 }
@@ -4800,7 +4870,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidTime(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidTime(label)
                     });
                     return false;
                 }
@@ -4809,7 +4879,7 @@ $dhx.dataDriver = {
                         //$dhx.dhtmlx._setInputInvalid( input );
                         dhtmlx.message({
                             type: "error",
-                            text: $dhx.dhtmlx.text_labels.validation_ValidTime(label)
+                            text: $dhx.ui.language.text_labels.validation_ValidTime(label)
                         });
                         return false;
                     }
@@ -4818,7 +4888,7 @@ $dhx.dataDriver = {
                         //$dhx.dhtmlx._setInputInvalid( input );
                         dhtmlx.message({
                             type: "error",
-                            text: $dhx.dhtmlx.text_labels.validation_ValidTime(label)
+                            text: $dhx.ui.language.text_labels.validation_ValidTime(label)
                         });
                         return false;
                     }
@@ -4832,7 +4902,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidCurrency(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidCurrency(label)
                     });
                     return false;
                 }
@@ -4845,7 +4915,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidSSN(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidSSN(label)
                     });
                     return false;
                 }
@@ -4858,7 +4928,7 @@ $dhx.dataDriver = {
                     //$dhx.dhtmlx._setInputInvalid( input );
                     dhtmlx.message({
                         type: "error",
-                        text: $dhx.dhtmlx.text_labels.validation_ValidExpirationdate(label)
+                        text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                     });
                     return false;
                 } else {
@@ -4868,7 +4938,7 @@ $dhx.dataDriver = {
                         //$dhx.dhtmlx._setInputInvalid( input );
                         dhtmlx.message({
                             type: "error",
-                            text: $dhx.dhtmlx.text_labels.validation_ValidExpirationdate(label)
+                            text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                         });
                         return false;
                     }
@@ -4876,7 +4946,7 @@ $dhx.dataDriver = {
                         //$dhx.dhtmlx._setInputInvalid( input );
                         dhtmlx.message({
                             type: "error",
-                            text: $dhx.dhtmlx.text_labels.validation_ValidExpirationdate(label)
+                            text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                         });
                         return false;
                     }
@@ -4884,7 +4954,7 @@ $dhx.dataDriver = {
                         //$dhx.dhtmlx._setInputInvalid( input );
                         dhtmlx.message({
                             type: "error",
-                            text: $dhx.dhtmlx.text_labels.validation_ValidExpirationdate(label)
+                            text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                         });
                         return false;
                     }
@@ -4912,17 +4982,18 @@ $dhx.dataDriver = {
 
     ,
     _setInputInvalid: function(objInput) {
-        objInput.style.backgroundColor = "#fdafa3";
+        var original_color = objInput.style.backgroundColor;
+		objInput.style.backgroundColor = "#fdafa3";
         objInput.focus();
-        objInput.onclick = function() {
-            objInput.style.backgroundColor = "#fff";
-        }
-        objInput.onchange = function() {
-            objInput.style.backgroundColor = "#fff";
-        }
-        objInput.onkeydown = function() {
-            objInput.style.backgroundColor = "#fff";
-        }
+		objInput.addEventListener('click', function(event) {
+        	objInput.style.backgroundColor = original_color;
+        });
+		objInput.addEventListener('change', function(event) {
+           objInput.style.backgroundColor = original_color;
+        });
+		objInput.addEventListener('keydown', function(event) {
+           objInput.style.backgroundColor = original_color;
+        });
     },
     _setInputHighlighted: function(field, DHTMLXForm) {
         //console.log( self.form[ uid ].getForm() )

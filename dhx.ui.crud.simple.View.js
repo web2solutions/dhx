@@ -259,10 +259,6 @@ $dhx.ui.crud.simple.View = {
             self.menu[appId] = $dhx.ui.crud.controller[appId].configuration.wrapper.attachMenu($dhx.ui.crud.simple.View.settings.menu);
         }
 
-
-
-
-
         self.menu[appId].attachEvent("onClick", function(id) {
             if (id == 'print') {
 
@@ -440,7 +436,7 @@ $dhx.ui.crud.simple.View = {
     _grid: function(appId, status_bar, schema) {
         var self = $dhx.ui.crud.controller[appId].view;
         self.grid = self.tab.cells('records').attachGrid();
-
+		self.grid.setIconsPath($dhx.ui.crud.simple.View.settings.dhtmlx_codebase_path + "imgs/");
         self.grid.enableContextMenu(self.menu_grid[appId]);
 
         self.grid.saveOnEdit = true;
@@ -682,11 +678,16 @@ $dhx.ui.crud.simple.View = {
     render: function(controller) {
         var appId = controller.appId;
 
-        //console.log(controller)
-        //console.log($dhx.crypt.SHA2(JSON.stringify(controller)))
+        if(typeof $dhx.ui.data.model.schema[controller.database][controller.collection] === 'undefined')
+		{
+			if ($dhx._enable_log) 
+				console.error('you are trying to render a crud for a non existent table. table name: '+controller.collection);
+			return;
+		}
 
         var self = $dhx.ui.crud.controller[appId],
             schema = $dhx.ui.data.model.db[controller.database].schema[controller.collection],
+			
             db_settings = $dhx.ui.data.model.settings[controller.database][controller.collection],
             fk_tables = $dhx.ui.data.model.schema[controller.database][controller.collection].foreign_keys;
 

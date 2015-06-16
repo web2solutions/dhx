@@ -21,48 +21,7 @@ $dhx.dhtmlx = {
     formFields: [],
     formFields_tofill: [],
     formFields_filled: [],
-    text_labels: {
-        // validation text labels section
-        validation_notEmpty: function(label) {
-            return "The '" + label + "' field value can not be empty";
-        },
-        validation_Empty: function(label) {
-            return "The '" + label + "' field value should be empty";
-        },
-        validation_ValidEmail: function(label) {
-            return "The " + label + " field value is not a valid e-mail";
-        },
-        validation_ValidInteger: function(label) {
-            return "The " + label + " field should be a valid integer value";
-        },
-        validation_ValidFloat: function(label) {
-            return "The " + label + " field should be a valid float value";
-        },
-        validation_ValidNumeric: function(label) {
-            return "The " + label + " field value should be a valid numeric value";
-        },
-        validation_ValidAplhaNumeric: function(label) {
-            return "The " + label + " field value should be a valid alpha numeric value";
-        },
-        validation_ValidDatetime: function(label) {
-            return "The " + label + " field value should be a valid date time value";
-        },
-        validation_ValidExpirationdate: function(label) {
-            return "The " + label + " field value should be a valid expiration date";
-        },
-        validation_ValidDate: function(label) {
-            return "The " + label + " field value should be a valid date value";
-        },
-        validation_ValidTime: function(label) {
-            return "The " + label + " field value should be a valid time value";
-        },
-        validation_ValidCurrency: function(label) {
-            return "The " + label + " field should be a valid currency value";
-        },
-        validation_ValidSSN: function(label) {
-            return "The " + label + " field should be a valid social security number value";
-        }
-    },
+    
     getFormFields: function(form_id) {
         var self = $dhx.dhtmlx;
         if (typeof self.formFields[form_id] !== 'undefined') return self.formFields[form_id];
@@ -323,7 +282,7 @@ $dhx.dhtmlx = {
                             self._setInputHighlighted(field, uid, DHTMLXForm);
                             dhtmlx.message({
                                 type: "error",
-                                text: self.text_labels.validation_notEmpty(label)
+                                text: $dhx.ui.language.text_labels.validation_notEmpty(label)
                             }); //
                             return;
                         }
@@ -335,7 +294,7 @@ $dhx.dhtmlx = {
                             self._setInputHighlighted(field, uid, DHTMLXForm);
                             dhtmlx.message({
                                 type: "error",
-                                text: self.text_labels.validation_Empty(label)
+                                text: $dhx.ui.language.text_labels.validation_Empty(label)
                             });
                             return;
                         }
@@ -348,7 +307,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidEmail(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidEmail(label)
                                 });
                                 return;
                             }
@@ -362,7 +321,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidInteger(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidInteger(label)
                                 });
                                 return;
                             }
@@ -376,7 +335,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidFloat(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidFloat(label)
                                 });
                                 return;
                             }
@@ -390,7 +349,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidNumeric(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidNumeric(label)
                                 });
                                 return;
                             }
@@ -404,7 +363,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidAplhaNumeric(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidAplhaNumeric(label)
                                 });
                                 return;
                             }
@@ -418,7 +377,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidDatetime(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidDatetime(label)
                                 });
                                 return;
                             }
@@ -432,7 +391,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidDate(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidDate(label)
                                 });
                                 return;
                             }
@@ -447,7 +406,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidTime(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidTime(label)
                                 });
                                 return;
                             }
@@ -456,7 +415,7 @@ $dhx.dhtmlx = {
                                     self._setInputHighlighted(field, uid, DHTMLXForm);
                                     dhtmlx.message({
                                         type: "error",
-                                        text: self.text_labels.validation_ValidTime(label)
+                                        text: $dhx.ui.language.text_labels.validation_ValidTime(label)
                                     });
                                     return;
                                 }
@@ -465,7 +424,7 @@ $dhx.dhtmlx = {
                                     self._setInputHighlighted(field, uid, DHTMLXForm);
                                     dhtmlx.message({
                                         type: "error",
-                                        text: self.text_labels.validation_ValidTime(label)
+                                        text: $dhx.ui.language.text_labels.validation_ValidTime(label)
                                     });
                                     return;
                                 }
@@ -480,7 +439,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidCurrency(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidCurrency(label)
                                 });
                                 return;
                             }
@@ -494,7 +453,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidSSN(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidSSN(label)
                                 });
                                 return;
                             }
@@ -508,7 +467,7 @@ $dhx.dhtmlx = {
                                 self._setInputHighlighted(field, uid, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
-                                    text: self.text_labels.validation_ValidExpirationdate(label)
+                                    text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                                 });
                                 return;
                             } else {
@@ -518,7 +477,7 @@ $dhx.dhtmlx = {
                                     self._setInputHighlighted(field, uid, DHTMLXForm);
                                     dhtmlx.message({
                                         type: "error",
-                                        text: self.text_labels.validation_ValidExpirationdate(label)
+                                        text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                                     });
                                     return;
                                 }
@@ -526,7 +485,7 @@ $dhx.dhtmlx = {
                                     self._setInputHighlighted(field, uid, DHTMLXForm);
                                     dhtmlx.message({
                                         type: "error",
-                                        text: self.text_labels.validation_ValidExpirationdate(label)
+                                        text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                                     });
                                     return;
                                 }
@@ -534,7 +493,7 @@ $dhx.dhtmlx = {
                                     self._setInputHighlighted(field, uid, DHTMLXForm);
                                     dhtmlx.message({
                                         type: "error",
-                                        text: self.text_labels.validation_ValidExpirationdate(label)
+                                        text: $dhx.ui.language.text_labels.validation_ValidExpirationdate(label)
                                     });
                                     return;
                                 }
@@ -547,17 +506,18 @@ $dhx.dhtmlx = {
         return true;
     },
     _setInputInvalid: function(objInput) {
-        objInput.style.backgroundColor = "#fdafa3";
+        var original_color = objInput.style.backgroundColor;
+		objInput.style.backgroundColor = "#fdafa3";
         objInput.focus();
-        objInput.onclick = function() {
-            objInput.style.backgroundColor = "#fff";
-        }
-        objInput.onchange = function() {
-            objInput.style.backgroundColor = "#fff";
-        }
-        objInput.onkeydown = function() {
-            objInput.style.backgroundColor = "#fff";
-        }
+		objInput.addEventListener('click', function(event) {
+        	objInput.style.backgroundColor = original_color;
+        });
+		objInput.addEventListener('change', function(event) {
+           objInput.style.backgroundColor = original_color;
+        });
+		objInput.addEventListener('keydown', function(event) {
+           objInput.style.backgroundColor = original_color;
+        });
     },
     _setInputHighlighted: function(field, uid, DHTMLXForm) {
         //console.log( self.form[ uid ].getForm() )

@@ -16,7 +16,37 @@ $dhx.ui.desktop.view.ActiveDesktop = {
 			, height: window.innerHeight
 			, resize_width: true
 			, resize_height: true
+			
 		});
+		
+		self.active_area._subscriber = function (topic, data) {
+			if( typeof data.user_id !== 'undefined' )
+			{
+				if( data.user_id == $dhx.ui.$Session.user_id )
+				{
+					if (data.target == self.active_area.id) {
+						if ($dhx._enable_log) {
+							console.info( 'Active Area from Active Desktop received message sent to it: ', topic, data );
+						}
+						if (data.action == 'change wallpaper') {
+							self.active_area.style.background = "url(" + $dhx.ui.desktop.wallpappers_path +  data.wallpaper +
+								") center center no-repeat";
+							self.active_area.style.backgroundSize = 'cover';
+							
+							if ($dhx._enable_log) console.info(self.active_area.id + ' updated ');
+						}
+					}
+				}
+			}
+		}
+		self.active_area._subscriber_token = $dhx.MQ.subscribe(
+			$dhx.ui.desktop.view.ActiveDesktop.appId, self.active_area._subscriber
+		);
+		
+		//alert(self.active_area._subscriber_token);
+		//self.active_area._subscriber();
+		
+		
 		self._active_area_contextual_menu();
 		
 		
@@ -24,6 +54,24 @@ $dhx.ui.desktop.view.ActiveDesktop = {
 			$dhx.ui.desktop.wallpappers_path + $dhx.ui.desktop.user_settings.wallpaper
 			+") center center no-repeat";
 		self.active_area.style.backgroundSize = "cover";
+		
+		
+		/*self.active_area.addEventListener('drop', function(e){
+			// this / e.target is current target element.
+			//alert();
+		  //if (e.stopPropagation) {
+			//e.stopPropagation(); // stops the browser from redirecting.
+		  //}
+		  	console.log('drop')
+		
+			//console.log(dragSrcEl.innerHTML);
+			console.log(this.innerHTML);
+			console.log(e.dataTransfer.getData('text/html'));
+		
+		  
+		  return false;
+		}, false);*/
+		
 	}
 	
 	, _active_area_contextual_menu: function () {
@@ -64,22 +112,6 @@ $dhx.ui.desktop.view.ActiveDesktop = {
 			}
 			//light-green
 			else if (id == 'portuguese') {
-				$dhx.ui.i18n.setUserIdiom('pt-br');
-			}
-			else if (id == 'english') {
-				$dhx.ui.i18n.setUserIdiom('en-us');
-			}
-		});
-	}
-	
-	
-	, _idiom_contextual_menu: function () {
-		var that = $dhx.ui.desktop.view
-			, self = $dhx.ui.desktop.view.ActiveDesktop;
-		self.idiom_contextual_menu = new dhtmlXMenuObject($dhx.ui.desktop.settings.menu_contextual_idiom);
-		self.idiom_contextual_menu.addContextZone(self.top_bar_quick_tools_idioms.id);
-		self.idiom_contextual_menu.attachEvent("onClick", function (id) {
-			if (id == 'portuguese') {
 				$dhx.ui.i18n.setUserIdiom('pt-br');
 			}
 			else if (id == 'english') {

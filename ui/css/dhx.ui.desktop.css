@@ -18,6 +18,9 @@
     font-family: UbuntuItalic;
     src: url(../desktop/assets/fonts/Ubuntu-RI.ttf);
 }
+
+
+
 body {
     font-family: UbuntuRegular;
     font-size: 13px;
@@ -101,7 +104,7 @@ body {
     top: 0px;
     right: 0px;
     height: 24px;
-    width: 428px;
+    width: auto;
     font-family: UbuntuLight;
     padding-right: 5px;
     font-size: 12px;
@@ -123,7 +126,20 @@ body {
     padding-left: 5px;
     width: 48px;
     margin-right: 2px;
-    cursor: wait;
+    font-size: 13px;
+	color:#dfdbd2;
+	z-index: 5;
+}
+
+.dhx_ui_desktop_top_bar_quick_tools_session_expire {
+    position: relative;
+    float: right;
+    padding-top: 4px;
+    height: 20px;
+    padding-left: 5px;
+	padding-right:3px;
+    width: auto;
+    margin-right: 2px;
     font-size: 13px;
 	color:#dfdbd2;
 	z-index: 5;
@@ -158,6 +174,19 @@ body {
     margin-right: 2px;
 	z-index: 5;
 }
+
+.dhx_ui_desktop_top_bar_quick_tools_messages{
+     position: relative;
+    float: right;
+    height: 24px;
+    width: 30px;
+    background: url(../desktop/assets/images/top_buttons.png) no-repeat -75px 0px;
+    margin-right: 2px;
+	z-index: 5;
+	cursor:pointer;
+}
+
+
 .dhx_ui_desktop_side_bar {
     position: absolute;
     z-index: 3;
@@ -263,7 +292,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc666666', e
     
     -webkit-transform: translate3d(0, 0, 0);
     -webkit-backface-visibility: hidden;
-    cursor: pointer;
+    cursor: move;
     opacity: 0.7;
     filter: alpha(opacity=70);
 }
@@ -338,4 +367,45 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc666666', e
 	border-right:0px !important;
 	border-bottom:1px dotted #c3c3c3 !important;
 	margin-right:6px !important;
+}
+
+
+.label_login_user{
+	font-family:UbuntuRegular;
+	font-size:16px;
+	background:
+		
+}
+
+.label_login_pass{
+	font-family:UbuntuRegular;
+	font-size:16px;
+	background:
+		
+}
+
+.label_login_user input{
+	background: #F3F3F3 url(../desktop/assets/images/user.png) 300px 4px no-repeat;
+}
+
+.label_login_pass input{
+	background: #F3F3F3 url(../desktop/assets/images/lock.png) 300px 4px no-repeat;
+
+}
+
+.t-rex-logo{
+	 -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.t-rex-logo img{
+	margin-left:210px;
+}
+
+
+
+.dhx_ui_desktop_login_block_area{
+	position:absolute;
+	z-index:50;
 }

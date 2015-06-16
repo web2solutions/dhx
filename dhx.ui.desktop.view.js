@@ -204,17 +204,7 @@ $dhx.ui.desktop.view = {
 			$dhx.ui.desktop.settings.menu_contextual.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/";
 			$dhx.ui.desktop.settings.menu_contextual_idiom.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/";
 			$dhx.ui.desktop.settings.ControlPanel.toolbar_wallpapers.icons_path = $dhx.ui.desktop.settings.application_path + $dhx.ui.skin + "/";
-			/*document.body.oncontextmenu = function(){
-				return false;	
-			} 
 			
-			document.onmousedown=function(event)
-			{
-			  if(event.button==2)
-			   {
-				 return false;    
-			   }
-			};*/
 			
 			self.hidden_wrapper = $dhx.createElement({
 				tag_name: 'DIV'

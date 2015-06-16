@@ -34,6 +34,10 @@ $dhx.ui.desktop.view.SearchBar = {
 		});
 		//self.input_search.contentEditable = true;
 		self.input_search.placeholder = "Type something to search";
+		
+		self.input_search.autofocus = true;
+		
+		
 		self.input_search.addEventListener('keydown', function (event) {
 			if (self.input_search.value.length % 3) {
 				window.setTimeout(function () {
@@ -125,7 +129,7 @@ $dhx.ui.desktop.view.SearchBar = {
 		else {
 			self.search_bar.style.visibility = 'visible';
 			self.search_bar.style.opacity = 0.9;
-			self.input_search.focus();
+			document.getElementById(self.input_search.id).focus();
 		}
 	}
 	

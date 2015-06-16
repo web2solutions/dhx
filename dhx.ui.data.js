@@ -7,7 +7,8 @@ $dhx.ui.data.model = {
     db: [],
     records: [],
     schema: [],
-    settings: []
+    settings: [],
+	output_tables: []
 
     ,
     start: function(c) {
@@ -18,12 +19,14 @@ $dhx.ui.data.model = {
             db_name = c.db,
             version = c.version,
             schema = c.schema
-        settings = c.settings,
+        	settings = c.settings,
+			output_tables = c.output_tables,
             records = c.records;
 
 
         self.schema[db_name] = schema;
         self.records[db_name] = records;
+		self.output_tables[db_name] = output_tables;
 
         var enforced_settings = {};
         for (var table in schema) {
@@ -47,18 +50,7 @@ $dhx.ui.data.model = {
                 });
             }
         }
-
-
-
-
-
         self.settings[db_name] = enforced_settings;
-
-
-
-
-
-
 
 
 
@@ -69,7 +61,8 @@ $dhx.ui.data.model = {
                 version: version,
                 schema: self.schema[db_name],
                 settings: self.settings[db_name],
-                records: self.records[db_name]
+                records: self.records[db_name],
+				output_tables: self.output_tables[db_name]
 
                 // call all the times you connect into a database	
                 ,

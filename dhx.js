@@ -952,9 +952,8 @@ var $dhx = {
                     this.xmlDoc.setRequestHeader("X-browser-screen-width", screen.width);
                     this.xmlDoc.setRequestHeader("X-browser-screen-height", screen.height);
                     this.xmlDoc.setRequestHeader("X-Company-ID", $dhx.REST.API.company_id || 0);
-                    this.xmlDoc.setRequestHeader("X-Company-Branch-ID", $dhx.REST.API.company_branch_id || 0);
-                    this.xmlDoc.setRequestHeader("X-Person-Group", $dhx.REST.API.group || 0);
-                    this.xmlDoc.setRequestHeader("X-Person-ID", $dhx.REST.API.person_id || 0);
+                    this.xmlDoc.setRequestHeader("X-User-Group", $dhx.REST.API.group || 0);
+                    this.xmlDoc.setRequestHeader("X-User-ID", $dhx.REST.API.api_user_id || 0);
                     //this.xmlDoc.setRequestHeader("X-Person-Type", $dhx.REST.API.person_type || '');
                     this.xmlDoc.setRequestHeader("X-client-session-id", $dhx.REST.API.client_session_id || 0);
                     this.xmlDoc.setRequestHeader("Authorization", "Digest " + $dhx.crypt.base64_encode($dhx.REST.API.token));
@@ -1151,6 +1150,11 @@ var $dhx = {
         if ($dhx.dhx_elements[id].html) {
             element.innerHTML = $dhx.dhx_elements[id].html;
         }
+		if ($dhx.dhx_elements[id].dnd) {
+			//alert();
+            element.draggable = true;
+        }
+		//draggable
 
         if ($dhx.dhx_elements[id].width) element.style.width = $dhx.dhx_elements[id].width + 'px';
         if ($dhx.dhx_elements[id].height) element.style.height = $dhx.dhx_elements[id].height + 'px';

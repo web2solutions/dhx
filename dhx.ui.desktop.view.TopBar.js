@@ -10,7 +10,7 @@ $dhx.ui.desktop.view.TopBar = {
 		var that = $dhx.ui.desktop.view
 			, self = $dhx.ui.desktop.view.TopBar;
 		self.idiom_contextual_menu = new dhtmlXMenuObject($dhx.ui.desktop.settings.menu_contextual_idiom);
-		self.idiom_contextual_menu.addContextZone(self.top_bar_quick_tools_idioms.id);
+		self.idiom_contextual_menu.addContextZone(self.quick_tools_idioms.id);
 		self.idiom_contextual_menu.attachEvent("onClick", function (id) {
 			if (id == 'portuguese') {
 				$dhx.ui.i18n.setUserIdiom('pt-br');
@@ -38,10 +38,10 @@ $dhx.ui.desktop.view.TopBar = {
 		
 	}
 	
-	, _top_bar_left_text: function () {
+	, _left_text: function () {
 		var that = $dhx.ui.desktop.view
 			, self = $dhx.ui.desktop.view.TopBar;
-		self.top_bar_left_text = $dhx.createElement({
+		self.left_text = $dhx.createElement({
 			tag_name: 'DIV'
 			//, parent: self.top_bar
 			, style: ''
@@ -51,10 +51,10 @@ $dhx.ui.desktop.view.TopBar = {
 		});
 	}
 	
-	, _top_bar_quick_tools: function () {
+	, _quick_tools: function () {
 		var that = $dhx.ui.desktop.view
 			, self = $dhx.ui.desktop.view.TopBar;
-		self.top_bar_quick_tools = $dhx.createElement({
+		self.quick_tools = $dhx.createElement({
 			tag_name: 'DIV'
 			//, parent: self.top_bar
 			, style: ''
@@ -62,51 +62,82 @@ $dhx.ui.desktop.view.TopBar = {
 			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools'
 		});
 		
-		self.top_bar_quick_tools_settings = $dhx.createElement({
+		self.quick_tools_settings = $dhx.createElement({
 			tag_name: 'DIV'
-			, parent: self.top_bar_quick_tools
+			, parent: self.quick_tools
 			, style: ''
 			, class: 'dhx_ui_desktop_top_bar_quick_tools_settings'
 			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.settings'
 			, width: 30
 			, title : $dhx.ui.language.click_to_open_control_panel
 		});
+	
 		
-		self.top_bar_quick_tools_settings.onclick = function(){
-			$dhx.ui.desktop.view.ControlPanel.render();
-		};
+		self.quick_tools_settings.addEventListener('click', function(event) {
+           $dhx.ui.desktop.view.ControlPanel.render();
+        });
 		
-		self.top_bar_quick_tools_clock = $dhx.createElement({
+		self.quick_tools_clock = $dhx.createElement({
 			tag_name: 'DIV'
-			, parent: self.top_bar_quick_tools
+			, parent: self.quick_tools
 			, style: ''
 			, class: 'dhx_ui_desktop_top_bar_quick_tools_clock'
 			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.clock'
 		});
 		$dhx.ui.helpers.clock('$dhx.ui.desktop.active_area.top_bar.quick_tools.clock');
-		self.top_bar_quick_tools_transfers = $dhx.createElement({
+		
+		
+		
+		
+		self.quick_tools_transfers = $dhx.createElement({
 			tag_name: 'DIV'
-			, parent: self.top_bar_quick_tools
+			, parent: self.quick_tools
 			, style: ''
 			, class: 'dhx_ui_desktop_top_bar_quick_tools_transfers'
 			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.transfers'
 		});
 		
-		self.top_bar_quick_tools_idioms = $dhx.createElement({
+		self.token_expiration = $dhx.createElement({
 			tag_name: 'DIV'
-			, parent: self.top_bar_quick_tools
+			, parent: self.quick_tools
+			, style: ''
+			, class: 'dhx_ui_desktop_top_bar_quick_tools_session_expire'
+			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.token_expiration'
+			, title : $dhx.ui.language.session_expires_in
+		});
+		
+		$dhx.REST.API.showCountDown(self.token_expiration.id);
+		
+		self.quick_tools_idioms = $dhx.createElement({
+			tag_name: 'DIV'
+			, parent: self.quick_tools
 			, style: ''
 			, class: 'dhx_ui_desktop_top_bar_quick_tools_idioms'
 			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.idioms'
 			, html: $dhx.ui.i18n.idiom
 			, title : $dhx.ui.language.right_click_to_select_a_language
+			
 		});
+		
+		self.quick_tools_idioms.addEventListener('click', function(event) {
+           console.log(event.clientX, event.clientY);
+			self.idiom_contextual_menu.showContextMenu(event.clientX, event.clientY);
+			//this.dispatchEvent('contextmenu');
+        });
+		
+		
 		self._idiom_contextual_menu();
 		
-		self.top_bar_quick_tools_idioms.onclick = function(event){
-			console.log(event.clientX, event.clientY);
-			self.idiom_contextual_menu.showContextMenu(event.clientX, event.clientY);
-		}
+		
+		
+		self.messages = $dhx.createElement({
+			tag_name: 'DIV'
+			, parent: self.quick_tools
+			, style: ''
+			, class: 'dhx_ui_desktop_top_bar_quick_tools_messages'
+			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.messages'
+			, title : $dhx.ui.language.click_to_open_messages
+		});
 	
 	}
 
@@ -116,8 +147,8 @@ $dhx.ui.desktop.view.TopBar = {
 			, self = $dhx.ui.desktop.view.TopBar;
 		try {
 			self._top_bar();
-			self._top_bar_left_text();
-			self._top_bar_quick_tools();
+			self._left_text();
+			self._quick_tools();
 		}
 		catch (e) {
 			console.log(e.stack);

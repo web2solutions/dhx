@@ -158,7 +158,7 @@ $dhx.ui.desktop.view.SideBar = {
 		
 		*/
 		var tooltip = tooltip = $dhx.strip_tags( c.summary );
-		var strIcon = '<img alt="' + tooltip + '" title="' + tooltip + '" width="46" height="46" src="' + $dhx.ui.cdn_address + '/dhx/ui/desktop/assets/icons/' + c
+		var strIcon = '<img draggable="false" alt="' + tooltip + '" title="' + tooltip + '" width="46" height="46" src="' + $dhx.ui.cdn_address + '/dhx/ui/desktop/assets/icons/' + c
 			.icon + '" />';
 		var settings = {
 			tag_name: 'DIV'
@@ -167,8 +167,65 @@ $dhx.ui.desktop.view.SideBar = {
 			, class: 'dhx_ui_desktop_side_button'
 			, id: '$dhx.ui.desktop.active_area.side_button.' + c.appId
 			, html: (c.icon) ? strIcon : c.html
+			, dnd : true
 		};
 		self.side_button[c.appId] = $dhx.createElement(settings);
+		self.side_button[c.appId].childNodes[0].draggable = false;
+		
+		var dragSrcEl;
+		
+		self.side_button[c.appId].addEventListener('dragstart', function(e){
+			this.style.opacity = '0.4';
+
+			  dragSrcEl = this;
+			
+			  e.dataTransfer.effectAllowed = 'move';
+			  e.dataTransfer.setData('text/html', this.innerHTML);
+		}, false);
+		
+		
+		/*self.side_button[c.appId].addEventListener('dragleave', function(e){
+			//alert();	
+			console.log('dragleave')	
+		}, false);
+		
+		self.side_button[c.appId].addEventListener('dragenter', function(e){
+			//alert();	
+			console.log('dragenter')	
+		}, false);
+		
+		self.side_button[c.appId].addEventListener('dragover', function(e){
+			if (e.preventDefault) {
+				e.preventDefault(); // Necessary. Allows us to drop.
+			 }
+		console.log('dragover')	
+			  e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+			
+			  return false;	
+		}, false);
+		
+		
+		self.side_button[c.appId].addEventListener('drop', function(e){
+			// this / e.target is current target element.
+			//alert();
+		  if (e.stopPropagation) {
+			e.stopPropagation(); // stops the browser from redirecting.
+		  }
+		  	console.log('drop')
+		
+			//console.log(dragSrcEl.innerHTML);
+			console.log(this.innerHTML);
+			console.log(e.dataTransfer.getData('text/html'));
+		
+		  // Don't do anything if dropping the same column we're dragging.
+		  //if (dragSrcEl != this) {
+			// Set the source column's HTML to the HTML of the columnwe dropped on.
+			//dragSrcEl.innerHTML = this.innerHTML;
+			//this.innerHTML = e.dataTransfer.getData('text/html');
+		  //}
+		
+		  return false; 
+		}, false);*/
 		
 		self._programs_contextual_menu( c, self.side_button[c.appId].id );
 		

@@ -1,7 +1,52 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
 /*global $dhx, dhtmlx, dhtmlXLayoutObject */
 $dhx.ui.i18n['pt-br'] = {
-    //$dhx.ui.language = {
+    
+	
+	text_labels: {
+        // validation text labels section
+        validation_notEmpty: function(label) {
+            return "O campo '" + label + "' deve ser preenchido";
+        },
+        validation_Empty: function(label) {
+            return "O campo '" + label + "' não deve ser preenchido";
+        },
+        validation_ValidEmail: function(label) {
+            return "O valor do campo " + label + " não é um e-mail válido";
+        },
+        validation_ValidInteger: function(label) {
+            return "O valor do campo "+ label + " deve ser do tipo inteiro";
+        },
+        validation_ValidFloat: function(label) {
+            return "O valor do campo "+ label + " deve ser do tipo float";
+        },
+        validation_ValidNumeric: function(label) {
+            return "O valor do campo "+ label + " deve ser numérico";
+        },
+        validation_ValidAplhaNumeric: function(label) {
+            return "O valor do campo "+ label + " deve ser alpha numérico";
+        },
+        validation_ValidDatetime: function(label) {
+            return "O valor do campo "+ label + " deve ser uma data válida com horário";
+        },
+        validation_ValidExpirationdate: function(label) {
+            return "O valor do campo "+ label + " deve ser uma data de expiração válida";
+        },
+        validation_ValidDate: function(label) {
+            return "O valor do campo "+ label + " deve ser uma data válida";
+        },
+        validation_ValidTime: function(label) {
+            return "O valor do campo "+ label + " deve ser um horário";
+        },
+        validation_ValidCurrency: function(label) {
+            return "O valor do campo "+ label + " deve ser um valor monetário";
+        },
+        validation_ValidSSN: function(label) {
+            return "O valor do campo "+ label + " deve ser um número de social security";
+        }
+    },
+	
+	
     // menu
     File: 'Arquivo'.CFC(),
     New: 'Novo'.CFC(),
@@ -94,5 +139,13 @@ $dhx.ui.i18n['pt-br'] = {
 	,"quota usage" : "uso do disco"
 	,"Size in GB" : "Consumo em GB"
 	,'Live quota information':'Informações de uso disco'
+	
+	,username : 'usuário'
+	,password : 'senha'
+	,login : 'entrar'
+	,forgot_password : 'esqueci minha senha'
+	,session_expires_in : 'tempo para o término da sessão'
+	,click_to_open_messages : 'clique para abrir ver as mensagens'
+	,expired_token_message : 'Sessão expirada. Por favor efetue login novamente.'
 };
 //$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );

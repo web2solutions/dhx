@@ -3,6 +3,51 @@
 $dhx.ui.i18n['en-us'] = {
     //$dhx.ui.language = {
     // menu
+	
+	
+	text_labels: {
+        // validation text labels section
+        validation_notEmpty: function(label) {
+            return "The '" + label + "' field value can not be empty";
+        },
+        validation_Empty: function(label) {
+            return "The '" + label + "' field value should be empty";
+        },
+        validation_ValidEmail: function(label) {
+            return "The " + label + " field value is not a valid e-mail";
+        },
+        validation_ValidInteger: function(label) {
+            return "The " + label + " field should be a valid integer value";
+        },
+        validation_ValidFloat: function(label) {
+            return "The " + label + " field should be a valid float value";
+        },
+        validation_ValidNumeric: function(label) {
+            return "The " + label + " field value should be a valid numeric value";
+        },
+        validation_ValidAplhaNumeric: function(label) {
+            return "The " + label + " field value should be a valid alpha numeric value";
+        },
+        validation_ValidDatetime: function(label) {
+            return "The " + label + " field value should be a valid date time value";
+        },
+        validation_ValidExpirationdate: function(label) {
+            return "The " + label + " field value should be a valid expiration date";
+        },
+        validation_ValidDate: function(label) {
+            return "The " + label + " field value should be a valid date value";
+        },
+        validation_ValidTime: function(label) {
+            return "The " + label + " field value should be a valid time value";
+        },
+        validation_ValidCurrency: function(label) {
+            return "The " + label + " field should be a valid currency value";
+        },
+        validation_ValidSSN: function(label) {
+            return "The " + label + " field should be a valid social security number value";
+        }
+    },
+	
     File: 'File'.CFC(),
     New: 'New'.CFC(),
     OpenSelected: 'Open selected'.CFC(),
@@ -96,4 +141,11 @@ $dhx.ui.i18n['en-us'] = {
 	,"quota usage" : "quota usage"
 	,"Size in GB" : "Size in GB"
 	,'Live quota information' : 'Live quota information'
+	,username : 'username'
+	,password : 'password'
+	,login : 'login'
+	,forgot_password : 'forgot password'
+	,session_expires_in : 'session ends in'
+	,click_to_open_messages : 'click to open messages'
+	,expired_token_message : 'Expired token. Please do login again ... '
 };

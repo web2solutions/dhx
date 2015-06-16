@@ -32,7 +32,7 @@ $dhx.ui.crud.simple.View.FormWindow = {
             height: height,
         });
         self.window[uid].button('park').hide();
-        self.window[uid].button('minmax').hide();
+        //self.window[uid].button('minmax').hide();
         self.window[uid].button('stick').hide();
         self.window[uid].attachEvent("onClose", function(win) {
             schema.unbind.form({
@@ -105,21 +105,12 @@ $dhx.ui.crud.simple.View.FormWindow = {
         schema.bind.form({
             component: self.form[uid],
             component_id: "$dhx.ui.crud.simple.View.form." + uid + "."
-                // not mandatory, default undefined
-
             ,
             prepare: {
                 settings: form_template
             }
-            //,component_settings : 
-
             ,
             onSuccess: function() {
-
-
-
-
-
 
             },
             onFail: function() {
