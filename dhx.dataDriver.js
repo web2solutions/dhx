@@ -293,12 +293,22 @@ $dhx.dataDriver = {
                 if (record.hasOwnProperty(column)) {
                     if (typeof table_schema.columns[column] === 'undefined') {
                         if (table_schema.primary_key.keyPath != column)
+						{
                             return 'column ' + column + ' does not exist';
+						}
                     }
+					else
+					{
+						//console.log(column);
+						//console.log(table_schema.columns);
+							
+	
+						if (table_schema.columns[column].type.toLowerCase() != 'serial') {
+							clone[column] = record[column];
+						}
+					}	
 
-                    if (table_schema.columns[column].type.toLowerCase() != 'serial') {
-                        clone[column] = record[column];
-                    }
+					
                 } else
                     return 'can not parse record' + record;
 
@@ -463,16 +473,21 @@ $dhx.dataDriver = {
             if ($dhx._enable_log) console.info('executed _completeAdd operation at: ' + c.table);
             if ($dhx._enable_log) console.log('transaction complete      ', event);
             if ($dhx._enable_log) console.info('rows affected: ' + rows_affected);
-
-            $dhx.MQ.publish(that.dbs[db_name].root_topic + "." + table, {
-                action: 'add',
-                target: 'table',
-                name: table,
-                status: 'success',
-                message: 'record added',
-                records: records,
-                onInit: isOnCreate
-            });
+			
+			if(!c.notPublish)
+			{
+				$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + table, {
+					action: 'add',
+					target: 'table',
+					name: table,
+					status: 'success',
+					message: 'record added',
+					records: records,
+					onInit: isOnCreate
+				});
+			}
+			
+			
             $dhx.dataDriver.public[c.table].onAfterAdd(records, rows_affected);
             if (c.onSuccess) c.onSuccess(tx, event, rows_affected);
             records = null;
@@ -853,7 +868,7 @@ $dhx.dataDriver = {
     update: function(c) {
         //'use strict';
 
-        console.log('XXXXXXX>>>>>>>>  ', c);
+        //console.log('XXXXXXX>>>>>>>>  ', c);
 
         try {
             var that = $dhx.dataDriver,
@@ -973,17 +988,23 @@ $dhx.dataDriver = {
                 updateRequest.addEventListener('success', function(event) {
                     rows_affected = event.target.result;
                     var topic = that.dbs[db_name].root_topic + "." + c.table;
-                    $dhx.MQ.publish(topic, {
-                        action: 'update',
-                        target: 'table',
-                        name: c.table,
-                        status: 'success',
-                        message: 'record updated',
-                        record_id: record_id,
-                        record: record,
-                        old_record: c.old_record
-                    });
-
+					
+					//console.log('c.notPublish ', c.notPublish)
+					
+					if(!c.notPublish)
+					{
+						$dhx.MQ.publish(topic, {
+							action: 'update',
+							target: 'table',
+							name: c.table,
+							status: 'success',
+							message: 'record updated',
+							record_id: record_id,
+							record: record,
+							old_record: c.old_record
+						});
+					}
+					
                     console.timeEnd(timer_label);
 
                     if ($dhx._enable_log) console.info('executed');
@@ -1716,20 +1737,59 @@ $dhx.dataDriver = {
     _prepareGridSaveOnEdit: function(c, component) {
         'use strict';
         var that = $dhx.dataDriver;
+		
+		
+		component.attachEvent("onCheck", function(rId,cInd,state){
+			var table_schema = that.getTableSchema(c);
+            var column_name = component.getColumnId(cInd);
+			$dhx.showDirections("saving data ... ");
+			component.setRowTextBold(rId);
+			var hash = {};
+			var old_hash = {}
+			hash[component.getColumnId(cInd)] = state;
+			old_hash[component.getColumnId(cInd)] = (state) ? false : true ;
+			
+			$dhx.dataDriver.public[c.table].update(rId, hash, old_hash, function () {
+				dhtmlx.message({
+					text: "data updated"
+				});
+				component.cells(rId, cInd).setValue(state);
+				component.setRowTextNormal(rId);
+				$dhx.hideDirections();
+			}, function () {
+				dhtmlx.message({
+					type: "error"
+					, text: "data was not updated"
+				});
+				component.cells(rId, cInd).setValue((state) ? false : true);
+				component.setRowTextNormal(rId);
+				$dhx.hideDirections();
+			});
+		});
+		
+		
         component.attachEvent("onEditCell", function(stage, rId, cInd, nValue, oValue) {
             var table_schema = that.getTableSchema(c);
             var column_name = component.getColumnId(cInd);
             if (stage == 0) {
+				//console.log(nValue, oValue);
                 return true;
-            } else if (stage == 1 && component.editor.obj) {
-                //console.log( grid.cells( rId, cInd) );
-                // format and mask here
-                var input = component.editor.obj;
-                var format = table_schema.columns[column_name].format;
-                that._setInputMask(input, format);
-
+            } else if (stage == 1) {
+				//console.log(nValue, oValue);
+				if( component.editor )
+				{
+					if(component.editor.obj)
+					{
+						//console.log( grid.cells( rId, cInd) );
+						// format and mask here
+						var input = component.editor.obj;
+						var format = table_schema.columns[column_name].format;
+						that._setInputMask(input, format);
+					}
+				}
                 return true;
             } else if (stage == 2) {
+				console.log(nValue, oValue);
                 if (nValue != oValue) {
                     $dhx.showDirections("saving data ... ");
                     component.setRowTextBold(rId);
@@ -3847,13 +3907,51 @@ $dhx.dataDriver = {
                                         //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
                                         self.schema[table].setCursor(data.record_id, function() {}, function() {});
                                     }
-                                    if (data.action == 'add' && data.message == 'record added') {
-                                        //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+                                    if (data.action == 'add' && data.message == 'record added' && data.origin == 'server') {
+                                        console.log('XXXXXXXXXXXXXXXXXXXXX', data);
+										$dhx.dataDriver.public[data.name].add(data.records, function(tx, event, rows_affected) {
+											if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
+											//(onSuccess) ? onSuccess(): "";
+										}, function(tx, event, rows_affected) {
+											if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
+											//(onFail) ? onFail(): "";
+										}, false/*isOnCreate*/, true/*notPublish*/);
+                                    }
+									
+									if (data.action == 'update' && data.message == 'record updated' && data.origin == 'server') {
+										
+                                        //console.log('XXXXXXXXXXXXXXXXXXXXX', data);
+										
+										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data);
+										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.name);
+										 //console.log('XXXXXXXXXXXXXXXXXXXXX', $dhx.dataDriver.public[data.name]);
+										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.old_record);
+										
+										$dhx.dataDriver.public[data.name].update(data.record_id, data.record, data.old_record, function(tx, event, rows_affected) {
+											//component.unlock();
+											if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
+											//(onSuccess) ? onSuccess(): "";
+										}, function(tx, event, rows_affected) {
+								
+											//that._saveRecordCheckError(component, event, c);
+								
+											//component.unlock();
+											if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
+											//(onFail) ? onFail(): "";
+										}, true);
+										
+										
+										
+										
+										
+										
+										//alert('update table');
                                     }
                                 }
                             }
                         },
-                        add: function(record, onSuccess, onFail, isOnCreate) {
+                        add: function(record, onSuccess, onFail, isOnCreate, notPublish) {
                             //console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> persons.add isOnCreate ', isOnCreate );
                             that.add({
                                 db: db_name,
@@ -3861,10 +3959,11 @@ $dhx.dataDriver = {
                                 record: record,
                                 onSuccess: onSuccess,
                                 onFail: onFail,
-                                isOnCreate: isOnCreate
+                                isOnCreate: isOnCreate || false,
+								notPublish : notPublish || false
                             });
                         },
-                        update: function(record_id, record, old_record, onSuccess, onFail) {
+                        update: function(record_id, record, old_record, onSuccess, onFail, notPublish) {
                             that.update({
                                 db: db_name,
                                 table: table,
@@ -3872,7 +3971,9 @@ $dhx.dataDriver = {
                                 record: record,
                                 old_record: old_record,
                                 onSuccess: onSuccess,
-                                onFail: onFail
+                                onFail: onFail,
+								notPublish : notPublish || false
+								
                             });
                         },
                         load: function(onSuccess, onFail) {
@@ -4385,9 +4486,10 @@ $dhx.dataDriver = {
 
             $dhx.MQ.oldPublish = $dhx.MQ.publish;
 
-            $dhx.MQ.publish = function(topic, message) {
-                if (message.message == 'record added') {
-
+            $dhx.MQ.publish = function(topic, message) 
+			{
+                if (message.message == 'record added')
+				 {
                     if (typeof message.onInit !== 'undefined') {
                         if (message.onInit) {
                             if ($dhx._enable_log) console.info('records added on init', 'I will not send cross window message');
@@ -4396,11 +4498,17 @@ $dhx.dataDriver = {
 
                     }
                 }
-                //console.log( message );
-                //if (message.message == 'record added' || message.message == 'record updated' || message.message == 'record deleted') {
-                    $dhx.jDBdStorage.storeObject('message.' + topic, JSON.stringify(message));
-                //}
-                $dhx.MQ.oldPublish(topic, message);
+				//send to everybody via socket
+                if (message.message == 'record added' || message.message == 'record updated' || message.message == 'record deleted' || message.message == 'change wallpaper') {
+					var mclone = $dhx.extend(message)
+					mclone['topic'] = topic;				
+					$dhx.ui.desktop.socket.send(mclone);
+                }
+				// send to local only
+				else
+				{
+					$dhx.MQ.oldPublish(topic, message);
+				}				
             }
 
             window.addEventListener('storage', function(storageEvent) {
