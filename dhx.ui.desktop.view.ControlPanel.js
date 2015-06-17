@@ -246,6 +246,7 @@ $dhx.ui.desktop.view.ControlPanel = {
 		self.toolbar_wallpapers.setIconSize(24);
 		self.toolbar_wallpapers.attachEvent("onClick", function (id) {
 			//$dhx.ui.desktop.user_settings.wallpaper
+			//alert(self.temporaryWallpaper);
 			schema.desktop_config.update(
 				$dhx.ui.desktop.user_settings.desktop_config_id
 				, {
@@ -286,7 +287,7 @@ $dhx.ui.desktop.view.ControlPanel = {
 		self.dataview_wallpapers = self.layout_wallpapers.cells('b').attachDataView($dhx.ui.desktop.settings.ControlPanel.dataview_wallpapers);
 		self.dataview_wallpapers.attachEvent("onItemClick", function (itemId) {
 			self.toolbar_wallpapers.enableItem('save');
-			self.temporaryWallpaper = this.get(itemId).name;
+			self.temporaryWallpaper = this.get(itemId).file ;
 			self.bmonitor.style.background = "url(" + $dhx.ui.desktop.wallpappers_path + "thumbs_g/" +  self.temporaryWallpaper + ") center center no-repeat";
 			self.bmonitor.style.backgroundSize = "432px 252px";
 		});
