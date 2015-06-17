@@ -1286,15 +1286,18 @@ $dhx.dataDriver = {
                 console.timeEnd(timer_label);
                 //console.log( event );
                 $dhx.dataDriver.public[c.table]._internal_cursor_position = 0;
-
-                $dhx.MQ.publish(that.dbs[db_name].root_topic + "." + c.table, {
-                    action: 'delete',
-                    target: 'table',
-                    name: c.table,
-                    status: 'success',
-                    message: 'record deleted',
-                    record_id: c.record_id
-                });
+				
+				if(!c.notPublish)
+				{
+					$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + c.table, {
+						action: 'delete',
+						target: 'table',
+						name: c.table,
+						status: 'success',
+						message: 'record deleted',
+						record_id: c.record_id
+					});
+				}
 
                 if ($dhx._enable_log) console.info('executed');
                 if ($dhx._enable_log) console.log('transaction complete - record deleted');
@@ -3901,8 +3904,11 @@ $dhx.dataDriver = {
                             //console.log( data );
                             if (data.target == 'table') {
                                 if (data.name == table) {
-                                    if ($dhx._enable_log) console.info('table ' + data.name + ' from ' + db_name + ' database received message just right now: ', data);
-                                    //console.log( data );
+                                    if ($dhx._enable_log) 
+									{
+										console.info('the table ' + data.name + ' from ' + db_name 
+											+ ' database received a message about it: ', data);
+									}
                                     if (data.action == 'select' && data.message == 'selected record') {
                                         //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
                                         self.schema[table].setCursor(data.record_id, function() {}, function() {});
@@ -3913,40 +3919,25 @@ $dhx.dataDriver = {
 											if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
 											//(onSuccess) ? onSuccess(): "";
 										}, function(tx, event, rows_affected) {
-											if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
+											if ($dhx._enable_log) console.info('record not saved. ', error_message);
 											//(onFail) ? onFail(): "";
 										}, false/*isOnCreate*/, true/*notPublish*/);
                                     }
 									
 									if (data.action == 'update' && data.message == 'record updated' && data.origin == 'server') {
-										
-                                        //console.log('XXXXXXXXXXXXXXXXXXXXX', data);
-										
-										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data);
-										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.name);
-										 //console.log('XXXXXXXXXXXXXXXXXXXXX', $dhx.dataDriver.public[data.name]);
-										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-										 //console.log('XXXXXXXXXXXXXXXXXXXXX', data.old_record);
-										
 										$dhx.dataDriver.public[data.name].update(data.record_id, data.record, data.old_record, function(tx, event, rows_affected) {
-											//component.unlock();
 											if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
-											//(onSuccess) ? onSuccess(): "";
 										}, function(tx, event, rows_affected) {
-								
-											//that._saveRecordCheckError(component, event, c);
-								
-											//component.unlock();
-											if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
-											//(onFail) ? onFail(): "";
+											if ($dhx._enable_log) console.info('record not updated. ', error_message);
 										}, true);
-										
-										
-										
-										
-										
-										
-										//alert('update table');
+                                    }
+									
+									if (data.action == 'delete' && data.message == 'record deleted' && data.origin == 'server') {
+										$dhx.dataDriver.public[data.name].del(data.record_id, function(tx, event, record_id) {
+											if ($dhx._enable_log) console.info('record deleted. id: ', record_id);
+										}, function(tx, event, error_message) {
+											if ($dhx._enable_log) console.info('record not deleted. ', error_message);
+										}, true);
                                     }
                                 }
                             }
@@ -3984,22 +3975,24 @@ $dhx.dataDriver = {
                                 onFail: onFail
                             });
                         },
-                        del: function(record_id, onSuccess, onFail) {
+                        del: function(record_id, onSuccess, onFail, notPublish) {
                             that.del({
                                 db: db_name,
                                 table: table,
                                 record_id: record_id,
                                 onSuccess: onSuccess,
-                                onFail: onFail
+                                onFail: onFail,
+								notPublish : notPublish || false
                             });
                         },
-                        remove: function(record_id, onSuccess, onFail) {
+                        remove: function(record_id, onSuccess, onFail, notPublish) {
                             that.del({
                                 db: db_name,
                                 table: table,
                                 record_id: record_id,
                                 onSuccess: onSuccess,
-                                onFail: onFail
+                                onFail: onFail,
+								notPublish : notPublish || false
                             });
                         },
                         clearAll: function(onSuccess, onFail) {
