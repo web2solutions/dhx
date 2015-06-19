@@ -268,7 +268,24 @@ $dhx.dhtmlx = {
                     try {
                         value = DHTMLXForm.getInput(fieldname).value;
                     } catch (e) {
-                        value = hash[fieldname] || "";
+						
+						if(type == 'btn2state')
+						{
+							value = DHTMLXForm.isItemChecked(fieldname);
+						}
+						else if(type == 'checkbox')
+						{
+							value = DHTMLXForm.isItemChecked(fieldname) ? 1 : 0;
+						}
+						else if(type == 'combo')
+						{
+							var fcombo = DHTMLXForm.getCombo(fieldname);
+							value = fcombo.getSelectedValue() ? fcombo.getSelectedValue() : '';
+						}
+						else
+						{
+							value = hash[fieldname] || "";
+						}
                     }
                     validate = field.validate || "";
                     //console.log(validate);
@@ -532,12 +549,21 @@ $dhx.dhtmlx = {
             fcombo.openSelect();
         } else if (type == "editor") {
             //var feditor = DHTMLXForm.getEditor(name);
+        }else if (type == "btn2state") {
+            //var feditor = DHTMLXForm.getEditor(name);
         } else if (type == "multiselect") {
             self._setInputInvalid(DHTMLXForm.getSelect(name), uid);
         } else if (type == "select") {
             self._setInputInvalid(DHTMLXForm.getSelect(name), uid);
         } else {
-            self._setInputInvalid(DHTMLXForm.getInput(name));
+            try
+			{
+				self._setInputInvalid(DHTMLXForm.getInput(name));
+			}
+			catch(e)
+			{
+				console.log('error handling input '+ name);
+			}
         }
     }
 }
