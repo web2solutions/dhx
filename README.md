@@ -124,7 +124,7 @@ http://dhtmlx.com/
   I'm sorry Bill, but we don't provide support to IE on our offline database and socket libraries. Maybe on 12 version of Internet Explorer.
 
 
-### BUGS LIMITATIONS
+### BUGS
 
 No bugs have been reported.
 
