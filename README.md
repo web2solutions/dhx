@@ -92,7 +92,10 @@ $dhx is the top layer of the T-Rex realtime and high available web stack
   T-Rex is a realtime and high available web stack made on top of Mojolicious, a fantastic and modern Perl framework.
   Implements a set of hot features providing support to Agile development of Enterprise web applications.
 
+  See more at:
 
+  - https://github.com/web2solutions/AgileREST
+  - https://github.com/web2solutions/AgileWebsocket
 
 
 ### About DHTMLX
