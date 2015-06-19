@@ -111,13 +111,12 @@ $dhx.ui = {
 			self.skin = skin.skin;
 			self.skin_subset = skin.skin_subset;
 		}
-		if (window.location.host.indexOf('web2.eti.br') != -1) {
+		if (window.location.host.indexOf('mac.web2.eti.br') != -1) {
 			$dhx.environment = "test";
 			$dhx.ui.cdn_address = '//mac.web2.eti.br/';
 		}
-		else if (window.location.host.indexOf('10.0.0.9') != -1) {
-			$dhx.environment = "test";
-			$dhx.ui.cdn_address = '//10.0.0.9/';
+		else if (window.location.host.indexOf('api.web2.eti.br') != -1) {
+			$dhx.environment = "production";
 		}
 		else {
 			$dhx.environment = "production";
@@ -245,6 +244,29 @@ $dhx.ui = {
 				{
 					console.info('starting $dhx.ui');
 				}
+				
+				dhtmlXCalendarObject.prototype.langData["en"] = {
+					dateformat: "%Y-%m-%d",
+					monthesFNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outrubro", "Novembro", "Dezembro"],
+					monthesSNames: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+					daysFNames: ["Dormingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+					daysSNames: ["D", "S", "T", "Q", "Q", "S", "S"],
+					weekstart: 0,
+						weekname: "D" 
+				};
+				
+				window.dhx4.dateLang = "pt";
+				window.dhx4.dateStrings = {
+					pt: {
+						monthFullName: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outrubro", "Novembro", "Dezembro"],
+						monthShortName: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+						dayFullName: ["Dormingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+						dayShortName: ["D", "S", "T", "Q", "Q", "S", "S"]
+					}
+				};
+				
+				
+				
 				window.dhx4.dateFormat = {
 					en: "%Y-%m-%d"
 					, pt: "%Y-%m-%d"
@@ -309,8 +331,8 @@ $dhx.ui.helpers = {
 			*/
 			var field = {
 				tooltip: ""
-				, mask_to_use: ""
-				, value: ""
+				, mask_to_use: column.format
+				, value: column.default
 				, maxLength: column.maxlength
 				, required: column.required
 				, label: column.dhtmlx_grid_header
@@ -323,6 +345,43 @@ $dhx.ui.helpers = {
 				, dhx_prop_value: column.foreign_column_value
 				, type: (column.has_fk) ? 'combo' : $dhx.ui.helpers.sqlToDhxFormType(column.type)
 			};
+			
+			if( column.format == 'currency' )
+			{
+				field['value'] = 0;
+				if( field['validate'].indexOf('ValidCurrency') == -1 )
+				{
+					field['validate'] = ( field['validate'].length > 0 ) ? field['validate'] + ',ValidCurrency' : 'ValidCurrency';
+				}
+			}
+			
+			if( column.format == 'date' )
+			{
+				field['value'] = 0;
+				if( field['validate'].indexOf('ValidDate') == -1 )
+				{
+					field['validate'] = ( field['validate'].length > 0 ) ? field['validate'] + ',ValidDate' : 'ValidDate';
+				}
+			}
+			
+			if(column.is_nullable == 'NO')
+			{
+				if( field['validate'].indexOf('NotEmpty') == -1 )
+				{
+					field['validate'] = ( field['validate'].length > 0 ) ? field['validate'] + ',NotEmpty' : 'NotEmpty';
+				}
+			}
+			
+			if(column.is_fk)
+			{
+				if( field['validate'].indexOf('NotEmpty') == -1 )
+				{
+					field['validate'] = ( field['validate'].length > 0 ) ? field['validate'] + ',NotEmpty' : 'NotEmpty';
+				}
+			}
+			
+			
+			
 			//console.log( field );
 			return field;
 		}
@@ -355,6 +414,31 @@ $dhx.ui.helpers = {
 		}
 		else if ($sql_type == 'boolean') {
 			return 'btn2state';
+		}
+		return '';
+	}
+	
+	, sqlToDhxFormMask: function ($sql_type) {
+		if ($sql_type == 'integer') {
+			return 'integer';
+		}
+		else if ($sql_type == 'bigint') {
+			return 'integer';
+		}
+		else if ($sql_type == 'numeric') {
+			return 'curency';
+		}
+		else if ($sql_type == 'character varying') {
+			return '';
+		}
+		else if ($sql_type == 'text') {
+			return '';
+		}
+		else if ($sql_type == 'date') {
+			return 'date';
+		}
+		else if ($sql_type == 'timestamp without time zone') {
+			return 'time';
 		}
 		return '';
 	}
