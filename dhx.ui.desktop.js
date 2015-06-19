@@ -3,7 +3,7 @@
 $dhx.ui.desktop = {
 	version: '1.0.3'
 	, database : 'juris'
-	, ws : 'ws://10.0.0.9:4000/'
+	, ws : 'ws://dhtmlx.com.br:4000/'
 	, socket : ''
 	, user_settings : null
 	, wallpappers_path : $dhx.ui.cdn_address + "/dhx/ui/desktop/assets/wallpapers/"
