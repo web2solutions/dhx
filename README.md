@@ -119,7 +119,12 @@ http://dhtmlx.com/
 - Commercial && Enterpsise - contact the author for commercial usage
 
 
-### BUGS AND LIMITATIONS
+### LIMITATIONS
+
+  I'm sorry Bill, but we don't provide support to IE on our offline database and socket libraries. Maybe on 12 version of Internet Explorer.
+
+
+### BUGS LIMITATIONS
 
 No bugs have been reported.
 
