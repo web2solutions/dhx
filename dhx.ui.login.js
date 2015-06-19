@@ -236,7 +236,7 @@ $dhx.ui.login = {
 				
 			}
 			, onFail: function (request) {
-				console.log(request);
+				//console.log(request);
 				try {
 					var json = JSON.parse(request.response);
 					self.status_bar.setText(json.response);
