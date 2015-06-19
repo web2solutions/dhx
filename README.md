@@ -2,6 +2,8 @@
 
 > Agile JS framework for realtime && offline enterprise web applications
 
+$dhx is the top layer of the T-Rex realtime and high available web stack
+
 ## $dhx.ui
 
  - i18n
@@ -57,10 +59,6 @@
             // load dhtmlx suite files?
           dhtmlx : true
           ,db : db_name
-          ,version :2
-          ,schema : my_db_structure.schema
-          ,settings : my_db_structure.settings
-          ,records : my_db_structure.records
           ,onStart : function()
           {
             StartUI()
@@ -71,6 +69,39 @@
 
 
 
+### $dhx.ui.desktop T-Rex webOS 
+
+![$dhx.ui.desktop print](http://cdn.dhtmlx.com.br/dhx/docs/dhx.ui.desktop.png)
+
+```javascript
+      $dhx.ui.start( {
+          dhtmlx : true
+          ,desktop : true
+          ,db : 'juris'
+          ,onStart : function()
+          {
+            $dhx.ui.desktop.start();
+          } 
+      } );
+```
+
+
+
+### About T-Rex web stack
+
+  T-Rex is a realtime and high available web stack made on top of Mojolicious, a fantastic and modern Perl framework.
+  Implements a set of hot features providing support to Agile development of Enterprise web applications.
+
+
+
+
+### About DHTMLX
+
+    A cross-browser JavaScript library for building rich Web and Mobile apps
+
+http://dhtmlx.com/
+
+
 ### Bug Fixes for DHTMLX Suite 4.2 std:
 
   - fixed ribbon.unload(). When you add any function to array prototypes, you get errors when unloading DHTMLX ribbons from an application.
@@ -79,9 +110,10 @@
 
 ### LICENSE AND COPYRIGHT
 
-  Copyright 2015 José Eduardo Perotta de Almeida.
+  Copyright 2015 José Eduardo Perotta de Almeida. eduardo at web2solutions.com.br
 
-AGPL - contact the author for commercial usage
+- AGPL for personal use.
+- Commercial && Enterpsise - contact the author for commercial usage
 
 
 ### BUGS AND LIMITATIONS
