@@ -126,7 +126,7 @@ http://dhtmlx.com/
 
 ### BUGS
 
-No bugs have been reported.
+Actually this software is under development. There is no stable version yet.
 
 Please report any bugs or feature requests through the email address: eduardo at web2solutions.com.br
 
