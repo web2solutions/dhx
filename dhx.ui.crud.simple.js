@@ -2,7 +2,7 @@
 /*global $dhx, dhtmlx, dhtmlXLayoutObject, dbDemo */
 
 $dhx.ui.crud.simple = function(configuration) {
-    console.log(configuration);
+    //console.log(configuration);
     try {
         var that = $dhx.ui.crud,
             self = this,

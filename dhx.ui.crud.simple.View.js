@@ -712,7 +712,7 @@ $dhx.ui.crud.simple.View = {
         }
 
 
-        console.log(strWindowID);
+        //console.log(strWindowID);
 
         self = $dhx.ui.crud.controller[appId].view;
 

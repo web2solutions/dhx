@@ -362,7 +362,7 @@ $dhx.dataDriver = {
 
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant create table ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant create table ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -390,7 +390,7 @@ $dhx.dataDriver = {
                 if (c.onFail) c.onFail(req, event, event.target.error.message);
             };
         } catch (e) {
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant drop database ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant drop database ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -449,13 +449,13 @@ $dhx.dataDriver = {
             });
 
             request.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.info('sorry Eduardo, couldnt fecth data! Error message: ' + event);
+                if ($dhx._enable_log) console.error('sorry Eduardo, couldnt fecth data! Error message: ' + event);
                 console.timeEnd("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
                 if (c.onFail) c.onFail(request, event, size);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant get table size ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant get table size ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -528,7 +528,7 @@ $dhx.dataDriver = {
                 //	text: event.srcElement.error.message
                 //});
 
-                if ($dhx._enable_log) console.info('sorry Eduardo, couldnt add record. error message: ' + event.srcElement.error.message);
+                if ($dhx._enable_log) console.error('sorry Eduardo, couldnt add record. error message: ' + event.srcElement.error.message);
                 if ($dhx._enable_log) console.info('rows affected: 0');
                 console.timeEnd(timer_label);
                 if (c.onFail) c.onFail(tx, event, rows_affected);
@@ -577,7 +577,7 @@ $dhx.dataDriver = {
                     cloneEvent.target.error.name = 'Type constraint';
                     cloneEvent.target.error.message = r;
                     if (c.onFail) c.onFail(null, cloneEvent, r);
-                    if ($dhx._enable_log) console.info('sorry Eduardo, invalid record! Error message: ' + r);
+                    if ($dhx._enable_log) console.error('sorry Eduardo, invalid record! Error message: ' + r);
                     return;
                 }
             }
@@ -594,7 +594,7 @@ $dhx.dataDriver = {
                             persist(r);
                         } else {
                             if ($dhx._enable_log) console.info('record ignored: ', JSON.stringify(record));
-                            if ($dhx._enable_log) console.info('sorry Eduardo, invalid record! Error message: ' + r);
+                            if ($dhx._enable_log) console.error('sorry Eduardo, invalid record! Error message: ' + r);
                             continue;
                         }
                     }
@@ -602,12 +602,28 @@ $dhx.dataDriver = {
                     if ($dhx._enable_log) console.log('any record was passed to insert');
                 }
             } else {
-                if ($dhx._enable_log) console.info('sorry Eduardo, I cant parse the record payload');
+                if ($dhx._enable_log) console.error('sorry Eduardo, I cant parse the record payload');
                 return;
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant update record! Error message: ' + e.message);
+			
+			
+			 //if ($dhx._enable_log) console.error('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
+				
+				var error_message = "value not found on column '" + column_on_error + "', please change the field '" + column_on_error + "'";
+				dhtmlx.message({
+                        type: "error",
+                        text: error_message
+                    });
+				var cloneEvent = {};
+                    cloneEvent.target = cloneEvent.target || {};
+                    cloneEvent.target.error = cloneEvent.target.error || {};
+                    cloneEvent.target.error.name = 'Type constraint';
+                    cloneEvent.target.error.message = error_message;
+			
+			
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -691,9 +707,19 @@ $dhx.dataDriver = {
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant _checkFkey! Error message: ' + e.message);
-            //if ($dhx._enable_log) console.info(e);
-            if (c.onFail) c.onFail(null, null, e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant _checkFkey! Error message: ' + e.message);
+            var error_message = "value " + c.value + " not found on column '" + c.column + "' from table " + c.table;
+                    dhtmlx.message({
+                        type: "error",
+                        text: error_message
+                    });
+
+                    var cloneEvent = {};
+                    cloneEvent.target = cloneEvent.target || {};
+                    cloneEvent.target.error = cloneEvent.target.error || {};
+                    cloneEvent.target.error.name = 'Foreign Key constraint';
+                    cloneEvent.target.error.message = error_message;
+            if (c.onFail) c.onFail(null, cloneEvent, e.message);
         }
     }
 
@@ -731,7 +757,7 @@ $dhx.dataDriver = {
 
                                 },
                                 onFail: function(tx, event, error_message) {
-                                    if ($dhx._enable_log) console.info('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', error_message);
+                                    if ($dhx._enable_log) console.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', error_message);
 
                                     if (c.onFail) c.onFail(tx, event, error_message);
                                 }
@@ -746,7 +772,7 @@ $dhx.dataDriver = {
                     cloneEvent.target.error.message = r;
                     if (c.onFail) c.onFail(null, cloneEvent, r);
 
-                    if ($dhx._enable_log) console.info('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+                    if ($dhx._enable_log) console.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
                     return;
                 }
             }
@@ -800,7 +826,7 @@ $dhx.dataDriver = {
                                             }
                                         },
                                         onFail: function(tx, event, error_message) {
-                                            if ($dhx._enable_log) console.info('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', r);
+                                            if ($dhx._enable_log) console.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[key].table + '" foreign table! Error message: ', r);
                                             if (c.onFail) c.onFail(tx, event, error_message);
                                         }
                                     });
@@ -810,7 +836,7 @@ $dhx.dataDriver = {
 
 
                             if ($dhx._enable_log) console.info('record ignored: ', JSON.stringify(record));
-                            if ($dhx._enable_log) console.info('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+                            if ($dhx._enable_log) console.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
                             continue;
                         }
                     }
@@ -818,12 +844,12 @@ $dhx.dataDriver = {
                     if ($dhx._enable_log) console.log('any record was passed to insert');
                 }
             } else {
-                if ($dhx._enable_log) console.info('sorry Eduardo, I cant parse the record payload');
+                if ($dhx._enable_log) console.error('sorry Eduardo, I cant parse the record payload');
                 return;
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -854,7 +880,7 @@ $dhx.dataDriver = {
             that._addSaveOnTable(c, onSuccess, onFail);
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -876,6 +902,8 @@ $dhx.dataDriver = {
                 table_schema = that.dbs[db_name].schema[c.table];
 
             $dhx.dataDriver.public[c.table].onBeforeUpdate();
+			
+			
 
             var timer_label = "identify update method " + $dhx.crypt.SHA2(JSON.stringify(c));
             console.time(timer_label);
@@ -895,7 +923,14 @@ $dhx.dataDriver = {
                         if (need_check) {
                             that._updateCheckFkeys(c);
                         } else {
-                            that._updateSaveOnTable(c);
+							
+							
+							
+							
+							
+							
+							
+                            that._prepareUpdateSaveOnTable(c);
                         }
                         return;
                     }
@@ -903,18 +938,132 @@ $dhx.dataDriver = {
             }
 
             console.timeEnd(timer_label);
-            that._updateSaveOnTable(c);
+            that._prepareUpdateSaveOnTable(c);
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant add record! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
 
 
+	 ,
+    _updateSaveOnIndexedDB: function(c)
+	{
+		var timer_label = "record update on IndexedDB. task: " + $dhx.crypt.SHA2(JSON.stringify(c)),
+			db_name = c.db;
+            console.time(timer_label),
+			rows_affected = 0;
+	}
+
+	 ,
+    _updateSaveOnServer: function(c)
+	{
+		var that = $dhx.dataDriver,
+			timer_label = "record update on server. task: " + $dhx.crypt.SHA2(JSON.stringify(c)),
+			db_name = c.db;
+            console.time(timer_label),
+			rows_affected = 0;
+			
+			var cloneEvent = {};
+						cloneEvent.target = cloneEvent.target || {};
+						cloneEvent.target.error = cloneEvent.target.error || {};
+		
+		$dhx.REST.API.put({
+			resource: "/" + c.table + "/" + parseInt(c.record_id)
+			, format: "json"
+			, payload: "hash=" + JSON.stringify(c.record)
+			, onSuccess: function (request) {
+				try {
+					var json = JSON.parse(request.response);
+					if (json.status == "success") {
+						dhtmlx.message({
+							text: json.response
+						});
+						
+						// now lets put on indexedDB table
+						var tx = that.db(db_name).transaction(c.table, "readwrite"),
+							table = tx.objectStore(c.table),
+							updateRequest = table.put(c.record);
+						
+						updateRequest.addEventListener('success', function (event) {
+							rows_affected = event.target.result;
+							var topic = that.dbs[db_name].root_topic + "." + c.table;
+							if (!c.notPublish) {
+								$dhx.MQ.publish(topic, {
+									action: 'update'
+									, target: 'table'
+									, name: c.table
+									, status: 'success'
+									, message: 'record updated'
+									, record_id: c.record_id
+									, record: c.record
+									, old_record: c.old_record
+								});
+							}
+							console.timeEnd(timer_label);
+							if ($dhx._enable_log) console.info('executed');
+							if ($dhx._enable_log) console.log('transaction complete      ', event);
+							if ($dhx._enable_log) console.info('rows affected: ' + typeof rows_affected !== 'undefined' ? 1 : 0);
+							
+							if (c.onSuccess) c.onSuccess(updateRequest, event, rows_affected);
+						});
+						updateRequest.addEventListener('error', function (event) {
+							dhtmlx.message({
+								type: "error"
+								, text: 'record rejected on client due: ' + event.srcElement.error.message
+							});
+							if ($dhx._enable_log) console.info('error name: ', event.srcElement.error.name);
+							if ($dhx._enable_log) console.info('	sorry Eduardo, couldnt update record. error message: ' + event.srcElement.error.message);
+							if ($dhx._enable_log) console.info('rows affected: 0');
+							console.timeEnd(timer_label);
+							if (c.onFail) c.onFail(updateRequest, event, rows_affected);
+						});
+					}
+					else {
+						console.timeEnd(timer_label);
+						if ($dhx._enable_log) console.error(json.response);
+						
+							cloneEvent.target.error.name = 'Server rejected';
+							cloneEvent.target.error.message = 'record rejected on server due: ' + json.response;
+						if (c.onFail) c.onFail(null, cloneEvent, rows_affected);
+						dhtmlx.message({
+							type: "error"
+							, text: 'record rejected on server due: ' + json.response
+						});
+					}
+				}
+				catch (e) {
+					console.timeEnd(timer_label);
+					if ($dhx._enable_log) console.error(e.stack);
+					
+						cloneEvent.target.error.name = 'Programming error';
+						cloneEvent.target.error.message = 'programming error: ' + e.message;
+					if (c.onFail) c.onFail(null, cloneEvent, rows_affected);
+					dhtmlx.message({
+						type: "error"
+						, text: 'programming error: ' + e.message
+					});
+				}
+			}
+			, onFail: function (request) {
+				console.timeEnd(timer_label);
+				if ($dhx._enable_log) console.error(request.response);
+				
+					cloneEvent.target.error.name = 'Programming error';
+					cloneEvent.target.error.message = 'server error: ' + request.response;
+				if (c.onFail) c.onFail(null, cloneEvent, rows_affected);
+				dhtmlx.message({
+					type: "error"
+					, text: 'server error: ' + request.response
+				});
+			}
+		});
+	}
+
     ,
-    _updateSaveOnTable: function(c) {
+    _prepareUpdateSaveOnTable: function(c) {
         //'use strict';
         //console.log( 'INSIDE UPDATE', c )
         try {
@@ -929,24 +1078,21 @@ $dhx.dataDriver = {
                 primary_key = schema.primary_key.keyPath;
 
 
-            var timer_label = "record update. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
+            var timer_label = "prepare record update. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
             console.time(timer_label);
 
-            var tx = that.db(db_name).transaction(c.table, "readwrite"),
+            var tx = that.db(db_name).transaction(c.table, "readonly"),
                 table = tx.objectStore(c.table),
                 recordIdRequest = table.get(record_id);
 
             c.onSuccess = c.onSuccess || false;
             c.onFail = c.onFail || false;
 
-            function persist(data) {
-                record = data;
-                return table.put(data);
-            }
+            
 
             tx.addEventListener('complete', function(event) {
                 //console.timeEnd( timer_label );
-                if ($dhx._enable_log) console.info('tx update is completed');
+                if ($dhx._enable_log) console.info('tx _prepareUpdateSaveOnTable is completed');
             });
 
             tx.addEventListener('onerror', function(event) {
@@ -971,63 +1117,29 @@ $dhx.dataDriver = {
                                 if (r.hasOwnProperty(i)) data[i] = r[i];
                         } else {
                             console.timeEnd(timer_label);
-                            if ($dhx._enable_log) console.info('sorry Eduardo, invalid record! Error message: ' + r);
+                            if ($dhx._enable_log) console.error('sorry Eduardo, invalid record! Error message: ' + r);
                             if (c.onFail) c.onFail(updateRequest, event, rows_affected);
                             return;
                         }
                     }
-                    updateRequest = persist(data);
+					
+					c.record = data;
+					console.timeEnd(timer_label);
+					if ($dhx._enable_log) console.info('sending record to the server ... ');
+					that._updateSaveOnServer(c)
+					
                     //if ($dhx._enable_log) console.info("The transaction that originated this request is ", recordIdRequest.transaction);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + record_id + ' not found! ');
+                    if ($dhx._enable_log) console.error('sorry Eduardo, record ' + record_id + ' not found! ');
                     if (c.onFail) c.onFail(updateRequest, event, rows_affected);
                     return;
                 }
 
-                updateRequest.addEventListener('success', function(event) {
-                    rows_affected = event.target.result;
-                    var topic = that.dbs[db_name].root_topic + "." + c.table;
-					
-					//console.log('c.notPublish ', c.notPublish)
-					
-					if(!c.notPublish)
-					{
-						$dhx.MQ.publish(topic, {
-							action: 'update',
-							target: 'table',
-							name: c.table,
-							status: 'success',
-							message: 'record updated',
-							record_id: record_id,
-							record: record,
-							old_record: c.old_record
-						});
-					}
-					
-                    console.timeEnd(timer_label);
-
-                    if ($dhx._enable_log) console.info('executed');
-                    if ($dhx._enable_log) console.log('transaction complete      ', event);
-                    if ($dhx._enable_log) console.info('rows affected: ' + typeof rows_affected !== 'undefined' ? 1 : 0);
-
-                    if (c.onSuccess) c.onSuccess(updateRequest, event, rows_affected);
-                });
-
-                updateRequest.addEventListener('error', function(event) {
-                    if ($dhx._enable_log) console.info('error name: ', event.srcElement.error.name);
-                    //dhtmlx.message({
-                    //			type: "error",
-                    //			text: event.srcElement.error.message
-                    //});
-                    if ($dhx._enable_log) console.info('	sorry Eduardo, couldnt update record. error message: ' + event.srcElement.error.message);
-                    if ($dhx._enable_log) console.info('rows affected: 0');
-                    console.timeEnd(timer_label);
-                    if (c.onFail) c.onFail(updateRequest, event, rows_affected);
-                });
+                
             };
         } catch (e) {
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant update by local id! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant update by local id! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1041,7 +1153,7 @@ $dhx.dataDriver = {
                     table_schema = that.dbs[db_name].schema[c.table],
                     rows_affected = 0,
                     isOnCreate = c.isOnCreate,
-                    need_to_check = false;
+                    need_to_check = false, id_on_error = null;
                 // single record
                 if ($dhx.isObject(c.record)) {
                     if ($dhx._enable_log) console.info('........... checking fkeys for one record ' + c.table);
@@ -1063,7 +1175,7 @@ $dhx.dataDriver = {
 
                         if (that._total_fkeys_to_check[fk_check_uid] == 0) {
                             if ($dhx._enable_log) console.info('does not need to check fkey for ' + r);
-                            that._updateSaveOnTable(c);
+                            that._prepareUpdateSaveOnTable(c);
                             return;
                         }
 
@@ -1082,7 +1194,7 @@ $dhx.dataDriver = {
 
                         if (!need_to_check) {
                             if ($dhx._enable_log) console.info('does not need to check fkey for ' + r);
-                            that._updateSaveOnTable(c);
+                            that._prepareUpdateSaveOnTable(c);
                             return;
                         }
 
@@ -1092,6 +1204,7 @@ $dhx.dataDriver = {
                                 if (c.record.hasOwnProperty(key)) {
                                     // need to check
                                     if ($dhx._enable_log) console.info('need to check fkey for ' + key);
+									column_on_error = key;
                                     that._checkFkey({
                                         db: c.db,
                                         table: table_schema.foreign_keys[key].table,
@@ -1100,11 +1213,11 @@ $dhx.dataDriver = {
                                         onSuccess: function(found, tx, event) {
                                             that._total_fkeys_checked[fk_check_uid] = that._total_fkeys_checked[fk_check_uid] + 1;
                                             if (that._total_fkeys_checked[fk_check_uid] == that._total_fkeys_to_check[fk_check_uid]) {
-                                                that._updateSaveOnTable(c);
+                                                that._prepareUpdateSaveOnTable(c);
                                             }
                                         },
                                         onFail: function(tx, event, error_message) {
-                                            if ($dhx._enable_log) console.info('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
+                                            if ($dhx._enable_log) console.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
                                                 key].table + '" foreign table! Error message: ', error_message);
 
                                             if (c.onFail) c.onFail(tx, event, error_message);
@@ -1114,18 +1227,32 @@ $dhx.dataDriver = {
                             }
                         }
                     } else {
-                        if ($dhx._enable_log) console.info('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+                        if ($dhx._enable_log) console.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
                         return;
                     }
                 } else {
-                    if ($dhx._enable_log) console.info('sorry Eduardo, I cant parse the record payload');
+                    if ($dhx._enable_log) console.error('sorry Eduardo, I cant parse the record payload');
                     return;
                 }
             } catch (e) {
+				
 
-                if ($dhx._enable_log) console.info('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
+                if ($dhx._enable_log) console.error('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
+				console.log(e.stack);
+				
+				var error_message = "value not found on column '" + column_on_error + "', please change the field '" + column_on_error + "'";
+				dhtmlx.message({
+                        type: "error",
+                        text: error_message
+                    });
+				var cloneEvent = {};
+                    cloneEvent.target = cloneEvent.target || {};
+                    cloneEvent.target.error = cloneEvent.target.error || {};
+                    cloneEvent.target.error.name = 'Type constraint';
+                    cloneEvent.target.error.message = error_message;
+				
                 //if ($dhx._enable_log) console.info(e);
-                if (c.onFail) c.onFail(null, null, e.message);
+                if (c.onFail) c.onFail(null, cloneEvent, e.message);
             }
         }
         // ======== End update() methods
@@ -1191,14 +1318,14 @@ $dhx.dataDriver = {
             });
 
             request.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.info('sorry Eduardo, couldnt fecth data! Error message: ' + event);
+                if ($dhx._enable_log) console.error('sorry Eduardo, couldnt fecth data! Error message: ' + event);
                 console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
                 if (c.onFail) c.onFail(request, event, event.target.error.message);
                 records = null;
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant select data ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant select data ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1247,7 +1374,7 @@ $dhx.dataDriver = {
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant count data ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant count data ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1305,12 +1432,12 @@ $dhx.dataDriver = {
             }
             req.onerror = function(event) {
                 console.timeEnd(timer_label);
-                if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete all records! Error message: ' + event);
+                if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete all records! Error message: ' + event);
                 if (c.onFail) c.onFail(tx, event, event.target.error.message);
             }
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1362,12 +1489,12 @@ $dhx.dataDriver = {
             });
             clear_request.addEventListener('error', function(event) {
                 console.timeEnd("clearAll operation " + c.table);
-                if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete all records! Error message: ' + event);
+                if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete all records! Error message: ' + event);
                 if (c.onFail) c.onFail(tx, event, event.target.error.message);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant delete all records! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete all records! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1416,14 +1543,14 @@ $dhx.dataDriver = {
                     if (c.onSuccess) c.onSuccess(recordIdRequest, event, data);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + record_id + ' not found! ');
+                    if ($dhx._enable_log) console.error('sorry Eduardo, record ' + record_id + ' not found! ');
                     if (c.onFail) c.onFail(recordIdRequest, event, null);
                     return;
                 }
             };
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant setCursor ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant setCursor ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1488,7 +1615,7 @@ $dhx.dataDriver = {
 
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant getCursor ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant getCursor ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1508,7 +1635,7 @@ $dhx.dataDriver = {
             if ($dhx.dataDriver.public[c.table]._internal_cursor_position == 0) {
                 console.timeEnd(timer_label);
                 if ($dhx._enable_log)
-                    console.info('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
+                    console.error('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
                 if (c.onFail) c.onFail(currentRecordRequest, event, 'not found');
                 return;
             }
@@ -1544,20 +1671,20 @@ $dhx.dataDriver = {
                     if (c.onSuccess) c.onSuccess(data, currentRecordRequest, event);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
+                    if ($dhx._enable_log) console.error('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
                     if (c.onFail) c.onFail(currentRecordRequest, event, 'not found');
                     return;
                 }
             });
             currentRecordRequest.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.info('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + event.target.error.message);
+                if ($dhx._enable_log) console.error('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + event.target.error.message);
                 console.timeEnd(timer_label);
 
                 if (c.onFail) c.onFail(currentRecordRequest, event, event.target.error.message);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -1607,20 +1734,20 @@ $dhx.dataDriver = {
                     if (c.onSuccess) c.onSuccess(data, recordRequest, event);
                 } else {
                     console.timeEnd(timer_label);
-                    if ($dhx._enable_log) console.info('sorry Eduardo, record ' + c.record_id + ' not found! ');
+                    if ($dhx._enable_log) console.error('sorry Eduardo, record ' + c.record_id + ' not found! ');
                     if (c.onFail) c.onFail(recordRequest, event, 'not found');
                     return;
                 }
             });
             recordRequest.addEventListener('error', function(event) {
-                if ($dhx._enable_log) console.info('sorry Eduardo, I cant getRecord data ! Error message: ' + event.target.error.message);
+                if ($dhx._enable_log) console.error('sorry Eduardo, I cant getRecord data ! Error message: ' + event.target.error.message);
                 console.timeEnd(timer_label);
 
                 if (c.onFail) c.onFail(recordRequest, event, event.target.error.message);
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant getRecord data ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant getRecord data ! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
@@ -2101,10 +2228,20 @@ $dhx.dataDriver = {
                                     for (i in recordset.record)
                                         if (recordset.record.hasOwnProperty(i)) obj[i] = recordset.record[i];
                                     if (c.$init) c.$init(obj);
-                                    final_records.push([obj.value, obj.text]);
+                                    final_records.push({value: obj.value, text: obj.text});
+									
+									
                                 });
-                                component.clearAll(true);
-                                component.addOption(final_records);
+                                //component.clearAll(true);
+                                
+								// here 
+								component.load({options:final_records}, function(){
+									var value = parseInt(component._currentComboValue);
+									var index = component.getIndexByValue(value);
+									component.selectOption(index, false, true);
+								});
+								
+								//component.addOption(final_records);
                             } catch (e) {
                                 console.log(e.stack);
                             }
@@ -2475,7 +2612,7 @@ $dhx.dataDriver = {
             });
         } catch (e) {
 
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant sync ' + c.component_id + ' data ! Error message: ' + e.message, e.stack);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant sync ' + c.component_id + ' data ! Error message: ' + e.message, e.stack);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2550,9 +2687,6 @@ $dhx.dataDriver = {
                         var prepare = false;
                         component._id = hash.component_id;
                         component._type = hash.type;
-						
-						
-						
 
                         if (typeof hash.prepare !== 'undefined') {
                             if (typeof hash.prepare.settings !== 'undefined') {
@@ -2566,8 +2700,6 @@ $dhx.dataDriver = {
                                                 if (typeof field.dhx_prop_value !== 'undefined') {
                                                     var dhxCombo = component.getCombo(field.name);
 
-
-
                                                     var dhx_crud_rapid_button = document.createElement('img');
                                                     dhx_crud_rapid_button.setAttribute('class', 'dhx_crud_rapid_button');
                                                     dhxCombo.DOMParent.appendChild(dhx_crud_rapid_button);
@@ -2580,10 +2712,6 @@ $dhx.dataDriver = {
                                                             schema: schema
                                                         });
                                                     }
-													
-													
-
-                                                    //dhxCombo.DOMParent
 
                                                     $dhx.dataDriver.public[field.dhx_table].sync.combo({
                                                         component: dhxCombo,
@@ -2591,6 +2719,7 @@ $dhx.dataDriver = {
                                                         $init: function(obj) {
                                                                 obj.value = obj[field.dhx_prop_value];
                                                                 obj.text = obj[field.dhx_prop_text];
+																//console.log(obj);
                                                             } // not mandatory, default false
                                                             ,
                                                         onSuccess: function() {
@@ -2659,7 +2788,54 @@ $dhx.dataDriver = {
                                         if (i != 'id') obj[i] = record[i]
                                     }
                                 if (c.$init) c.$init(obj);
-                                component.setFormData(obj);
+                                
+								component.setFormData(obj);
+	
+								var hash = obj,
+									clone = {},
+									schema = that.getTableSchema(c),
+									primary_key = schema.primary_key.keyPath,
+									//columns = $dhx.dataDriver._getColumnsId(c).split(','),
+									record_id = hash[primary_key], field;
+						
+								for (var column_name in hash)
+								{
+									if (hash.hasOwnProperty(column_name)) {
+										field = $dhx.dhtmlx.getFormItem(column_name, component._id);
+										if (field.type == 'btn2state') {
+										    if(hash[column_name] == true)
+											{
+												component.checkItem(column_name);
+											}
+											else
+											{
+												component.uncheckItem(column_name);
+											}
+										}
+										else if (field.type == 'combo') {
+										    var fcombo = component.getCombo(column_name);
+											
+											var value = $dhx.isNumber(hash[column_name]) ? parseInt(hash[column_name]) : hash[column_name];
+											var index = fcombo.getIndexByValue(value);
+											console.log(fcombo);
+											console.log(value);
+											console.log(index);
+											fcombo.selectOption(index, false, true);
+											
+            								//fcombo.openSelect();
+											//clone[column_name] = component.isItemChecked(column_name);
+										} else {
+											//clone[column_name] = hash[column_name] == '' ? null : hash[column_name];
+										}
+						
+									}
+								}
+								
+								
+								
+								
+								
+								
                             }, function() {
                                 // onFail
                             });
@@ -2740,7 +2916,7 @@ $dhx.dataDriver = {
                 }
             });
         } catch (e) {
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant bind ' + c.component_id + ' data ! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant bind ' + c.component_id + ' data ! Error message: ' + e.message);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2830,7 +3006,7 @@ $dhx.dataDriver = {
             if ($dhx._enable_log) console.info("component not found. it was not unbound");
             if (c.onFail) c.onFail("component not found. it was not unbound");
         } catch (e) {
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant unbind ' + c.component_id + '! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant unbind ' + c.component_id + '! Error message: ' + e.message);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2919,7 +3095,7 @@ $dhx.dataDriver = {
             if ($dhx._enable_log) console.info("component not found. it was not unsynced");
             if (c.onFail) c.onFail("component not found. it was not unsynced");
         } catch (e) {
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant unsync ' + c.component_id + '! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant unsync ' + c.component_id + '! Error message: ' + e.message);
             if (c.onFail) c.onFail(null, null, e.message);
         }
     }
@@ -2947,8 +3123,14 @@ $dhx.dataDriver = {
                         day = "0" + day;
 
                     clone[column_name] = year + "-" + month + "-" + day;
-                } else {
-                    clone[column_name] = hash[column_name];
+                } else if (field.type == 'btn2state') {
+                   
+                    clone[column_name] = component.isItemChecked(column_name);
+                }else if (field.type == 'combo') {
+                   var dhxCombo = component.getCombo(column_name);
+                    clone[column_name] = dhxCombo.getSelectedValue();
+                }else {
+                    clone[column_name] = hash[column_name] == '' ? null : hash[column_name];
                 }
 
             }
@@ -3007,8 +3189,15 @@ $dhx.dataDriver = {
                     if (day.toString().length == 1)
                         day = "0" + day;
                     clone[column_name] = year + "-" + month + "-" + day;
+                }
+				else if (field.type == 'btn2state') {
+                   
+                    clone[column_name] = component.isItemChecked(column_name);
+                }else if (field.type == 'combo') {
+					var dhxCombo = component.getCombo(column_name);
+                    clone[column_name] = dhxCombo.getSelectedValue();
                 } else {
-                    clone[column_name] = hash[column_name];
+                    clone[column_name] = hash[column_name] == '' ? null : hash[column_name];
                 }
 
             }
@@ -3026,6 +3215,9 @@ $dhx.dataDriver = {
             if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
             (onSuccess) ? onSuccess(): "";
         }, function(tx, event, rows_affected) {
+
+
+
 
             that._saveRecordCheckError(component, event, c);
 
@@ -3056,26 +3248,46 @@ $dhx.dataDriver = {
             input_form_label = component.getItemLabel(column_name),
             input_form_type = component.getItemType(column_name),
             input_form = null;
+		//alert(column_name);
 
-
-        if (input_form_type == "combo") {
-            input_form = component.getCombo(column_name);
-            input_form.openSelect();
-        } else if (input_form_type == "editor") {
-
-        } else if (input_form_type == "multiselect") {
-            input_form = component.getInput(column_name);
-            var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
-            that._setInputHighlighted(field, component);
-        } else if (input_form_type == "select") {
-            component.getSelect(column_name);
-            var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
-            that._setInputHighlighted(field, component);
-        } else {
-            input_form = component.getInput(column_name);
-            var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
-            that._setInputHighlighted(field, component);
-        }
+		if( column_name )
+		{
+			try
+			{
+				if (input_form_type == "combo") {
+					input_form = component.getCombo(column_name);
+					input_form.openSelect();
+				} else if (input_form_type == "editor") {
+		
+				} else if (input_form_type == "multiselect") {
+					input_form = component.getInput(column_name);
+					var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
+					that._setInputHighlighted(field, component);
+				} else if (input_form_type == "select") {
+					component.getSelect(column_name);
+					var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
+					that._setInputHighlighted(field, component);
+				} else {
+					input_form = component.getInput(column_name);
+					var field = $dhx.dhtmlx.getFormItem(column_name, component._id);
+					that._setInputHighlighted(field, component);
+				}
+			}catch(e)
+			{
+				dhtmlx.message({
+                    type: "error",
+                    text: error_message
+            	});	
+			}
+		}
+		else
+		{
+			dhtmlx.message({
+                    type: "error",
+                    text: error_message
+            });
+		}
+        
         if (error_type == 'ConstraintError') {
             if (error_message.indexOf("at least one key does not satisfy the uniqueness requirements") > -1) {
                 dhtmlx.message({
@@ -3414,7 +3626,7 @@ $dhx.dataDriver = {
             if ($dhx._enable_log) console.info('connected');
             return connection;
         } catch (e) {
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant connect! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant connect! Error message: ' + e.message);
             if (c.onConnectError) c.onConnectError({
                 connection: null,
                 event: null,
@@ -3918,7 +4130,9 @@ $dhx.dataDriver = {
 										$dhx.dataDriver.public[data.name].add(data.records, function(tx, event, rows_affected) {
 											if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
 											//(onSuccess) ? onSuccess(): "";
-										}, function(tx, event, rows_affected) {
+										}, function(tx, event, error_message) {
+											
+											
 											if ($dhx._enable_log) console.info('record not saved. ', error_message);
 											//(onFail) ? onFail(): "";
 										}, false/*isOnCreate*/, true/*notPublish*/);
@@ -5074,7 +5288,7 @@ $dhx.dataDriver = {
             if (that.db(db_name))
                 that.db(db_name).close();
         } catch (e) {
-            if ($dhx._enable_log) console.info('sorry Eduardo, I cant disconnect! Error message: ' + e.message);
+            if ($dhx._enable_log) console.error('sorry Eduardo, I cant disconnect! Error message: ' + e.message);
             //if ($dhx._enable_log) console.info(e);
             if (c.onFail) c.onFail(null, null, e.message);
         }
