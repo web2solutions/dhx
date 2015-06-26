@@ -3,7 +3,7 @@
 $dhx.ui.desktop = {
 	version: '1.0.3'
 	, database : 'juris'
-	, ws : 'ws://dhtmlx.com.br:4000/'
+	, ws : 'ws://10.0.0.9:4000/'
 	, socket : ''
 	, user_settings : null
 	, wallpappers_path : $dhx.ui.cdn_address + "/dhx/ui/desktop/assets/wallpapers/"
@@ -43,120 +43,126 @@ $dhx.ui.desktop = {
 	}
 	, start: function (c) {
 		var that = $dhx.ui
-			, self = that.desktop;
+			, self = that.desktop,
+			tmessage = 'T-Rex is attacking in';
 			
-		$dhx.ui.login.render(
+		if( $dhx.jDBdStorage.get('$dhx.ui.desktop.isOnline') == 'yes' )
 		{
-			onGranted : function()
-			{
-				$dhx.ui.desktop.socket = new $dhx.socket.service({
-					resource: $dhx.ui.desktop.ws
-					, reConnect: true
-					, onOpen: function (messageEvent, isReconnect) {
-						
-						$dhx.ui.desktop.socket.send({
-							message: $dhx.ui.$Session.user + ' is online'
-							, action: 'notify all users'
-						});
-						
-						if( isReconnect )
-						{
-							
-						}
-						else
-						{
-							$dhx.REST.API.get({
-								resource: "/database/getmodel",
-								format: "json",
-								payload: "",
-								onSuccess: function(request) {
-									var json = JSON.parse(request.response);
-									if (json.status == "success") {
-										console.log(json);							
-										$dhx.ui.data.model.start(
-										{
-											db: $dhx.ui.temp.db
-											, version: json.version
-											, schema: json.schema
-											, settings: json.settings
-											, records: json.records
-											, output_tables: json.output_tables
-											, onSuccess: function () {
-												self.readUserSettings({
-													onSuccess : function(){
-														$dhx.ui.desktop.view.render();
+			$dhx.notify('Loading error', 'You can not use this application in two tabs. Please use another browser', 'icons/db.png');
+			return;	
+		}
+		
+		console.time(tmessage);
+			
+		$dhx.REST.API.login({
+			onSuccess : function(){
+				$dhx.REST.API.get({
+					resource: "/database/getmodel"
+					, format: "json"
+					, payload: ""
+					, onSuccess: function (request) {
+						var json = JSON.parse(request.response);
+						if (json.status == "success") {
+							console.log(json);
+							$dhx.ui.data.model.start({
+								db: $dhx.ui.temp.db
+								, version: json.version
+								, schema: json.schema
+								, settings: json.settings
+								, records: json.records
+								, output_tables: json.output_tables
+								, onSuccess: function () {
+									self.readUserSettings({
+										onSuccess: function () {
+											$dhx.ui.desktop.socket = new $dhx.socket.service({
+												resource: $dhx.ui.desktop.ws
+												, reConnect: true
+												, onOpen: function (messageEvent, isReconnect) {
+													
+													$dhx.ui.desktop.socket.send({
+														message: $dhx.ui.$Session.user + ' is online'
+														, action: 'notify all users'
+													});
+													
+													if( isReconnect )
+													{
+														
 													}
-													,onFail : function(){
-														dhtmlx.message({
-															type: "error",
-															text: 'Any configuration was found for user ' + $dhx.ui.$Session.user_id
-														});
-													}	
-												}); // end readUserSettings
-											}
-											, onFail: function () {}
-										}); // end model start
-										
-									}
-								},
-								onFail: function(request) {
-									var json = JSON.parse(request.response);
+													else
+													{
+														$dhx.jDBdStorage.storeObject('$dhx.ui.desktop.isOnline', 'yes');
+														window.onbeforeunload = function(e) {
+														  $dhx.jDBdStorage.storeObject('$dhx.ui.desktop.isOnline', 'no');
+														};
+														$dhx.ui.desktop.view.render({});
+														console.timeEnd(tmessage);
+													}
+													
+												}
+												, onClose: function (messageEvent) {
+												}
+												, onBeforeClose: function (user_id) {
+												}
+												, onBeforeSend: function () {
+												}
+												, onMessage: function (message, messageEvent) {
+													
+													//if(message.message != 'keep alive')
+														//console.log(message, messageEvent);
+														
+													
+													if (message.action) {
+														
+														if (message.action == 'notify all users') {
+															dhtmlx.message({
+																//type: "error",
+																text: message.message
+															});
+														}
+														else {
+															$dhx.jDBdStorage.storeObject('message.' + message.topic, JSON.stringify(message));
+															$dhx.MQ.oldPublish(message.topic, message);
+														}
+														
+													}
+												}
+												, onError: function (messageEvent) {
+													console.timeEnd(tmessage);
+												}
+											});
+											
+											
+											
+										}
+										, onFail: function () {
+											console.timeEnd(tmessage);
+											dhtmlx.message({
+												type: "error"
+												, text: 'Any configuration was found for user ' + $dhx.ui.$Session.user_id
+											});
+										}
+									}); // end readUserSettings
 								}
-							});
-						}
-						
-					}
-					, onClose: function (messageEvent) {
-					}
-					, onBeforeClose: function (user_id) {
-					}
-					, onBeforeSend: function () {
-					}
-					, onMessage: function (message, messageEvent) {
-						
-						if(message.message != 'keep alive')
-							console.log(message, messageEvent);
-							
-						
-						if (message.action) {
-							
-							if (message.action == 'notify all users') {
-								dhtmlx.message({
-									//type: "error",
-									text: message.message
-								});
-							}
-							else {
-								$dhx.jDBdStorage.storeObject('message.' + message.topic, JSON.stringify(message));
-								$dhx.MQ.oldPublish(message.topic, message);
-							}
-							
+								, onFail: function () {
+									console.timeEnd(tmessage);	
+								}
+							}); // end model start
 						}
 					}
-					, onError: function (messageEvent) {
-					}
+					, onFail: function (request) {
+						//var json = JSON.parse(request.response);
+						console.timeEnd(tmessage);
+					} // end request model
 				});
-				
-				
-				
-				
-				/*
-				,version :2
-					,schema : my_db_structure.schema
-					,settings : my_db_structure.settings
-					,records : my_db_structure.records
-					,output_tables : my_db_structure.output_tables
-				*/
-				
-				
 			}
-			,onDenied : function(){
+			,onFail : function(){
+				console.timeEnd(tmessage);
 				dhtmlx.message({
 					type: "error",
 					text: 'Denied access'
 				});
 			}	
-		});
+		})
 	}
 };
 
