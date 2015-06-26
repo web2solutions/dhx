@@ -131,7 +131,7 @@ $dhx.ui.i18n['en-us'] = {
 	,Globalformssettings : 'Global forms settings'
 	,setaswallpaper : 'set as wallpaper'
 	,click_to_open_control_panel : 'click to open Control Panel'
-	,capitalize_note : "Enabling this feature, all the times you type a text on a form, that text will be automatically capitalized. <br><br>Example: if you type <strong>Name</strong>, it will be translated to <strong>NAME</strong>.<br><br>Please make sure before turning it on."
+	,capitalize_note : "Enabling this feature, all the times you type a text on a form, that text will be automatically upper case conveted. <br><br>Example: if you type <strong>Name</strong>, it will be translated to <strong>NAME</strong>.<br><br>Please make sure before turning it on."
 	,latinize_note : "Enabling this feature, all the times you type a text on a form, that text will have all it accents coverted to lating characters. <br><br>Example: if you type <strong>Años</strong>, it will be translated to <strong>Anos</strong>.<br><br>Please make sure before turning it on."
 	,"Capitalize form inputs" : "Capitalize form inputs"
 	,"Latinize form inputs" : "Latinize form inputs"
@@ -148,4 +148,5 @@ $dhx.ui.i18n['en-us'] = {
 	,session_expires_in : 'session ends in'
 	,click_to_open_messages : 'click to open messages'
 	,expired_token_message : 'Expired token. Please do login again ... '
+	,really_want_to_delete : 'Do you really want to delete?'
 };

@@ -110,8 +110,8 @@ $dhx.ui.i18n['pt-br'] = {
     requesting_previous_record: 'solicitando registro anterior',
     requesting_last_record: 'solicitando último registro',
     selected: 'registro selecionado',
-    save_record: 'salvar registro',
-    update_record: 'alterar record',
+    save_record: 'adicionar registro',
+    update_record: 'salvar alteração',
     Provide_some_values_to_search: 'Digite algum valor para buscar',
     search: 'buscar',
     clear_results: 'limpar resultados',
@@ -147,5 +147,6 @@ $dhx.ui.i18n['pt-br'] = {
 	,session_expires_in : 'tempo para o término da sessão'
 	,click_to_open_messages : 'clique para abrir ver as mensagens'
 	,expired_token_message : 'Sessão expirada. Por favor efetue login novamente.'
+	,really_want_to_delete : 'Deseja realmente deletar?'
 };
 //$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );
