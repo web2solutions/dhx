@@ -595,12 +595,159 @@ $dhx.REST = {
                     // format countdown string + set tag value
                     countdown.innerHTML = /*days + "d, " +*/ hours + "h, " + minutes + "m, " + seconds + "s";
                 }, 500);
-            },
+            }
+			
+			,_loginScreen : function( c ){
+				var  self = $dhx.REST.API;
+				$dhx.ui.login.render(
+				{
+					onGranted : function()
+					{
+						if(c.onSuccess) 
+						{	
+							c.onSuccess(); 
+						}
+					}
+					,onDenied : function(){
+						if( c.onFail )
+						{
+							c.onFail();	
+						}
+					}	
+				});
+			}
+			
+			
+			,login : function( c ){
+				var  self = $dhx.REST.API,
+					request = null,
+					response = null,
+					target_date = null,
+					current_date = null
+					
+				request = $dhx.jDBdStorage.get('$dhx.REST.request') || null;
+				
+				if( request == null )
+				{
+					self._loginScreen( c );
+					return;	
+				}
+				
+				request = JSON.parse( request );
+				response = JSON.parse( request.response );
+				
+				if (response.auth_data.token != '-') {
+					target_date = parseInt(response.auth_data.date_expiration);
+					current_date = new Date().getTime();
+					if (target_date <= current_date) {
+						self._loginScreen( c );
+						return;		
+					}
+				}
+				self._grantLogin( c, request ); 
+			}
+			
+			
+			,_grantLogin : function(c, request){
+				var self = $dhx.REST.API;
+				
+				//$dhx.cookie.del("apitemp");
+				//$dhx.jDBdStorage.storeObject('$dhx.db.' + c.db, JSON.stringify({}));
+				var response = JSON.parse(request.response);
+				$dhx.REST.API.auth_status = response.auth_data.auth_status;
+				$dhx.REST.API.token = response.auth_data.token;
+				$dhx.REST.API.date_expiration = (new Number(response.auth_data.date_expiration) + 0);
+				
+				Object.defineProperty($dhx.REST.API, 'user', {
+					value: response.auth_data.name
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'username', {
+					value: response.auth_data.username
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'client_session_id', {
+					value: response.auth_data.client_session_id
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'api_user_id', {
+					value: response.auth_data.api_user_id
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'entity_id', {
+					value: response.auth_data.entity_id
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'group', {
+					value: response.auth_data.group
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'company_id', {
+					value: response.auth_data.company_id
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'time_zone', {
+					value: response.auth_data.time_zone
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				Object.defineProperty($dhx.REST.API, 'session', {
+					value: {
+						user: $dhx.REST.API.user
+						, username: $dhx.REST.API.username
+						, client_session_id: $dhx.REST.API.client_session_id
+						, user_id: $dhx.REST.API.api_user_id
+						, group: $dhx.REST.API.group
+						, company_id: $dhx.REST.API.company_id
+						, storage_quota: $dhx.REST.API.storage_quota
+						, time_zone: $dhx.REST.API.time_zone
+					}
+					, enumerable: true
+					, configurable: false
+					, writable: false
+				});
+				$dhx.REST.API.default_payload = "";
+				$dhx.REST.API.auth_request = request;
+				
+				$dhx.hideDirections();
+				
+				self._blockWhenTokenExpires();
+				
+				if( typeof $dhx.ui.$Session !== 'undefined' )
+				{
+					$dhx.ui.$Session.start();
+				}
+				
+				if ($dhx.environment == "dev") self.apiURL = self.apiURLdev;
+                else if ($dhx.environment == "production") self.apiURL = self.apiURL;
+                else self.apiURL = self.apiURLtest;
+				
+				
+				if (c.onSuccess) c.onSuccess(request);
+			}
+			
+			,
             authorize: function(c) {
                     var self = $dhx.REST.API,
                         url = window.location.href,
                         arr = url.split("/"),
-                        origin = arr[0] + "//" + arr[2];;
+                        origin = arr[0] + "//" + arr[2];
+						
                     if ($dhx.REST.API.token != '-') {
                         var target_date = parseInt($dhx.REST.API.date_expiration);
                         // find the amount of "seconds" between now and target
@@ -611,8 +758,12 @@ $dhx.REST = {
                             return;
                         }
                     }
-                    c.credential_token = $dhx.cookie.get("apitemp");
-                    if (c.credential_token == null) {
+                    //c.credential_token = $dhx.cookie.get("apitemp");
+                    if ( typeof c.credential_token === 'undefined' ) {
+                        $dhx.showDirections("Error: application needs a credential's token to authenticate ");
+                        return;
+                    }
+					if (c.credential_token == null) {
                         $dhx.showDirections("Error: application needs a credential's token to authenticate ");
                         return;
                     }
@@ -630,6 +781,19 @@ $dhx.REST = {
                         $dhx.showDirections("Error: invalid API secret");
                         return;
                     }
+					
+					function success(request) {
+					   $dhx.jDBdStorage.storeObject('$dhx.REST.request', JSON.stringify(request));
+                       self._grantLogin( c, request ); 
+                    }
+
+                    function fail(request) {
+                        //$dhx.cookie.del("apitemp")
+                        var response = JSON.parse( request.response );
+                        if (c.onFail) c.onFail(request);
+                        $dhx.showDirections("Error: " + response.response);
+                    }
+					
                     $dhx.showDirections(" Requesting API authorization ... ");
                     self.ajax({
                         method: "POST",
@@ -642,89 +806,7 @@ $dhx.REST = {
                         secret: $dhx.crypt.base64_decode(c.credential_token).split(":")[1]
                     });
 
-                    function success(request) {
-                        $dhx.hideDirections();
-                        $dhx.cookie.del("apitemp");
-                        var response = JSON.parse(self.request.response);
-                        $dhx.REST.API.auth_status = response.auth_data.auth_status;
-                        $dhx.REST.API.token = response.auth_data.token;
-                        $dhx.REST.API.date_expiration = (new Number(response.auth_data.date_expiration) + 0);
-                        Object.defineProperty($dhx.REST.API, 'user', {
-                            value: response.auth_data.name,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                        Object.defineProperty($dhx.REST.API, 'username', {
-                            value: response.auth_data.username,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                        Object.defineProperty($dhx.REST.API, 'client_session_id', {
-                            value: response.auth_data.api_user_id,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-						Object.defineProperty($dhx.REST.API, 'api_user_id', {
-                            value: response.auth_data.api_user_id,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                        Object.defineProperty($dhx.REST.API, 'entity_id', {
-                            value: response.auth_data.entity_id,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                        Object.defineProperty($dhx.REST.API, 'group', {
-                            value: response.auth_data.group,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                        Object.defineProperty($dhx.REST.API, 'company_id', {
-                            value: response.auth_data.company_id,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                       
-                        Object.defineProperty($dhx.REST.API, 'time_zone', {
-                            value: response.auth_data.time_zone,
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                        Object.defineProperty($dhx.REST.API, 'session', {
-                            value: {
-                                user: $dhx.REST.API.user,
-                                username: $dhx.REST.API.username,
-                                client_session_id: $dhx.REST.API.client_session_id,
-                                user_id: $dhx.REST.API.api_user_id,
-                                group: $dhx.REST.API.group,
-                                company_id: $dhx.REST.API.company_id,
-                                storage_quota: $dhx.REST.API.storage_quota,
-                                time_zone: $dhx.REST.API.time_zone
-                            },
-                            enumerable: true,
-                            configurable: false,
-                            writable: false
-                        });
-                        $dhx.REST.API.default_payload = "";
-                        $dhx.REST.API.auth_request = request;
-                        self._blockWhenTokenExpires();
-                        if (c.onSuccess) c.onSuccess(request);
-                    }
-
-                    function fail(request) {
-                        $dhx.cookie.del("apitemp")
-                        var response = eval('(' + request.response + ')');
-                        if (c.onFail) c.onFail(request);
-                        $dhx.showDirections("Error: " + response.response);
-                    }
+                    
                 } // end authorize
         } // end API
     } // end REST
