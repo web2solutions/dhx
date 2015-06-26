@@ -360,7 +360,7 @@ $dhx.ui.crud.simple.View.settings = {
                 text: $dhx.ui.language.gotonext,
                 img: 'next.png'
             }]
-        }, {
+        }/*, {
             id: "block_1_debug tools",
             type: 'block',
             text: 'debug tools',
@@ -376,7 +376,7 @@ $dhx.ui.crud.simple.View.settings = {
                 }
 
             ]
-        }]
+        }*/]
     },
     toolbar: {
         icon_path: "",
