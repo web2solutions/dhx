@@ -211,9 +211,9 @@ $dhx.ui.login = {
 		self.status_bar.setText("trying to login ...");
 		self.window.progressOn();
 		var hash = self.form.getFormData();
-		$dhx.cookie.set("apitemp", $dhx.crypt.base64_encode($dhx.crypt.base64_encode(hash['username']) + ":" + $dhx.crypt.SHA2(navigator.userAgent + "_" + $dhx.crypt
-			.SHA2(hash['password']))), $dhx.REST.API.date_expiration / 1000);
+		//$dhx.cookie.set("apitemp", , $dhx.REST.API.date_expiration / 1000);
 		$dhx.REST.API.authorize({
+			credential_token : $dhx.crypt.base64_encode($dhx.crypt.base64_encode(hash['username']) + ":" + $dhx.crypt.SHA2(navigator.userAgent + "_" + $dhx.crypt.SHA2(hash['password']))),
 			onSuccess: function (request) {
 				try
 				{
@@ -223,7 +223,7 @@ $dhx.ui.login = {
 					self.window.close();
 					self.block_area.style.display = 'none';
 					
-					$dhx.ui.$Session.start();
+					
 					
 					if( c.onGranted )
 					{
