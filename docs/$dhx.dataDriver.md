@@ -5,7 +5,7 @@
 
 **What is $dhx.dataDriver?**
 
-	$dhx.dataDriver is the first indexedDB Javascript data driver/ORM focused in build 
+	$dhx.dataDriver is the first indexedDB Javascript data driver/ORM focused on building
 	DHTMLX applications.
 	
 	Built on top of indexedDB API, it provides an asynchronous and offline/online support API that 
@@ -358,7 +358,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			}
 			var schema = $dhx.dataDriver.getTableSchema(c);
 			var primary_key = schema.primary_key.keyPath
-			var columns = schema.str_columns.split(',');
+			var columns = $dhx.dataDriver._getColumnsId(c).split(',');
 			var data = [];
 			columns.forEach(function (column, index_, array_) {
 				data[index_] = record[column];
@@ -377,7 +377,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 			}
 			var schema = $dhx.dataDriver.getTableSchema(c);
 			var primary_key = schema.primary_key.keyPath;
-			var columns = schema.str_columns.split(',');
+			var columns = $dhx.dataDriver._getColumnsId(c).split(',');
 			records.forEach(function (recordset, index, array) {
 				var record = [];
 				columns.forEach(function (column, index_, array_) {

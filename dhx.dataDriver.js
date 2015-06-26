@@ -1898,6 +1898,10 @@ $dhx.dataDriver = {
 	, _syncSelect: function (c, component, hash) {
 		'use strict';
 		//console.log( c );
+		
+		
+		
+		
 		try {
 			var that = $dhx.dataDriver;
 			if ($dhx._enable_log) console.log("this component is a select");
