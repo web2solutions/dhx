@@ -84,350 +84,132 @@ larger amounts of structured data. IndexedDB provides a solution.* **"**
 
 ### **Database model**
 
-	the following example creates a database called juris with a table two tables and some foreign keys
+
+	**Model**
 
 ```javascript
-	db = new $dhx.dataDriver.database({
-		db: 'juris'
-		, version: 1
-		, schema: {
-			groups: {
-				primary_key: {
-					keyPath: "group_id"
-					, autoIncrement: false
-				}
-				, str_columns: "group_id,group"
-				, fields: [{
-					"name": "group_id"
-					, "maxLength": null
-					, "type": "hidden"
-					, "label": "group_id"
-					, "validate": ""
-					, "required": false
-					, "mask_to_use": ""
-					, "tooltip": ""
-					, "value": ""
-				}, {
-					"tooltip": ""
-					, "value": ""
-					, "type": "input"
-					, "label": "group"
-					, "name": "group"
-					, "maxLength": "255"
-					, "required": false
-					, "mask_to_use": ""
-					, "validate": ""
+			var model = {
+				db: null
+				, output_tables: [{
+					output_ordering: 1
+					, table_name: "grupos"
 				}]
-				, columns: {
-					"group": {
-						"dhtmlx_grid_width": "*"
-						, "foreign_table_name": ""
-						, "dhtmlx_grid_footer": ""
-						, "unique": false
-						, "validation": ""
-						, "foreign_column_name": ""
-						, "default": ""
-						, "dhtmlx_grid_align": "left"
-						, "dhtmlx_grid_type": "ed"
-						, "index": true
-						, "dhtmlx_form_type": "input"
-						, "required": false
-						, "ordinal_position": 2
-						, "maxlength": "255"
-						, "format": ""
-						, "type": "character varying"
-						, "has_fk": false
-						, "dhtmlx_grid_header": "group"
-						, "dhtmlx_grid_sorting": "str"
+				, records: {
+					grupos: [{
+						grupo: "admin"
+						, grupo_id: 1
+					}, {
+						grupo: "usuario"
+						, grupo_id: 2
+					}, {
+						grupo: "advogado"
+						, grupo_id: 3
+					}, {
+						grupo: "cliente"
+						, grupo_id: 4
+					}]
+					
+				}
+				, settings: {
+					grupos: {
+						form: {
+							template: [{
+								mask_to_use: ""
+								, name: "grupo_id"
+								, validate: "NotEmpty"
+								, label: "grupo_id"
+								, maxLength: null
+								, tooltip: ""
+								, required: !0
+								, type: "hidden"
+							}, {
+								mask_to_use: ""
+								, name: "grupo"
+								, label: "grupo"
+								, validate: ""
+								, tooltip: ""
+								, value: ""
+								, maxLength: "255"
+								, type: "input"
+								, required: !1
+							}]
+						}
 					}
 				}
-				, records: [{
-					group_id: 1
-					, group: 'usuario'
-				}]
-			}
+				, schema: {
+					grupos: {
+						foreign_keys: {}
+						, primary_key: {
+							autoIncrement: !1
+							, keyPath: "grupo_id"
+						}
+						, columns: {
+							grupo: {
+								required: !1
+								, ordinal_position: 2
+								, dhtmlx_grid_footer: ""
+								, foreign_table_name: ""
+								, dhtmlx_grid_header: "grupo"
+								, foreign_column_name: ""
+								, validation: ""
+								, format: ""
+								, has_fk: !1
+								, is_fk: !1
+								, dhtmlx_grid_width: "*"
+								, unique: !1
+								, name: "grupo"
+								, dhtmlx_grid_align: "left"
+								, type: "character varying"
+								, maxlength: "255"
+								, dhtmlx_grid_type: "ed"
+								, numeric_scale: null
+								, index: !0
+								, dhtmlx_grid_sorting: "str"
+								, foreign_column_value: ""
+								, numeric_precision: null
+								, dhtmlx_form_type: "input"
+								, is_nullable: "NO"
+								, "default": ""
+							}
+						}
+					}
+				}
+			};
+```
 
-			, persons: {
-				primary_key: {
-					autoIncrement: false
-					, keyPath: "person_id"
-				}
-				, str_columns: 'person_id,name,email,username,age,birth_date,group'
-				, fields: [{
-						"name": "person_id"
-						, "value": ""
-						, "mask_to_use": ""
-						, "label": "person_id"
-						, "validate": ""
-						, "type": "hidden"
-						, "tooltip": ""
-						, "maxLength": null
-						, "required": false
-					}, {
-						"maxLength": "255"
-						, "required": false
-						, "value": ""
-						, "mask_to_use": ""
-						, "label": "name"
-						, "name": "name"
-						, "tooltip": ""
-						, "type": "input"
-						, "validate": "NotEmpty"
-					}, {
-						"type": "input"
-						, "tooltip": ""
-						, "validate": "NotEmpty,ValidEmail"
-						, "mask_to_use": ""
-						, "label": "email"
-						, "value": ""
-						, "name": "email"
-						, "required": false
-						, "maxLength": "255"
-					}, {
-						"required": false
-						, "maxLength": "300"
-						, "tooltip": ""
-						, "type": "input"
-						, "validate": "NotEmpty"
-						, "value": ""
-						, "label": "username"
-						, "mask_to_use": ""
-						, "name": "username"
-					}, {
-						"name": "birth_date"
-						, "value": ""
-						, "mask_to_use": "date"
-						, "label": "birth_date"
-						, "validate": "NotEmpty"
-						, "tooltip": ""
-						, "type": "calendar"
-						, "maxLength": null
-						, "required": false
-						, dateformat: "%Y-%m-%d"
-						, enableTime: false
-						, readonly: true
-					}, {
-						"name": "age"
-						, "value": ""
-						, "mask_to_use": "integer"
-						, "label": "age"
-						, "validate": "NotEmpty"
-						, "tooltip": ""
-						, "type": "input"
-						, "maxLength": null
-						, "required": false
-					}, {
-						"name": "group"
-						, "value": ""
-						, "mask_to_use": ""
-						, "label": "group"
-						, "validate": "NotEmpty"
-						, "tooltip": ""
-						, "type": "combo"
-						, "maxLength": null
-						, "required": false
-					}] // end fields
-				
-				, columns: {
-					"name": {
-						"format": ""
-						, "foreign_column_name": ""
-						, "has_fk": false
-						, "dhtmlx_grid_footer": ""
-						, "dhtmlx_grid_width": "*"
-						, "ordinal_position": 0
-						, "validation": ""
-						, "unique": false
-						, "type": "character varying"
-						, "maxlength": "255"
-						, "dhtmlx_form_type": "input"
-						, "required": true
-						, "dhtmlx_grid_header": "name"
-						, "default": ""
-						, "dhtmlx_grid_sorting": "str"
-						, "dhtmlx_grid_type": "ed"
-						, "foreign_table_name": ""
-						, "index": true
-						, "dhtmlx_grid_align": "left"
-					}
-					, "email": {
-						"dhtmlx_grid_align": "left"
-						, "index": true
-						, "dhtmlx_grid_type": "ed"
-						, "foreign_table_name": ""
-						, "dhtmlx_grid_sorting": "str"
-						, "default": ""
-						, "dhtmlx_grid_header": "email"
-						, "required": true
-						, "dhtmlx_form_type": "input"
-						, "maxlength": "255"
-						, "type": "character varying"
-						, "unique": true
-						, "validation": "ValidEmail"
-						, "ordinal_position": 1
-						, "dhtmlx_grid_footer": ""
-						, "dhtmlx_grid_width": "*"
-						, "has_fk": false
-						, "foreign_column_name": ""
-						, "format": ""
-					}
-					, "username": {
-						"dhtmlx_grid_width": "*"
-						, "dhtmlx_grid_footer": ""
-						, "ordinal_position": 2
-						, "format": ""
-						, "has_fk": false
-						, "foreign_column_name": ""
-						, "maxlength": "300"
-						, "unique": false
-						, "validation": ""
-						, "type": "character varying"
-						, "default": ""
-						, "dhtmlx_grid_header": "username"
-						, "required": false
-						, "dhtmlx_form_type": "input"
-						, "dhtmlx_grid_align": "left"
-						, "index": true
-						, "dhtmlx_grid_type": "ed"
-						, "foreign_table_name": ""
-						, "dhtmlx_grid_sorting": "str"
-					}
-					, "age": {
-						"format": "integer"
-						, "foreign_column_name": ""
-						, "has_fk": false
-						, "dhtmlx_grid_footer": ""
-						, "dhtmlx_grid_width": "*"
-						, "ordinal_position": 3
-						, "validation": "ValidInteger"
-						, "unique": false
-						, "type": "integer"
-						, "maxlength": "255"
-						, "dhtmlx_form_type": "input"
-						, "required": true
-						, "dhtmlx_grid_header": "age"
-						, "default": 0
-						, "dhtmlx_grid_sorting": "int"
-						, "dhtmlx_grid_type": "ed"
-						, "foreign_table_name": ""
-						, "index": true
-						, "dhtmlx_grid_align": "left"
-					}
-					, "birth_date": {
-						"dhtmlx_grid_width": "*"
-						, "dhtmlx_grid_footer": ""
-						, "ordinal_position": 4
-						, "format": "date"
-						, "has_fk": false
-						, "foreign_column_name": ""
-						, "maxlength": null
-						, "validation": ""
-						, "unique": false
-						, "type": "date"
-						, "default": ""
-						, "dhtmlx_grid_header": "birth_date"
-						, "required": false
-						, "dhtmlx_form_type": "calendar"
-						, "index": true
-						, "dhtmlx_grid_align": "left"
-						, "foreign_table_name": ""
-						, "dhtmlx_grid_type": "dhxCalendar"
-						, "dhtmlx_grid_sorting": "date"
-					}
-					, "group": {
-						"default": "usuario"
-						, "dhtmlx_grid_footer": ""
-						, "unique": false
-						, "validation": ""
-						, "dhtmlx_grid_width": "*"
-						, "required": true
-						, "dhtmlx_form_type": "input"
-						, "index": true
-						, "dhtmlx_grid_type": "coro"
-						, "dhtmlx_grid_align": "left"
-						, "format": ""
-						, "maxlength": "255"
-						, "ordinal_position": 5
-						, "dhtmlx_grid_sorting": "str"
-						, "dhtmlx_grid_header": "group"
-						
-						, "type": "character varying"
-						
-						, "numeric_precision": null
-						, "numeric_scale": null
-						, "is_nullable": "NO"
-						
-						, "has_fk": true
-						, "foreign_column_name": "group"
-						, "foreign_table_name": "groups"
-					}
-				} // end columns
-				
-				, foreign_keys: {
-					group: {
-						table: 'groups'
-						, column: 'group'
-					}
-				} // end relation
-				
-				, records: [{
-						person_id: 1
-						, username: "eduardo"
-						, name: "José Eduardo Almeida"
-						, age: 30
-						, birth_date: '1984-08-28'
-						, email: "eduardo@web2solutions.com.br"
-						, group: 'usuario'
-					}
-					, {
-						person_id: 2
-						, username: "alvaro"
-						, name: "Alvaro Luiz"
-						, age: 33
-						, birth_date: '1984-03-25'
-						, email: "alvaro@web2solutions.com.br"
-						, group: 'usuario'
-					}
-					, {
-						person_id: 3
-						, username: "joao"
-						, name: "João Vicente"
-						, age: 35
-						, birth_date: '1984-03-03'
-						, email: "joao@web2solutions.com.br"
-						, group: 'usuario'
-					}
-				]
-			}
-		}
-		// call all the times you connect into a database	
-		
-		, onConnect: function (response) {
-			//console.log( response.message );
-		}
-		// called only one time when you create the database	
-		
-		, onCreate: function (response) {
-			//console.log( response.message );
-			//console.log( response.connection );
-			//console.log( response.event );						
-		}
-		// call when database is ready for working	
-		
-		, onReady: function (response) {
-			//console.log( response.connection );
-			//console.log( response.event );
-			//console.log( response.message );
-			if (onSuccess) onSuccess();
-		}
-		// called when there is error on connection
-		
-		, onFail: function (response) {
-			console.log(response.connection);
-			console.log(response.event);
-			console.log(response.message);
-		}
-	});
+
+
+	**constructor**
+
+```javascript
+			var db = new $dhx.dataDriver.database({
+                db: 'my_db_name',
+                version: 1,
+                schema: model.schema,
+                settings: model.settings,
+                records: model.records,
+				output_tables: model.output_tables
+
+                // call all the times you connect into a database	
+                ,
+                onConnect: function(response) {}
+
+                // called all the times you create a table	
+                ,
+                onCreate: function(response) {}
+
+                // call when database is ready for working	
+                ,
+                onReady: function(response) {
+                    if (onSuccess) onSuccess();
+                }
+
+                // called when there is error on connection
+                ,
+                onFail: function(response) {
+                    
+                }
+            });
 ```
 
 **Storage size**
@@ -748,7 +530,12 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 
 ### ToDo
 
-	- store bound and synced components on DB instead browser memory
+	- avoid to delete and rebuild entire database when server structure changes
+	- update record of synced components when editing a record on a table
+	- display javascript memory at control panel
+	- webmail
+	- text editor application
+	- File Explorer
 	- ability to add tables to existing databases (changing version)
 	- Full documentation
 	- Implement proxy class for server communication
@@ -770,10 +557,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	- onXLE() event	fires when the data loading is finished and a component or data is rendered
 	- onXLS() event	fires when starts loading data
 
-	- add new record on related table when adding a record on main table XX
+	- check fkey when deleting
 	- permissions
-	- let capitalize
-	- let latinize
 	- user set grid dimensions
 	- update main grid column when editing a sub crud 
 
@@ -783,6 +568,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	Limitations:
 
 	- Dont create FKs pointing to text columns ... only to primary key columns
+	**Solved** - support both varchar and integer column
 
 
 
