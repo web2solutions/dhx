@@ -112,6 +112,7 @@ $dhx.ui = {
 			self.skin_subset = skin.skin_subset;
 		}
 		if (window.location.host.indexOf('mac.web2.eti.br') != -1) {
+			//alert()
 			$dhx.environment = "test";
 			$dhx.ui.cdn_address = '//mac.web2.eti.br/';
 		}

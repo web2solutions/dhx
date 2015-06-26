@@ -168,6 +168,7 @@ $dhx.ui.desktop.view.SideBar = {
 			, id: '$dhx.ui.desktop.active_area.side_button.' + c.appId
 			, html: (c.icon) ? strIcon : c.html
 			, dnd : true
+			, title : tooltip
 		};
 		self.side_button[c.appId] = $dhx.createElement(settings);
 		self.side_button[c.appId].childNodes[0].draggable = false;
@@ -255,7 +256,7 @@ $dhx.ui.desktop.view.SideBar = {
 			$dhx.ui.desktop.Registry.programs.push(new $dhx.ui.desktop.application.custom({
 				appName: "$dhx Web Desktop - App Central"
 				, appId: "$dhx.ui.desktop.AppCentral"
-				, summary: ''
+				, summary: 'App central'
 				, module: $dhx.ui.desktop.view.SearchBar
 				, icon: 'applications.png'
 				, database: $dhx.ui.desktop.database
