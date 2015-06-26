@@ -18,14 +18,27 @@ $dhx.ui.crud.simple.View = {
 
     ,
     status_bar: function(appId, icons_path) {
-        this.template = "<div class='status_info' id='status_info_" + appId + "'>" + $dhx.ui.language.Initializing + " " + $dhx.ui.crud.controller[appId].appName + "</div><div class='data_transfer_info' id='data_transfer_info_" + appId + "'>" + $dhx.ui.language.no_data_transferred + "</div><div class='errors_info' id='errors_info_" + appId + "'>" + $dhx.ui.language.no_errors + "</div>"
+        this.template = function(){
+			//alert("status_info_" + appId + "");
+			try
+			{
+				var n = document.getElementById("status_info_" + appId + "");
+				n.parentNode.removeChild(n);	
+			}
+			catch(e)
+			{
+				
+			}
+			
+			return "<div class='status_info' id='status_info_" + appId + "'>" + $dhx.ui.language.Initializing + " " + $dhx.ui.crud.controller[appId].appName + "</div><div class='data_transfer_info' id='data_transfer_info_" + appId + "'>" + $dhx.ui.language.no_data_transferred + "</div><div class='errors_info' id='errors_info_" + appId + "'>" + $dhx.ui.language.no_errors + "</div>"	
+		} 
         this._setStatus = function(m) {
-            try {
+            console.debug("status_info_" + appId, '_setstatus');
+			try {
                 document.getElementById("status_info_" + appId).innerHTML = m;
             } catch (e) {
                 console.log(e.stack);
             }
-
         }
         this._setStatusError = function(m) {
             try {
@@ -341,7 +354,7 @@ $dhx.ui.crud.simple.View = {
         self.tab = self.layout.cells('a').attachTabbar($dhx.ui.crud.simple.View.settings.tab);
 
         self.status_bar = self.tab.cells('records').attachStatusBar();
-        self.status_bar.setText(status_bar.template);
+        self.status_bar.setText(status_bar.template());
         self.tab.attachEvent("onTabClose", function(id) {
             try {
                 //self.Record.wrapper.clean( parseInt( id ) );
@@ -462,6 +475,7 @@ $dhx.ui.crud.simple.View = {
         self.helpers.disableButtonActions(appId);
         self.ribbon[appId].attachEvent("onClick", function(id) {
             if (id == 'select') {
+				
                 self.grid.clearAll();
                 schema.load(function(records, rows_affected, tx, event) {
                     self.helpers.disableButtonActions(appId);
@@ -575,12 +589,17 @@ $dhx.ui.crud.simple.View = {
                 });
             } else if (id == 'next') {
                 status_bar._setStatusDataTransfer($dhx.ui.language.requesting_next_record, true);
+				
+				self.ribbon[appId].disable(id);
+				
                 schema.next(function(record_id, record, tx, event) {
                     status_bar._setStatusDataTransfer('ok', false);
+					self.ribbon[appId].enable(id);
 
                 }, function(tx, event, error_message) {
                     status_bar._setStatusError(error_message);
                     $dhx.notify('navigation', error_message, 'icons/db.png');
+					self.ribbon[appId].enable(id);
                 });
             } else if (id == 'previous') {
                 status_bar._setStatusDataTransfer($dhx.ui.language.requesting_previous_record, true);
@@ -651,14 +670,28 @@ $dhx.ui.crud.simple.View = {
                 });
             } else if (id == 'delete') {
                 if (self.grid.getSelectedRowId()) {
-                    status_bar._setStatusDataTransfer('deleting record', true);
-                    schema.del(self.grid.getSelectedRowId(), function(tx, event, record_id) {
-                        status_bar._setStatusDataTransfer('record deleted: ' + record_id, false);
-                        //self.grid.deleteSelectedRows();
-                        self.helpers.disableButtonActions(appId);
-                    }, function(tx, event, error_message) {
-                        status_bar._setStatusError(error_message);
-                    });
+					dhtmlx.confirm({
+						type: "confirm-warning"
+						, text: $dhx.ui.language.really_want_to_delete
+						, ok: $dhx.ui.language['continue'], // dhtmlx BUG
+						cancel: $dhx.ui.language.cancel
+						, callback: function (result) {
+							if (result == true) {
+								self.ribbon[appId].disable(id);
+								status_bar._setStatusDataTransfer('deleting record', true);
+								schema.del(self.grid.getSelectedRowId(), function(tx, event, record_id) {
+									status_bar._setStatusDataTransfer('record deleted: ' + record_id, false);
+									//self.grid.deleteSelectedRows();
+									//self.ribbon[appId].enable(id);
+									self.helpers.disableButtonActions(appId);
+								}, function(tx, event, error_message) {
+									status_bar._setStatusError(error_message);
+									self.ribbon[appId].enable(id);
+								});
+							}
+						}
+					});
+					
                 }
             } else if (id == 'dropdb') {
                 status_bar._setStatusDataTransfer('deleting database', true);
