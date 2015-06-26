@@ -16,8 +16,10 @@ $dhx.socket = $dhx.socket || {
 		self.record_id = m.record_id || -1;
 		self.status = m.status || 'none';
 		self.target = m.target || 'none';
+		self.client_session_id = $dhx.ui.$Session.client_session_id;
 		self.topic = m.topic || '$dhx.socket';
-		//self.browser = m.topic || '$dhx.socket';
+		self.browser = $dhx.Browser.name;
+		self.userAgent = navigator.userAgent;
 		return self;
 	}
 	,tryin : 3 // seconds
