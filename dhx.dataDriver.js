@@ -1261,10 +1261,12 @@ $dhx.dataDriver = {
 		var cloneEvent = {};
 		cloneEvent.target = cloneEvent.target || {};
 		cloneEvent.target.error = cloneEvent.target.error || {};
+		var json = JSON.parse(request.response);
+		var m = json.response;
 		if ($dhx._enable_log) console.error(json.response);
 		cloneEvent.target.error.name = 'Server rejected';
-		cloneEvent.target.error.message = 'record rejected on server due: ' + json.response;
-		if (c.onFail) c.onFail(null, cloneEvent, rows_affected);
+		cloneEvent.target.error.message = 'record rejected on server due: ' + m;
+		if (c.onFail) c.onFail(null, cloneEvent, m);
 		dhtmlx.message({
 			type: "error"
 			, text: 'record rejected on server due: ' + json.response
@@ -1277,11 +1279,22 @@ $dhx.dataDriver = {
 		cloneEvent.target.error = cloneEvent.target.error || {};
 		if ($dhx._enable_log) console.error(request.response);
 		cloneEvent.target.error.name = 'Programming error';
-		cloneEvent.target.error.message = 'server error: ' + request.response;
-		if (c.onFail) c.onFail(null, cloneEvent, rows_affected);
+		
+		
+		
+		var json = JSON.parse(request.response);
+		var m = json.response;
+		if( m.indexOf('is still referenced') )
+		{
+			m = 'you can not delete this record due it is being referenced by another record in another table';
+		}
+		
+		cloneEvent.target.error.message = 'server error: ' + m;
+		if (c.onFail) c.onFail(null, cloneEvent, m);
+		
 		dhtmlx.message({
 			type: "error"
-			, text: 'server error: ' + request.response
+			, text: 'server error: ' + m
 		});
 	}
 	
@@ -1292,7 +1305,7 @@ $dhx.dataDriver = {
 		if ($dhx._enable_log) console.error(e.stack);
 		cloneEvent.target.error.name = 'Programming error';
 		cloneEvent.target.error.message = 'programming error: ' + e.message;
-		if (c.onFail) c.onFail(null, cloneEvent, rows_affected);
+		if (c.onFail) c.onFail(null, cloneEvent, 'programming error: ' + e.message);
 		dhtmlx.message({
 			type: "error"
 			, text: 'programming error: ' + e.message
@@ -1898,10 +1911,6 @@ $dhx.dataDriver = {
 	, _syncSelect: function (c, component, hash) {
 		'use strict';
 		//console.log( c );
-		
-		
-		
-		
 		try {
 			var that = $dhx.dataDriver;
 			if ($dhx._enable_log) console.log("this component is a select");
@@ -1932,6 +1941,8 @@ $dhx.dataDriver = {
 							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'update' && data.message == 'record updated') {
+							
+							
 						}
 						else if (data.action == 'delete' && data.message == 'record deleted') {
 							console.log(component.options)
@@ -1986,7 +1997,7 @@ $dhx.dataDriver = {
 		//c.prop_text
 		try {
 			var that = $dhx.dataDriver;
-			if ($dhx._enable_log) console.log("this component is a selectGrid");
+			console.log("this component is a selectGrid");
 			component._id = hash.component_id;
 			component._type = hash.type;
 			component._subscriber = function (topic, data) {
@@ -2017,27 +2028,23 @@ $dhx.dataDriver = {
 							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'update' && data.message == 'record updated') {
+							
+							
 							var obj = {};
 							for (var i in data.record)
+							{
 								if (data.record.hasOwnProperty(i)) obj[i] = data.record[i];
+							}
 							if (c.prop_value && c.prop_text) {
 								if (c.$init) c.$init(obj, c.prop_value, c.prop_text);
+								console.log(obj);
 							}
 							else {
 								if (c.$init) c.$init(obj);
 							}
-							var objo = {};
-							for (var i in data.old_record)
-								if (data.old_record.hasOwnProperty(i)) objo[i] = data.old_record[i];
-							if (c.prop_value && c.prop_text) {
-								if (c.$init) c.$init(objo, c.prop_value, c.prop_text);
-							}
-							else {
-								if (c.$init) c.$init(objo);
-							}
-							//console.log(component.values);
-							component.values.forEach(function (value, index, array) {
-								if (value == objo.value) {
+	
+							component.keys.forEach(function (value, index, array) {
+								if (value == obj.value) {
 									component.keys[index] = obj.value;
 									component.values[index] = obj.text;
 								}
@@ -2312,6 +2319,11 @@ $dhx.dataDriver = {
 					component.fk_combos[fk] = component.getCombo(colIndex);
 					//component._id = hash.component_id;
 					//component._type = hash.type;
+					
+					
+					console.log(schema.columns[fk].foreign_column_value);
+					console.log(schema.columns[fk].foreign_column_name);
+					
 					$dhx.dataDriver.public[table].sync.selectGrid({
 						component: component.fk_combos[fk]
 						, component_id: hash.component_id + '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk
@@ -2320,6 +2332,9 @@ $dhx.dataDriver = {
 						, $init: function (obj, prop_value, prop_text) {
 								obj.value = obj[prop_value];
 								obj.text = obj[prop_text];
+								
+								console.log(obj);
+								
 							} // not mandatory, default false
 						
 						, onSuccess: function () {
