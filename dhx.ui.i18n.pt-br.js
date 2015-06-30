@@ -148,5 +148,12 @@ $dhx.ui.i18n['pt-br'] = {
 	,click_to_open_messages : 'clique para abrir ver as mensagens'
 	,expired_token_message : 'Sessão expirada. Por favor efetue login novamente.'
 	,really_want_to_delete : 'Deseja realmente deletar?'
+	,could_not_delete : 'erro ao deletar'
+	,record_deleted : 'registro excluído. '
+	,deleting_record : 'excluíndo registro'
+	,realtime_communication_is_on : 'socket está online'
+	,realtime_communication_is_off : 'socket está offline'
+	,there_is_no_active_transfer : 'transferência REST inativa'
+	,there_is_active_transfer : 'transferência REST ativa'
 };
 //$dhx.ui.language = $dhx.extend( $dhx.ui.i18n['pt-br'] );

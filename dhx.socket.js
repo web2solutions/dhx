@@ -4,9 +4,7 @@
 $dhx = $dhx || {};
 $dhx.socket = $dhx.socket || {
 	message : function( m ){
-		var self = this;
-		
-		self = $dhx.extend(m, this);
+		var self = $dhx.extend(m, this);
 		
 		self.action = m.action || 'none';
 		self.user_id = $dhx.ui.$Session.user_id || 6;
@@ -22,51 +20,47 @@ $dhx.socket = $dhx.socket || {
 		self.userAgent = navigator.userAgent;
 		return self;
 	}
-	,tryin : 3 // seconds
+	,tryin : 2 // seconds
 	,connect : function( s, c, reconnect ){
 		var socket = new WebSocket(c.resource)
 		socket.onopen = function (event) {
-			//if ($dhx._enable_log) console.log('socket onopen: ');
+			//$dhx.debug.log('socket onopen: ');
 			// lets set the client id to the socket transaction
 			var message = s.send( { message : 'login', action : 'set user' } );	
 			if(reconnect)
 			{
-				if ($dhx._enable_log) console.info('socket reconnected. user id: ', message.user_id);
+				$dhx.debug.info('socket reconnected. user id: ', message.user_id);
 				if (c.onOpen) c.onOpen(event, true);
 			}
 			else
 			{
-				if ($dhx._enable_log) console.info('socket connected. user id: ', message.user_id);
+				$dhx.debug.info('socket connected. user id: ', message.user_id);
 				if (c.onOpen) c.onOpen(event, false);
 			}
-			
 		};
 		socket.onclose = function (event) {
-			if ($dhx._enable_log) console.warn('socket closed');
+			$dhx.debug.warn('socket closed');
 			if (c.onClose) c.onClose();
 			if (c.reConnect)
 			{
-				
-				if ($dhx._enable_log) console.warn('reconnecting in '+$dhx.socket.tryin+' seconds');
+				$dhx.debug.warn('reconnecting in '+$dhx.socket.tryin+' seconds');
 				var timer = window.setTimeout(function(){
-					if ($dhx._enable_log) console.warn('reconnecting now');
+					$dhx.debug.warn('reconnecting now');
 					s.reconnect();
 					window.clearTimeout(timer);
 				}, $dhx.socket.tryin * 1000);
 			}
 		};
 		socket.onerror = function (event) {
-			if ($dhx._enable_log) console.error('socket error');
+			$dhx.debug.error('socket error');
 			if (c.onError) c.onError(event);
 		};
 		socket.onmessage = function (event) {
 			
 			if(event.data.message != 'keep alive')
 			{
-				//if ($dhx._enable_log) console.log('socket onmessage: ', event.data);
-			}
-			
-			
+				//$dhx.debug.log('socket onmessage: ', event.data);
+			}			
 			if(typeof event.data !== 'undefined' )
 			{
 				try
@@ -74,13 +68,13 @@ $dhx.socket = $dhx.socket || {
 					var data = JSON.parse(event.data);
 					if(data.message != 'keep alive')
 					{
-						if ($dhx._enable_log) console.info('socket received data: ', data);
+						$dhx.debug.info('socket received data: ', data);
 					}
 					if (c.onMessage) c.onMessage(data, event);	
 				}
 				catch(e)
 				{
-					console.error( e.stack );
+					$dhx.debug.error( e.stack );
 				}
 			}
 		};
@@ -93,7 +87,6 @@ $dhx.socket = $dhx.socket || {
 			
 			if( $dhx.isObject(m) )
 			{
-				
 				m = JSON.stringify(new $dhx.socket.message( m ));
 				socket.send(m);
 			}
@@ -103,9 +96,9 @@ $dhx.socket = $dhx.socket || {
                     type: "error",
                     text: 'error sending message via socket'
                 }); //
-				console.error('Please send your message in JSON format.');
-				console.info('message sent: ', m);
-				console.info('format sent: ', typeof m);
+				$dhx.debug.error('Please send your message in JSON format.');
+				$dhx.debug.info('message sent: ', m);
+				$dhx.debug.info('format sent: ', typeof m);
 				return {};
 			}
 			return JSON.parse(m);

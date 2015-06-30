@@ -1,13 +1,13 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
-/*global $dhx, dhtmlx, dhtmlXWindows, jQuery, document */
+/*global $dhx, dhtmlx */
 $dhx.ui = {
 	version: '1.0.3'
 	, skin: "dhx_skyblue"
 	, skin_subset: 'Unity'
 	, cdn_address: $dhx.CDN
-	, require: function (dependencies, callBack) {
+	, require: function (deps, callBack) {
 		'use strict';
-		$dhx.onDemand.load(dependencies, function () {
+		$dhx.onDemand.load(deps, function () {
 			if (callBack) {
 				callBack();
 			}
@@ -91,14 +91,14 @@ $dhx.ui = {
 	, start: function (c) {
 		'use strict';
 		var self = $dhx.ui,
-			dependencies = [],
+			deps = [],
 			skin = null,
 			core_deps = [];
 			
 		self.database = c.database;
 		if (c.require) {
 			if ($dhx.isArray(c.require)) {
-				dependencies = c.require;
+				deps = c.require;
 			}
 		}
 		if (c.skin) {
@@ -124,95 +124,73 @@ $dhx.ui = {
 		}
 		if (c.dhtmlx) {
 			if (typeof window.dhx4 === 'undefined') {
-				//alert($dhx.ui.skin);
-				//alert($dhx.ui.skin_subset);
-				//dependencies.push($dhx.ui.cdn_address + "dhx/ui/css/dhx.ui.css");
-				//if (c.desktop) {
-					//dependencies.push($dhx.ui.cdn_address + "dhx/ui/css/dhx.ui.desktop.css");
-				//}
 				if (self.skin == 'dhx_skyblue') {
 					if (self.skin_subset == 'light-green') {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/light-green/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/light-green/dhtmlx.css");
 					}
 					else if (self.skin_subset == 'clouds') {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/clouds/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/clouds/dhtmlx.css");
 					}
 					else if (self.skin_subset == 'Unity') {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/Unity/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/Unity/dhtmlx.css");
 					}
 					else if (self.skin_subset == 'pink-yellow') {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/pink-yellow/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/pink-yellow/dhtmlx.css");
 					}
 					else {
-						dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.css");
 					}
 				}
 				else if (self.skin == 'dhx_terrace') {
 					if (self.skin_subset == 'terrace-blue') {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/terrace-blue/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/terrace-blue/dhtmlx.css");
 					}
 					else {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/terrace/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/terrace/dhtmlx.css");
 					}
 				}
 				else if (self.skin == 'dhx_web') {
 					if (self.skin_subset == 'web-green') {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/web-green/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/web-green/dhtmlx.css");
 					}
 					else {
-						dependencies.push($dhx.ui.cdn_address + "dhx/ui/skins/web/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/web/dhtmlx.css");
 					}
 				}
-				//
-				dependencies.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.js");
+				deps.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.js");
 			}
 		}
 		
-		//
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.dataDriver.js");
+		deps.push($dhx.ui.cdn_address + "dhx/latinize.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.MQ.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.Session.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.login.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.dhxPDF.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.settings.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.ActiveDesktop.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.TopBar.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SideBar.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.ControlPanel.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SearchBar.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.data.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.settings.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.Record.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.FormWindow.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.Search.js");
+		deps.push($dhx.ui.cdn_address + "dhx/ui/js/jquery-1.11.1.min.js");
+		deps.push($dhx.ui.cdn_address + "dhx/ui/js/jquery.price_format.1.7.min.js");
 		
-		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.REST.js");
-		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.login.js");
-		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.Session.js");
-		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.socket.js");
-		dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.dhxPDF.js");
-
-
-		if (c.desktop) {
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.settings.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.ActiveDesktop.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.TopBar.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SideBar.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.ControlPanel.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SearchBar.js");
-		}
-		if (typeof $dhx.ui.data == 'undefined') {
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.data.js");
-		}
-		if (typeof $dhx.dataDriver == 'undefined') {
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.dataDriver.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/latinize.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.MQ.js");
-		}
-		if (typeof $dhx.ui.crud == 'undefined') {
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.settings.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.Record.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.FormWindow.js");
-			dependencies.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.Search.js");
-		}
-		if (typeof jQuery === 'undefined') {
-			dependencies.push($dhx.ui.cdn_address + "dhx/ui/js/jquery-1.11.1.min.js");
-		}
-		// Currency mask - shall to be loaded after JQUERY only
-		dependencies.push($dhx.ui.cdn_address + "dhx/ui/js/jquery.price_format.1.7.min.js");
-		//typeof window.JSON === 'undefined' ?
-		dependencies.unshift($dhx.ui.cdn_address + "dhx/ui/js/json3.min.js"); // : "";
-
-
+		// core deps
+		core_deps.push($dhx.ui.cdn_address + "dhx/ui/js/json3.min.js");
+		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.REST.js");
+		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.socket.js");
+		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.network.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.shortcut.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.Request.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.cookie.js");
@@ -222,80 +200,70 @@ $dhx.ui = {
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.pt-br.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.i18n.en-us.js");
+		// load core deps
 		$dhx.ui.require(core_deps, function () {
+			// start language
 			$dhx.ui.i18n.start();
-			$dhx.ui.require(dependencies, function () {
-				$dhx.init();
-
-				document.body.oncontextmenu = function(){
-					return false;
-				};
-
-				document.onmousedown = function(event)
-				{
-				  if( event.button == 2 )
-				   {
-						return false;
-				   }
-				};
-
-
-				self._window_manager();
-				if ($dhx._enable_log)
-				{
-					console.info('starting $dhx.ui');
-				}
-				
-				dhtmlXCalendarObject.prototype.langData["en"] = {
-					dateformat: "%Y-%m-%d",
-					monthesFNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outrubro", "Novembro", "Dezembro"],
-					monthesSNames: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-					daysFNames: ["Dormingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
-					daysSNames: ["D", "S", "T", "Q", "Q", "S", "S"],
-					weekstart: 0,
-						weekname: "D" 
-				};
-				
-				window.dhx4.dateLang = "pt";
-				window.dhx4.dateStrings = {
-					pt: {
-						monthFullName: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outrubro", "Novembro", "Dezembro"],
-						monthShortName: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-						dayFullName: ["Dormingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
-						dayShortName: ["D", "S", "T", "Q", "Q", "S", "S"]
-					}
-				};
-				
-				
-				
-				window.dhx4.dateFormat = {
-					en: "%Y-%m-%d"
-					, pt: "%Y-%m-%d"
-				};
-				self.dhxPDF();
-
-				self.temp = c;
-
-				//self.temp
-
-				/*$dhx.ui.data.model.start({
-					db: c.db
-					, version: c.version
-					, schema: c.schema
-					, settings: c.settings
-					, records: c.records
-					, output_tables: c.output_tables
-					, onSuccess: function () {
-						// call onStart for $dhx.ui.start()
-						if (c.onStart) c.onStart();
-					}
-					, onFail: function () {}
-				})*/
-
-				if (c.onStart)
-				{
-					c.onStart();
-				}
+			//start network
+			$dhx.ui.network.start({
+				onSuccess : function(){
+					// load other deps
+					$dhx.ui.require(deps, function () 
+					{
+						// init $dhx
+						$dhx.init();
+		
+						// block browser's built in contextual menu
+						document.body.oncontextmenu = function(){
+							return false;
+						};	
+						document.onmousedown = function(event)
+						{
+						  	if( event.button == 2 )
+						  	{
+								return false;
+						   	}
+						};
+						
+						// dhtmlx windows stack
+						self._window_manager();
+						
+						$dhx.debug.info('starting $dhx.ui');
+											
+						dhtmlXCalendarObject.prototype.langData["en"] = {
+							dateformat: "%Y-%m-%d",
+							monthesFNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outrubro", "Novembro", "Dezembro"],
+							monthesSNames: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+							daysFNames: ["Dormingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+							daysSNames: ["D", "S", "T", "Q", "Q", "S", "S"],
+							weekstart: 0,
+								weekname: "D" 
+						};
+						
+						window.dhx4.dateLang = "pt";
+						window.dhx4.dateStrings = {
+							pt: {
+								monthFullName: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outrubro", "Novembro", "Dezembro"],
+								monthShortName: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+								dayFullName: ["Dormingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+								dayShortName: ["D", "S", "T", "Q", "Q", "S", "S"]
+							}
+						};
+						
+						window.dhx4.dateFormat = {
+							en: "%Y-%m-%d"
+							, pt: "%Y-%m-%d"
+						};
+						self.dhxPDF();
+		
+						self.temp = c;
+						
+						if (c.onStart)
+						{
+							c.onStart();
+						}
+					});
+				}	
 			});
 		});
 	}
@@ -303,33 +271,6 @@ $dhx.ui = {
 $dhx.ui.helpers = {
 	column: {
 		toFormField: function (column) {
-			/*
-			name: 'group'
-								, numeric_scale: null
-								, "default": "usuario"
-								, unique: false
-								, format: ""
-								, has_fk: true
-								, dhtmlx_grid_type: "co"
-								, index: true
-								, dhtmlx_grid_sorting: "str"
-								, required: true
-								, validation: ""
-								, numeric_precision: null
-								, dhtmlx_form_type: "input"
-								, type: "character varying"
-								, foreign_table_name: "groups"
-								, dhtmlx_grid_align: "left"
-								, is_fk: false
-								, is_nullable: "NO"
-								, dhtmlx_grid_width: "*"
-								, dhtmlx_grid_header: "group"
-								, ordinal_position: 5
-								, foreign_column_name: "group"
-								, dhtmlx_grid_footer: ""
-								, maxlength: "255"
-
-			*/
 			var field = {
 				tooltip: ""
 				, mask_to_use: column.format
@@ -383,7 +324,7 @@ $dhx.ui.helpers = {
 			
 			
 			
-			//console.log( field );
+			//$dhx.debug.log( field );
 			return field;
 		}
 	}

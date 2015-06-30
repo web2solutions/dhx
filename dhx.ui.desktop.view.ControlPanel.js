@@ -17,7 +17,7 @@ $dhx.ui.desktop.view.ControlPanel = {
 				//self.Record.wrapper.clean( parseInt( id ) );
 			}
 			catch (e) {
-				//console.log(e.stack)	
+				//$dhx.debug.error(e.message, e.stack);	
 			}
 			return true;
 		});
@@ -27,7 +27,7 @@ $dhx.ui.desktop.view.ControlPanel = {
 				}
 			}
 			catch (e) {
-				//console.log(e.stack)	
+				//$dhx.debug.error(e.message, e.stack);	
 			}
 			return true;
 		});
@@ -111,7 +111,7 @@ $dhx.ui.desktop.view.ControlPanel = {
 		self.layout_system_information.cells('a').setText($dhx.ui.language['Live quota information']);
 		self.layout_system_information.cells('b').hideHeader();
 		
-		console.log( navigator );
+		$dhx.debug.log( navigator );
 		//Notification.permission
 		var tpl = '<div><strong>Environment information</strong> \
 						<br> Browser:	' + $dhx.Browser.name + '			\
@@ -271,7 +271,7 @@ $dhx.ui.desktop.view.ControlPanel = {
 					}
 					catch(e)
 					{
-						console.log(e.stack)	
+						$dhx.debug.error(e.message, e.stack);	
 					}
 				}
 				, function () {

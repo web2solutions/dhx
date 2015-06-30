@@ -35,8 +35,8 @@ $dhx.ui.desktop.view.SideBar = {
 				{
 					if(that.openedPrograms.hasOwnProperty( w ))
 					{
-						console.log(w);
-						console.log(that.openedPrograms[w]);
+						$dhx.debug.log(w);
+						$dhx.debug.log(that.openedPrograms[w]);
 						try
 						{
 							that.openedPrograms[w].close();	
@@ -54,8 +54,8 @@ $dhx.ui.desktop.view.SideBar = {
 				{
 					if(that.openedPrograms.hasOwnProperty( w))
 					{
-						console.log(w);
-						console.log(that.openedPrograms[w]);
+						$dhx.debug.log(w);
+						$dhx.debug.log(that.openedPrograms[w]);
 						try
 						{
 							that.openedPrograms[w].configuration.wrapper.hide();
@@ -145,7 +145,7 @@ $dhx.ui.desktop.view.SideBar = {
 	, _button: function (c) {
 		var that = $dhx.ui.desktop.view
 			, self = $dhx.ui.desktop.view.SideBar;
-		//console.log(c);
+		//$dhx.debug.log(c);
 		/*
 		appName : cruder.appName
 					,appId : cruder.appId
@@ -187,19 +187,19 @@ $dhx.ui.desktop.view.SideBar = {
 		
 		/*self.side_button[c.appId].addEventListener('dragleave', function(e){
 			//alert();	
-			console.log('dragleave')	
+			$dhx.debug.log('dragleave')	
 		}, false);
 		
 		self.side_button[c.appId].addEventListener('dragenter', function(e){
 			//alert();	
-			console.log('dragenter')	
+			$dhx.debug.log('dragenter')	
 		}, false);
 		
 		self.side_button[c.appId].addEventListener('dragover', function(e){
 			if (e.preventDefault) {
 				e.preventDefault(); // Necessary. Allows us to drop.
 			 }
-		console.log('dragover')	
+		$dhx.debug.log('dragover')	
 			  e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
 			
 			  return false;	
@@ -212,11 +212,11 @@ $dhx.ui.desktop.view.SideBar = {
 		  if (e.stopPropagation) {
 			e.stopPropagation(); // stops the browser from redirecting.
 		  }
-		  	console.log('drop')
+		  	$dhx.debug.log('drop')
 		
-			//console.log(dragSrcEl.innerHTML);
-			console.log(this.innerHTML);
-			console.log(e.dataTransfer.getData('text/html'));
+			//$dhx.debug.log(dragSrcEl.innerHTML);
+			$dhx.debug.log(this.innerHTML);
+			$dhx.debug.log(e.dataTransfer.getData('text/html'));
 		
 		  // Don't do anything if dropping the same column we're dragging.
 		  //if (dragSrcEl != this) {
@@ -232,13 +232,13 @@ $dhx.ui.desktop.view.SideBar = {
 		
 		if (c.type == 'cruder') {
 			self.side_button[c.appId].onclick = function (event) {
-				//console.log(c);
+				//$dhx.debug.log(c);
 				that.openCruder( c );
 			}
 		}
 		else if (c.type == 'internal_application') {
 			self.side_button[c.appId].onclick = function (event) {
-				//console.log(c);
+				//$dhx.debug.log(c);
 				that.openInternalProgram(c)
 			}
 		}
@@ -306,7 +306,7 @@ $dhx.ui.desktop.view.SideBar = {
 			$dhx.hideDirections();
 		}
 		catch (e) {
-			console.log(e.stack);
+			$dhx.debug.error(e.message, e.stack);;
 		}
 	}
 };

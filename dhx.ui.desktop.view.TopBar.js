@@ -24,7 +24,7 @@ $dhx.ui.desktop.view.TopBar = {
 	, _top_bar: function () {
 		var that = $dhx.ui.desktop.view
 			, self = $dhx.ui.desktop.view.TopBar;
-			//console.log(that.ActiveDesktop.active_area);
+			//$dhx.debug.log(that.ActiveDesktop.active_area);
 		self.top_bar = $dhx.createElement({
 			tag_name: 'DIV'
 			//, parent: that.ActiveDesktop.active_area
@@ -95,6 +95,17 @@ $dhx.ui.desktop.view.TopBar = {
 			, style: ''
 			, class: 'dhx_ui_desktop_top_bar_quick_tools_transfers'
 			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.transfers'
+			, title : $dhx.ui.language.there_is_no_active_transfer
+		});
+		
+		
+		self.quick_tools_socket = $dhx.createElement({
+			tag_name: 'DIV'
+			, parent: self.quick_tools
+			, style: ''
+			, class: 'dhx_ui_desktop_top_bar_quick_tools_socket'
+			, id: '$dhx.ui.desktop.active_area.top_bar.quick_tools.socket'
+			, title : $dhx.ui.language.realtime_communication_is_on
 		});
 		
 		self.token_expiration = $dhx.createElement({
@@ -120,7 +131,7 @@ $dhx.ui.desktop.view.TopBar = {
 		});
 		
 		self.quick_tools_idioms.addEventListener('click', function(event) {
-           console.log(event.clientX, event.clientY);
+           $dhx.debug.log(event.clientX, event.clientY);
 			self.idiom_contextual_menu.showContextMenu(event.clientX, event.clientY);
 			//this.dispatchEvent('contextmenu');
         });
@@ -151,7 +162,7 @@ $dhx.ui.desktop.view.TopBar = {
 			self._quick_tools();
 		}
 		catch (e) {
-			console.log(e.stack);
+			$dhx.debug.error(e.message, e.stack);;
 		}
 	}
 };

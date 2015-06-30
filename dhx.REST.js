@@ -65,7 +65,7 @@ $dhx.REST = {
                     try {
                         xmlhttp = self.XMLHttpFactories[i]();
                     } catch (e) {
-                        console.log(e.stack);
+                        $dhx.debug.error(e.message, e.stack);;
                         continue;
                     }
                     break;
@@ -80,11 +80,11 @@ $dhx.REST = {
             inProgress: false,
             process_queue: function(callback) {
                 var self = $dhx.REST.API;
-                //console.log(self.queue.length);
+                //$dhx.debug.log(self.queue.length);
                 if (self.queue.length > -0) {
                     self.inProgress = true;
                     var first_conf_on_queue = self.queue.shift();
-                    //console.log("on queuee : " + first_conf_on_queue.sync);
+                    //$dhx.debug.log("on queuee : " + first_conf_on_queue.sync);
                     first_conf_on_queue.sync = first_conf_on_queue.sync || false;
                     var h = {
                         method: first_conf_on_queue.method,
@@ -95,15 +95,15 @@ $dhx.REST = {
                             first_conf_on_queue.success(request);
                             self.process_queue(callback);
                             self.inProgress = false;
-                            //console.log(request);
-                            //console.log("sucessCallBack");
+                            //$dhx.debug.log(request);
+                            //$dhx.debug.log("sucessCallBack");
                         },
                         error: function(request) {
                             first_conf_on_queue.error(request);
                             self.process_queue(callback);
                             self.inProgress = false;
-                            //console.log(request);
-                            //console.log("errorCallBack");
+                            //$dhx.debug.log(request);
+                            //$dhx.debug.log("errorCallBack");
                         },
                         format: first_conf_on_queue.format
                     };
@@ -111,8 +111,8 @@ $dhx.REST = {
                     first_conf_on_queue.user;
                     if (first_conf_on_queue.secret) h["secret"];
                     first_conf_on_queue.secret;
-                    //console.log( "process queue" ) ;
-                    //console.log( first_conf_on_queue ) ;
+                    //$dhx.debug.log( "process queue" ) ;
+                    //$dhx.debug.log( first_conf_on_queue ) ;
                     self.fetch(h);
                 } else {
                     $dhx.hideDirections();
@@ -123,8 +123,8 @@ $dhx.REST = {
                 var self = $dhx.REST.API;
                 self.queue.push(json);
                 //$dhx.showDirections("Loading_Files");
-                //console.log( "ajax" ) ;
-                //console.log( json ) ;
+                //$dhx.debug.log( "ajax" ) ;
+                //$dhx.debug.log( json ) ;
                 if (json.user) $dhx.REST.API.http_user = json.user;
                 else $dhx.REST.API.http_user = false;
                 if (json.secret) $dhx.REST.API.http_secret = json.secret;
@@ -182,8 +182,8 @@ $dhx.REST = {
 					*/
                     //self.request.withCredentials = true;
                     self.request.onerror = function() {
-                        console.log(self.request);
-                        console.log(self.request.status);
+                        $dhx.debug.log(self.request);
+                        $dhx.debug.log(self.request.status);
                         //var rr = '{"response" : {"response" : ' + self.request + '} }';
                         var text_response = "Error";
                         var status = self.request.status;
@@ -206,42 +206,55 @@ $dhx.REST = {
                         if (json.error) json.error(self.request);
                     }
                     self.request.onreadystatechange = function() {
-                        if ($dhx._enable_log) console.log("=========  state changed ==========");
-                        if ($dhx._enable_log) console.log(self.request.readyState);
-                        if ($dhx._enable_log) console.log(self.request.status);
+						
+						
+						try
+						{
+							$dhx.ui.desktop.view.setRESTon();
+						}catch(e){}
+						
+                        $dhx.debug.log("=========  state changed ==========");
+                        $dhx.debug.log(self.request.readyState);
+                        $dhx.debug.log(self.request.status);
                         if (self.request.readyState != 4 && (self.request.status != 404 && self.request.status != 401)) {
                             try {
-                                if ($dhx._enable_log) {
+
                                     if (self.request.readyState == 2) {
-                                        if ($dhx._enable_log) console.log(self.request.readyState + " " + self.request.statusText + " sent request to " + json.url + " ");
+                                        $dhx.debug.log(self.request.readyState + " " + self.request.statusText + " sent request to " + json.url + " ");
                                         $dhx.progressOn("sending request ...");
                                     } else if (self.request.readyState == 3) {
-                                        if ($dhx._enable_log) console.log(self.request.readyState + " " + self.request.statusText + " processing and receiving data packet number " +
+                                        $dhx.debug.log(self.request.readyState + " " + self.request.statusText + " processing and receiving data packet number " +
                                             pnumber + " from " + json.url + ". ");
                                         $dhx.progressOn("processing data packet number " + pnumber + "");
                                         pnumber = pnumber + 1;
                                     }
-                                }
+
                             } catch (e) {
-                                //if( $dhx._enable_log ) console.log(e.stack);
+                                //$dhx.debug.error(e.message, e.stack);;
                             }
                             return;
                         }
                         /*if (self.request.status != 200 && self.request.status != 304 && self.request.status != 0 )
 						{
-							console.log("error: request status: " + self.request.status)
+							$dhx.debug.log("error: request status: " + self.request.status)
 							if( json.error )	json.error( self.request );
 							return;
 						}*/
                         if (self.request.readyState == 4) {
-                            if ($dhx._enable_log) console.timeEnd("response received in");
+							
+							try
+							{
+								$dhx.ui.desktop.view.setRESToff();
+							}catch(e){}
+							
+							$dhx.debug.timeEnd("response received in");
                             if (self.request.status == 0) {
                                 dhtmlx.message({
                                     type: "error",
                                     text: "The API branch (" + self.apiURL + ") is offline"
                                 });
-                                if ($dhx._enable_log) console.warn("503 - Service Unavailable");
-                                console.warn("error: request status: " + self.request.status + ". could not reach " + json.url);
+                                $dhx.debug.warn("503 - Service Unavailable");
+                                $dhx.debug.warn("error: request status: " + self.request.status + ". could not reach " + json.url);
                                 //if (json.error) json.error(self.request);
                                 return;
                             }
@@ -250,7 +263,7 @@ $dhx.REST = {
                                     type: "error",
                                     text: "bad request"
                                 });
-                                if ($dhx._enable_log) console.warn("400 - Bad request")
+                                $dhx.debug.warn("400 - Bad request")
                                 if (json.error) json.error(self.request);
                                 return;
                             }
@@ -261,15 +274,15 @@ $dhx.REST = {
                                 });
                                 try {
                                     var response = JSON.parse(self.request.response);
-                                    //console.log("response.status " + response.status);
+                                    //$dhx.debug.log("response.status " + response.status);
                                     if (response.status == "err") {
-                                        if ($dhx._enable_log) console.warn(response.response);
-                                        if ($dhx._enable_log) console.debug(self.request);
+                                        $dhx.debug.warn(response.response);
+                                        $dhx.debug.debug(self.request);
                                     } else {
-                                        console.log(e.stack)
+                                        $dhx.debug.error(e.message, e.stack);
                                     }
                                 } catch (e) {
-                                    if ($dhx._enable_log) console.warn("401 - Unauthorized");
+                                    $dhx.debug.warn("401 - Unauthorized");
                                 }
                                 if (json.error) json.error(self.request);
                                 return;
@@ -279,7 +292,7 @@ $dhx.REST = {
                                     type: "error",
                                     text: "resource not found"
                                 });
-                                if ($dhx._enable_log) console.warn("404 - Not found");
+                                $dhx.debug.warn("404 - Not found");
                                 if (json.error) json.error(self.request);
                                 return;
                             }
@@ -289,49 +302,51 @@ $dhx.REST = {
                             if (self.request.status == 500) {
                                 try {
                                     var response = JSON.parse(self.request.response);
-                                    //console.log("response.status " + response.status);
+                                    //$dhx.debug.log("response.status " + response.status);
                                     if (response.status == "err") {
-                                        console.warn(response.response);
-                                        console.debug(self.request);
+                                        $dhx.debug.warn(response.response);
+                                        $dhx.debug.debug(self.request);
                                     } else {}
                                 } catch (e) {
-                                    console.warn("internal server error: server side error. request status: " + self.request.status + "")
+                                    $dhx.debug.warn("internal server error: server side error. request status: " + self.request.status + "")
                                 }
                                 $dhx.progressOff("processing data packet number " + pnumber + "");
                                 if (json.error) json.error(self.request);
                                 return;
                             } else if (self.request.status == 502) {
-                                console.warn("bad gateway: API server is unavailable")
+                                $dhx.debug.warn("bad gateway: API server is unavailable")
                                 if (json.error) json.error(self.request);
                                 return;
                             } else if (self.request.status == 503) {
-                                console.warn("service unavailable: API server is unavailable")
+                                $dhx.debug.warn("service unavailable: API server is unavailable")
                                 if (json.error) json.error(self.request);
                                 return;
                             } else if (self.request.status == 200) {
-                                if ($dhx._enable_log)
-                                    if (self.request.readyState == 4) console.warn(self.request.readyState + " " + self.request.statusText +
-                                        " downloaded. responseText holds complete data from " + json.url + ". ");
-                                $dhx.progressOff("ready ...");
+
+                                if (self.request.readyState == 4)
+								{
+									$dhx.debug.warn(self.request.readyState + " " + self.request.statusText + " downloaded. responseText holds complete data from " + json.url + ". ");
+								}
+								$dhx.progressOff("ready ...");
                                 if (json.format = "json") {
                                     try {
                                         var response = JSON.parse(self.request.response);
-                                        //console.log("response.status " + response.status);
+                                        //$dhx.debug.log("response.status " + response.status);
                                         if (response.status == "err") {
-                                            console.log("error message : ", response.response);
+                                            $dhx.debug.log("error message : ", response.response);
                                             if (json.error) json.error(self.request);
                                         } else {
                                             try {
                                                 if (json.success) json.success(self.request)
                                             } catch (e) {
-                                                if ($dhx._enable_log) console.warn(e.stack || e.message);
-                                                if ($dhx._enable_log) console.warn("error on callback function");
+                                                $dhx.debug.warn(e.stack || e.message);
+                                                $dhx.debug.warn("error on callback function");
                                                 if (json.error) json.error(self.request);
                                             }
                                         }
                                     } catch (e) {
-                                        if ($dhx._enable_log) console.warn("unevaluable JSON: ", self.request);
-                                        if ($dhx._enable_log) console.warn(e.stack || e.message);
+                                        $dhx.debug.warn("unevaluable JSON: ", self.request);
+                                        $dhx.debug.warn(e.stack || e.message);
                                         var response = {
                                             "response": self.request
                                         };
@@ -347,33 +362,33 @@ $dhx.REST = {
                         return;
                     }
                     try {
-                        //if( $dhx._enable_log ) console.log('xhr readystate: ' + self.request.readyState);
-                        //if( $dhx._enable_log ) console.log('http status: ' + self.request.status);
-                        if ($dhx._enable_log) console.time("response received in");
-                        if ($dhx._enable_log) console.warn("-----REST client log-----");
-                        if ($dhx._enable_log) console.warn(self.request.readyState + " set up " + json.method + " request for " + json.url + "");
+                        //$dhx.debug.log('xhr readystate: ' + self.request.readyState);
+                        //$dhx.debug.log('http status: ' + self.request.status);
+                        $dhx.debug.time("response received in");
+                        $dhx.debug.warn("-----REST client log-----");
+                        $dhx.debug.warn(self.request.readyState + " set up " + json.method + " request to " + json.url + "");
                         window.setTimeout(function() {
                             self.request.send(json.payload);
                         }, 500);
                     } catch (e) {
-                        if ($dhx._enable_log) console.warn(e.stack || e.message);
-                        if ($dhx._enable_log) console.warn(self.request);
+                        $dhx.debug.warn(e.stack || e.message);
+                        $dhx.debug.warn(self.request);
                         if (json.error) json.error(self.request);
                     }
                 } catch (e) {
-                    //if( $dhx._enable_log ) console.log(e.stack || e.message);
+                    //$dhx.debug.log(e.stack || e.message);
                     //if( json.error )	json.error( self.request );
                 }
             },
             post: function(c) {
                     var self = $dhx.REST.API;
-                    //console.log("API post");
+                    //$dhx.debug.log("API post");
                     if (typeof c.payload === 'undefined') c.payload = ($dhx.REST.API.default_payload) ? $dhx.REST.API.default_payload : null;
                     else if (typeof c.payload === 'string')
                         if (c.payload == '') c.payload = ($dhx.REST.API.default_payload) ? $dhx.REST.API.default_payload : null;
                         else c.payload = (($dhx.REST.API.default_payload) ? $dhx.REST.API.default_payload + "&" : "") + c.payload;
                     else c.payload = ($dhx.REST.API.default_payload) ? $dhx.REST.API.default_payload : null;
-                    //console.log(c.payload);
+                    //$dhx.debug.log(c.payload);
                     if (!$dhx.isFunction(c.onSuccess)) {
                         c.onSuccess = false;
                     }
@@ -413,7 +428,7 @@ $dhx.REST = {
                         if (c.payload == '') c.payload = ($dhx.REST.API.default_payload) ? $dhx.REST.API.default_payload : null;
                         else c.payload = (($dhx.REST.API.default_payload) ? $dhx.REST.API.default_payload + "&" : "") + c.payload;
                     else c.payload = ($dhx.REST.API.default_payload) ? $dhx.REST.API.default_payload : null;
-                    //console.log(c.payload);
+                    //$dhx.debug.log(c.payload);
                     if (!$dhx.isFunction(c.onSuccess)) {
                         c.onSuccess = false;
                     }
@@ -538,7 +553,7 @@ $dhx.REST = {
                     // find the amount of "seconds" between now and target
                     var current_date = new Date().getTime();
                     var seconds_left = (target_date - current_date) / 1000;
-					//console.log(target_date, current_date);
+					//$dhx.debug.log(target_date, current_date);
                     if (target_date < current_date) {
 						window.clearInterval(expiresloop);
 						$dhx.ui.login.render(
@@ -671,7 +686,7 @@ $dhx.REST = {
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'client_session_id', {
-					value: response.auth_data.client_session_id
+					value: response.auth_data.client_session_id + "_" + (new Date().getTime())
 					, enumerable: true
 					, configurable: false
 					, writable: false
@@ -753,7 +768,7 @@ $dhx.REST = {
                         // find the amount of "seconds" between now and target
                         var current_date = new Date().getTime();
                         if (target_date > current_date) {
-                            console.warn("You already are authenticated, bypassing the authorization ... ");
+                            $dhx.debug.warn("You already are authenticated, bypassing the authorization ... ");
                             if (c.onSuccess) c.onSuccess($dhx.REST.API.auth_request);
                             return;
                         }

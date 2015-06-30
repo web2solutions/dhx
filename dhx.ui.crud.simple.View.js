@@ -33,18 +33,20 @@ $dhx.ui.crud.simple.View = {
 			return "<div class='status_info' id='status_info_" + appId + "'>" + $dhx.ui.language.Initializing + " " + $dhx.ui.crud.controller[appId].appName + "</div><div class='data_transfer_info' id='data_transfer_info_" + appId + "'>" + $dhx.ui.language.no_data_transferred + "</div><div class='errors_info' id='errors_info_" + appId + "'>" + $dhx.ui.language.no_errors + "</div>"	
 		} 
         this._setStatus = function(m) {
-            console.debug("status_info_" + appId, '_setstatus');
+            $dhx.debug.debug("status_info_" + appId, '_setstatus');
 			try {
                 document.getElementById("status_info_" + appId).innerHTML = m;
+				document.getElementById("status_info_" + appId).title = m;
             } catch (e) {
-                console.log(e.stack);
+                $dhx.debug.log(e.stack);
             }
         }
         this._setStatusError = function(m) {
             try {
                 document.getElementById("errors_info_" + appId).innerHTML = m;
+				document.getElementById("errors_info_" + appId).title = m;
             } catch (e) {
-                console.log(e.stack);
+                $dhx.debug.log(e.stack);
             }
 
         }
@@ -56,13 +58,19 @@ $dhx.ui.crud.simple.View = {
 					});*/
                 if (isActive) {
                     document.getElementById("data_transfer_info_" + appId).innerHTML = m;
+					document.getElementById("data_transfer_info_" + appId).title = m;
                     document.getElementById("data_transfer_info_" + appId).style.backgroundImage = "url(" + icons_path + "network.gif)";
+					
+					
                 } else {
                     document.getElementById("data_transfer_info_" + appId).innerHTML = m;
+					document.getElementById("data_transfer_info_" + appId).title = m;
                     document.getElementById("data_transfer_info_" + appId).style.backgroundImage = "url(" + icons_path + "network-accept.png)";
+					
+					
                 }
             } catch (e) {
-                console.log(e.stack);
+                $dhx.debug.log(e.stack);
             }
 
         }
@@ -77,7 +85,7 @@ $dhx.ui.crud.simple.View = {
                     document.getElementById("socket_info_" + appId).style.backgroundImage = "url(" + icons_path + "socket_disconnected.png)";
                 }
             } catch (e) {
-                console.log(e.stack);
+                $dhx.debug.log(e.stack);
             }
 
         }
@@ -183,9 +191,9 @@ $dhx.ui.crud.simple.View = {
         try {
             var self = $dhx.ui.crud.controller[appId].view;
 
-            //console.log(appId);
-            //console.log($dhx.ui.crud.controller[appId].view);
-            //console.log($dhx.ui.data.model.db[$dhx.ui.crud.controller[appId].database].schema);
+            //$dhx.debug.log(appId);
+            //$dhx.debug.log($dhx.ui.crud.controller[appId].view);
+            //$dhx.debug.log($dhx.ui.data.model.db[$dhx.ui.crud.controller[appId].database].schema);
 
             var table = appId.split('crud.simple.')[1];
             table = table.split("_app")[0];
@@ -209,17 +217,17 @@ $dhx.ui.crud.simple.View = {
             try {
                 //self.ribbon[appId].unload();
             } catch (e) {
-                //console.log(e.stack);
+                //$dhx.debug.log(e.stack);
             }
             try {
                 self.layout.cells('a').attachHTMLString('xx');
             } catch (e) {
-                //console.log(e.stack);
+                //$dhx.debug.log(e.stack);
             }
 
             //self.grid.destructor();
         } catch (e) {
-            console.log(e.stack);
+            $dhx.debug.log(e.stack);
         }
     }
 
@@ -359,7 +367,7 @@ $dhx.ui.crud.simple.View = {
             try {
                 //self.Record.wrapper.clean( parseInt( id ) );
             } catch (e) {
-                //console.log(e.stack)	
+                //$dhx.debug.log(e.stack)	
             }
             return true;
         });
@@ -491,7 +499,7 @@ $dhx.ui.crud.simple.View = {
                     var primary_key = schema.primary_key.keyPath;
                     var columns = $dhx.dataDriver._getColumnsId(c).split(',');
                     records.forEach(function(recordset, index, array) {
-                        //console.log(recordset.record)
+                        //$dhx.debug.log(recordset.record)
                         var record = [];
                         columns.forEach(function(column, index_, array_) {
                             record[index_] = recordset.record[column];
@@ -505,7 +513,7 @@ $dhx.ui.crud.simple.View = {
 
 
                 }, function(tx, event, error_message) {
-                    console.log(error_message);
+                    $dhx.debug.log(error_message);
                 });
             } else if (id == 'add1000') {
                 var records = [];
@@ -621,7 +629,7 @@ $dhx.ui.crud.simple.View = {
             } else if (id == 'gettablesize') {
                 status_bar._setStatusDataTransfer('requesting table size', true);
                 schema.getTableSizeInBytes(function(tx, event, size) {
-                    //console.log( size );
+                    //$dhx.debug.log( size );
                     var size = (size / 1024).toFixed(2) + " KB";
                     status_bar._setStatusDataTransfer('table size :' + size, false);
                     //$dhx.notify('total table size', size, 'icons/db.png');
@@ -678,13 +686,15 @@ $dhx.ui.crud.simple.View = {
 						, callback: function (result) {
 							if (result == true) {
 								self.ribbon[appId].disable(id);
-								status_bar._setStatusDataTransfer('deleting record', true);
+								status_bar._setStatusDataTransfer($dhx.ui.language.deleting_record, true);
 								schema.del(self.grid.getSelectedRowId(), function(tx, event, record_id) {
-									status_bar._setStatusDataTransfer('record deleted: ' + record_id, false);
+									status_bar._setStatusDataTransfer($dhx.ui.language.record_deleted + record_id, false);
 									//self.grid.deleteSelectedRows();
 									//self.ribbon[appId].enable(id);
 									self.helpers.disableButtonActions(appId);
 								}, function(tx, event, error_message) {
+									//alert(error_message);
+									status_bar._setStatusDataTransfer($dhx.ui.language.could_not_delete, false);
 									status_bar._setStatusError(error_message);
 									self.ribbon[appId].enable(id);
 								});
@@ -713,8 +723,7 @@ $dhx.ui.crud.simple.View = {
 
         if(typeof $dhx.ui.data.model.schema[controller.database][controller.collection] === 'undefined')
 		{
-			if ($dhx._enable_log) 
-				console.error('you are trying to render a crud for a non existent table. table name: '+controller.collection);
+			$dhx.debug.error('you are trying to render a crud for a non existent table. table name: '+controller.collection);
 			return;
 		}
 
@@ -738,14 +747,14 @@ $dhx.ui.crud.simple.View = {
 
 
         if ($dhx.ui.window_manager.isWindow(strWindowID)) {
-            //console.log(self.window)
+            //$dhx.debug.log(self.window)
             self.view.window[appId].show();
             self.view.window[appId].bringToTop();
             return;
         }
 
 
-        //console.log(strWindowID);
+        //$dhx.debug.log(strWindowID);
 
         self = $dhx.ui.crud.controller[appId].view;
 
@@ -800,8 +809,8 @@ $dhx.ui.crud.simple.View = {
         schema.attachEvent('onAfterCursorChange', function(cursor_id, table) {
 
             if (table == controller.collection) {
-                //console.log(appId);
-                //console.log(schema);
+                //$dhx.debug.log(appId);
+                //$dhx.debug.log(schema);
                 $dhx.ui.crud.controller[appId].view.helpers.enableButtonActions(appId);
 
 
@@ -811,7 +820,7 @@ $dhx.ui.crud.simple.View = {
 
         });
         schema.attachEvent('onBeforeCursorChange', function(cursor_id) {
-            //console.log('before set cursor');
+            //$dhx.debug.log('before set cursor');
         });
         schema.attachEvent('onAfterAdd', function(records, rows_affected) {
             $dhx.ui.crud.controller[appId].view.helpers.enableButtonActions(appId);

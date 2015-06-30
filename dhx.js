@@ -1,22 +1,24 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true, maxerr : 1000, indent : 2, sloppy : true */
 /*global $dhx, dhtmlx, Element */
 var $dhx = {
-    version: '1.0.3',
-    _enable_log: false,
-    windowWidth: 0,
-    windowHeight: 0,
+    version: '1.0.3'
+	,cdn1URL: '//cdn.dhtmlx.com.br/'
+    ,_enable_log: false
+	,_enable_benchmark : false
+    ,windowWidth: 0
+    ,windowHeight: 0
     /**
 		@function loadScript -  load javascript files - code injection
 		@param {string}	url - the url of a given javascript file which will be loaded
 		@param {function}	callback - 	function  callback which will be executed after the javascript file 100% loaded
 	*/
-    loadScript: function(url, callback) {
+    ,loadScript: function(url, callback) {
             url = url + ".js";
             var script = document.createElement('script');
             script.type = 'text/javascript';
             if (script.readyState) { //IE
                 script.onreadystatechange = function() {
-                    console.log(script.readyState);
+                    $dhx.debug.log(script.readyState);
                     if (script.readyState == 'loaded' || script.readyState == 'complete') {
                         script.onreadystatechange = null;
                         callback();
@@ -39,7 +41,7 @@ var $dhx = {
             var self = $dhx.onDemand;
             var uid = new Date().getTime();
             self.queue[uid] = [];
-            //console.log("load");
+            //$dhx.debug.log("load");
             //$dhx.exposeForEach();
             if ($dhx.isArray(url)) {
                 url.forEach(function(path, index, array) {
@@ -54,7 +56,7 @@ var $dhx = {
         },
         process_queue: function(callback, uid) {
             var self = $dhx.onDemand;
-            //console.log(self.queue.length);
+            //$dhx.debug.log(self.queue.length);
             if (self.queue[uid].length > 0) {
                 var first_on_queue = self.queue[uid].shift();
                 try {
@@ -81,13 +83,13 @@ var $dhx = {
     lScript: function(url, callback) {
         var self = this,
             arrType, type, s, nodeType, node, tag_id = url.split("?")[0];
-        //console.log("lScript");
-        //console.log(url);
-        //console.log(document.getElementById(url));
+        //$dhx.debug.log("lScript");
+        //$dhx.debug.log(url);
+        //$dhx.debug.log(document.getElementById(url));
         if (document.getElementById(url) == null) {
             arrType = url.split(".");
             type = arrType[arrType.length - 1];
-            //console.log(url);
+            //$dhx.debug.log(url);
             if (url.indexOf(".css") != -1) {
                 nodeType = "link";
                 node = document.createElement(nodeType);
@@ -110,40 +112,40 @@ var $dhx = {
 
                 node.onreadystatechange = function() {
                     if (node.readyState == 'loaded' || node.readyState == 'complete') {
-                        console.log(node.readyState);
+                        $dhx.debug.log(node.readyState);
                         node.onreadystatechange = null;
-                        //console.log("loaded  " + url);
+                        //$dhx.debug.log("loaded  " + url);
                         callback();
                     }
                 };
             } else {
-                //console.log(type);
+                //$dhx.debug.log(type);
                 if (url.indexOf(".css") != -1) {
                     callback();
                 } else {
-                    //console.log("no ie");
-                    //console.log(node.onload);
+                    //$dhx.debug.log("no ie");
+                    //$dhx.debug.log(node.onload);
                     node.onload = function() {
-                        //console.log("loaded");
-                        //console.log("loaded  " + url);
+                        //$dhx.debug.log("loaded");
+                        //$dhx.debug.log("loaded  " + url);
                         callback();
                     };
 
                     node.onerror = function(e) {
-                        if ($dhx._enable_log) console.log("error on loading file: " + e.target.src.split("/")[e.target.src.split("/").length - 1]);
-                        //console.log("loaded  " + url);
+                        $dhx.debug.log("error on loading file: " + e.target.src.split("/")[e.target.src.split("/").length - 1]);
+                        //$dhx.debug.log("loaded  " + url);
                         document.getElementById("$dhx_splash_div_file_info").innerHTML = '<br>error</b> when loading the file: <br>' + e.target.src.split("/")[e.target.src.split("/").length - 1];
                         //callback();
                     };
                 }
             }
-            //console.log( url );
-            //console.log(document.getElementsByTagName('head')[0].appendChild(node));
+            //$dhx.debug.log( url );
+            //$dhx.debug.log(document.getElementsByTagName('head')[0].appendChild(node));
             document.getElementsByTagName('head')[0].appendChild(node);
             //s = document.getElementsByTagName('script')[0];
             //s.parentNode.insertBefore(node, s);
         } else {
-            //console.log("already exist");
+            //$dhx.debug.log("already exist");
             callback();
         }
     }
@@ -151,7 +153,7 @@ var $dhx = {
 
     ,
     getElementPosition: function(x, cordinate) {
-        //console.log("element");
+        //$dhx.debug.log("element");
         var o = document.getElementById(x);
         var l = o.offsetLeft;
         var t = o.offsetTop;
@@ -159,10 +161,10 @@ var $dhx = {
         o = document.getElementById(x);
         while (o = o.offsetParent) t += o.offsetTop;
         if (cordinate == "y") {
-            //console.log(cordinate + ": " + _y);
+            //$dhx.debug.log(cordinate + ": " + _y);
             return t - 150;
         } else {
-            //console.log(cordinate + ": " + _x);
+            //$dhx.debug.log(cordinate + ": " + _x);
             return l - 200;
         }
     },
@@ -523,8 +525,8 @@ var $dhx = {
         div_splash.style.backgroundRepeat = "no-repeat";
         div_splash.style.opacity = "1";
         div_splash.style.textAlign = "left";
-        //console.log('XXXXXXXXXXXXXXXXXXXX');
-        //console.log(m);
+        //$dhx.debug.log('XXXXXXXXXXXXXXXXXXXX');
+        //$dhx.debug.log(m);
         div_splash.innerHTML = m;
         //document.getElementById("$dhx_wrapper_loading_wheel").style.display = "none";
         //document.getElementById("$dhx_splash").style.display = "none";
@@ -691,19 +693,19 @@ var $dhx = {
                     nameSpaceName.split(".").forEach(function(level, index, array) {
                         if (first_level) {
                             window[level] = window[level] || {};
-                            //console.log(window[level]);
+                            //$dhx.debug.log(window[level]);
                             //ob = window[level][className];
                             last_level = window[level];
                             first_level = false;
                         } else {
-                            //console.log(last_level);
+                            //$dhx.debug.log(last_level);
                             last_level[level] = last_level[level] || {};
-                            //console.log(last_level[ level ]);
+                            //$dhx.debug.log(last_level[ level ]);
                             last_level = last_level[level];
                         }
                     });
-                    //console.log(last_level);
-                    //console.log(className);
+                    //$dhx.debug.log(last_level);
+                    //$dhx.debug.log(className);
                     ((parentClass) && parentClass != null) ? last_level[className] = Object.create(parentClass): last_level[className] = {};
                     ob = last_level[className];
                     for (var item in objClass[className]) {
@@ -711,8 +713,8 @@ var $dhx = {
                         last_level[className][item] = objClass[className][item];
                         ob[item] = last_level[className][item];
                     }
-                    //console.log(className);
-                    //console.log( root.NameSpace.usingNameSpace );
+                    //$dhx.debug.log(className);
+                    //$dhx.debug.log( root.NameSpace.usingNameSpace );
                 } else {
                     ((parentClass) && parentClass != null) ? window[className] = Object.create(parentClass): window[className] = {};
                     ob = window[className];
@@ -797,7 +799,7 @@ var $dhx = {
         img = img || 'http://cdn.dhtmlx.com.br/dhx/notify.png';
         // Let's check if the browser supports notifications
         if (!"Notification" in window) {
-            console.log("This browser does not support notifications.");
+            $dhx.debug.log("This browser does not support notifications.");
         }
         // Let's check if the user is okay to get some notification
         else if (Notification.permission === "granted") {
@@ -835,9 +837,9 @@ var $dhx = {
     ,
     jDBdStorage: {
         storeObject: function(dataset_name, dataOBJ) {
-            if ($dhx._enable_log) console.time("storeObject " + dataset_name);
+            $dhx.debug.time("storeObject " + dataset_name);
             localStorage.setItem(dataset_name, JSON.stringify(dataOBJ));
-            if ($dhx._enable_log) console.timeEnd("storeObject " + dataset_name);
+            $dhx.debug.timeEnd("storeObject " + dataset_name);
         },
         insertRecord: function(dataset_name, record, index) {
             var currently_store_string = localStorage[dataset_name];
@@ -846,23 +848,23 @@ var $dhx = {
             $dhx.jDBdStorage.saveDatabase(dataset_name, currently_data_array);
         },
         saveDatabase: function(dataset_name, payload) {
-            if ($dhx._enable_log) console.time("save dataset " + dataset_name);
+            $dhx.debug.time("save dataset " + dataset_name);
             localStorage.setItem(dataset_name, JSON.stringify(payload));
-            if ($dhx._enable_log) console.timeEnd("save dataset " + dataset_name);
+            $dhx.debug.timeEnd("save dataset " + dataset_name);
         },
         deleteDatabase: function(dataset_name) {
-            if ($dhx._enable_log) console.time("delete dataset " + dataset_name);
+            $dhx.debug.time("delete dataset " + dataset_name);
             localStorage.removeItem(dataset_name);
-            if ($dhx._enable_log) console.timeEnd("delete dataset " + dataset_name);
+            $dhx.debug.timeEnd("delete dataset " + dataset_name);
         },
         get: function(dataset_name) {
-            if ($dhx._enable_log) console.time("get local storage " + dataset_name);
+            $dhx.debug.time("get local storage " + dataset_name);
             var currently_store_string = localStorage[dataset_name];
-            if ($dhx._enable_log) console.timeEnd("get local storage " + dataset_name);
+            $dhx.debug.timeEnd("get local storage " + dataset_name);
             if (localStorage[dataset_name]) {
-                if ($dhx._enable_log) console.time("parse dataset " + dataset_name);
+                $dhx.debug.time("parse dataset " + dataset_name);
                 var parsed = JSON.parse(currently_store_string);
-                if ($dhx._enable_log) console.timeEnd("parse dataset " + dataset_name);
+                $dhx.debug.timeEnd("parse dataset " + dataset_name);
                 return parsed;
             } else return localStorage[dataset_name];
         },
@@ -1072,7 +1074,7 @@ var $dhx = {
                 }
             };
             self.isDHTMLXmodified = true;
-            if ($dhx._enable_log) console.log("some dhtmlx methods were modified");
+            $dhx.debug.log("some dhtmlx methods were modified");
         }
         /**
 		@function init -  performs all the necessary tasks before let the user to use the $dhx object
@@ -1083,16 +1085,21 @@ var $dhx = {
 
         if ($dhx.$_GET("_enable_log") !== null) {
             if ($dhx.$_GET("_enable_log") == "true") $dhx._enable_log = true;
-            console.log(
+            $dhx.debug.log(
                 "%c $dhx framework started ",
                 'background: #00ebbe; color: #fff; font-size: 12px; padding: 12px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
             );
         }
-        //console.log(
+		
+		if ($dhx.$_GET("_enable_benchmark") !== null) {
+            if ($dhx.$_GET("_enable_benchmark") == "true") $dhx._enable_benchmark = true;
+        }
+		
+        //$dhx.debug.log(
         //		"%c under the hood, guy? why? \n\n\n thank you for reading my code", 
         //		'background: red; color: #fff; font-size: 30px; padding: 30px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
         //	);
-        if ($dhx._enable_log) console.info('starting $dhx');
+        $dhx.debug.info('starting $dhx');
         self.Browser.init();
         if (typeof c !== 'undefined') {
             if (c.plugins) {}
@@ -1132,13 +1139,21 @@ var $dhx = {
         return child;
     },
     dhx_elements: {},
-    createElement: function(c) {
-        //console.log( JSON.stringify(c)  )
+	_ppc : false
+	,popup : function(){
+		if($dhx._ppc == false)
+		{
+			$dhx._ppc = new dhtmlXPopup();
+		}
+		return $dhx._ppc;
+	}
+    ,createElement: function(c) {
+        //$dhx.debug.log( JSON.stringify(c)  )
         var element = document.createElement(c.tag_name),
             id = c.id || 'el_' + window.dhx4.nexId();
         element.setAttribute('style', c.style || '');
         element.setAttribute('class', c.class || '');
-        if (c.title) element.setAttribute('title', c.title);
+        
 
         $dhx.dhx_elements[id] = c;
         element.setAttribute('id', id);
@@ -1147,6 +1162,27 @@ var $dhx = {
         } else {
             document.body.appendChild(element);
         }
+		
+		if (c.title)
+		{
+			element.addEventListener('mouseover', function( event ) {
+				//$dhx.debug.log(event);
+				$dhx.popup().attachHTML(c.title);
+				$dhx.popup().show(
+					event.clientX
+					,event.clientY
+					,element.style.width.replace(/px/, '')
+					,element.style.height.replace(/px/, '')
+				); //params are: x, y, width, height
+			});
+			element.addEventListener('mouseout', function() {
+				$dhx.popup().hide();
+			});
+		}
+		
+		
+		
+		
         if ($dhx.dhx_elements[id].html) {
             element.innerHTML = $dhx.dhx_elements[id].html;
         }
@@ -1184,9 +1220,9 @@ var $dhx = {
                 }
 
 
-                //console.log(element);
-                //console.log($dhx.dhx_elements[ id ].resize_height);
-                //console.log($dhx.dhx_elements[ id ].resize_width);
+                //$dhx.debug.log(element);
+                //$dhx.debug.log($dhx.dhx_elements[ id ].resize_height);
+                //$dhx.debug.log($dhx.dhx_elements[ id ].resize_width);
             }
 
 
@@ -1196,10 +1232,37 @@ var $dhx = {
         }, true);
 
 
-        //console.log(element);
+        //$dhx.debug.log(element);
         return element;
-    },
-    cdn1URL: '//cdn.dhtmlx.com.br/'
+    }
+	
+	
+	,debug : {
+		log : function(){
+			if ($dhx._enable_log) console.log(arguments)
+		}
+		,info : function(){
+			if ($dhx._enable_log) console.info(arguments)
+		}
+		,debug : function(){
+			if ($dhx._enable_log) console.debug(arguments)
+		}
+		,error : function(){
+			if ($dhx._enable_log) console.error(arguments)
+		}
+		,dir : function(){
+			if ($dhx._enable_log) console.dir(arguments)
+		}
+		,time : function(label){
+			if ($dhx._enable_benchmark) console.time(label)
+		}
+		,timeEnd : function(label){
+			if ($dhx._enable_benchmark) console.timeEnd(label)
+		}
+		,warn : function(){
+			if ($dhx._enable_log) console.warn(arguments)
+		}
+	}
 };
 Object.defineProperty($dhx, 'CDN', {
     //get: function() { return bValue; },
@@ -1279,8 +1342,8 @@ $dhx.cookie = {
                 ///for(){
                 thisCookies.forEach(function(cookie, index, array) {
                     cookie = cookie.split("=");
-                    //console.log(cookie[0]);
-                    //console.log(cookie);
+                    //$dhx.debug.log(cookie[0]);
+                    //$dhx.debug.log(cookie);
                     if (cookie[0] == keyName) {
                         return;
                     }
@@ -1292,7 +1355,7 @@ $dhx.cookie = {
             }
             return true;
         } catch (e) {
-            //console.log(e.stack);
+            //$dhx.debug.error(e.message, e.stack);;
             return false;
         }
     },

@@ -25,15 +25,15 @@ $dhx.ui.desktop.view.ActiveDesktop = {
 				if( data.user_id == $dhx.ui.$Session.user_id )
 				{
 					if (data.target == self.active_area.id) {
-						if ($dhx._enable_log) {
-							console.info( 'Active Area from Active Desktop received message sent to it: ', topic, data );
-						}
+						
+						$dhx.debug.info( 'Active Area from Active Desktop received message sent to it: ', topic, data );
+						
 						if (data.action == 'change wallpaper') {
 							self.active_area.style.background = "url(" + $dhx.ui.desktop.wallpappers_path +  data.wallpaper +
 								") center center no-repeat";
 							self.active_area.style.backgroundSize = 'cover';
 							
-							if ($dhx._enable_log) console.info(self.active_area.id + ' updated ');
+							$dhx.debug.info(self.active_area.id + ' updated ');
 						}
 					}
 				}
@@ -62,11 +62,11 @@ $dhx.ui.desktop.view.ActiveDesktop = {
 		  //if (e.stopPropagation) {
 			//e.stopPropagation(); // stops the browser from redirecting.
 		  //}
-		  	console.log('drop')
+		  	$dhx.debug.log('drop')
 		
-			//console.log(dragSrcEl.innerHTML);
-			console.log(this.innerHTML);
-			console.log(e.dataTransfer.getData('text/html'));
+			//$dhx.debug.log(dragSrcEl.innerHTML);
+			$dhx.debug.log(this.innerHTML);
+			$dhx.debug.log(e.dataTransfer.getData('text/html'));
 		
 		  
 		  return false;
@@ -132,7 +132,7 @@ $dhx.ui.desktop.view.ActiveDesktop = {
 			
 		}
 		catch (e) {
-			console.log(e.stack);
+			$dhx.debug.error(e.message, e.stack);;
 		}
 	}
 };

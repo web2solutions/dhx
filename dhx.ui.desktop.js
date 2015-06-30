@@ -22,7 +22,7 @@ $dhx.ui.desktop = {
             onReady: function(records, tx, event) {
                if( records.length > 0 )
 			   {
-				   //console.log( records[0] );
+				   //$dhx.debug.log( records[0] );
 				   
 				   $dhx.ui.desktop.user_settings = records[0];
 				   $dhx.ui.$Session.latinize = $dhx.ui.desktop.user_settings.latinize;
@@ -52,7 +52,9 @@ $dhx.ui.desktop = {
 			return;	
 		}
 		
-		console.time(tmessage);
+		$dhx.debug.time(tmessage);
+		
+		dhtmlx.message.position="bottom";
 			
 		$dhx.REST.API.login({
 			onSuccess : function(){
@@ -63,7 +65,7 @@ $dhx.ui.desktop = {
 					, onSuccess: function (request) {
 						var json = JSON.parse(request.response);
 						if (json.status == "success") {
-							console.log(json);
+							//$dhx.debug.log(json);
 							$dhx.ui.data.model.start({
 								db: $dhx.ui.temp.db
 								, version: json.version
@@ -84,6 +86,12 @@ $dhx.ui.desktop = {
 														, action: 'notify all users'
 													});
 													
+													if(self.view.TopBar.quick_tools_socket)
+													{
+														self.view.TopBar.quick_tools_socket.style.backgroundImage = 'url('+ $dhx.ui.cdn_address + 'dhx/ui/desktop/assets/icons/socket.gif)';
+														self.view.TopBar.quick_tools_socket.title = $dhx.ui.language.realtime_communication_is_on;
+													}
+													
 													if( isReconnect )
 													{
 														
@@ -95,22 +103,33 @@ $dhx.ui.desktop = {
 														  $dhx.jDBdStorage.storeObject('$dhx.ui.desktop.isOnline', 'no');
 														};
 														$dhx.ui.desktop.view.render({});
-														console.timeEnd(tmessage);
+														$dhx.debug.timeEnd(tmessage);
 													}
 													
 												}
 												, onClose: function (messageEvent) {
+													
+													if(self.TopBar.quick_tools_socket)
+													{
+														self.view.TopBar.quick_tools_socket.style.backgroundImage = 'url('+ $dhx.ui.cdn_address + 'dhx/ui/desktop/assets/icons/socket_disconnected.png)';
+														self.view.TopBar.quick_tools_socket.title = $dhx.ui.language.realtime_communication_is_off;
+													}
 												}
 												, onBeforeClose: function (user_id) {
 												}
 												, onBeforeSend: function () {
 												}
 												, onMessage: function (message, messageEvent) {
-													
-													//if(message.message != 'keep alive')
-														//console.log(message, messageEvent);
+													if(self.view.TopBar.quick_tools_socket)
+													{
+														var myImage = new Image();
+														myImage.src = $dhx.ui.cdn_address + 'dhx/ui/desktop/assets/icons/socket.gif?uid=' + (new Date().getTime());
+														myImage.onload = function(){
+															//self.view.TopBar.quick_tools_socket.style.backgroundImage = 'none';
+															self.view.TopBar.quick_tools_socket.style.backgroundImage = 'url('+myImage.src+')';
+														}
+													}
 														
-													
 													if (message.action) {
 														
 														if (message.action == 'notify all users') {
@@ -127,7 +146,7 @@ $dhx.ui.desktop = {
 													}
 												}
 												, onError: function (messageEvent) {
-													console.timeEnd(tmessage);
+													$dhx.debug.timeEnd(tmessage);
 												}
 											});
 											
@@ -135,7 +154,7 @@ $dhx.ui.desktop = {
 											
 										}
 										, onFail: function () {
-											console.timeEnd(tmessage);
+											$dhx.debug.timeEnd(tmessage);
 											dhtmlx.message({
 												type: "error"
 												, text: 'Any configuration was found for user ' + $dhx.ui.$Session.user_id
@@ -144,19 +163,19 @@ $dhx.ui.desktop = {
 									}); // end readUserSettings
 								}
 								, onFail: function () {
-									console.timeEnd(tmessage);	
+									$dhx.debug.timeEnd(tmessage);	
 								}
 							}); // end model start
 						}
 					}
 					, onFail: function (request) {
 						//var json = JSON.parse(request.response);
-						console.timeEnd(tmessage);
+						$dhx.debug.timeEnd(tmessage);
 					} // end request model
 				});
 			}
 			,onFail : function(){
-				console.timeEnd(tmessage);
+				$dhx.debug.timeEnd(tmessage);
 				dhtmlx.message({
 					type: "error",
 					text: 'Denied access'

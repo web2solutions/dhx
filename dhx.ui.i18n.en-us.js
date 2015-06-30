@@ -149,4 +149,11 @@ $dhx.ui.i18n['en-us'] = {
 	,click_to_open_messages : 'click to open messages'
 	,expired_token_message : 'Expired token. Please do login again ... '
 	,really_want_to_delete : 'Do you really want to delete?'
+	,could_not_delete : 'could not delete'
+	,record_deleted : 'record deleted. '
+	,deleting_record : 'deleting record'
+	,realtime_communication_is_on : 'socket is online'
+	,realtime_communication_is_off : 'socket is offline'
+	,there_is_no_active_transfer : 'REST transfer is idle'
+	,there_is_active_transfer : 'transferência REST ativa'
 };

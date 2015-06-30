@@ -529,7 +529,7 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	http://www.dhtmlx.com.br/dbDemo/?_enable_log=true
 
 ### ToDo
-
+    - update bound component data when updating a new data on master component / table
 	- avoid to delete and rebuild entire database when server structure changes
 	- update record of synced components when editing a record on a table
 	- display javascript memory at control panel

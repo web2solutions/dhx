@@ -53,11 +53,11 @@ $dhx.ui.desktop.view = {
 				c.onClose();
 			}
 			delete self.window[appId];
-			//console.log( self.openedPrograms[ c.collection ] );
+			//$dhx.debug.log( self.openedPrograms[ c.collection ] );
 			return true;
 		});
 		self.window[ appId ].setText(c.summary);
-		//console.log( 'end  window' );
+		//$dhx.debug.log( 'end  window' );
 		//self.status_bar = self.window[ appId ].attachStatusBar();
 		//self.status_bar.setText('search is case and special chars insentive');
 		self._window_context_menu( c );
@@ -81,7 +81,7 @@ $dhx.ui.desktop.view = {
 				{
 					if(self.openedPrograms.hasOwnProperty( w))
 					{
-						console.log(w);
+						$dhx.debug.log(w);
 						self.openedPrograms[w].close();
 					}
 				}
@@ -97,7 +97,7 @@ $dhx.ui.desktop.view = {
 			self.SideBar.programs_contextual_menu[ appId ].setItemDisabled('open');
 		}catch(e)
 		{
-			//console.log(e.stack);
+			//$dhx.debug.error(e.message, e.stack);;
 		}
 	}
 	
@@ -108,7 +108,7 @@ $dhx.ui.desktop.view = {
 			self.SideBar.programs_contextual_menu[ appId ].setItemEnabled('open')
 		}catch(e)
 		{
-			//console.log(e.stack);
+			//$dhx.debug.error(e.message, e.stack);;
 		}
 	}
 	
@@ -119,7 +119,7 @@ $dhx.ui.desktop.view = {
 			self.SideBar.programs_contextual_menu[ appId ].setItemDisabled('close');
 		}catch(e)
 		{
-			//console.log(e.stack);
+			//$dhx.debug.error(e.message, e.stack);;
 		}
 	}
 	
@@ -130,7 +130,7 @@ $dhx.ui.desktop.view = {
 			self.SideBar.programs_contextual_menu[ appId ].setItemEnabled('close');
 		}catch(e)
 		{
-			console.log(appId, e.stack);
+			$dhx.debug.log(appId, e.stack);
 		}
 	}
 	
@@ -141,7 +141,7 @@ $dhx.ui.desktop.view = {
 		{
 			c.onClose = function(){
 				$dhx.ui.crud.controller[appId].destroy();
-				//console.log( self.openedPrograms[ c.collection ] );
+				//$dhx.debug.log( self.openedPrograms[ c.collection ] );
 				delete self.openedPrograms[ c.collection ];
 				
 				self.enableAllOpenShortcuts( appId );
@@ -179,7 +179,7 @@ $dhx.ui.desktop.view = {
 				self.enableAllOpenShortcuts( appId );
 				self.disableAllCloseShortcuts( appId );
 			}
-			//console.log(c)
+			//$dhx.debug.log(c)
 			c.module.render( c );
 			
 			self.disableAllOpenShortcuts( appId );
@@ -190,6 +190,14 @@ $dhx.ui.desktop.view = {
 			self.openedPrograms[c.collection].render( c );
 			return;
 		}
+	}
+	
+	,setRESTon : function(){
+		$dhx.ui.desktop.view.TopBar.quick_tools_transfers.setAttribute('class', 'dhx_ui_desktop_top_bar_quick_tools_transfers_on');
+	}
+	
+	,setRESToff : function(){
+		$dhx.ui.desktop.view.TopBar.quick_tools_transfers.setAttribute('class', 'dhx_ui_desktop_top_bar_quick_tools_transfers');	
 	}
 	
 	, render: function () {
@@ -223,7 +231,7 @@ $dhx.ui.desktop.view = {
 			$dhx.hideDirections();
 		}
 		catch (e) {
-			console.log(e.stack);
+			$dhx.debug.error(e.message, e.stack);;
 		}
 	}
 };

@@ -19,7 +19,7 @@ $dhx.ui.crud.simple.View.settings = {
         onclick: function(id) {
             // console.log("menu clicked, id="+id);
         },
-        top_text: '$dhx',
+        top_text: 'CRUDer - generic CRUD interface',
         items: [{
             id: "file",
             text: $dhx.ui.language.File,

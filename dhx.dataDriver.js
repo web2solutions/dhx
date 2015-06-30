@@ -15,54 +15,54 @@ $dhx.dataDriver = {
 		'use strict';
 		if ($dhx.Browser.name == "Chrome") {
 			if ($dhx.Browser.version < 31) {
-				console.log("Browser is out to date");
+				$dhx.debug.log("Browser is out to date");
 				$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 				return false;
 			}
-			console.log("Browser is OK for $dhx.dataDriver");
+			$dhx.debug.log("Browser is OK for $dhx.dataDriver");
 			return true;
 		}
 		else if ($dhx.Browser.name == "Firefox") {
 			if ($dhx.Browser.version < 31) {
-				console.log("Browser is out to date");
+				$dhx.debug.log("Browser is out to date");
 				$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 				return false;
 			}
-			console.log("Browser is OK for $dhx.dataDriver");
+			$dhx.debug.log("Browser is OK for $dhx.dataDriver");
 			return true;
 		}
 		else if ($dhx.Browser.name == "Opera") {
 			if ($dhx.Browser.version < 27) {
-				console.log("Browser is out to date");
+				$dhx.debug.log("Browser is out to date");
 				$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 				return false;
 			}
-			console.log("Browser is OK for $dhx.dataDriver");
+			$dhx.debug.log("Browser is OK for $dhx.dataDriver");
 			return true;
 		}
 		else if ($dhx.Browser.name == "Safari") {
 			if ($dhx.Browser.version < 7) {
-				console.log("Browser is out to date");
+				$dhx.debug.log("Browser is out to date");
 				$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 				return false;
 			}
 			//alert($dhx.Browser.OS);
 			//if ($dhx.Browser.OS != 'Mac') {
-			//	console.log("We only support Safari on Mac");
+			//	$dhx.debug.log("We only support Safari on Mac");
 			//	$dhx.showDirections("BROWSER_VERSION_OUT_TO_DATE");
 			//	return false;
 			//}
 			//
-			console.log("Browser is OK for $dhx.dataDriver");
+			$dhx.debug.log("Browser is OK for $dhx.dataDriver");
 			return true;
 		}
 		else if ($dhx.Browser.name == "Explorer") {
-			console.log("Browser vendor not allowed");
+			$dhx.debug.log("Browser vendor not allowed");
 			$dhx.showDirections("BROWSER_NOT_ALLOWED");
 			return false;
 		}
 		else {
-			console.log("Browser vendor not allowed");
+			$dhx.debug.log("Browser vendor not allowed");
 			$dhx.showDirections("BROWSER_NOT_ALLOWED");
 			return false;
 		}
@@ -109,7 +109,7 @@ $dhx.dataDriver = {
 	, validTableConf: function (c) {
 		'use strict';
 		var that = $dhx.dataDriver;
-		//console.log( 'validTableConf', c );;
+		//$dhx.debug.log( 'validTableConf', c );;
 		if ((typeof c.db === 'undefined') || (c.db.length === 0)) {
 			dhtmlx.message({
 				type: "error"
@@ -181,15 +181,15 @@ $dhx.dataDriver = {
 		'use strict';
 		var that = $dhx.dataDriver
 			, clone = {};
-		//console.log( 'schema      ' , schema);
+		//$dhx.debug.log( 'schema      ' , schema);
 		if ($dhx.isObject(record)) {
 			for (var column in schema.columns) {
 				if (schema.columns.hasOwnProperty(column)) {
 					if (record.hasOwnProperty(column)) {
 						if (schema.columns[column].required == true) {
 							if (typeof record[column] === 'undefined' || record[column] == '' || record[column] == null) {
-								//console.log( 'XXXXXXXX>>>>>> record has ', column );
-								//console.log( record[ column ] );
+								//$dhx.debug.log( 'XXXXXXXX>>>>>> record has ', column );
+								//$dhx.debug.log( record[ column ] );
 								return "column '" + column + "' is a required column";
 							}
 						}
@@ -220,7 +220,7 @@ $dhx.dataDriver = {
 						clone[column] = record[column];
 					}
 					else {
-						//console.log( "XXXXXXXX>>>>>> record does not have ", column );
+						//$dhx.debug.log( "XXXXXXXX>>>>>> record does not have ", column );
 						if (schema.columns[column].required == true) {
 							if (schema.primary_key.keyPath != column)
 								return "column '" + column + "' is a required column";
@@ -233,7 +233,7 @@ $dhx.dataDriver = {
 			return 'can not parse record' + record;
 		}
 		clone[schema.primary_key.keyPath] = record[schema.primary_key.keyPath];
-		//console.log( 'clone',  clone );
+		//$dhx.debug.log( 'clone',  clone );
 		return clone;
 	}
 	
@@ -250,8 +250,8 @@ $dhx.dataDriver = {
 						}
 					}
 					else {
-						//console.log(column);
-						//console.log(table_schema.columns);
+						//$dhx.debug.log(column);
+						//$dhx.debug.log(table_schema.columns);
 						if (table_schema.columns[column].type.toLowerCase() != 'serial') {
 							clone[column] = record[column];
 						}
@@ -265,7 +265,7 @@ $dhx.dataDriver = {
 	
 	, createTable: function (c) {
 		'use strict';
-		//console.log( 'createTable', c );
+		//$dhx.debug.log( 'createTable', c );
 		try {
 			if (!$dhx.dataDriver.validTableConf(c))
 				return;
@@ -295,7 +295,7 @@ $dhx.dataDriver = {
 			}
 			table.transaction.addEventListener('complete', function (event) {
 				var message = "table " + c.table + " created successfully";
-				if ($dhx._enable_log) console.info(message);
+				$dhx.debug.info(message);
 				if (that.dbs[db_name].onCreate) that.dbs[db_name].onCreate({
 					connection: that.dbs[db_name].connection.connection
 					, event: that.dbs[db_name].connection.event
@@ -304,8 +304,8 @@ $dhx.dataDriver = {
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant create table ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant create table ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -318,7 +318,7 @@ $dhx.dataDriver = {
 			var req = that.indexedDB.deleteDatabase(c.db);
 			req.onsuccess = function (event) {
 				$dhx.jDBdStorage.storeObject('$dhx.db.' + c.db, JSON.stringify({}));
-				if ($dhx._enable_log) console.info("Deleted database " + c.db + " successfully");
+				$dhx.debug.info("Deleted database " + c.db + " successfully");
 				if (c.onSuccess) c.onSuccess("Deleted database " + c.db + " successfully", req, event);
 			};
 			req.onerror = function (event) {
@@ -330,8 +330,8 @@ $dhx.dataDriver = {
 			};
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant drop database ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant drop database ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -345,7 +345,7 @@ $dhx.dataDriver = {
 				, rows_affected = 0
 				, table_schema = that.dbs[db_name].schema[c.table]
 				, size = 0;
-			console.time("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
+			$dhx.debug.time("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
 			var tx = that.db(db_name).transaction(c.table, "readonly")
 				, table = tx.objectStore(c.table)
 				, request = table.openCursor();
@@ -353,13 +353,13 @@ $dhx.dataDriver = {
 			c.onFail = c.onFail || false;
 			var str = '';
 			tx.addEventListener('complete', function (event) {
-				if ($dhx._enable_log) console.info('tx getTableSizeInBytes is complete done');
+				$dhx.debug.info('tx getTableSizeInBytes is complete done');
 			});
 			tx.addEventListener('onerror', function (event) {
-				if ($dhx._enable_log) console.log('error on transaction');
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				if ($dhx._enable_log) console.info('transaction aborted');
+				$dhx.debug.info('transaction aborted');
 			});
 			request.addEventListener('success', function (event) {
 				var cursor = event.target.result;
@@ -369,9 +369,9 @@ $dhx.dataDriver = {
 					cursor.continue();
 				}
 				else {
-					if ($dhx._enable_log) console.info('executed');
-					if ($dhx._enable_log) console.log('transaction complete - DB size computed      ', event);
-					console.timeEnd("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
+					$dhx.debug.info('executed');
+					$dhx.debug.log('transaction complete - DB size computed      ', event);
+					$dhx.debug.timeEnd("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
 					str = $dhx.UTF8.decode(str);
 					var blob = new Blob([str], {
 						type: 'text/html'
@@ -380,14 +380,14 @@ $dhx.dataDriver = {
 				}
 			});
 			request.addEventListener('error', function (event) {
-				if ($dhx._enable_log) console.error('sorry Eduardo, couldnt fecth data! Error message: ' + event);
-				console.timeEnd("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
+				$dhx.debug.error('sorry Eduardo, couldnt fecth data! Error message: ' + event);
+				$dhx.debug.timeEnd("get db size operation " + $dhx.crypt.SHA2(JSON.stringify(c)));
 				if (c.onFail) c.onFail(request, event, size);
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant get table size ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant get table size ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -396,10 +396,10 @@ $dhx.dataDriver = {
 	, _savePublishToSync: function (c, event, tx, rows_affected, db_name, table, records, isOnCreate) {
 		var that = $dhx.dataDriver;
 		isOnCreate = isOnCreate || false;
-		//console.timeEnd(timer_label);
-		if ($dhx._enable_log) console.info('executed _savePublishToSync operation at: ' + c.table);
-		if ($dhx._enable_log) console.log('transaction complete      ', event);
-		if ($dhx._enable_log) console.info('rows affected: ' + rows_affected);
+		//$dhx.debug.timeEnd(timer_label);
+		$dhx.debug.info('executed _savePublishToSync operation at: ' + c.table);
+		$dhx.debug.log('transaction complete      ', event);
+		$dhx.debug.info('rows affected: ' + rows_affected);
 		//alert(c.dontSaveOnServer);
 		$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + table, {
 			action: 'add'
@@ -419,14 +419,14 @@ $dhx.dataDriver = {
 		var that = $dhx.dataDriver
 			, timer_label = "record saved on IndexedDB. task: " + $dhx.crypt.SHA2(JSON.stringify(c))
 			, db_name = c.db;
-		console.time(timer_label)
+		$dhx.debug.time(timer_label)
 			, rows_affected = 0
 			, isOnCreate = c.isOnCreate
 			, total_to_add = 1;
 		total_added = 0;
 		//schema = that.getTableSchema(c),
 		//primary_key = schema.primary_key.keyPath;
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		var tx = that.db(db_name).transaction(c.table, "readwrite")
 			, table = tx.objectStore(c.table)
 			, records = []
@@ -436,25 +436,25 @@ $dhx.dataDriver = {
 		c.onSuccess = c.onSuccess || false;
 		c.onFail = c.onFail || false;
 		tx.oncomplete = function (event) {
-			//console.log('from on complete');
+			//$dhx.debug.log('from on complete');
 			if (total_to_add == total_added) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				that._savePublishToSync(c, event, tx, rows_affected, db_name, c.table, records, isOnCreate);
 			}
 			//records = null;
 		};
 		tx.onerror = function (event) {
-			if ($dhx._enable_log) console.info('error name: ', event.srcElement.error.name);
-			if ($dhx._enable_log) console.error('sorry Eduardo, couldnt add record. error message: ' + event.srcElement.error.message);
-			if ($dhx._enable_log) console.info('rows affected: 0');
-			console.timeEnd(timer_label);
+			$dhx.debug.info('error name: ', event.srcElement.error.name);
+			$dhx.debug.error('sorry Eduardo, couldnt add record. error message: ' + event.srcElement.error.message);
+			$dhx.debug.info('rows affected: 0');
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, rows_affected);
 			records = null;
 		};
 		tx.onabort = function (event) {
-			if ($dhx._enable_log) console.info('   >>>>  ABORTED   <<<<  ');
-			if ($dhx._enable_log) console.log(event.target.error.name, event.target.error.message);
-			console.timeEnd(timer_label);
+			$dhx.debug.info('   >>>>  ABORTED   <<<<  ');
+			$dhx.debug.log(event.target.error.name, event.target.error.message);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, rows_affected);
 			records = null;
 		}
@@ -482,7 +482,7 @@ $dhx.dataDriver = {
 			, primary_key = schema.primary_key.keyPath
 			, timer_label = "server request to save record. task: " + $dhx.crypt.SHA2(JSON.stringify(c))
 			, db_name = c.db;
-		console.time(timer_label)
+		$dhx.debug.time(timer_label)
 			, rows_affected = 0
 			, cloneEvent = {};
 		cloneEvent.target = cloneEvent.target || {};
@@ -498,24 +498,24 @@ $dhx.dataDriver = {
 						dhtmlx.message({
 							text: 'saved on server'
 						});
-						console.timeEnd(timer_label);
-						//console.log(json);
+						$dhx.debug.timeEnd(timer_label);
+						//$dhx.debug.log(json);
 						//json[primary_key]
 						c.record = json.added_records;
 						that._saveOnIndexedDB(c);
 					}
 					else {
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						that._dispacthServerRejected(c, json);
 					}
 				}
 				catch (e) {
-					console.timeEnd(timer_label);
+					$dhx.debug.timeEnd(timer_label);
 					that._dispacthProgrammingError(c, e);
 				}
 			}
 			, onFail: function (request) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				that._dispacthServerError(c, request);
 			}
 		});
@@ -532,42 +532,42 @@ $dhx.dataDriver = {
 		cloneEvent.target.error = cloneEvent.target.error || {};
 		//$dhx.dataDriver.public[c.table].onBeforeAdd();
 		var timer_label = "_prepareRecordForSaving operation at " + c.table + " " + $dhx.crypt.SHA2(JSON.stringify(c));
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		// single record
 		if ($dhx.isObject(c.record)) {
-			if ($dhx._enable_log) console.info('........... preparing to insert one record on ' + c.table);
+			$dhx.debug.info('........... preparing to insert one record on ' + c.table);
 			var r = that.validRecord(table_schema, c.record);
 			if ($dhx.isObject(r)) {
-				if ($dhx._enable_log) console.log('record is ok for inserting ', r);
+				$dhx.debug.log('record is ok for inserting ', r);
 			}
 			else {
 				cloneEvent.target.error.name = 'Type constraint';
 				cloneEvent.target.error.message = r;
 				if (c.onFail) c.onFail(null, cloneEvent, r);
-				if ($dhx._enable_log) console.error('sorry Eduardo, invalid record! Error message: ' + r);
+				$dhx.debug.error('sorry Eduardo, invalid record! Error message: ' + r);
 				return;
 			}
 		}
 		// multiple record
 		else if ($dhx.isArray(c.record)) {
-			if ($dhx._enable_log) console.info('........... preparing to insert ' + c.record.length + ' records on ' + c.table);
+			$dhx.debug.info('........... preparing to insert ' + c.record.length + ' records on ' + c.table);
 			if (c.record.length > 0) {
 				for (var i = 0; i < c.record.length; i++) {
 					var record = c.record[i];
 					var r = that.validRecord(table_schema, record);
 					if ($dhx.isObject(r)) {
-						if ($dhx._enable_log) console.log('record is ok for inserting ', r);
+						$dhx.debug.log('record is ok for inserting ', r);
 					}
 					else {
 						c.record.splice(i, 1);
-						if ($dhx._enable_log) console.info('record ignored: ', JSON.stringify(record));
-						if ($dhx._enable_log) console.error('sorry Eduardo, invalid record! Error message: ' + r);
+						$dhx.debug.info('record ignored: ', JSON.stringify(record));
+						$dhx.debug.error('sorry Eduardo, invalid record! Error message: ' + r);
 					}
 				}
 			}
 		}
 		else {
-			if ($dhx._enable_log) console.error('sorry Eduardo, record need to be an array or object');
+			$dhx.debug.error('sorry Eduardo, record need to be an array or object');
 			cloneEvent.target.error.name = 'Wrong format';
 			cloneEvent.target.error.message = 'sorry Eduardo, record need to be an array or object';
 			if (c.onFail) c.onFail(null, cloneEvent, r);
@@ -575,40 +575,40 @@ $dhx.dataDriver = {
 		}
 		if ($dhx.isArray(c.record) && c.record.length > 0) {
 			if (c.dontSaveOnServer == true) {
-				if ($dhx._enable_log) console.info('publishing new record ... ');
+				$dhx.debug.info('publishing new record ... ');
 				that._saveOnIndexedDB(c);
 				//that._savePublishToSync(c, null, null, c.record.length, db_name, c.table, c.record, isOnCreate);
 			}
 			else {
 				if (c.isOnCreate) {
-					if ($dhx._enable_log) console.info('sending record to indexedDB ... ');
+					$dhx.debug.info('sending record to indexedDB ... ');
 					that._saveOnIndexedDB(c);
 				}
 				else {
-					if ($dhx._enable_log) console.info('sending record to the server ... ');
+					$dhx.debug.info('sending record to the server ... ');
 					that._saveOnServer(c);
 				}
 			}
 		}
 		else if ($dhx.isObject(c.record)) {
 			if (c.dontSaveOnServer == true) {
-				if ($dhx._enable_log) console.info('publishing new record ... ');
+				$dhx.debug.info('publishing new record ... ');
 				that._saveOnIndexedDB(c);
 				//that._savePublishToSync(c, null, null, c.record.length, db_name, c.table, c.record, isOnCreate);
 			}
 			else {
 				if (c.isOnCreate) {
-					if ($dhx._enable_log) console.info('sending record to indexedDB ... ');
+					$dhx.debug.info('sending record to indexedDB ... ');
 					that._saveOnIndexedDB(c);
 				}
 				else {
-					if ($dhx._enable_log) console.info('sending record to the server ... ');
+					$dhx.debug.info('sending record to the server ... ');
 					that._saveOnServer(c);
 				}
 			}
 		}
 		else {
-			if ($dhx._enable_log) console.error('any record was passed to insert');
+			$dhx.debug.error('any record was passed to insert');
 			if (c.onSuccess) c.onSuccess(null, null, 0);
 			return;
 		}
@@ -616,7 +616,7 @@ $dhx.dataDriver = {
 	
 	, _checkFkey: function (c) {
 		try {
-			//console.log( 'XXXXXXX fk pra checar', c );
+			//$dhx.debug.log( 'XXXXXXX fk pra checar', c );
 			var that = $dhx.dataDriver
 				, db_name = c.db
 				, table_schema = that.dbs[db_name].schema[c.table]
@@ -624,42 +624,42 @@ $dhx.dataDriver = {
 				, primary_key = schema.primary_key.keyPath
 			found = false;
 			var timer_label = "check fkey. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			var tx = that.db(db_name).transaction(c.table, "readonly")
 				, table = tx.objectStore(c.table);
 			tx.addEventListener('complete', function (event) {
-				console.timeEnd(timer_label);
-				if ($dhx._enable_log) console.info('executed');
-				if ($dhx._enable_log) console.info('tx _checkFkey is completed');
+				$dhx.debug.timeEnd(timer_label);
+				$dhx.debug.info('executed');
+				$dhx.debug.info('tx _checkFkey is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				dhtmlx.message({
 					type: "error"
 					, text: event.target.error.message
 				});
 				if (c.onFail) c.onFail(tx, event, event.target.error.message);
-				if ($dhx._enable_log) console.log('error on transaction');
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				dhtmlx.message({
 					type: "error"
 					, text: event.target.error.message
 				});
 				if (c.onFail) c.onFail(tx, event, event.target.error.message);
-				if ($dhx._enable_log) console.info('transaction aborted');
+				$dhx.debug.info('transaction aborted');
 			});
 			var index = null;
 			var _checkFkey = '';
-			//console.log( c.column, primary_key );
-			//console.log( ( c.column == primary_key ) );
+			//$dhx.debug.log( c.column, primary_key );
+			//$dhx.debug.log( ( c.column == primary_key ) );
 			if (c.column == primary_key) {
-				//console.log( 'XXXXXX MMMM irei procurar na pk' );
+				//$dhx.debug.log( 'XXXXXX MMMM irei procurar na pk' );
 				_checkFkey = table.get(parseInt(c.value));
 			}
 			else {
-				//console.log( 'XXXXXX MMMM irei procurar no indice' );
+				//$dhx.debug.log( 'XXXXXX MMMM irei procurar no indice' );
 				index = table.index(c.column)
 				_checkFkey = index.get(c.value)
 			}
@@ -684,7 +684,7 @@ $dhx.dataDriver = {
 			}
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant _checkFkey! Error message: ' + e.message);
+			$dhx.debug.error('sorry Eduardo, I cant _checkFkey! Error message: ' + e.message);
 			var error_message = "value " + c.value + " not found on column '" + c.column + "' from table " + c.table;
 			dhtmlx.message({
 				type: "error"
@@ -709,7 +709,7 @@ $dhx.dataDriver = {
 				, isOnCreate = c.isOnCreate;
 			// single record
 			if ($dhx.isObject(c.record)) {
-				if ($dhx._enable_log) console.info('........... checking fkeys for one record ' + c.table);
+				$dhx.debug.info('........... checking fkeys for one record ' + c.table);
 				var r = that.validRecord(table_schema, c.record);
 				if ($dhx.isObject(r)) {
 					var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify(r));
@@ -729,7 +729,7 @@ $dhx.dataDriver = {
 									}
 								}
 								, onFail: function (tx, event, error_message) {
-									if ($dhx._enable_log) console.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
+									$dhx.debug.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
 										key].table + '" foreign table! Error message: ', error_message);
 									if (c.onFail) c.onFail(tx, event, error_message);
 								}
@@ -744,13 +744,13 @@ $dhx.dataDriver = {
 					cloneEvent.target.error.name = 'Type constraint';
 					cloneEvent.target.error.message = r;
 					if (c.onFail) c.onFail(null, cloneEvent, r);
-					if ($dhx._enable_log) console.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+					$dhx.debug.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
 					return;
 				}
 			}
 			// multiple record
 			else if ($dhx.isArray(c.record)) {
-				if ($dhx._enable_log) console.info('........... checking fkeys for ' + c.record.length + ' records inserting in ' + c.table);
+				$dhx.debug.info('........... checking fkeys for ' + c.record.length + ' records inserting in ' + c.table);
 				if (c.record.length > 0) {
 					var uid_total_record_to_check = $dhx.crypt.SHA2(JSON.stringify(c.record));
 					that._total_records_to_check[uid_total_record_to_check] = c.record.length;
@@ -758,14 +758,14 @@ $dhx.dataDriver = {
 					for (var i = 0; i < c.record.length; i++) {
 						var record = c.record[i];
 						var r = that.validRecord(table_schema, record);
-						//console.log('inserindo record: ', r);
+						//$dhx.debug.log('inserindo record: ', r);
 						if ($dhx.isObject(r)) {
 							var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify(r));
 							that._total_fkeys_to_check[fk_check_uid] = Object.keys(table_schema.foreign_keys).length;
 							that._total_fkeys_checked[fk_check_uid] = 0;
 							for (var key in table_schema.foreign_keys) {
 								if (table_schema.foreign_keys.hasOwnProperty(key)) {
-									//console.log('coluna fk pra checar' + table_schema.foreign_keys[key].column);
+									//$dhx.debug.log('coluna fk pra checar' + table_schema.foreign_keys[key].column);
 									that._checkFkey({
 										db: c.db
 										, table: table_schema.foreign_keys[key].table
@@ -789,7 +789,7 @@ $dhx.dataDriver = {
 											}
 										}
 										, onFail: function (tx, event, error_message) {
-											if ($dhx._enable_log) console.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
+											$dhx.debug.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
 												key].table + '" foreign table! Error message: ', r);
 											if (c.onFail) c.onFail(tx, event, error_message);
 										}
@@ -798,24 +798,24 @@ $dhx.dataDriver = {
 							}
 						}
 						else {
-							if ($dhx._enable_log) console.info('record ignored: ', JSON.stringify(record));
-							if ($dhx._enable_log) console.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+							$dhx.debug.info('record ignored: ', JSON.stringify(record));
+							$dhx.debug.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
 							continue;
 						}
 					}
 				}
 				else {
-					if ($dhx._enable_log) console.log('any record was passed to insert');
+					$dhx.debug.log('any record was passed to insert');
 				}
 			}
 			else {
-				if ($dhx._enable_log) console.error('sorry Eduardo, I cant parse the record payload');
+				$dhx.debug.error('sorry Eduardo, I cant parse the record payload');
 				return;
 			}
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -827,22 +827,22 @@ $dhx.dataDriver = {
 				, table_schema = that.dbs[db_name].schema[c.table];
 			$dhx.dataDriver.public[c.table].onBeforeAdd();
 			var timer_label = "identify insert method " + $dhx.crypt.SHA2(JSON.stringify(c));
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			if (typeof table_schema.foreign_keys !== 'undefined') {
 				if ($dhx.isObject(table_schema.foreign_keys)) {
 					if (Object.keys(table_schema.foreign_keys).length > 0) {
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						that._addCheckFkeys(c, onSuccess, onFail);
 						return;
 					}
 				}
 			}
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			that._prepareRecordForSaving(c, onSuccess, onFail);
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -857,7 +857,7 @@ $dhx.dataDriver = {
 				, table_schema = that.dbs[db_name].schema[c.table];
 			$dhx.dataDriver.public[c.table].onBeforeUpdate();
 			var timer_label = "identify update method " + $dhx.crypt.SHA2(JSON.stringify(c));
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			if (typeof table_schema.foreign_keys !== 'undefined') {
 				if ($dhx.isObject(table_schema.foreign_keys)) {
 					if (Object.keys(table_schema.foreign_keys).length > 0) {
@@ -869,7 +869,7 @@ $dhx.dataDriver = {
 								}
 							}
 						}
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						if (need_check) {
 							that._updateCheckFkeys(c);
 						}
@@ -880,11 +880,11 @@ $dhx.dataDriver = {
 					}
 				}
 			}
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			that._prepareRecordForUpdating(c);
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
+			$dhx.debug.error('sorry Eduardo, I cant add record! Error message: ' + e.message);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -893,9 +893,9 @@ $dhx.dataDriver = {
 		var that = $dhx.dataDriver
 			, timer_label = "record update on IndexedDB. task: " + $dhx.crypt.SHA2(JSON.stringify(c))
 			, db_name = c.db;
-		console.time(timer_label)
+		$dhx.debug.time(timer_label)
 			, rows_affected = 0;
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		var tx = that.db(db_name).transaction(c.table, "readwrite")
 			, table = tx.objectStore(c.table)
 			, updateRequest = table.put(c.record);
@@ -913,10 +913,10 @@ $dhx.dataDriver = {
 				, old_record: c.old_record
 				, localOnly: c.dontSaveOnServer
 			});
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('executed');
-			if ($dhx._enable_log) console.log('transaction complete      ', event);
-			if ($dhx._enable_log) console.info('rows affected: ' + typeof rows_affected !== 'undefined' ? 1 : 0);
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('executed');
+			$dhx.debug.log('transaction complete      ', event);
+			$dhx.debug.info('rows affected: ' + typeof rows_affected !== 'undefined' ? 1 : 0);
 			if (c.onSuccess) c.onSuccess(updateRequest, event, rows_affected);
 		});
 		updateRequest.addEventListener('error', function (event) {
@@ -924,10 +924,10 @@ $dhx.dataDriver = {
 				type: "error"
 				, text: 'record rejected on client due: ' + event.srcElement.error.message
 			});
-			if ($dhx._enable_log) console.info('error name: ', event.srcElement.error.name);
-			if ($dhx._enable_log) console.info('	sorry Eduardo, couldnt update record. error message: ' + event.srcElement.error.message);
-			if ($dhx._enable_log) console.info('rows affected: 0');
-			console.timeEnd(timer_label);
+			$dhx.debug.info('error name: ', event.srcElement.error.name);
+			$dhx.debug.info('	sorry Eduardo, couldnt update record. error message: ' + event.srcElement.error.message);
+			$dhx.debug.info('rows affected: 0');
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(updateRequest, event, rows_affected);
 		});
 	}
@@ -936,7 +936,7 @@ $dhx.dataDriver = {
 		var that = $dhx.dataDriver
 			, timer_label = "server request to update record. task: " + $dhx.crypt.SHA2(JSON.stringify(c))
 			, db_name = c.db;
-		console.time(timer_label)
+		$dhx.debug.time(timer_label)
 			, rows_affected = 0
 			, cloneEvent = {};
 		cloneEvent.target = cloneEvent.target || {};
@@ -952,21 +952,21 @@ $dhx.dataDriver = {
 						dhtmlx.message({
 							text: 'saved on server'
 						});
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						that._updateOnIndexedDB(c);
 					}
 					else {
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						that._dispacthServerRejected(c, json);
 					}
 				}
 				catch (e) {
-					console.timeEnd(timer_label);
+					$dhx.debug.timeEnd(timer_label);
 					that._dispacthProgrammingError(c, e);
 				}
 			}
 			, onFail: function (request) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				that._dispacthServerError(c, request);
 			}
 		});
@@ -974,7 +974,7 @@ $dhx.dataDriver = {
 	
 	, _prepareRecordForUpdating: function (c) {
 		//'use strict';
-		//console.log( 'INSIDE UPDATE', c )
+		//$dhx.debug.log( 'INSIDE UPDATE', c )
 		try {
 			var that = $dhx.dataDriver
 				, db_name = c.db
@@ -986,66 +986,66 @@ $dhx.dataDriver = {
 				, schema = that.getTableSchema(c)
 				, primary_key = schema.primary_key.keyPath;
 			var timer_label = "prepare record update. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			var tx = that.db(db_name).transaction(c.table, "readonly")
 				, table = tx.objectStore(c.table)
 				, recordIdRequest = table.get(record_id);
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			tx.addEventListener('complete', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('tx _prepareRecordForUpdating is completed');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('tx _prepareRecordForUpdating is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.log('error on transaction');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('transaction aborted');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('transaction aborted');
 			});
 			recordIdRequest.onsuccess = function (event) {
 				var data = recordIdRequest.result;
 				if (typeof data !== 'undefined') {
 					if ($dhx.isObject(c.record)) {
-						if ($dhx._enable_log) console.log('........... trying to update single record ');
+						$dhx.debug.log('........... trying to update single record ');
 						var r = that.validRecordUpdate(table_schema, c.record);
 						if ($dhx.isObject(r)) {
-							if ($dhx._enable_log) console.log('preparing record ', r);
+							$dhx.debug.log('preparing record ', r);
 							for (var i in r)
 								if (r.hasOwnProperty(i)) data[i] = r[i];
 						}
 						else {
-							console.timeEnd(timer_label);
-							if ($dhx._enable_log) console.error('sorry Eduardo, invalid record! Error message: ' + r);
+							$dhx.debug.timeEnd(timer_label);
+							$dhx.debug.error('sorry Eduardo, invalid record! Error message: ' + r);
 							if (c.onFail) c.onFail(updateRequest, event, rows_affected);
 							return;
 						}
 					}
 					c.record = data;
-					console.timeEnd(timer_label);
+					$dhx.debug.timeEnd(timer_label);
 					//alert(c.dontSaveOnServer);
 					if (c.dontSaveOnServer == true) {
-						if ($dhx._enable_log) console.info('sending record to indexedDB ... ');
+						$dhx.debug.info('sending record to indexedDB ... ');
 						that._updateOnIndexedDB(c);
 					}
 					else {
-						if ($dhx._enable_log) console.info('sending record to the server ... ');
+						$dhx.debug.info('sending record to the server ... ');
 						that._updateOnServer(c);
 					}
-					//if ($dhx._enable_log) console.info("The transaction that originated this request is ", recordIdRequest.transaction);
+					//$dhx.debug.info("The transaction that originated this request is ", recordIdRequest.transaction);
 				}
 				else {
-					console.timeEnd(timer_label);
-					if ($dhx._enable_log) console.error('sorry Eduardo, record ' + record_id + ' not found! ');
+					$dhx.debug.timeEnd(timer_label);
+					$dhx.debug.error('sorry Eduardo, record ' + record_id + ' not found! ');
 					if (c.onFail) c.onFail(updateRequest, event, rows_affected);
 					return;
 				}
 			};
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant update by local id! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant update by local id! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1061,7 +1061,7 @@ $dhx.dataDriver = {
 					, id_on_error = null;
 				// single record
 				if ($dhx.isObject(c.record)) {
-					if ($dhx._enable_log) console.info('........... checking fkeys for one record ' + c.table);
+					$dhx.debug.info('........... checking fkeys for one record ' + c.table);
 					var r = that.validRecordUpdate(table_schema, c.record);
 					if ($dhx.isObject(r)) {
 						var fk_check_uid = $dhx.crypt.SHA2(JSON.stringify(r));
@@ -1076,7 +1076,7 @@ $dhx.dataDriver = {
 						//that._total_fkeys_to_check[fk_check_uid] = Object.keys(table_schema.foreign_keys).length;
 						that._total_fkeys_checked[fk_check_uid] = 0;
 						if (that._total_fkeys_to_check[fk_check_uid] == 0) {
-							if ($dhx._enable_log) console.info('does not need to check fkey for ' + r);
+							$dhx.debug.info('does not need to check fkey for ' + r);
 							that._prepareRecordForUpdating(c);
 							return;
 						}
@@ -1092,7 +1092,7 @@ $dhx.dataDriver = {
 							}
 						}
 						if (!need_to_check) {
-							if ($dhx._enable_log) console.info('does not need to check fkey for ' + r);
+							$dhx.debug.info('does not need to check fkey for ' + r);
 							that._prepareRecordForUpdating(c);
 							return;
 						}
@@ -1100,7 +1100,7 @@ $dhx.dataDriver = {
 							if (table_schema.foreign_keys.hasOwnProperty(key)) {
 								if (c.record.hasOwnProperty(key)) {
 									// need to check
-									if ($dhx._enable_log) console.info('need to check fkey for ' + key);
+									$dhx.debug.info('need to check fkey for ' + key);
 									column_on_error = key;
 									that._checkFkey({
 										db: c.db
@@ -1114,7 +1114,7 @@ $dhx.dataDriver = {
 											}
 										}
 										, onFail: function (tx, event, error_message) {
-											if ($dhx._enable_log) console.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
+											$dhx.debug.error('sorry Eduardo,  value ' + r[table_schema.foreign_keys[key].column] + ' not found at the "' + table_schema.foreign_keys[
 												key].table + '" foreign table! Error message: ', error_message);
 											if (c.onFail) c.onFail(tx, event, error_message);
 										}
@@ -1124,18 +1124,18 @@ $dhx.dataDriver = {
 						}
 					}
 					else {
-						if ($dhx._enable_log) console.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
+						$dhx.debug.error('sorry Eduardo, invalid record, I cant check it fkeys! Error message: ' + r);
 						return;
 					}
 				}
 				else {
-					if ($dhx._enable_log) console.error('sorry Eduardo, I cant parse the record payload');
+					$dhx.debug.error('sorry Eduardo, I cant parse the record payload');
 					return;
 				}
 			}
 			catch (e) {
-				if ($dhx._enable_log) console.error('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
-				console.log(e.stack);
+				$dhx.debug.error('sorry Eduardo, I cant check fkey for updating record! Error message: ' + e.message);
+				$dhx.debug.error(e.message, e.stack);;
 				var error_message = "value not found on column '" + column_on_error + "', please change the field '" + column_on_error + "'";
 				dhtmlx.message({
 					type: "error"
@@ -1146,7 +1146,7 @@ $dhx.dataDriver = {
 				cloneEvent.target.error = cloneEvent.target.error || {};
 				cloneEvent.target.error.name = 'Type constraint';
 				cloneEvent.target.error.message = error_message;
-				//if ($dhx._enable_log) console.info(e);
+				//$dhx.debug.info(e);
 				if (c.onFail) c.onFail(null, cloneEvent, e.message);
 			}
 		}
@@ -1162,28 +1162,28 @@ $dhx.dataDriver = {
 				, table_schema = that.dbs[db_name].schema[c.table]
 				, records = [];
 			$dhx.showDirections('selecting table data, please wait ... ');
-			console.time("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
+			$dhx.debug.time("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
 			var tx = that.db(db_name).transaction(c.table, "readonly")
 				, table = tx.objectStore(c.table)
 				, request = table.openCursor();
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			tx.addEventListener('complete', function (event) {
-				if ($dhx._enable_log) console.info('tx select is completed');
+				$dhx.debug.info('tx select is completed');
 				$dhx.hideDirections();
 			});
 			tx.addEventListener('onerror', function (event) {
-				if ($dhx._enable_log) console.log('error on transaction');
+				$dhx.debug.log('error on transaction');
 				$dhx.hideDirections();
 			});
 			tx.addEventListener('abort', function (event) {
-				if ($dhx._enable_log) console.info('transaction aborted');
+				$dhx.debug.info('transaction aborted');
 				$dhx.hideDirections();
 			});
 			request.addEventListener('success', function (event) {
 				var cursor = event.target.result;
 				if (cursor) {
-					//console.log( cursor );
+					//$dhx.debug.log( cursor );
 					rows_affected = rows_affected + 1;
 					records.push({
 						key: cursor.key
@@ -1193,24 +1193,24 @@ $dhx.dataDriver = {
 					cursor.continue();
 				}
 				else {
-					if ($dhx._enable_log) console.info('executed');
-					if ($dhx._enable_log) console.log('transaction complete - data selected      ', event);
-					if ($dhx._enable_log) console.info('rows affected: ' + rows_affected);
-					console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
+					$dhx.debug.info('executed');
+					$dhx.debug.log('transaction complete - data selected      ', event);
+					$dhx.debug.info('rows affected: ' + rows_affected);
+					$dhx.debug.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
 					if (c.onSuccess) c.onSuccess(records, rows_affected, tx, event);
 					records = null;
 				}
 			});
 			request.addEventListener('error', function (event) {
-				if ($dhx._enable_log) console.error('sorry Eduardo, couldnt fecth data! Error message: ' + event);
-				console.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
+				$dhx.debug.error('sorry Eduardo, couldnt fecth data! Error message: ' + event);
+				$dhx.debug.timeEnd("select table data. task: " + $dhx.crypt.SHA2(JSON.stringify(c)));
 				if (c.onFail) c.onFail(request, event, event.target.error.message);
 				records = null;
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant select data ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant select data ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1220,38 +1220,38 @@ $dhx.dataDriver = {
 		try {
 			var that = $dhx.dataDriver;
 			var db_name = c.db;
-			console.time("count operation " + c.table);
+			$dhx.debug.time("count operation " + c.table);
 			var tx = that.db(db_name).transaction(c.table, "readonly");
 			var table = tx.objectStore(c.table);
 			var cursor = table.openCursor();
-			//console.log(cursor);
+			//$dhx.debug.log(cursor);
 			var counter = table.count();
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			tx.addEventListener('complete', function (event) {
-				if ($dhx._enable_log) console.info('tx count is completed');
+				$dhx.debug.info('tx count is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				if ($dhx._enable_log) console.log('error on transaction');
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				//console.log(counter.result);
+				//$dhx.debug.log(counter.result);
 				if (c.onFail) c.onFail(tx, event, event.target.error.message);
 			});
 			counter.addEventListener('success', function (event) {
-				console.timeEnd("count operation " + c.table);
-				//console.log(counter.result);
+				$dhx.debug.timeEnd("count operation " + c.table);
+				//$dhx.debug.log(counter.result);
 				if (c.onSuccess) c.onSuccess(tx, event, counter.result);
 			});
 			counter.addEventListener('error', function (event) {
-				console.timeEnd("count operation " + c.table);
-				//console.log(counter.result);
+				$dhx.debug.timeEnd("count operation " + c.table);
+				//$dhx.debug.log(counter.result);
 				if (c.onFail) c.onFail(tx, event, event.target.error.message);
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant count data ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant count data ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1263,7 +1263,7 @@ $dhx.dataDriver = {
 		cloneEvent.target.error = cloneEvent.target.error || {};
 		var json = JSON.parse(request.response);
 		var m = json.response;
-		if ($dhx._enable_log) console.error(json.response);
+		$dhx.debug.error(json.response);
 		cloneEvent.target.error.name = 'Server rejected';
 		cloneEvent.target.error.message = 'record rejected on server due: ' + m;
 		if (c.onFail) c.onFail(null, cloneEvent, m);
@@ -1277,7 +1277,7 @@ $dhx.dataDriver = {
 		var cloneEvent = {};
 		cloneEvent.target = cloneEvent.target || {};
 		cloneEvent.target.error = cloneEvent.target.error || {};
-		if ($dhx._enable_log) console.error(request.response);
+		$dhx.debug.error(request.response);
 		cloneEvent.target.error.name = 'Programming error';
 		
 		
@@ -1302,7 +1302,7 @@ $dhx.dataDriver = {
 		var cloneEvent = {};
 		cloneEvent.target = cloneEvent.target || {};
 		cloneEvent.target.error = cloneEvent.target.error || {};
-		if ($dhx._enable_log) console.error(e.stack);
+		$dhx.debug.error(e.stack);
 		cloneEvent.target.error.name = 'Programming error';
 		cloneEvent.target.error.message = 'programming error: ' + e.message;
 		if (c.onFail) c.onFail(null, cloneEvent, 'programming error: ' + e.message);
@@ -1318,12 +1318,11 @@ $dhx.dataDriver = {
 			, db_name = c.db
 			, rows_affected = 0;
 		
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 			
 		$dhx.REST.API.del({
 			resource: "/" + c.table + "/" + parseInt(c.record_id)
 			, format: "json"
-			, payload: "hash=" + JSON.stringify(c.record)
 			, onSuccess: function (request) {
 				try {
 					var json = JSON.parse(request.response);
@@ -1331,21 +1330,21 @@ $dhx.dataDriver = {
 						dhtmlx.message({
 							text: 'deleted on server'
 						});
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						that._delOnIndexedDB(c);
 					}
 					else {
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						that._dispacthServerRejected(c, json);
 					}
 				}
 				catch (e) {
-					console.timeEnd(timer_label);
+					$dhx.debug.timeEnd(timer_label);
 					that._dispacthProgrammingError(c, e);
 				}
 			}
 			, onFail: function (request) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				that._dispacthServerError(c, request);
 			}
 		});
@@ -1357,25 +1356,25 @@ $dhx.dataDriver = {
 			var that = $dhx.dataDriver;
 			var db_name = c.db
 				, timer_label = "delete record on indexedDB operation " + c.table + " " + c.record_id;
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			
 			var tx = that.db(db_name).transaction(c.table, "readwrite");
 			var table = tx.objectStore(c.table);
-			//console.log( table );
+			//$dhx.debug.log( table );
 			var req = table.delete(parseInt(c.record_id));
 			tx.addEventListener('complete', function (event) {
-				if ($dhx._enable_log) console.info('tx del is completed');
-				//console.log( event );
+				$dhx.debug.info('tx del is completed');
+				//$dhx.debug.log( event );
 			});
 			tx.addEventListener('onerror', function (event) {
-				if ($dhx._enable_log) console.log('error on transaction');
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				if ($dhx._enable_log) console.info('transaction aborted');
+				$dhx.debug.info('transaction aborted');
 			});
 			req.onsuccess = function (event) {
-				console.timeEnd(timer_label);
-				//console.log( event );
+				$dhx.debug.timeEnd(timer_label);
+				//$dhx.debug.log( event );
 				$dhx.dataDriver.public[c.table]._internal_cursor_position = 0;
 				//if (!c.dontSaveOnServer) {
 					$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + c.table, {
@@ -1388,19 +1387,19 @@ $dhx.dataDriver = {
 						, localOnly: c.dontSaveOnServer
 					});
 				//}
-				if ($dhx._enable_log) console.info('executed');
-				if ($dhx._enable_log) console.log('transaction complete - record deleted');
+				$dhx.debug.info('executed');
+				$dhx.debug.log('transaction complete - record deleted');
 				if (c.onSuccess) c.onSuccess(tx, event, c.record_id);
 			}
 			req.onerror = function (event) {
-				console.timeEnd(timer_label);
-				if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete all records! Error message: ' + event);
+				$dhx.debug.timeEnd(timer_label);
+				$dhx.debug.error('sorry Eduardo, I cant delete all records! Error message: ' + event);
 				if (c.onFail) c.onFail(tx, event, event.target.error.message);
 			}
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1415,13 +1414,13 @@ $dhx.dataDriver = {
 				
 			
 			$dhx.dataDriver.public[c.table].onBeforeDel();			
-			console.time(timer_label);	
+			$dhx.debug.time(timer_label);	
 			
 			// fkey not implemented for deleting
 			/*if (typeof table_schema.foreign_keys !== 'undefined') {
 				if ($dhx.isObject(table_schema.foreign_keys)) {
 					if (Object.keys(table_schema.foreign_keys).length > 0) {
-						console.timeEnd(timer_label);
+						$dhx.debug.timeEnd(timer_label);
 						//that._addCheckFkeys(c, onSuccess, onFail);
 						//return;
 					}
@@ -1430,21 +1429,21 @@ $dhx.dataDriver = {
 			
 			
 			if (c.dontSaveOnServer == true) {
-				if ($dhx._enable_log) console.info('deleting on indexedDB ... ');
+				$dhx.debug.info('deleting on indexedDB ... ');
 				that._delOnIndexedDB(c);
 			}
 			else
 			{
-				if ($dhx._enable_log) console.info('deleting on server ... ');
+				$dhx.debug.info('deleting on server ... ');
 				that._delOnServer(c);
 			}
 			
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant delete the record! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1454,25 +1453,25 @@ $dhx.dataDriver = {
 		try {
 			var that = $dhx.dataDriver;
 			var db_name = c.db;
-			console.time("clearAll operation " + c.table);
+			$dhx.debug.time("clearAll operation " + c.table);
 			var tx = that.db(db_name).transaction(c.table, "readwrite");
 			var table = tx.objectStore(c.table);
 			var clear_request = table.clear();
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			tx.addEventListener('complete', function (event) {
-				if ($dhx._enable_log) console.info('tx cearlAll is completed');
+				$dhx.debug.info('tx cearlAll is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				if ($dhx._enable_log) console.log('error on transaction');
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				if ($dhx._enable_log) console.info('transaction aborted');
+				$dhx.debug.info('transaction aborted');
 			});
 			clear_request.addEventListener('success', function (event) {
-				console.timeEnd("clearAll operation " + c.table);
-				if ($dhx._enable_log) console.info('executed');
-				if ($dhx._enable_log) console.log('transaction complete - table is clear');
+				$dhx.debug.timeEnd("clearAll operation " + c.table);
+				$dhx.debug.info('executed');
+				$dhx.debug.log('transaction complete - table is clear');
 				$dhx.MQ.publish(that.dbs[db_name].root_topic + "." + c.table, {
 					action: 'clear'
 					, target: 'table'
@@ -1483,14 +1482,14 @@ $dhx.dataDriver = {
 				if (c.onSuccess) c.onSuccess(tx, event);
 			});
 			clear_request.addEventListener('error', function (event) {
-				console.timeEnd("clearAll operation " + c.table);
-				if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete all records! Error message: ' + event);
+				$dhx.debug.timeEnd("clearAll operation " + c.table);
+				$dhx.debug.error('sorry Eduardo, I cant delete all records! Error message: ' + event);
 				if (c.onFail) c.onFail(tx, event, event.target.error.message);
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant delete all records! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant delete all records! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1501,7 +1500,7 @@ $dhx.dataDriver = {
 			var that = $dhx.dataDriver;
 			var db_name = c.db
 				, timer_label = "setCursor operation " + c.table;
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			$dhx.dataDriver.public[c.table].onBeforeCursorChange(record_id);
 			var record_id = parseInt(c.record_id);
 			var tx = that.db(db_name).transaction(c.table, "readonly");
@@ -1510,36 +1509,36 @@ $dhx.dataDriver = {
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			tx.addEventListener('complete', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('tx setCursor is completed');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('tx setCursor is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.log('error on transaction');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('transaction aborted');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('transaction aborted');
 			});
 			recordIdRequest.onsuccess = function (event) {
 				var data = recordIdRequest.result;
 				if (typeof data !== 'undefined') {
 					$dhx.dataDriver.public[c.table]._internal_cursor_position = record_id;
-					console.timeEnd(timer_label);
+					$dhx.debug.timeEnd(timer_label);
 					$dhx.dataDriver.public[c.table].onAfterCursorChange(record_id, c.table);
 					if (c.onSuccess) c.onSuccess(recordIdRequest, event, data);
 				}
 				else {
-					console.timeEnd(timer_label);
-					if ($dhx._enable_log) console.error('sorry Eduardo, record ' + record_id + ' not found! ');
+					$dhx.debug.timeEnd(timer_label);
+					$dhx.debug.error('sorry Eduardo, record ' + record_id + ' not found! ');
 					if (c.onFail) c.onFail(recordIdRequest, event, null);
 					return;
 				}
 			};
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant setCursor ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant setCursor ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1550,26 +1549,26 @@ $dhx.dataDriver = {
 			var that = $dhx.dataDriver;
 			var db_name = c.db
 				, timer_label = "getCursor operation " + c.table;
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			if ($dhx.dataDriver.public[c.table]._internal_cursor_position > 0) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				if (c.onSuccess) c.onSuccess($dhx.dataDriver.public[c.table]._internal_cursor_position);
 			}
 			else {
 				var tx = that.db(db_name).transaction(c.table, "readonly");
 				var table = tx.objectStore(c.table);
 				var cursor = table.openCursor();
-				//console.log(cursor);
+				//$dhx.debug.log(cursor);
 				c.onSuccess = c.onSuccess || false;
 				c.onFail = c.onFail || false;
 				tx.addEventListener('complete', function (event) {
-					if ($dhx._enable_log) console.info('tx getCursor is completed');
+					$dhx.debug.info('tx getCursor is completed');
 				});
 				tx.addEventListener('onerror', function (event) {
-					if ($dhx._enable_log) console.log('error on transaction');
+					$dhx.debug.log('error on transaction');
 				});
 				tx.addEventListener('abort', function (event) {
-					//console.log(counter.result);
+					//$dhx.debug.log(counter.result);
 					if (c.onFail) c.onFail(tx, event, event.target.error.message);
 				});
 				cursor.addEventListener('success', function (event) {
@@ -1581,34 +1580,36 @@ $dhx.dataDriver = {
 					else {
 						if (c.onSuccess) c.onSuccess($dhx.dataDriver.public[c.table]._internal_cursor_position, tx, event);
 					}
-					console.timeEnd(timer_label);
+					$dhx.debug.timeEnd(timer_label);
 				});
 				cursor.addEventListener('error', function (event) {
-					console.timeEnd(timer_label);
-					//console.log(counter.result);
+					$dhx.debug.timeEnd(timer_label);
+					//$dhx.debug.log(counter.result);
 					if (c.onFail) c.onFail(tx, event, event.target.error.message);
 				});
 			}
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant getCursor ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant getCursor ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
 	
 	, getCurrentRecord: function (c) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
 			var db_name = c.db
 				, timer_label = "getCurrentRecord operation " + c.table;
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			if ($dhx.dataDriver.public[c.table]._internal_cursor_position == 0) {
-				console.timeEnd(timer_label);
-				if ($dhx._enable_log)
-					console.error('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
+				$dhx.debug.timeEnd(timer_label);
+
+				$dhx.debug.error('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
+				
+				
 				if (c.onFail) c.onFail(currentRecordRequest, event, 'not found');
 				return;
 			}
@@ -1618,52 +1619,52 @@ $dhx.dataDriver = {
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			tx.addEventListener('complete', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('tx getCurrentRecord is completed');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('tx getCurrentRecord is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.log('error on transaction');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('transaction aborted');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('transaction aborted');
 			});
 			currentRecordRequest.addEventListener('success', function (event) {
 				var data = currentRecordRequest.result;
 				if (typeof data !== 'undefined') {
-					//console.log(data);
-					console.timeEnd(timer_label);
+					//$dhx.debug.log(data);
+					$dhx.debug.timeEnd(timer_label);
 					if (c.onSuccess) c.onSuccess(data, currentRecordRequest, event);
 				}
 				else {
-					console.timeEnd(timer_label);
-					if ($dhx._enable_log) console.error('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
+					$dhx.debug.timeEnd(timer_label);
+					$dhx.debug.error('sorry Eduardo, record ' + $dhx.dataDriver.public[c.table]._internal_cursor_position + ' not found! ');
 					if (c.onFail) c.onFail(currentRecordRequest, event, 'not found');
 					return;
 				}
 			});
 			currentRecordRequest.addEventListener('error', function (event) {
-				if ($dhx._enable_log) console.error('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + event.target.error.message);
-				console.timeEnd(timer_label);
+				$dhx.debug.error('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + event.target.error.message);
+				$dhx.debug.timeEnd(timer_label);
 				if (c.onFail) c.onFail(currentRecordRequest, event, event.target.error.message);
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant getCurrentRecord data ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
 	
 	, getRecord: function (c) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
 			var db_name = c.db
 				, timer_label = "getRecord operation " + c.table;
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			//$dhx.dataDriver.public[c.table]._internal_cursor_position
 			var tx = that.db(db_name).transaction(c.table, "readonly");
 			var table = tx.objectStore(c.table)
@@ -1671,40 +1672,40 @@ $dhx.dataDriver = {
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			tx.addEventListener('complete', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('tx getRecord is completed');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('tx getRecord is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.log('error on transaction');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				//console.timeEnd( timer_label );
-				if ($dhx._enable_log) console.info('transaction aborted');
+				//$dhx.debug.timeEnd( timer_label );
+				$dhx.debug.info('transaction aborted');
 			});
 			recordRequest.addEventListener('success', function (event) {
 				var data = recordRequest.result;
 				if (typeof data !== 'undefined') {
-					//console.log(data);
-					console.timeEnd(timer_label);
+					//$dhx.debug.log(data);
+					$dhx.debug.timeEnd(timer_label);
 					if (c.onSuccess) c.onSuccess(data, recordRequest, event);
 				}
 				else {
-					console.timeEnd(timer_label);
-					if ($dhx._enable_log) console.error('sorry Eduardo, record ' + c.record_id + ' not found! ');
+					$dhx.debug.timeEnd(timer_label);
+					$dhx.debug.error('sorry Eduardo, record ' + c.record_id + ' not found! ');
 					if (c.onFail) c.onFail(recordRequest, event, 'not found');
 					return;
 				}
 			});
 			recordRequest.addEventListener('error', function (event) {
-				if ($dhx._enable_log) console.error('sorry Eduardo, I cant getRecord data ! Error message: ' + event.target.error.message);
-				console.timeEnd(timer_label);
+				$dhx.debug.error('sorry Eduardo, I cant getRecord data ! Error message: ' + event.target.error.message);
+				$dhx.debug.timeEnd(timer_label);
 				if (c.onFail) c.onFail(recordRequest, event, event.target.error.message);
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant getRecord data ! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant getRecord data ! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -1810,7 +1811,7 @@ $dhx.dataDriver = {
 		component.attachEvent("onCheck", function (rId, cInd, state) {
 			var table_schema = that.getTableSchema(c);
 			var column_name = component.getColumnId(cInd);
-			$dhx.showDirections("saving data ... ");
+			//$dhx.showDirections("saving data ... ");
 			component.setRowTextBold(rId);
 			var hash = {};
 			var old_hash = {}
@@ -1822,7 +1823,7 @@ $dhx.dataDriver = {
 				});
 				component.cells(rId, cInd).setValue(state);
 				component.setRowTextNormal(rId);
-				$dhx.hideDirections();
+				//$dhx.hideDirections();
 			}, function () {
 				dhtmlx.message({
 					type: "error"
@@ -1837,14 +1838,14 @@ $dhx.dataDriver = {
 			var table_schema = that.getTableSchema(c);
 			var column_name = component.getColumnId(cInd);
 			if (stage == 0) {
-				//console.log(nValue, oValue);
+				//$dhx.debug.log(nValue, oValue);
 				return true;
 			}
 			else if (stage == 1) {
-				//console.log(nValue, oValue);
+				//$dhx.debug.log(nValue, oValue);
 				if (component.editor) {
 					if (component.editor.obj) {
-						//console.log( grid.cells( rId, cInd) );
+						//$dhx.debug.log( grid.cells( rId, cInd) );
 						// format and mask here
 						var input = component.editor.obj;
 						var format = table_schema.columns[column_name].format;
@@ -1854,9 +1855,9 @@ $dhx.dataDriver = {
 				return true;
 			}
 			else if (stage == 2) {
-				console.log(nValue, oValue);
+				$dhx.debug.log(nValue, oValue);
 				if (nValue != oValue) {
-					$dhx.showDirections("saving data ... ");
+					//$dhx.showDirections("saving data ... ");
 					component.setRowTextBold(rId);
 					var hash = {};
 					var old_hash = {}
@@ -1871,7 +1872,7 @@ $dhx.dataDriver = {
 							});
 							component.cells(rId, cInd).setValue(oValue);
 							component.setRowTextNormal(rId);
-							$dhx.hideDirections();
+							//$dhx.hideDirections();
 							return false;
 						}
 					}
@@ -1910,10 +1911,10 @@ $dhx.dataDriver = {
 	
 	, _syncSelect: function (c, component, hash) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
-			if ($dhx._enable_log) console.log("this component is a select");
+			$dhx.debug.log("this component is a select");
 			component._id = hash.component_id;
 			component._type = hash.type;
 			component._subscriber = function (topic, data) {
@@ -1921,39 +1922,39 @@ $dhx.dataDriver = {
 					, primary_key = schema.primary_key.keyPath
 					, columns = $dhx.dataDriver._getColumnsId(c).split(',');
 				//var columns = $dhx.dataDriver._getColumnsId(c).split(',');
-				//console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
+				//$dhx.debug.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
 				if (data.target == 'table') {
 					if (data.name == c.table) { //data.name == c.table
-						if ($dhx._enable_log) {
-							console.info(
-								hash.component_id + ' received message sent to it: ', data.target, data.name
-							);
-						}
+
+						$dhx.debug.info(
+							hash.component_id + ' received message sent to it: ', data.target, data.name
+						);
+						
 						if (data.action == 'add' && data.message == 'record added') {
 							data.records.forEach(function (recordset, index, array) {
 								var obj = {};
 								for (i in recordset)
 									if (recordset.hasOwnProperty(i)) obj[i] = recordset[i];
 								if (c.$init) c.$init(obj);
-								console.log(new Option(obj.text, obj.value))
+								$dhx.debug.log(new Option(obj.text, obj.value))
 								component.options.add(new Option(obj.text, obj.value));
 							});
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'update' && data.message == 'record updated') {
 							
 							
 						}
 						else if (data.action == 'delete' && data.message == 'record deleted') {
-							console.log(component.options)
+							$dhx.debug.log(component.options)
 							//component.options
 						}
 						else if (data.action == 'clear' && data.message == 'table is empty') {
 							component.clearAll();
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'load' && data.message == 'sync select') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
 							try {
 								//component.clearAll();
 								var records = data.records;
@@ -1970,9 +1971,9 @@ $dhx.dataDriver = {
 								});
 							}
 							catch (e) {
-								console.log(e.stack);
+								$dhx.debug.error(e.message, e.stack);;
 							}
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 					}
 				}
@@ -1981,37 +1982,36 @@ $dhx.dataDriver = {
 				$dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber
 			);
 			that._syncSelectData(c, component);
-			//console.log('select MQ token ' + component._subscriber_token)
-			if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
+			//$dhx.debug.log('select MQ token ' + component._subscriber_token)
+			$dhx.debug.info(hash.component_id, ' is synced');
 		}
 		catch (e) {
-			console.log(e.stack)
+			$dhx.debug.error(e.message, e.stack);
 		}
 	}
 	
 	, _syncSelectGrid: function (c, component, hash) {
 		'use strict';
-		//console.log( '>>>>>>>>>>>>> >>>>>>>>', c );
+		//$dhx.debug.log( '>>>>>>>>>>>>> >>>>>>>>', c );
 		//alert();
 		//c.prop_value
 		//c.prop_text
 		try {
 			var that = $dhx.dataDriver;
-			console.log("this component is a selectGrid");
+			$dhx.debug.log("this component is a selectGrid");
 			component._id = hash.component_id;
 			component._type = hash.type;
 			component._subscriber = function (topic, data) {
 				var schema = that.getTableSchema(c)
 					, primary_key = schema.primary_key.keyPath
 					, columns = $dhx.dataDriver._getColumnsId(c).split(',');
-				//console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
+				//$dhx.debug.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
 				if (data.target == 'table') {
 					if (data.name == c.table) { //data.name == c.table
-						if ($dhx._enable_log) {
-							console.info(
-								hash.component_id + ' received message sent to it: ', data.target, data.name
-							);
-						}
+
+						$dhx.debug.info(
+							hash.component_id + ' received message sent to it: ', data.target, data.name
+						);
 						if (data.action == 'add' && data.message == 'record added') {
 							data.records.forEach(function (recordset, index, array) {
 								var obj = {};
@@ -2025,7 +2025,7 @@ $dhx.dataDriver = {
 								}
 								component.put(obj.value, obj.text);
 							});
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'update' && data.message == 'record updated') {
 							
@@ -2037,7 +2037,7 @@ $dhx.dataDriver = {
 							}
 							if (c.prop_value && c.prop_text) {
 								if (c.$init) c.$init(obj, c.prop_value, c.prop_text);
-								console.log(obj);
+								$dhx.debug.log(obj);
 							}
 							else {
 								if (c.$init) c.$init(obj);
@@ -2051,15 +2051,15 @@ $dhx.dataDriver = {
 							});
 						}
 						else if (data.action == 'delete' && data.message == 'record deleted') {
-							console.log(component.options)
+							$dhx.debug.log(component.options)
 							//component.options
 						}
 						else if (data.action == 'clear' && data.message == 'table is empty') {
 							component.clearAll();
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'load' && data.message == 'sync selectGrid') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
 							try {
 								//component.clearAll();
 								var records = data.records;
@@ -2077,14 +2077,14 @@ $dhx.dataDriver = {
 									else {
 										if (c.$init) c.$init(obj);
 									}
-									//console.log('XXXXXXXXXXXXXXXXXXXXX', component);
+									//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', component);
 									component.put(obj.value, obj.text);
 								});
 							}
 							catch (e) {
-								console.log(e.stack);
+								$dhx.debug.error(e.message, e.stack);;
 							}
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 					}
 				}
@@ -2093,35 +2093,34 @@ $dhx.dataDriver = {
 				$dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber
 			);
 			that._syncSelectGridData(c, component);
-			//console.log('SelectGrid MQ token ' + component._subscriber_token)
-			if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
+			//$dhx.debug.log('SelectGrid MQ token ' + component._subscriber_token)
+			$dhx.debug.info(hash.component_id, ' is synced');
 		}
 		catch (e) {
-			console.log(e.stack)
+			$dhx.debug.error(e.message, e.stack);
 		}
 	}
 	
 	, _syncCombo: function (c, component, hash) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
-			if ($dhx._enable_log) console.log("this component is a combo");
+			$dhx.debug.log("this component is a combo");
 			component._id = hash.component_id;
 			component._type = hash.type;
 			component._subscriber = function (topic, data) {
 				var schema = that.getTableSchema(c)
 					, primary_key = schema.primary_key.keyPath
 					, columns = $dhx.dataDriver._getColumnsId(c).split(',');
-				//console.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
+				//$dhx.debug.log('xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data);
 				if (data.target == 'table') {
 					if (data.name == c.table) //data.name == c.table
 					{
-						if ($dhx._enable_log) {
-							console.info(
-								hash.component_id + ' received message sent to it: ', data.target, data.name
-							);
-						}
+
+						$dhx.debug.info(
+							hash.component_id + ' received message sent to it: ', data.target, data.name
+						);
 						if (data.action == 'add' && data.message == 'record added') {
 							var records = [];
 							data.records.forEach(function (recordset, index, array) {
@@ -2132,24 +2131,24 @@ $dhx.dataDriver = {
 								records.push([obj.value, obj.text]);
 							});
 							component.addOption(records);
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'update' && data.message == 'record updated') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'delete' && data.message == 'record deleted') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 							//component.deleteRow(data.record_id);
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'clear' && data.message == 'table is empty') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 							component.clearAll();
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'load' && data.message == 'sync combo') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
 							try {
 								//component.clearAll();
 								var records = data.records;
@@ -2158,7 +2157,7 @@ $dhx.dataDriver = {
 								var primary_key = schema.primary_key.keyPath;
 								var columns = $dhx.dataDriver._getColumnsId(c).split(',');
 								records.forEach(function (recordset, index, array) {
-									//console.log(recordset);
+									//$dhx.debug.log(recordset);
 									var obj = {};
 									for (i in recordset.record)
 										if (recordset.record.hasOwnProperty(i)) obj[i] = recordset.record[i];
@@ -2180,9 +2179,9 @@ $dhx.dataDriver = {
 								//component.addOption(final_records);
 							}
 							catch (e) {
-								console.log(e.stack);
+								$dhx.debug.error(e.message, e.stack);;
 							}
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 					}
 				}
@@ -2190,17 +2189,17 @@ $dhx.dataDriver = {
 			component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
 			// clear all data from combo and parses the table selected data
 			that._syncComboData(c, component);
-			//console.log('combo MQ token ' + component._subscriber_token)
-			if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
+			//$dhx.debug.log('combo MQ token ' + component._subscriber_token)
+			$dhx.debug.info(hash.component_id, ' is synced');
 		}
 		catch (e) {
-			console.log(e.stack)
+			$dhx.debug.error(e.message, e.stack);
 		}
 	}
 	
 	, _syncGrid: function (c, component, hash) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver
 				, schema = that.getTableSchema(c)
@@ -2208,19 +2207,19 @@ $dhx.dataDriver = {
 				, total_columns_synced = 0
 				, primary_key = schema.primary_key.keyPath
 				, columns = $dhx.dataDriver._getColumnsId(c).split(',');
-			if ($dhx._enable_log) console.log("this component is a grid");
+			$dhx.debug.log("this component is a grid");
 			component._subscriber = function (topic, data) {
 					var schema = that.getTableSchema(c)
 						, primary_key = schema.primary_key.keyPath
 						, columns = $dhx.dataDriver._getColumnsId(c).split(',');
-					//console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
+					//$dhx.debug.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
 					if (data.target == 'table') {
 						if (data.name == c.table) {
-							if ($dhx._enable_log) {
-								console.info(
-									hash.component_id + ' received message about it synced table: ', data.target, data.name
-								);
-							}
+
+							$dhx.debug.info(
+								hash.component_id + ' received message about it synced table: ', data.target, data.name
+							);
+	
 							if (data.action == 'add' && data.message == 'record added') {
 								var last_id = 0;
 								data.records.forEach(function (recordset, index, array) {
@@ -2230,37 +2229,37 @@ $dhx.dataDriver = {
 									});
 									component.addRow(recordset[primary_key], record);
 									last_id = recordset[primary_key];
-									if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+									$dhx.debug.info(hash.component_id + ' updated ');
 								});
 								component.selectRowById(last_id, false, true, true);
 							}
 							else if (data.action == 'update' && data.message == 'record updated') {
-								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+								//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 								for (var column in data.record) {
 									if (data.record.hasOwnProperty(column)) {
 										var colIndex = component.getColIndexById(column);
 										component.cells(data.record_id, colIndex).setValue(data.record[column]);
 									}
 								}
-								if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+								$dhx.debug.info(hash.component_id + ' updated ');
 							}
 							else if (data.action == 'delete' && data.message == 'record deleted') {
-								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+								//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 								component.deleteRow(data.record_id);
-								if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+								$dhx.debug.info(hash.component_id + ' updated ');
 							}
 							else if (data.action == 'select' && data.message == 'selected record') {
-								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+								//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 								component.selectRowById(data.record_id, false, true, false);
-								if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+								$dhx.debug.info(hash.component_id + ' updated ');
 							}
 							else if (data.action == 'clear' && data.message == 'table is empty') {
-								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+								//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 								component.clearAll();
-								if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+								$dhx.debug.info(hash.component_id + ' updated ');
 							}
 							else if (data.action == 'load' && data.message == 'sync grid') {
-								//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+								//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
 								try {
 									//component.clearAll();
 									var records = data.records;
@@ -2283,9 +2282,9 @@ $dhx.dataDriver = {
 									component.parse(data, "json"); //takes the name and format of the data source
 								}
 								catch (e) {
-									console.log(e.stack);
+									$dhx.debug.error(e.message, e.stack);;
 								}
-								if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+								$dhx.debug.info(hash.component_id + ' updated ');
 							}
 						}
 					}
@@ -2307,7 +2306,7 @@ $dhx.dataDriver = {
 			component.setColumnIds($dhx.dataDriver._getColumnsId(c));
 			if (c.auto_configure) {
 				component.init(); //finishes initialization and renders the grid on the page
-				//console.log(  'XXXXXXXXXXXXXXXX>>>>>>>>>>>>>>>>', schema );
+				//$dhx.debug.log(  'XXXXXXXXXXXXXXXX>>>>>>>>>>>>>>>>', schema );
 				component.fk_combos = [];
 				for (var fk in schema.foreign_keys) {
 					var table = schema.foreign_keys[fk].table;
@@ -2321,8 +2320,8 @@ $dhx.dataDriver = {
 					//component._type = hash.type;
 					
 					
-					console.log(schema.columns[fk].foreign_column_value);
-					console.log(schema.columns[fk].foreign_column_name);
+					$dhx.debug.log(schema.columns[fk].foreign_column_value);
+					$dhx.debug.log(schema.columns[fk].foreign_column_name);
 					
 					$dhx.dataDriver.public[table].sync.selectGrid({
 						component: component.fk_combos[fk]
@@ -2333,15 +2332,15 @@ $dhx.dataDriver = {
 								obj.value = obj[prop_value];
 								obj.text = obj[prop_text];
 								
-								console.log(obj);
+								$dhx.debug.log(obj);
 								
 							} // not mandatory, default false
 						
 						, onSuccess: function () {
 							total_columns_synced = total_columns_synced + 1;
 							if (total_columns_synced == total_columns_to_sync) {
-								if ($dhx._enable_log) console.info(' all columns are synced in ' + hash.component_id);
-								if ($dhx._enable_log) console.info(' syncing the grid now ');
+								$dhx.debug.info(' all columns are synced in ' + hash.component_id);
+								$dhx.debug.info(' syncing the grid now ');
 								// clear all data from grid and parses the table selected data
 								that._syncGridData(c, component);
 							}
@@ -2369,17 +2368,17 @@ $dhx.dataDriver = {
 			if (total_columns_to_sync == 0) {
 				that._syncGridData(c, component);
 			}
-			//console.log('grid MQ token ' + component._subscriber_token)
-			if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
+			//$dhx.debug.log('grid MQ token ' + component._subscriber_token)
+			$dhx.debug.info(hash.component_id, ' is synced');
 		}
 		catch (e) {
-			console.log(e.stack)
+			$dhx.debug.error(e.message, e.stack);
 		}
 	}
 	
 	, _syncDataView: function (c, component, hash) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver
 				, schema = that.getTableSchema(c)
@@ -2387,49 +2386,49 @@ $dhx.dataDriver = {
 				, total_columns_synced = 0
 				, primary_key = schema.primary_key.keyPath
 				, columns = $dhx.dataDriver._getColumnsId(c).split(',');
-			if ($dhx._enable_log) console.log("this component is a dataview");
+			$dhx.debug.log("this component is a dataview");
 			component._subscriber = function (topic, data) {
 				var schema = that.getTableSchema(c)
 					, primary_key = schema.primary_key.keyPath
 					, columns = $dhx.dataDriver._getColumnsId(c).split(',');
-				//console.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
+				//$dhx.debug.log( 'xxxxxxxxxxxxxxxxxx>>>>>>>>>>>', topic, data );
 				if (data.target == 'table') {
 					if (data.name == c.table) {
-						if ($dhx._enable_log) {
-							console.info(
-								hash.component_id + ' received message about it synced table: ', data.target, data.name
-							);
-						}
+
+						$dhx.debug.info(
+							hash.component_id + ' received message about it synced table: ', data.target, data.name
+						);
+	
 						if (data.action == 'add' && data.message == 'record added') {
 							var last_id = 0;
 							data.records.forEach(function (recordset, index, array) {
 								component.add(recordset.record);
 								last_id = recordset[primary_key];
-								if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+								$dhx.debug.info(hash.component_id + ' updated ');
 							});
 							component.select(last_id);
 						}
 						else if (data.action == 'update' && data.message == 'record updated') {
 							component.set(data.record_id, data.record);
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'delete' && data.message == 'record deleted') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 							component.remove(data.record_id);
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'select' && data.message == 'selected record') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 							component.select(data.record_id);
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'clear' && data.message == 'table is empty') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 							component.clearAll();
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 						else if (data.action == 'load' && data.message == 'sync dataview') {
-							//console.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
+							//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.records);
 							try {
 								//component.clearAll();
 								var records = data.records;
@@ -2438,30 +2437,30 @@ $dhx.dataDriver = {
 									frecords.push(recordset.record)
 										//component.add(recordset.record);
 								});
-								//console.log(frecords);
+								//$dhx.debug.log(frecords);
 								component.parse(frecords, "json"); //takes the name and format of the data source
 							}
 							catch (e) {
-								console.log(e.stack);
+								$dhx.debug.error(e.message, e.stack);;
 							}
-							if ($dhx._enable_log) console.info(hash.component_id + ' updated ');
+							$dhx.debug.info(hash.component_id + ' updated ');
 						}
 					}
 				}
 			}
 			component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
 			that._syncDataViewData(c, component);
-			//console.log('grid MQ token ' + component._subscriber_token)
-			if ($dhx._enable_log) console.info(hash.component_id, ' is synced');
+			//$dhx.debug.log('grid MQ token ' + component._subscriber_token)
+			$dhx.debug.info(hash.component_id, ' is synced');
 		}
 		catch (e) {
-			console.log(e.stack)
+			$dhx.debug.error(e.message, e.stack);
 		}
 	}
 	
 	, sync: function (c) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
 			// START validate request configuration
@@ -2490,18 +2489,18 @@ $dhx.dataDriver = {
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			// START - Add component to ARRAY of synced components of this table
-			if ($dhx._enable_log) console.info("called sync for: " + c.component_id + " on " + c.table);
+			$dhx.debug.info("called sync for: " + c.component_id + " on " + c.table);
 			var a_components = $dhx.dataDriver.public[c.table]._synced_components;
 			for (var x = 0; x < a_components.length; x++) {
 				var hash = a_components[x];
 				if (hash.component_id == c.component_id) {
-					if ($dhx._enable_log) console.info(hash.component_id + " object already exist on memory, please remove it first");
+					$dhx.debug.info(hash.component_id + " object already exist on memory, please remove it first");
 					//$dhx.dataDriver.public[c.table]._synced_components.splice(index, 1);
 					if (c.onFail) c.onFail(hash.component_id + " object already exist on memory, please remove it first");
 					return;
 				}
 			}
-			if ($dhx._enable_log) console.log("pushing: " + c.component_id);
+			$dhx.debug.log("pushing: " + c.component_id);
 			var component_settings = {
 				component_id: c.component_id
 				, component: c.component
@@ -2517,7 +2516,7 @@ $dhx.dataDriver = {
 				if (hash.component_id == c.component_id) {
 					var component = hash.component;
 					if (hash.type == 'tree') {
-						//if( $dhx._enable_log ) console.log( "this component is a tree" );
+						//$dhx.debug.log( "this component is a tree" );
 						if (c.onFail) c.onFail("tree can not be synced");
 					}
 					else if (hash.type == 'combo') {
@@ -2536,7 +2535,7 @@ $dhx.dataDriver = {
 						that._syncDataView(c, component, hash);
 					} // end if grid
 					else if (hash.type == 'form') {
-						//if( $dhx._enable_log ) console.log( "form can not be synced" );
+						//$dhx.debug.log( "form can not be synced" );
 						if (c.onFail) c.onFail("form can not be synced");
 					}
 					else {
@@ -2546,7 +2545,7 @@ $dhx.dataDriver = {
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant sync ' + c.component_id + ' data ! Error message: ' + e.message, e.stack);
+			$dhx.debug.error('sorry Eduardo, I cant sync ' + c.component_id + ' data ! Error message: ' + e.message, e.stack);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -2554,7 +2553,7 @@ $dhx.dataDriver = {
 	
 	, bind: function (c) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
 			// START validate request configuration
@@ -2583,19 +2582,19 @@ $dhx.dataDriver = {
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			// START - Add component to ARRAY of bound components of this table
-			if ($dhx._enable_log) console.info("called bind for: " + c.component_id + " on " + c.table);
+			$dhx.debug.info("called bind for: " + c.component_id + " on " + c.table);
 			var a_components = $dhx.dataDriver.public[c.table]._bound_components;
 			for (var x = 0; x < a_components.length; x++) {
 				var hash = a_components[x];
 				if (hash.component_id == c.component_id) {
-					if ($dhx._enable_log) console.info(hash.component_id + " object already exist on memory, please remove it first");
+					$dhx.debug.info(hash.component_id + " object already exist on memory, please remove it first");
 					//$dhx.dataDriver.public[c.table]._bound_components.splice(index, 1);
 					if (c.onFail) c.onFail(hash.component_id + " object already exist on memory, please remove it first");
 					return;
 				}
 			}
 			c.$init = c.$init || false;
-			if ($dhx._enable_log) console.log("pushing: " + c.component_id);
+			$dhx.debug.log("pushing: " + c.component_id);
 			var component_settings = {
 				component_id: c.component_id
 				, component: c.component
@@ -2611,7 +2610,7 @@ $dhx.dataDriver = {
 				if (hash.component_id == c.component_id) {
 					var component = hash.component;
 					if (hash.type == 'form') {
-						//if ($dhx._enable_log) console.log("this component is a form");
+						//$dhx.debug.log("this component is a form");
 						var prepare = false;
 						component._id = hash.component_id;
 						component._type = hash.type;
@@ -2642,7 +2641,7 @@ $dhx.dataDriver = {
 														, $init: function (obj) {
 																obj.value = obj[field.dhx_prop_value];
 																obj.text = obj[field.dhx_prop_text];
-																//console.log(obj);
+																//$dhx.debug.log(obj);
 															} // not mandatory, default false
 															
 														, onSuccess: function () {
@@ -2726,9 +2725,9 @@ $dhx.dataDriver = {
 											var fcombo = component.getCombo(column_name);
 											var value = $dhx.isNumber(hash[column_name]) ? parseInt(hash[column_name]) : hash[column_name];
 											var index = fcombo.getIndexByValue(value);
-											console.log(fcombo);
-											console.log(value);
-											console.log(index);
+											$dhx.debug.log(fcombo);
+											$dhx.debug.log(value);
+											$dhx.debug.log(index);
 											fcombo.selectOption(index, false, true);
 											//fcombo.openSelect();
 											//clone[column_name] = component.isItemChecked(column_name);
@@ -2769,7 +2768,7 @@ $dhx.dataDriver = {
 								}
 							}
 							else {
-								//console.log("inside prepare");
+								//$dhx.debug.log("inside prepare");
 								that._bound_form_save(c, component, hash, onSuccess, onFail);
 							}
 						}
@@ -2780,7 +2779,7 @@ $dhx.dataDriver = {
 								}
 							}
 							else {
-								//console.log("inside prepare");
+								//$dhx.debug.log("inside prepare");
 								that._bound_form_update(c, component, hash, onSuccess, onFail);
 							}
 						}
@@ -2788,11 +2787,10 @@ $dhx.dataDriver = {
 						component._subscriber = function (topic, data) {
 							if (data.target == 'table') {
 								if (data.name == c.table) {
-									if ($dhx._enable_log)
-										console
-										.info(
-											hash.component_id + ' received message about it bound table: ', data.target, data.name
-										);
+
+									$dhx.debug.info(
+										hash.component_id + ' received message about it bound table: ', data.target, data.name
+									);
 									if (data.action == 'add' && data.message == 'record added') {
 										var schema = that.getTableSchema(c);
 										var primary_key = schema.primary_key.keyPath
@@ -2804,7 +2802,7 @@ $dhx.dataDriver = {
 						component._subscriber_token = $dhx.MQ.subscribe($dhx.dataDriver.dbs[c.db].root_topic + "." + c.table, component._subscriber);
 						//history.pushState(hash.component_id, hash.component_id, component.isEditing === true ? '#update_record' : '#add_new_record');
 						if (c.onSuccess) c.onSuccess("bound");
-						if ($dhx._enable_log) console.info(hash.component_id, ' is bound');
+						$dhx.debug.info(hash.component_id, ' is bound');
 					}
 					else {
 						if (c.onFail) c.onFail("unknow component when binding");
@@ -2813,14 +2811,14 @@ $dhx.dataDriver = {
 			});
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant bind ' + c.component_id + ' data ! Error message: ' + e.message);
+			$dhx.debug.error('sorry Eduardo, I cant bind ' + c.component_id + ' data ! Error message: ' + e.message);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
 	
 	, unbind: function (c) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
 			// START validate request configuration
@@ -2846,7 +2844,7 @@ $dhx.dataDriver = {
 			}
 			// END validate request configuration
 			// START - Add component to ARRAY of bound components of this table
-			if ($dhx._enable_log) console.info("called unbind for: " + c.component_id + " on " + c.table);
+			$dhx.debug.info("called unbind for: " + c.component_id + " on " + c.table);
 			var a_components = $dhx.dataDriver.public[c.table]._bound_components;
 			for (var x = 0; x < a_components.length; x++) {
 				var hash = a_components[x];
@@ -2880,25 +2878,25 @@ $dhx.dataDriver = {
 							}
 						}
 					});
-					if ($dhx._enable_log) console.info(hash.component_id + " object exist on memory. now it was unbound");
+					$dhx.debug.info(hash.component_id + " object exist on memory. now it was unbound");
 					$dhx.dataDriver.public[c.table]._bound_components.splice(x, 1);
 					$dhx.MQ.unsubscribe(component._subscriber_token);
 					if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unbound");
 					return;
 				}
 			}
-			if ($dhx._enable_log) console.info("component not found. it was not unbound");
+			$dhx.debug.info("component not found. it was not unbound");
 			if (c.onFail) c.onFail("component not found. it was not unbound");
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant unbind ' + c.component_id + '! Error message: ' + e.message);
+			$dhx.debug.error('sorry Eduardo, I cant unbind ' + c.component_id + '! Error message: ' + e.message);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
 	
 	, unsync: function (c) {
 		'use strict';
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver;
 			// START validate request configuration
@@ -2923,9 +2921,9 @@ $dhx.dataDriver = {
 				return false;
 			}
 			// END validate request configuration
-			//console.log( c );
+			//$dhx.debug.log( c );
 			// START - Add component to ARRAY of synced components of this table
-			if ($dhx._enable_log) console.info("called unsync for: " + c.component_id + " on " + c.table);
+			$dhx.debug.info("called unsync for: " + c.component_id + " on " + c.table);
 			var a_components = $dhx.dataDriver.public[c.table]._synced_components;
 			for (var x = 0; x < a_components.length; x++) {
 				var hash = a_components[x];
@@ -2948,15 +2946,15 @@ $dhx.dataDriver = {
 								, onFail: function () {}
 							});
 						}
-						if ($dhx._enable_log) console.info(hash.component_id + " object exist on memory. now it was unsynced");
+						$dhx.debug.info(hash.component_id + " object exist on memory. now it was unsynced");
 						$dhx.dataDriver.public[c.table]._synced_components.splice(x, 1);
-						console.log(component._subscriber_token);
+						$dhx.debug.log(component._subscriber_token);
 						$dhx.MQ.unsubscribe(component._subscriber_token);
 						if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unsynced");
 						return;
 					}
 					else {
-						if ($dhx._enable_log) console.info(hash.component_id + " object exist on memory. now it was unsynced");
+						$dhx.debug.info(hash.component_id + " object exist on memory. now it was unsynced");
 						$dhx.dataDriver.public[c.table]._synced_components.splice(x, 1);
 						$dhx.MQ.unsubscribe(component._subscriber_token);
 						if (c.onSuccess) c.onSuccess(hash.component_id + " object exist on memory. now it was unsynced");
@@ -2964,11 +2962,11 @@ $dhx.dataDriver = {
 					}
 				}
 			}
-			if ($dhx._enable_log) console.info("component not found. it was not unsynced");
+			$dhx.debug.info("component not found. it was not unsynced");
 			if (c.onFail) c.onFail("component not found. it was not unsynced");
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant unsync ' + c.component_id + '! Error message: ' + e.message);
+			$dhx.debug.error('sorry Eduardo, I cant unsync ' + c.component_id + '! Error message: ' + e.message);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -2985,7 +2983,7 @@ $dhx.dataDriver = {
 					var year = dt.getFullYear();
 					var month = dt.getMonth() + 1;
 					var day = dt.getDate();
-					//console.log( month.toString().length );
+					//$dhx.debug.log( month.toString().length );
 					if (month.toString().length == 1)
 						month = "0" + month;
 					if (day.toString().length == 1)
@@ -3005,7 +3003,7 @@ $dhx.dataDriver = {
 			}
 		onSuccess = onSuccess || false;
 		onFail = onFail || false;
-		if ($dhx._enable_log) console.info('trying to save new record: ', clone);
+		$dhx.debug.info('trying to save new record: ', clone);
 		component.lock();
 		$dhx.dataDriver.public[c.table].add(clone, function (tx, event, rows_affected) {
 			component.unlock();
@@ -3014,12 +3012,12 @@ $dhx.dataDriver = {
 				hash[name] = '';
 			});
 			component.setFormData(hash);
-			if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
+			$dhx.debug.info('record saved. rows_affected: ', rows_affected);
 			(onSuccess) ? onSuccess(): "";
 		}, function (tx, event, rows_affected) {
 			that._saveRecordCheckError(component, event, c);
 			component.unlock();
-			if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
+			$dhx.debug.info('record not saved. rows_affected: ', rows_affected);
 			(onFail) ? onFail(): "";
 		});
 	}
@@ -3040,7 +3038,7 @@ $dhx.dataDriver = {
 					var year = dt.getFullYear();
 					var month = dt.getMonth() + 1;
 					var day = dt.getDate();
-					//console.log( month.toString().length );
+					//$dhx.debug.log( month.toString().length );
 					if (month.toString().length == 1)
 						month = "0" + month;
 					if (day.toString().length == 1)
@@ -3061,16 +3059,16 @@ $dhx.dataDriver = {
 		onSuccess = onSuccess || false;
 		onFail = onFail || false;
 		delete clone[primary_key];
-		if ($dhx._enable_log) console.info('trying to save existing record: ', clone);
+		$dhx.debug.info('trying to save existing record: ', clone);
 		component.lock();
 		$dhx.dataDriver.public[c.table].update(record_id, clone, null, function (tx, event, rows_affected) {
 			component.unlock();
-			if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
+			$dhx.debug.info('record saved. rows_affected: ', rows_affected);
 			(onSuccess) ? onSuccess(): "";
 		}, function (tx, event, rows_affected) {
 			that._saveRecordCheckError(component, event, c);
 			component.unlock();
-			if ($dhx._enable_log) console.info('record not saved. rows_affected: ', rows_affected);
+			$dhx.debug.info('record not saved. rows_affected: ', rows_affected);
 			(onFail) ? onFail(): "";
 		});
 	}
@@ -3153,32 +3151,32 @@ $dhx.dataDriver = {
 	}
 	
 	, first: function (c) {
-		//console.log( c );
+		//$dhx.debug.log( c );
 		var that = $dhx.dataDriver
 			, db_name = c.db
 			, table_schema = that.dbs[db_name].schema[c.table]
 			, schema = that.getTableSchema(c)
 			, primary_key = schema.primary_key.keyPath;
 		var timer_label = "get first record. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		var tx = that.db(db_name).transaction(c.table, "readonly")
 			, table = tx.objectStore(c.table);
 		c.onSuccess = c.onSuccess || false;
 		c.onFail = c.onFail || false;
 		tx.addEventListener('complete', function (event) {
-			if ($dhx._enable_log) console.info('executed');
-			if ($dhx._enable_log) console.log('transaction complete', event);
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('tx first record is completed');
+			$dhx.debug.info('executed');
+			$dhx.debug.log('transaction complete', event);
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('tx first record is completed');
 		});
 		tx.addEventListener('onerror', function (event) {
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, event.target.error.message);
-			if ($dhx._enable_log) console.log('error on transaction');
+			$dhx.debug.log('error on transaction');
 		});
 		tx.addEventListener('abort', function (event) {
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('transaction aborted');
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('transaction aborted');
 		});
 		var search = table.openCursor(); // 
 		search.onsuccess = function (event) {
@@ -3199,7 +3197,7 @@ $dhx.dataDriver = {
 	}
 	
 	, next: function (c) {
-		//console.log( c );
+		//$dhx.debug.log( c );
 		try {
 			var that = $dhx.dataDriver
 				, db_name = c.db
@@ -3222,30 +3220,30 @@ $dhx.dataDriver = {
 				if (c.onSuccess) c.onSuccess(cursor.key, cursor.value, tx, event);
 			}
 			var timer_label = "get next record. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-			console.time(timer_label);
+			$dhx.debug.time(timer_label);
 			var tx = that.db(db_name).transaction(c.table, "readonly")
 				, table = tx.objectStore(c.table);
 			c.onSuccess = c.onSuccess || false;
 			c.onFail = c.onFail || false;
 			if (cursor_position == 0) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				if (c.onFail) c.onFail(null, null, 'please select a record before calling next()');
-				if ($dhx._enable_log) console.log('please select a record before calling next()');
+				$dhx.debug.log('please select a record before calling next()');
 			}
 			tx.addEventListener('complete', function (event) {
-				if ($dhx._enable_log) console.info('executed');
-				if ($dhx._enable_log) console.log('transaction complete', event);
-				console.timeEnd(timer_label);
-				if ($dhx._enable_log) console.info('tx next record is completed');
+				$dhx.debug.info('executed');
+				$dhx.debug.log('transaction complete', event);
+				$dhx.debug.timeEnd(timer_label);
+				$dhx.debug.info('tx next record is completed');
 			});
 			tx.addEventListener('onerror', function (event) {
-				console.timeEnd(timer_label);
+				$dhx.debug.timeEnd(timer_label);
 				if (c.onFail) c.onFail(tx, event, event.target.error.message);
-				if ($dhx._enable_log) console.log('error on transaction');
+				$dhx.debug.log('error on transaction');
 			});
 			tx.addEventListener('abort', function (event) {
-				console.timeEnd(timer_label);
-				if ($dhx._enable_log) console.info('transaction aborted');
+				$dhx.debug.timeEnd(timer_label);
+				$dhx.debug.info('transaction aborted');
 			});
 			var search = table.openCursor(); // 
 			search.onsuccess = function (event) {
@@ -3265,12 +3263,12 @@ $dhx.dataDriver = {
 			}
 		}
 		catch (e) {
-			console.log(e.stack)
+			$dhx.debug.error(e.message, e.stack);
 		}
 	}
 	
 	, previous: function (c) {
-		//console.log( c );
+		//$dhx.debug.log( c );
 		var that = $dhx.dataDriver
 			, db_name = c.db
 			, table_schema = that.dbs[db_name].schema[c.table]
@@ -3292,30 +3290,30 @@ $dhx.dataDriver = {
 			if (c.onSuccess) c.onSuccess(cursor.key, cursor.value, tx, event);
 		}
 		var timer_label = "get previous record. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		var tx = that.db(db_name).transaction(c.table, "readonly")
 			, table = tx.objectStore(c.table);
 		c.onSuccess = c.onSuccess || false;
 		c.onFail = c.onFail || false;
 		if (cursor_position == 0) {
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(null, null, 'please select a record before calling previous()');
-			if ($dhx._enable_log) console.log('please select a record before calling previous()');
+			$dhx.debug.log('please select a record before calling previous()');
 		}
 		tx.addEventListener('complete', function (event) {
-			if ($dhx._enable_log) console.info('executed');
-			if ($dhx._enable_log) console.log('transaction complete', event);
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('tx previous record is completed');
+			$dhx.debug.info('executed');
+			$dhx.debug.log('transaction complete', event);
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('tx previous record is completed');
 		});
 		tx.addEventListener('onerror', function (event) {
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, event.target.error.message);
-			if ($dhx._enable_log) console.log('error on transaction');
+			$dhx.debug.log('error on transaction');
 		});
 		tx.addEventListener('abort', function (event) {
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('transaction aborted');
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('transaction aborted');
 		});
 		var search = table.openCursor(null, 'prev'); // 
 		search.onsuccess = function (event) {
@@ -3348,7 +3346,7 @@ $dhx.dataDriver = {
 		var that = $dhx.dataDriver;
 	}
 	, last: function (c) {
-		//console.log( c );
+		//$dhx.debug.log( c );
 		var that = $dhx.dataDriver
 			, db_name = c.db
 			, table_schema = that.dbs[db_name].schema[c.table]
@@ -3356,26 +3354,26 @@ $dhx.dataDriver = {
 			, primary_key = schema.primary_key.keyPath
 			, last_record = {};
 		var timer_label = "get last record. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		var tx = that.db(db_name).transaction(c.table, "readonly")
 			, table = tx.objectStore(c.table);
 		c.onSuccess = c.onSuccess || false;
 		c.onFail = c.onFail || false;
 		tx.addEventListener('complete', function (event) {
-			if ($dhx._enable_log) console.info('executed');
-			if ($dhx._enable_log) console.log('transaction complete', event);
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('tx last record is completed');
+			$dhx.debug.info('executed');
+			$dhx.debug.log('transaction complete', event);
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('tx last record is completed');
 		});
 		tx.addEventListener('onerror', function (event) {
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, event.target.error.message);
-			if ($dhx._enable_log) console.log('error on transaction');
+			$dhx.debug.log('error on transaction');
 		});
 		tx.addEventListener('abort', function (event) {
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, event.target.error.message);
-			if ($dhx._enable_log) console.info('transaction aborted');
+			$dhx.debug.info('transaction aborted');
 		});
 		var search = table.openCursor(); // 
 		search.onsuccess = function (event) {
@@ -3421,11 +3419,11 @@ $dhx.dataDriver = {
 				, event: null
 				, message: 'connected'
 			});
-			if ($dhx._enable_log) console.info('connected');
+			$dhx.debug.info('connected');
 			return connection;
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant connect! Error message: ' + e.message);
+			$dhx.debug.error('sorry Eduardo, I cant connect! Error message: ' + e.message);
 			if (c.onConnectError) c.onConnectError({
 				connection: null
 				, event: null
@@ -3446,7 +3444,7 @@ $dhx.dataDriver = {
 	}
 	
 	, search: function (c) {
-		//console.log( c );
+		//$dhx.debug.log( c );
 		var that = $dhx.dataDriver
 			, db_name = c.db
 			, rows_affected = 0
@@ -3458,26 +3456,26 @@ $dhx.dataDriver = {
 		query = c.query
 			, operator = 'and';
 		var timer_label = "search records. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		var tx = that.db(db_name).transaction(c.table, "readonly")
 			, table = tx.objectStore(c.table);
 		tx.addEventListener('complete', function (event) {
-			if ($dhx._enable_log) console.info('executed');
-			if ($dhx._enable_log) console.log('transaction complete', event);
-			console.timeEnd(timer_label);
+			$dhx.debug.info('executed');
+			$dhx.debug.log('transaction complete', event);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onReady) c.onReady(records, tx, event);
-			if ($dhx._enable_log) console.info('tx search is completed');
+			$dhx.debug.info('tx search is completed');
 			records = null;
 		});
 		tx.addEventListener('onerror', function (event) {
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, event.target.error.message);
-			if ($dhx._enable_log) console.log('error on transaction');
+			$dhx.debug.log('error on transaction');
 			records = null;
 		});
 		tx.addEventListener('abort', function (event) {
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('transaction aborted');
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('transaction aborted');
 			records = null;
 		});
 		if (query['and']) {
@@ -3504,8 +3502,8 @@ $dhx.dataDriver = {
 				for (var column in columns) {
 					if (columns[column] != '' && columns[column] != null) {
 						if (typeof cursor.value[column] !== 'undefined') {
-							//console.log(cursor.value);
-							//console.log(cursor.value[column]);
+							//$dhx.debug.log(cursor.value);
+							//$dhx.debug.log(cursor.value[column]);
 							if ($dhx.isNumber(cursor.value[column]) && $dhx.isNumber(columns[column])) {
 								var search_value = new Number(columns[column]);
 								var column_value = Number(cursor.value[column]);
@@ -3542,7 +3540,7 @@ $dhx.dataDriver = {
 	}
 	
 	, serialize: function (c) {
-		//console.log( c );
+		//$dhx.debug.log( c );
 		var that = $dhx.dataDriver
 			, db_name = c.db
 			, rows_affected = 0
@@ -3554,24 +3552,24 @@ $dhx.dataDriver = {
 			, query = c.query
 			, operator = 'and';
 		var timer_label = "serialize records. task: " + $dhx.crypt.SHA2(JSON.stringify(c));
-		console.time(timer_label);
+		$dhx.debug.time(timer_label);
 		var tx = that.db(db_name).transaction(c.table, "readonly")
 			, table = tx.objectStore(c.table);
 		tx.addEventListener('complete', function (event) {
-			if ($dhx._enable_log) console.info('executed');
-			if ($dhx._enable_log) console.log('transaction complete', event);
-			console.timeEnd(timer_label);
+			$dhx.debug.info('executed');
+			$dhx.debug.log('transaction complete', event);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onSuccess) c.onSuccess(records, tx, event);
-			if ($dhx._enable_log) console.info('tx serialize is completed');
+			$dhx.debug.info('tx serialize is completed');
 		});
 		tx.addEventListener('onerror', function (event) {
-			console.timeEnd(timer_label);
+			$dhx.debug.timeEnd(timer_label);
 			if (c.onFail) c.onFail(tx, event, event.target.error.message);
-			if ($dhx._enable_log) console.log('error on transaction');
+			$dhx.debug.log('error on transaction');
 		});
 		tx.addEventListener('abort', function (event) {
-			console.timeEnd(timer_label);
-			if ($dhx._enable_log) console.info('transaction aborted');
+			$dhx.debug.timeEnd(timer_label);
+			$dhx.debug.info('transaction aborted');
 		});
 		var search = table.openCursor(); // 
 		search.onsuccess = function (event) {
@@ -3600,11 +3598,11 @@ $dhx.dataDriver = {
 				if (that._table_to_filled_on_init == that._table_to_fill_on_init) {
 					that._setReady(c, connection, event);
 				}
-				//console.log( '???????????????? ready and all records loaded' );
+				//$dhx.debug.log( '???????????????? ready and all records loaded' );
 			}, function (tx, event, rows_affected) {
 			}, true);
 		}
-		//console.log( that._table_to_fill_on_init );
+		//$dhx.debug.log( that._table_to_fill_on_init );
 		//for (var table in that.dbs[db_name].records) {
 		//    if (that.dbs[db_name].records.hasOwnProperty(table)) {
 		//    }
@@ -3616,7 +3614,7 @@ $dhx.dataDriver = {
 			, self = this
 			, topic = 'database.' + c.db;
 		$dhx.hideDirections();
-		if ($dhx._enable_log) console.info('Database ' + db_name + ' is ready '); // , connection.result
+		$dhx.debug.info('Database ' + db_name + ' is ready '); // , connection.result
 		$dhx.MQ.publish(topic, {
 			action: 'ready'
 			, target: 'database'
@@ -3648,20 +3646,20 @@ $dhx.dataDriver = {
 		connection = that.connect(c);
 		connection.onupgradeneeded = function (event) {
 			upgraded = true;
-			if ($dhx._enable_log) console.log(event);
-			if ($dhx._enable_log) console.info('db ' + db_name + ' created ');
+			$dhx.debug.log(event);
+			$dhx.debug.info('db ' + db_name + ' created ');
 			database = connection.result;
 			database.onerror = function (event) {
 				// Generic error handler for all errors targeted at this database's
 				//alert("Database error: " + event.target.errorCode);
-				if ($dhx._enable_log) console.info('   >>>>  DATABASE CONNECTION ERROR   <<<<  ', event);
+				$dhx.debug.info('   >>>>  DATABASE CONNECTION ERROR   <<<<  ', event);
 			};
 			database.onversionchange = function (event) {
-				if ($dhx._enable_log) console.info('   >>>>  DATABASE VERSION CHANGED   <<<<  ');
+				$dhx.debug.info('   >>>>  DATABASE VERSION CHANGED   <<<<  ');
 			};
 			database.onabort = function (event) {
-				if ($dhx._enable_log) console.info('   >>>>  DATABASE CONNECTION ABORTED   <<<<  ');
-				//if ($dhx._enable_log) console.log( event );
+				$dhx.debug.info('   >>>>  DATABASE CONNECTION ABORTED   <<<<  ');
+				//$dhx.debug.log( event );
 			}
 			that.dbs[db_name] = {
 				db: database
@@ -3674,7 +3672,7 @@ $dhx.dataDriver = {
 				, connection: connection
 				, event: event
 				, subscriber: function (msg, data) {
-					//console.log( 'DB ROOT SUBSCRIBER: ', msg, data );
+					//$dhx.debug.log( 'DB ROOT SUBSCRIBER: ', msg, data );
 				}
 				, root_topic: topic
 			};
@@ -3682,7 +3680,7 @@ $dhx.dataDriver = {
 				that.dbs[db_name].onCreate = c.onCreate
 			for (var table in c.schema)
 				if (c.schema.hasOwnProperty(table)) {
-					//console.log( c.schema[ table ] );
+					//$dhx.debug.log( c.schema[ table ] );
 					self.table(table).create({
 						primary_key: c.schema[table].primary_key
 						, columns: c.schema[table].columns
@@ -3694,7 +3692,7 @@ $dhx.dataDriver = {
 				}
 		};
 		connection.onerror = function (event) {
-			if ($dhx._enable_log) console.info('error when tryin to connect the ' + db_name + ' database', connection.errorCode);
+			$dhx.debug.info('error when tryin to connect the ' + db_name + ' database', connection.errorCode);
 			if (c.onFail) c.onFail({
 				connection: connection
 				, event: event
@@ -3702,7 +3700,7 @@ $dhx.dataDriver = {
 			});
 		};
 		connection.onblocked = function (event) {
-			if ($dhx._enable_log) console.info('blocked');
+			$dhx.debug.info('blocked');
 			if (c.onFail) c.onFail({
 				connection: connection
 				, event: event
@@ -3727,7 +3725,7 @@ $dhx.dataDriver = {
 				, connection: connection
 				, event: event
 				, subscriber: function (msg, data) {
-					if ($dhx._enable_log) console.info('DB received message: ', msg, data);
+					$dhx.debug.info('DB received message: ', msg, data);
 					if (data.action == 'ready' && data.name == db_name && data.status == 'success') {
 						if (data.onReady) data.onReady(data.onReadyO);
 					}
@@ -3756,7 +3754,7 @@ $dhx.dataDriver = {
 		self.schema = {}; // public schema API
 		for (var table in c.schema) {
 			if (c.schema.hasOwnProperty(table)) {
-				//console.log(table, db_name,  topic);
+				//$dhx.debug.log(table, db_name,  topic);
 				self.schema[table] = (function (table, db_name) {
 					return {
 						attachEvent: function (eventStr, fnCallBack) {
@@ -3872,52 +3870,52 @@ $dhx.dataDriver = {
 						, _subscriber: function (topic, data) {
 							if (!$dhx.isObject(data))
 								JSON.parse(data);
-							//console.log( data );
+							//$dhx.debug.log( data );
 							if (data.target == 'table') {
 								if (data.name == table) {
-									if ($dhx._enable_log) {
-										console.info('the table ' + data.name + ' from ' + db_name + ' database received a message about it: ', data);
-									}
+
+									$dhx.debug.info('the table ' + data.name + ' from ' + db_name + ' database received a message about it: ', data);
+	
 									if (data.action == 'select' && data.message == 'selected record') {
-										//console.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
+										//$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data.record);
 										self.schema[table].setCursor(data.record_id, function () {}, function () {});
 									}
 									if (data.action == 'add' && data.message == 'record added on server' && data.origin == 'server') {
-										console.log('XXXXXXXXXXXXXXXXXXXXX', data);
+										$dhx.debug.log('XXXXXXXXXXXXXXXXXXXXX', data);
 										if (data.client_session_id != $dhx.ui.$Session.client_session_id) {
 											if (data.userAgent != navigator.userAgent) {
 												$dhx.dataDriver.public[data.name].add(data.records, function (tx, event, rows_affected) {
-													if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
+													$dhx.debug.info('record saved. rows_affected: ', rows_affected);
 													//(onSuccess) ? onSuccess(): "";
 												}, function (tx, event, error_message) {
-													if ($dhx._enable_log) console.info('record not saved. ', error_message);
+													$dhx.debug.info('record not saved. ', error_message);
 													//(onFail) ? onFail(): "";
 												}, false /*isOnCreate*/ , true /*dontSaveOnServer*/ );
 											}
 										}
 									}
 									if (data.action == 'update' && data.message == 'record updated on server' && data.origin == 'server') {
-										console.log('inside table subscriber')
+										$dhx.debug.log('inside table subscriber')
 										if (data.client_session_id != $dhx.ui.$Session.client_session_id) {
 											$dhx.dataDriver.public[data.name].update(data.record_id, data.record, data.old_record, function (tx, event, rows_affected) {
-												if ($dhx._enable_log) console.info('record saved. rows_affected: ', rows_affected);
+												$dhx.debug.info('record saved. rows_affected: ', rows_affected);
 											}, function (tx, event, rows_affected) {
-												if ($dhx._enable_log) console.info('record not updated. ', error_message);
+												$dhx.debug.info('record not updated. ', error_message);
 											}, true);
 										}
 									}
 									if (data.action == 'delete' && data.message == 'record deleted on server' && data.origin == 'server') {
 										$dhx.dataDriver.public[data.name].del(data.record_id, function (tx, event, record_id) {
-											if ($dhx._enable_log) console.info('record deleted. id: ', record_id);
+											$dhx.debug.info('record deleted. id: ', record_id);
 										}, function (tx, event, error_message) {
-											if ($dhx._enable_log) console.info('record not deleted. ', error_message);
+											$dhx.debug.info('record not deleted. ', error_message);
 										}, true);
 									}
 								}
 							}
 						}
 						, add: function (record, onSuccess, onFail, isOnCreate, dontSaveOnServer) {
-							//console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> persons.add isOnCreate ', isOnCreate );
+							//$dhx.debug.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> persons.add isOnCreate ', isOnCreate );
 							that.add({
 								db: db_name
 								, table: table
@@ -4013,7 +4011,7 @@ $dhx.dataDriver = {
 						, bind: (function (db_name, table) {
 							return {
 								form: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.bind({
 										db: db_name
 										, table: table
@@ -4182,7 +4180,7 @@ $dhx.dataDriver = {
 						, sync: (function (db_name, table) {
 							return {
 								grid: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.sync({
 										db: db_name
 										, table: table
@@ -4195,7 +4193,7 @@ $dhx.dataDriver = {
 									});
 								}
 								, combo: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.sync({
 										db: db_name
 										, table: table
@@ -4208,7 +4206,7 @@ $dhx.dataDriver = {
 									});
 								}
 								, select: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.sync({
 										db: db_name
 										, table: table
@@ -4221,7 +4219,7 @@ $dhx.dataDriver = {
 									});
 								}
 								, selectGrid: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.sync({
 										db: db_name
 										, table: table
@@ -4273,7 +4271,7 @@ $dhx.dataDriver = {
 						, unbind: (function (db_name, table) {
 							return {
 								form: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.unbind({
 										db: db_name
 										, table: table
@@ -4289,7 +4287,7 @@ $dhx.dataDriver = {
 						, unsync: (function (db_name, table) {
 							return {
 								combo: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.unsync({
 										db: db_name
 										, table: table
@@ -4301,7 +4299,7 @@ $dhx.dataDriver = {
 									});
 								}
 								, select: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.unsync({
 										db: db_name
 										, table: table
@@ -4313,7 +4311,7 @@ $dhx.dataDriver = {
 									});
 								}
 								, selectGrid: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.unsync({
 										db: db_name
 										, table: table
@@ -4325,7 +4323,7 @@ $dhx.dataDriver = {
 									});
 								}
 								, grid: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.unsync({
 										db: db_name
 										, table: table
@@ -4337,7 +4335,7 @@ $dhx.dataDriver = {
 									});
 								}
 								, dataview: function (c) {
-									//console.log( c );
+									//$dhx.debug.log( c );
 									that.unsync({
 										db: db_name
 										, table: table
@@ -4360,7 +4358,7 @@ $dhx.dataDriver = {
 										return true
 									}
 								}
-								//console.log($('.row20px').parent().parent().html());
+								//$dhx.debug.log($('.row20px').parent().parent().html());
 							doc.fromHTML($('.row20px').parent().parent().html(), 0.5 // x coord
 								
 								, 0.5 // y coord
@@ -4384,7 +4382,7 @@ $dhx.dataDriver = {
 				// create public api
 				return {
 					create: function (c) {
-							//console.log( c )
+							//$dhx.debug.log( c )
 							c = c || {};
 							that.createTable({
 								db: db_name
@@ -4416,11 +4414,11 @@ $dhx.dataDriver = {
 			}
 			var webkitStorageInfo = window.webkitStorageInfo || navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
 			webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.TEMPORARY, function (used, remaining) {
-				console.log("Used quota: " + used + ", remaining quota: " + remaining);
+				$dhx.debug.log("Used quota: " + used + ", remaining quota: " + remaining);
 				if (onSuccess) onSuccess(used, remaining);
 			}, function (e) {
 				if (onFail) onFail(e);
-				console.log('Error', e);
+				$dhx.debug.log('Error', e);
 			});
 		}
 	}
@@ -4440,7 +4438,7 @@ $dhx.dataDriver = {
 				if (message.message == 'record added') {
 					if (typeof message.onInit !== 'undefined') {
 						if (message.onInit) {
-							if ($dhx._enable_log) console.info('records added on init', 'I will not send cross window message');
+							$dhx.debug.info('records added on init', 'I will not send cross window message');
 							return;
 						}
 					}
@@ -4467,11 +4465,11 @@ $dhx.dataDriver = {
 			window.addEventListener('storage', function (storageEvent) {
 				if (storageEvent.key)
 					if (storageEvent.key.indexOf('message.') != -1) {
-						//console.log('>>>>>>>>>>>>>>>>>>>XXXXXXXXXXXX ', storageEvent);
+						//$dhx.debug.log('>>>>>>>>>>>>>>>>>>>XXXXXXXXXXXX ', storageEvent);
 						var topic = storageEvent.key.replace('message.', "");
 						if (storageEvent.newValue) {
 							var message = JSON.parse(storageEvent.newValue);
-							console.log(message);
+							$dhx.debug.log(message);
 							$dhx.MQ.oldPublish(topic, JSON.parse(message));
 							$dhx.jDBdStorage.deleteDatabase('message.' + topic);
 						}
@@ -4486,24 +4484,24 @@ $dhx.dataDriver = {
 			$dhx.isNumber(c.version) ? (c.version < 1 ? c.version = 1 : "") : c.version = 1;
 			var currently_database_onclient = $dhx.jDBdStorage.get('$dhx.db.' + db_name);
 			if (typeof currently_database_onclient === 'undefined') {
-				if ($dhx._enable_log) console.info('there is no version for database ' + db_name + ' at indexedDB.');
-				if ($dhx._enable_log) console.info('Lets create it ....');
+				$dhx.debug.info('there is no version for database ' + db_name + ' at indexedDB.');
+				$dhx.debug.info('Lets create it ....');
 				that._createDatabase(c, self);
 			}
 			else {
 				currently_database_onclient = JSON.parse(currently_database_onclient);
 				if (typeof currently_database_onclient.version === 'undefined') {
-					if ($dhx._enable_log) console.info('there is no version for database ' + db_name + ' at indexedDB.');
-					if ($dhx._enable_log) console.info('Lets create it ....');
+					$dhx.debug.info('there is no version for database ' + db_name + ' at indexedDB.');
+					$dhx.debug.info('Lets create it ....');
 					that._createDatabase(c, self);
 				}
 				else {
-					if ($dhx._enable_log) console.info('there is as saved version for database ' + db_name + ' at indexedDB.');
-					//if ($dhx._enable_log) console.log(currently_database_onclient.hash, $dhx.crypt.SHA2(JSON.stringify(schema)));
+					$dhx.debug.info('there is as saved version for database ' + db_name + ' at indexedDB.');
+					//$dhx.debug.log(currently_database_onclient.hash, $dhx.crypt.SHA2(JSON.stringify(schema)));
 					if (parseInt(currently_database_onclient.version) == parseInt(c.version)) {
-						if ($dhx._enable_log) console.info('local and remote databases are equal.');
+						$dhx.debug.info('local and remote databases are equal.');
 						if (currently_database_onclient.records_size != JSON.stringify(c.records).length) {
-							if ($dhx._enable_log) console.info('need to sync data. lets create database and sync.');
+							$dhx.debug.info('need to sync data. lets create database and sync.');
 							that.dropDatabase({
 								db: db_name
 								, onSuccess: function () {
@@ -4514,12 +4512,12 @@ $dhx.dataDriver = {
 							});
 						}
 						else {
-							if ($dhx._enable_log) console.info('data sync is not necessary. lets open database.');
+							$dhx.debug.info('data sync is not necessary. lets open database.');
 							that._createDatabase(c, self);
 						}
 					}
 					else {
-						if ($dhx._enable_log) console.info('currently database is out to date. lets update it.');
+						$dhx.debug.info('currently database is out to date. lets update it.');
 						that.dropDatabase({
 							db: db_name
 							, onSuccess: function () {
@@ -4533,8 +4531,8 @@ $dhx.dataDriver = {
 			}
 		}
 		catch (e) {
-			console.log(e.stack);
-			//console.log(e.message);	
+			$dhx.debug.error(e.message, e.stack);;
+			//$dhx.debug.log(e.message);	
 		}
 	}
 	
@@ -4568,7 +4566,7 @@ $dhx.dataDriver = {
 				return column;
 			}
 		}
-		if ($dhx._enable_log) console.info(
+		$dhx.debug.info(
 			'sorry Eduardo, I cant _getColumnsByOrdinalPosition! Error message: ordinal position not found'
 		);
 		return {};
@@ -4610,7 +4608,7 @@ $dhx.dataDriver = {
 			return a.ordinal_position - b.ordinal_position;
 		});
 		for (var index = 0; index < columns.length; index++) {
-			//console.log(columns[ index ])
+			//$dhx.debug.log(columns[ index ])
 			var column = columns[index];
 			sorted.push(column.dhtmlx_grid_header);
 		}
@@ -4653,7 +4651,7 @@ $dhx.dataDriver = {
 			return a.ordinal_position - b.ordinal_position;
 		});
 		for (var index = 0; index < columns.length; index++) {
-			//console.log(columns[ index ])
+			//$dhx.debug.log(columns[ index ])
 			var column = columns[index];
 			sorted.push(column.dhtmlx_grid_align);
 		}
@@ -4676,7 +4674,7 @@ $dhx.dataDriver = {
 		});
 		for (var index = 0; index < columns.length; index++) {
 			var column = columns[index];
-			//console.log( column );
+			//$dhx.debug.log( column );
 			sorted.push(columns[index].dhtmlx_grid_type);
 		}
 		return sorted.join(',');
@@ -4756,7 +4754,7 @@ $dhx.dataDriver = {
 			input.maxLength = "16";
 		}
 		else if (mask_to_use == "time") {
-			//console.log("time mask")
+			//$dhx.debug.log("time mask")
 			input.onkeydown = function (event) {
 				time_mask(this, event);
 			};
@@ -5010,8 +5008,8 @@ $dhx.dataDriver = {
 				that.db(db_name).close();
 		}
 		catch (e) {
-			if ($dhx._enable_log) console.error('sorry Eduardo, I cant disconnect! Error message: ' + e.message);
-			//if ($dhx._enable_log) console.info(e);
+			$dhx.debug.error('sorry Eduardo, I cant disconnect! Error message: ' + e.message);
+			//$dhx.debug.info(e);
 			if (c.onFail) c.onFail(null, null, e.message);
 		}
 	}
@@ -5031,11 +5029,11 @@ $dhx.dataDriver = {
 		});
 	}
 	, _setInputHighlighted: function (field, DHTMLXForm) {
-		//console.log( self.form[ uid ].getForm() )
+		//$dhx.debug.log( self.form[ uid ].getForm() )
 		var self = $dhx.dataDriver;
 		var name = field.name;
 		var type = field.type;
-		//console.log( field );
+		//$dhx.debug.log( field );
 		//var associated_label = field.associated_label || false;
 		// these if / else is just for highlightning the formfield which should be filled
 		if (type == "combo") {
