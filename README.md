@@ -131,7 +131,8 @@ http://dhtmlx.com/
   Copyright 2015 José Eduardo Perotta de Almeida. eduardo at web2solutions.com.br
 
 - AGPL for personal use.
-- Commercial && Enterpsise - contact the author for commercial usage
+- Commercial && Enterpsise 
+ If you need a commercial or an enterprise license, you will need also to be licensed by DHTMLX. Please contact the author for commercial usage
 
 
 ### LIMITATIONS
