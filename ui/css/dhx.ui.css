@@ -47,6 +47,7 @@ body:after
 			float:left;
 			position:relative;
 			color:#666;
+			overflow:hidden;
 		}
 		.user_info{
 			float:right;
@@ -57,6 +58,7 @@ body:after
 			position:relative;
 			overflow:hidden;
 			color:#666;
+			overflow:hidden;
 		}
 		
 		.user_info img{
@@ -122,6 +124,7 @@ body:after
 			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAACpklEQVQ4jY2TS2udZRSFn/2+37lUk7Q5JhLr/dKS1JRAaUilOhB17NCRA2eOSkEQ+iNKf0JAEOogI8WxN2woWtogaaWUkIqlNDa1JjnfOe+3Lw5OQh26YLEne/CszdqyvLzcnZs7fnF6enoeECPAAgdww/ZnBJSmoZRidV3b7zdvra+uXv28Only/tJLr7z86eVvVukPGg4kIiMjiIC7oaqoKe0sfHB26T0NjarXm5z78usr/HjjIVO9CZBEqxIaBY/Aw8ED88AdzISHj3YwbjH73MzrFSLSNM74xBiTh8dIOfHi8x3ubA6JgAgwd9wdU8PMqIsR5kSEpwPcRhP9EkxPtZifHaeYIFVioDJyA3sluLdd88eDPiln3DwqgJQSG/d32do13jk7xtPjTl+V06efYuXbXYaloR4W6kFBtcFdkJRQN68AJAnH3ujS7VYcPZrZ3qs5fiyxcKLND9eE99+a5MhYBQThwU6/5u7a37gPRwS5yiydmuBQp831mzWtVuLdM4f57pc9zn08xW+3B1xZ6xNumCllWJgRwc33CQK+WNmlanWo2h0WTrQ4s1Dx07VD7PaH/Hw9MRxUaGNoMbRRPlpK2EGElBIiCUmJlDIb9zI3btcUn+DqegCFlJ1kGdnfTSKo6v4RRQgCRikZ1ML3v47KAxDhEEHEk52UMmExInj71Kvcvb8G0hAUiB2SCc8e+es/bQwkgiAQh9nXetxZ/9MriJic6PDJh28yqGvqQU3TjCq9t9eHECSBqtHttDF1cpVptwJzi7S5ublR5QpVpVHF3ck5k1Me1VCCJPv/gNOYknLCzNnaevBIFhcXZ85/du5Sr/fMC6UepmKNW9FoXF1LicbUSymhxbzoILSoq6n+8/jx9leXVy4IT5SBxP9TAArwLzovl4ch0A13AAAAAElFTkSuQmCC');
 			background-repeat:no-repeat;
 			background-position:3px 7px;
+			overflow:hidden;
 		}
 		
 	.record_text{

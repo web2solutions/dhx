@@ -149,9 +149,41 @@ body {
     float: right;
     height: 24px;
     width: 30px;
-    background: url(../desktop/assets/images/top_buttons.png) no-repeat -169px 0px;
+	background-repeat:no-repeat;
+	background-position:8px -2px;
+	background-image:url(../desktop/assets/icons/REST-off.gif);
     margin-right: 2px;
 	z-index: 5;
+}
+
+.dhx_ui_desktop_top_bar_quick_tools_transfers_on {
+    position: relative;
+    float: right;
+    height: 24px;
+    width: 30px;
+	background-repeat:no-repeat;
+	background-position:8px -2px;
+	background-image:url(../desktop/assets/icons/REST.gif);
+    margin-right: 2px;
+	z-index: 5;
+}
+
+
+.dhx_ui_desktop_top_bar_quick_tools_socket{
+    position: relative;
+    float: right;
+    height: 20px;
+	margin-top: 2px;
+    width: 30px;
+	background-color: #dfdbd2;
+	background-repeat:no-repeat;
+	background-position:6px 1px;
+	background-image:url(../desktop/assets/icons/socket.gif);
+    margin-right: 2px;
+	z-index: 5;
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 .dhx_ui_desktop_top_bar_quick_tools_idioms {
     position: relative;
@@ -410,3 +442,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc666666', e
 	position:absolute;
 	z-index:50;
 }
+
+
