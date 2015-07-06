@@ -129,8 +129,8 @@ $dhx.ui.i18n['pt-br'] = {
 	,Globalformssettings : 'Configurações de formulário'
 	,setaswallpaper : 'salvar como papel de parede'
 	,click_to_open_control_panel : 'clique para abrir o Painel de Controles'
-	,capitalize_note : "Habilitando esse recurso, todas as vezes em que você digitar em um formulário o texto será automaticamente capitalizado. <br><br>Exemplo: se você digitar <strong>Nome</strong>, isso será automaticamenrte capitalizado para <strong>NOME</strong>.<br><br>Certifique-se de que realmente quer habilitar esse recurso."
-	,latinize_note : "Habilitando esse recurso, todas as vezes em que você digitar em um formulário o texto terá automaticamente todos os seus acentos covertidos em caracteres do Latin. <br><br>Exemplo: se você digitar <strong>Años</strong>, isso será automaticamente convertido para <strong>Anos</strong>.<br><br>Certifique-se de que realmente quer habilitar esse recurso."
+	,capitalize_note : "Habilitando esse recurso, todas as vezes em que você digitar em um formulário o texto será automaticamente convertido em maiúsculo. <br><br>Exemplo: se você digitar <strong>Nome</strong>, isso será automaticamenrte convertido para <strong>NOME</strong>.<br><br>Certifique-se de que realmente quer habilitar esse recurso."
+	,latinize_note : "Habilitando esse recurso, todas as vezes em que você digitar em um formulário, o texto terá automaticamente todos os seus acentos removidos. <br><br>Exemplo: se você digitar <strong>Años</strong>, isso será automaticamente convertido para <strong>Anos</strong>.<br><br>Certifique-se de que realmente quer habilitar esse recurso."
 	,"Capitalize form inputs" : "Tornar maiúsculo o texto em campos"
 	,"Latinize form inputs" : "Latinizar o texto em campos"
 	,"capitalize text while typing" : "capitalizar texto enquanto eu digito"
