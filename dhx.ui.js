@@ -122,6 +122,7 @@ $dhx.ui = {
 		else {
 			$dhx.environment = "production";
 		}
+		//alert($dhx.environment)
 		if (c.dhtmlx) {
 			if (typeof window.dhx4 === 'undefined') {
 				if (self.skin == 'dhx_skyblue') {
@@ -383,6 +384,172 @@ $dhx.ui.helpers = {
 			return 'time';
 		}
 		return '';
+	}
+	
+	
+	,fieldTypesBySQL: function ($sql_type) {
+		if ($sql_type == 'integer') {
+			return [
+				{ value : 'input', text : 'input' }
+				//,{ value : 'slider', text : 'slider' }
+			];
+		}
+		else if ($sql_type == 'bigint') {
+			return [
+				{ value : 'input', text : 'input' }
+				//,{ value : 'slider', text : 'slider' }
+			];
+		}
+		else if ($sql_type == 'numeric') {
+			return [
+				{ value : 'input', text : 'input' }
+				//,{ value : 'slider', text : 'slider' }
+			];
+		}
+		else if ($sql_type == 'character varying') {
+			return [
+				{ value : 'input', text : 'input' }
+				,{ value : 'colorpicker', text : 'colorpicker' }
+				,{ value : 'password', text : 'password' }
+				,{ value : 'editor', text : 'editor' }
+			];
+		}
+		else if ($sql_type == 'text') {
+			return [
+				{ value : 'input', text : 'input' }
+				//,{ value : 'colorpicker', text : 'colorpicker' }
+				//,{ value : 'password', text : 'password' }
+				,{ value : 'editor', text : 'editor' }
+			];
+		}
+		else if ($sql_type == 'date') {
+			return [
+				{ value : 'calendar', text : 'calendar' }
+			];
+		}
+		else if ($sql_type == 'timestamp without time zone') {
+			return [
+				{ value : 'calendar', text : 'calendar' }
+			];
+		}
+		else if ($sql_type == 'primary_key') {
+			return [
+				{ value : 'hidden', text : 'hidden' }
+			];
+		}
+		else if ($sql_type == 'boolean') {
+			return [
+				{ value : 'btn2state', text : 'btn2state' }
+				,{ value : 'checkbox', text : 'checkbox' }
+			];
+		}else
+			return [];
+	}
+	
+	
+	
+	,columnTypesBySQL: function ($sql_type) {
+		if ($sql_type == 'integer') {
+			return [
+				{ value : 'edn', text : 'editable numeric' }
+				,{ value : 'ron', text : 'read only numeric' }
+				,{ value : 'ro', text : 'read only' }
+				,{ value : 'coro', text : 'not editable select box' }
+			];
+		}
+		else if ($sql_type == 'bigint') {
+			return [
+				{ value : 'edn', text : 'editable numeric' }
+				,{ value : 'ron', text : 'read only numeric' }
+				,{ value : 'ro', text : 'read only' }
+			];
+		}
+		else if ($sql_type == 'numeric') {
+			return [
+				{ value : 'edn', text : 'editable numeric' }
+				,{ value : 'ron', text : 'read only numeric' }
+				,{ value : 'ro', text : 'read only' }
+			];
+		}
+		else if ($sql_type == 'character varying') {
+			return [
+				{ value : 'ed', text : 'simple editable text' }
+				,{ value : 'edtxt', text : 'editable text without html' }
+				,{ value : 'ro', text : 'read only' }
+				,{ value : 'coro', text : 'not editable select box' }
+				//,{ value : 'co', text : 'editable select box' }
+				,{ value : 'cp', text : 'color picker' }
+				,{ value : 'link', text : 'link' }
+			];
+		}
+		else if ($sql_type == 'text') {
+			return [
+				{ value : 'txttxt', text : 'editable textarea without html' }
+				,{ value : 'ro', text : 'read only' }
+			];
+		}
+		else if ($sql_type == 'date') {
+			return [
+				{ value : 'dhxCalendar', text : 'calendar' }
+				,{ value : 'ro', text : 'read only' }
+			];
+		}
+		else if ($sql_type == 'timestamp without time zone') {
+			return [
+				{ value : 'dhxCalendar', text : 'calendar' }
+				,{ value : 'ro', text : 'read only' }
+			];
+		}
+		else if ($sql_type == 'primary_key') {
+			return [
+				{ value : 'hidden', text : 'hidden' }
+			];
+		}
+		else if ($sql_type == 'boolean') {
+			return [
+				{ value : 'ch', text : 'checkbox' }
+				,{ value : 'ro', text : 'read only' }
+			];
+		}else
+			return [{ value : '', text : 'please select one' }];
+	}
+	
+	,toSQLname : function( name ){
+			try {
+				name = name.replace(/ /gi, "_");
+				name = name.replace(/[^a-z0-9\_]/gi, '');
+				name = name.toLowerCase();
+				return name;
+			}
+			catch (e) {
+				console.log(e.stack)
+			};
+	}
+		
+	,toSQLtype : function( type ){
+			switch (type) 
+			{
+				case "cp":
+					return 'varchar(20)';
+					break;
+				case "price":
+					return 'numeric(16,2)';
+					break;
+				case "dhxCalendarA":
+					return 'date';
+					break;
+				case "link":
+					return 'varchar(max)';
+					break;
+				case "edn":
+					return 'integer';
+					break;
+				case "txttxt":
+					return 'varchar(max)';
+					break;
+				default:
+					return 'varchar(max)';
+			}
 	}
 
 	, clock: function (where) {
