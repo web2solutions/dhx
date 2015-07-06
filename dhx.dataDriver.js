@@ -1412,6 +1412,13 @@ $dhx.dataDriver = {
 				, timer_label = "starting del operation " + c.table + " " + c.record_id
 				, table_schema = that.dbs[db_name].schema[c.table];
 				
+				
+			if (window.location.host.indexOf('mac.web2.eti.br') == -1) {
+				//alert()
+				alert('this is a demo, you can not delete');
+				return;
+			}
+				
 			
 			$dhx.dataDriver.public[c.table].onBeforeDel();			
 			$dhx.debug.time(timer_label);	
