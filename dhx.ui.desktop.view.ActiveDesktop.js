@@ -25,15 +25,20 @@ $dhx.ui.desktop.view.ActiveDesktop = {
 				if( data.user_id == $dhx.ui.$Session.user_id )
 				{
 					if (data.target == self.active_area.id) {
-						
 						$dhx.debug.info( 'Active Area from Active Desktop received message sent to it: ', topic, data );
-						
+						$dhx.debug.info( ' loading wallpaper ' );
+						$dhx.showDirections(' loading wallpaper ');
 						if (data.action == 'change wallpaper') {
-							self.active_area.style.background = "url(" + $dhx.ui.desktop.wallpappers_path +  data.wallpaper +
-								") center center no-repeat";
-							self.active_area.style.backgroundSize = 'cover';
-							
-							$dhx.debug.info(self.active_area.id + ' updated ');
+							var myImage = new Image();
+							myImage.src = $dhx.ui.desktop.wallpappers_path +  data.wallpaper;
+							myImage.onload = function () {
+								self.active_area.style.background = "url(" + myImage.src +
+									") center center no-repeat";
+								self.active_area.style.backgroundSize = 'cover';
+								$dhx.debug.info(self.active_area.id + ' updated ');
+								$dhx.debug.info( ' wallpaper loaded ' );
+								$dhx.hideDirections();
+							}
 						}
 					}
 				}
