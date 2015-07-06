@@ -13,7 +13,7 @@ $dhx.ui.desktop.settings = {
 			// console.log("menu loaded");
 		}
 		, onclick: function (id) {
-			// console.log("menu clicked, id="+id);
+			 console.log("menu clicked, id="+id);
 		}
 		, items: [{
 			id: "settings"
@@ -317,7 +317,7 @@ $dhx.ui.desktop.settings = {
 										label: $dhx.ui.language["Capitalize form inputs"]
 									}
 									,{type: "btn2state", name:'capitalize', label: $dhx.ui.language["capitalize text while typing"], info:true
-										, note:{text:$dhx.ui.language.capitalize_note, checked : $dhx.ui.$Session.capitalize}
+										, note:{text:$dhx.ui.language.capitalize_note} , checked : $dhx.ui.$Session.capitalize
 									}
 		
 								]
@@ -334,7 +334,7 @@ $dhx.ui.desktop.settings = {
 										label: $dhx.ui.language["Latinize form inputs"]
 									}
 									,{type: "btn2state", name:'latinize', label: $dhx.ui.language["latinize text while typing"], info:true
-										, note:{text:$dhx.ui.language.latinize_note, checked : $dhx.ui.$Session.latinize}
+										, note:{text:$dhx.ui.language.latinize_note} , checked : $dhx.ui.$Session.latinize
 									}
 								]
 							}
