@@ -1,6 +1,6 @@
 $dhx.REST = {
         API: {
-            appName: "REST API Javascript client",
+            appName: "$dhx REST client",
             version: '1.0.3',
             apiURL: "http://api.dhtmlx.com.br",
             apiURLdev: "http://api.web2.eti.br:3000",
@@ -136,13 +136,13 @@ $dhx.REST = {
                     url = window.location.href,
                     arr = url.split("/"),
                     origin = arr[0] + "//" + arr[2],
-                    pnumber = 1;;
+                    pnumber = 1;
                 try {
                     if (self.request == null) self.startAjax();
                     if (!self.request) return;
                     json.url = json.url.replace(/\?&/gi, '?');
                     json.url.charAt(json.url.length - 1) == '?' ? json.url = json.url.substr(0, json.url.length - 1) : null;
-                    (json.sync) ? self.request.open(json.method, json.url, false): self.request.open(json.method, json.url, true);
+                    self.request.open(json.method, json.url, true);
                     self.request.setRequestHeader('Content-type', json.method != 'GET' ? 'application/x-www-form-urlencoded' : 'text/plain');
                     //self.request.setRequestHeader("X-os", $dhx.crypt.base64_encode($dhx.REST.API.OS));
                     self.request.setRequestHeader("X-Company-ID", $dhx.REST.API.company_id || 0);
@@ -167,20 +167,7 @@ $dhx.REST = {
                         self.request.setRequestHeader("Authorization", "Digest " + $dhx.crypt.base64_encode($dhx.REST.API.token));
                         self.request.setRequestHeader("X-Authorization", "Digest " + $dhx.crypt.base64_encode($dhx.REST.API.token));
                     }
-                    /*( $dhx.REST.API.http_user && $dhx.REST.API.http_secret) ?
-						self.request.setRequestHeader("Authorization", "Basic " +
-							$dhx.crypt.base64_encode(
-								$dhx.REST.API.http_user + ":" + $dhx.REST.API.http_secret
-							)
-						)
-						:
-						self.request.setRequestHeader("Authorization", "Digest " +
-							$dhx.crypt.base64_encode(
-								$dhx.REST.API.token
-							)
-						);
-					*/
-                    //self.request.withCredentials = true;
+					
                     self.request.onerror = function() {
                         $dhx.debug.log(self.request);
                         $dhx.debug.log(self.request.status);
@@ -206,8 +193,6 @@ $dhx.REST = {
                         if (json.error) json.error(self.request);
                     }
                     self.request.onreadystatechange = function() {
-						
-						
 						try
 						{
 							$dhx.ui.desktop.view.setRESTon();
@@ -357,7 +342,7 @@ $dhx.REST = {
                                 }
                             }
                         }
-                    }
+                    }// end ready state
                     if (self.request.readyState == 4 && self.request.status != 0) {
                         return;
                     }
@@ -367,9 +352,7 @@ $dhx.REST = {
                         $dhx.debug.time("response received in");
                         $dhx.debug.warn("-----REST client log-----");
                         $dhx.debug.warn(self.request.readyState + " set up " + json.method + " request to " + json.url + "");
-                        window.setTimeout(function() {
-                            self.request.send(json.payload);
-                        }, 500);
+                        self.request.send(json.payload);
                     } catch (e) {
                         $dhx.debug.warn(e.stack || e.message);
                         $dhx.debug.warn(self.request);
@@ -675,49 +658,49 @@ $dhx.REST = {
 				
 				Object.defineProperty($dhx.REST.API, 'user', {
 					value: response.auth_data.name
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'username', {
 					value: response.auth_data.username
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'client_session_id', {
 					value: response.auth_data.client_session_id + "_" + (new Date().getTime())
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'api_user_id', {
 					value: response.auth_data.api_user_id
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'entity_id', {
 					value: response.auth_data.entity_id
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'group', {
 					value: response.auth_data.group
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'company_id', {
 					value: response.auth_data.company_id
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
 				Object.defineProperty($dhx.REST.API, 'time_zone', {
 					value: response.auth_data.time_zone
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
@@ -732,7 +715,7 @@ $dhx.REST = {
 						, storage_quota: $dhx.REST.API.storage_quota
 						, time_zone: $dhx.REST.API.time_zone
 					}
-					, enumerable: true
+					, enumerable: false
 					, configurable: false
 					, writable: false
 				});
@@ -751,7 +734,6 @@ $dhx.REST = {
 				if ($dhx.environment == "dev") self.apiURL = self.apiURLdev;
                 else if ($dhx.environment == "production") self.apiURL = self.apiURL;
                 else self.apiURL = self.apiURLtest;
-				
 				
 				if (c.onSuccess) c.onSuccess(request);
 			}
