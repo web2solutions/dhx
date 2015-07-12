@@ -163,11 +163,14 @@ $dhx.ui = {
 		}
 		
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.dataDriver.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.data.js");
 		deps.push($dhx.ui.cdn_address + "dhx/latinize.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.MQ.js");
+		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.dhxPDF.js");
+		
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.Session.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.login.js");
-		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.dhxPDF.js");
+		
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.settings.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.js");
@@ -176,7 +179,7 @@ $dhx.ui = {
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SideBar.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.ControlPanel.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.desktop.view.SearchBar.js");
-		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.data.js");
+		
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.js");
@@ -184,6 +187,7 @@ $dhx.ui = {
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.Record.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.FormWindow.js");
 		deps.push($dhx.ui.cdn_address + "dhx/dhx.ui.crud.simple.View.Search.js");
+		
 		deps.push($dhx.ui.cdn_address + "dhx/ui/js/jquery-1.11.1.min.js");
 		deps.push($dhx.ui.cdn_address + "dhx/ui/js/jquery.price_format.1.7.min.js");
 		
@@ -195,6 +199,7 @@ $dhx.ui = {
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.shortcut.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.Request.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.cookie.js");
+		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.component.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.dhtmlx.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.crypt.js");
 		core_deps.push($dhx.ui.cdn_address + "dhx/dhx.Encoder.js");
@@ -391,6 +396,7 @@ $dhx.ui.helpers = {
 		if ($sql_type == 'integer') {
 			return [
 				{ value : 'input', text : 'input' }
+				,{ value : 'combo', text : 'combo' }
 				//,{ value : 'slider', text : 'slider' }
 			];
 		}
@@ -412,6 +418,7 @@ $dhx.ui.helpers = {
 				,{ value : 'colorpicker', text : 'colorpicker' }
 				,{ value : 'password', text : 'password' }
 				,{ value : 'editor', text : 'editor' }
+				,{ value : 'combo', text : 'combo' }
 			];
 		}
 		else if ($sql_type == 'text') {
