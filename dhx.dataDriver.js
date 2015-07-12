@@ -805,7 +805,8 @@ $dhx.dataDriver = {
 					}
 				}
 				else {
-					$dhx.debug.log('any record was passed to insert');
+					$dhx.debug.log('unnecessary to check fkey for this');
+					that._prepareRecordForSaving(c, onSuccess, onFail);
 				}
 			}
 			else {
@@ -830,8 +831,11 @@ $dhx.dataDriver = {
 			$dhx.debug.time(timer_label);
 			if (typeof table_schema.foreign_keys !== 'undefined') {
 				if ($dhx.isObject(table_schema.foreign_keys)) {
+					
 					if (Object.keys(table_schema.foreign_keys).length > 0) {
 						$dhx.debug.timeEnd(timer_label);
+						
+						
 						that._addCheckFkeys(c, onSuccess, onFail);
 						return;
 					}
