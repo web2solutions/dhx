@@ -59,7 +59,7 @@ $dhx.ui.desktop = {
 		$dhx.REST.API.login({
 			onSuccess : function(){
 				$dhx.REST.API.get({
-					resource: "/database/getmodel"
+					resource: "/database/model"
 					, format: "json"
 					, payload: ""
 					, onSuccess: function (request) {
@@ -243,7 +243,7 @@ $dhx.ui.desktop.Registry = {
 			, column_to_search_index : 'empresa'
 		})
 		
-		, new $dhx.ui.desktop.application.cruder({
+		/*, new $dhx.ui.desktop.application.cruder({
 			summary: ''
 			, icon: 'foo.png'
 			, collection: 'desktop_wallpapers'
@@ -259,6 +259,6 @@ $dhx.ui.desktop.Registry = {
 			, summary: 'Configurações de desktop'
 			//, column_to_search_id : 'desktop_config_id'
 			//, column_to_search_index : 'desktop_config'
-		})
+		})*/
 	]
 };
