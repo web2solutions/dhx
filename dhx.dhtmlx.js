@@ -24,7 +24,12 @@ $dhx.dhtmlx = {
     
     getFormFields: function(form_id) {
         var self = $dhx.dhtmlx;
-        if (typeof self.formFields[form_id] !== 'undefined') return self.formFields[form_id];
+		//console.log(self.formFields[form_id]);
+        if (typeof self.formFields[form_id] !== 'undefined')
+		{
+			 return self.formFields[form_id];
+			 
+		}
         else return [];
     },
     prepareForm: function(uid, JSONformConfiguration, DHTMLXForm) {
@@ -33,28 +38,15 @@ $dhx.dhtmlx = {
         self.formFields_tofill[uid] = 0;
         self._setFormFieldsToBind(JSONformConfiguration.template, uid);
         self._setFormMasks(uid, DHTMLXForm);
-        DHTMLXForm.attachEvent("onChange", function(id, value) {
-            for (var x = 0; x < $dhx.dhtmlx.formFields[uid].length; x++) {
-                var field = $dhx.dhtmlx.formFields[uid][x];
-                if (field.type == "checkbox") {
-                    if (field.trigger) {
-                        if (field.name == id) {
-                            //console.log(DHTMLXForm);
-                            //console.log(field.trigger);
-                            if (DHTMLXForm.getItemValue(field.trigger).indexOf(value + "-,-") == -1) /* nao aberta */ {
-                                var fstr = DHTMLXForm.getItemValue(field.trigger) + value + "-,-";
-                                DHTMLXForm.setItemValue(field.trigger, fstr);
-                            } else {
-                                var oldWord = value + "-,-";
-                                var fstr = DHTMLXForm.getItemValue(field.trigger).replace(new RegExp(oldWord, "g"), "");
-                                DHTMLXForm.setItemValue(field.trigger, fstr);
-                            }
-                        }
-                    }
-                }
-            }
-        });
     },
+	
+	unPrepareForm: function(uid) {
+		var self = $dhx.dhtmlx;
+        delete self.formFields[uid];
+		delete self.formFields_tofill[uid];
+		delete self.formFields_filled[uid];
+    },
+	
     _setFormFieldsToBind: function(json, uid, appended_on_the_fly) {
         var self = $dhx.dhtmlx;
         // iterates over all items of the form's JSON
