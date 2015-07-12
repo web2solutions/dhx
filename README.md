@@ -87,18 +87,7 @@ $dhx is the top layer of the T-Rex realtime and high available web stack
 
 **WebOS ToDo:**
 
-- toolbar at input data windows - Cruder generic view
-- Don't enumerable properties from REST class
-- internal realtime chat - chat between logged users
-- ODF and DOC editor
-- System general information
-- email client
-- File explorer - both with server and local storage
-- local storage and viewer for PDF, images, ODF and DOCs
-- users online (and show what are they doing)
-- personal notes on desktop (like post it)
-- RSS News in desktop
-- Addresses of Clients with Google Maps
+ see trello board
 
 
 

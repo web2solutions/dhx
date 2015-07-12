@@ -529,46 +529,8 @@ Each app may have up to 20% of the shared pool. As an example, if the total avai
 	http://www.dhtmlx.com.br/dbDemo/?_enable_log=true
 
 ### ToDo
-    - update bound component data when updating a new data on master component / table
-	- avoid to delete and rebuild entire database when server structure changes
-	- update record of synced components when editing a record on a table
-	- display javascript memory at control panel
-	- webmail
-	- text editor application
-	- File Explorer
-	- ability to add tables to existing databases (changing version)
-	- Full documentation
-	- Implement proxy class for server communication
-		- REST calls through $dhx.REST.API. -> for loading big datasets
-		- Websocket -> calls for live updating and syncing data
-		- AMQP calls through flash plugin
 
-	- exist()
-	- toPDF() method on table level
-	- onAfterAdd() event	Occurs after item adding is finished.
-	- onAfterCursorChange() event	event called after value of cursor was changed
-	- onAfterDelete() event	Occurs after item deleting is finished.
-	- onBeforeAdd() event	Occurs before item adding is initiated.
-	- onBeforeCursorChange() event	event called just before value of cursor will be changed
-	- onBeforeDelete() event	Occurs before item deleting is initiated.
-	- onDataRequest() event	called when component issue dynamic request for a data
-	- onLoadError() event	occurs when server side returns invalid response during data loading
-	- onStoreUpdated() event	occurs when data was changed by any means
-	- onXLE() event	fires when the data loading is finished and a component or data is rendered
-	- onXLS() event	fires when starts loading data
-
-	- check fkey when deleting
-	- permissions
-	- user set grid dimensions
-	- update main grid column when editing a sub crud 
-
-
-
-
-	Limitations:
-
-	- Dont create FKs pointing to text columns ... only to primary key columns
-	**Solved** - support both varchar and integer column
+ see trello board
 
 
 
