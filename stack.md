@@ -34,6 +34,8 @@ The AgileRest Layer does not servers static content, which is served via CDN / N
  
 Each server resource is fully protected via HTTP authorizations and tokens
 
+Repository: https://github.com/web2solutions/AgileREST
+
 
 ## AgileWebsocket
 
@@ -45,11 +47,19 @@ This messaging system is used by 3 main tasks:
 	- propagate application state between connected clients.
 	- communication with stand alone server workers.
 
+Repository: https://github.com/web2solutions/AgileWebsocket
+
 ## Agile Visual Designer
+
+
 ## $dhx Framework
+
+
+Repository: https://github.com/web2solutions/dhx
+
 ## T-Rex webOS
 
-
+Repository: It is part of $dhx Framework
 
 ### AUTHORS, LICENSE AND COPYRIGHT
 
