@@ -13,8 +13,8 @@ $dhx.ui.login = {
 		window: {
 			"left": $dhx.getPagePosition("x", 400, 200)
 			, "top": $dhx.getPagePosition("y", 400, 200)
-			, "width": 400
-			, "height": 200
+			, "width": 430
+			, "height": 250
 			, "icon": "form.png"
 			, "icon_dis": "form.png"
 			

@@ -11,10 +11,11 @@ $dhx.ui.network = {
 	,start : function( c ){
 		c = c || {};
 		window.addEventListener('online',  function(){
-			$dhx.ui.net.state = 'online';
+			$dhx.ui.network.state = 'online';
 		});
+		
 		window.addEventListener('offline', function(){
-			$dhx.ui.net.state = 'offline';
+			$dhx.ui.network.state = 'offline';
 		});	
 		
 		if(c.onSuccess)
