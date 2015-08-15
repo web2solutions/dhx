@@ -94,11 +94,15 @@ $dhx.ui.crud.simple.View.FormWindow = {
         }
 
         self.form[uid] = self.layout[uid].cells('a').attachForm(form_template.template);
-        //$dhx.dhtmlx.prepareForm("$dhx.ui.crud.simple.View.form" + uid, form_template, self.form[ uid ]);
+		
+		
+		//$dhx.dhtmlx.prepareForm("$dhx.ui.crud.simple.View.form" + uid, form_template, self.form[ uid ]);
         if ($dhx.isNumber(uid)) {
             self.form[uid].isEditing = true;
+			
         } else {
             self.form[uid].isEditing = false;
+			
         }
 
 
@@ -117,6 +121,44 @@ $dhx.ui.crud.simple.View.FormWindow = {
                 //$dhx.ui.crud.simple.View.settings.status_bar._setStatusError('could not bind form');
             }
         });
+		
+		if ($dhx.isNumber(uid)) {
+            
+			$dhx.dhtmlx.getFormFields("$dhx.ui.crud.simple.View.form." + uid + ".").forEach(function( fieldObj, index ){
+				if(fieldObj.type == 'vault')
+				{
+					//console.log(self.form[uid].getVault(fieldObj.name));
+					self.form[uid].getVault(fieldObj.name).setURL($dhx.REST.API.getMappedURL(
+					{
+						resource: "/dhtmlx/vault/upload", // mandatory
+						responseType: "json", // not mandatory, default json
+						params: "company_id="+$dhx.REST.API.company_id+"&resource_id="+uid+"&resource_name="+self.table[uid]+"&user_id=" + $dhx.REST.API.entity_id
+					}));
+					//console.log( fieldObj);
+				}
+			});
+        } else {
+            
+			$dhx.dhtmlx.getFormFields("$dhx.ui.crud.simple.View.form." + uid + ".").forEach(function( fieldObj, index ){
+				if(fieldObj.type == 'vault')
+				{
+					self.form[uid].getVault(fieldObj.name).disable();
+					//console.log( fieldObj);
+				}
+			});
+        }
+		
+		
+		
+		
+		
+		/*
+		self.form_table[ uid ].getVault('icon').setURL($dhx.REST.API.getMappedURL(
+		{
+			resource: "/dhtmlx/vault/upload", // mandatory
+			responseType: "json", // not mandatory, default json
+			params: "company_id=private&resource_id=icons&resource_name=T-RexWebOS&user_id=" + $dhx.REST.API.entity_id
+		}));*/
     }
 
     ,
@@ -136,6 +178,8 @@ $dhx.ui.crud.simple.View.FormWindow = {
         }
 
         var db_settings = $dhx.ui.data.model.settings[configuration.database][configuration.table];
+		
+		console.log(db_settings);
 
         console.log();
 
