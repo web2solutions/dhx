@@ -2,7 +2,7 @@
 
 > Agile JS framework for realtime && offline enterprise web applications
 
-$dhx is the top layer of the T-Rex realtime and high available web stack
+$dhx is the top layer of the T-Rex web toolkit -> http://web2solutions.github.io/T-Rex-Specs/
 
 ## $dhx.ui
 
