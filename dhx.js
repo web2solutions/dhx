@@ -738,11 +738,6 @@ var $dhx = {
     },
     param: function(id) {
         return $dhx.Request.QueryString(id).Item(1);
-    },
-    forceDownload: function(fileURI, fileName) {
-        var myTempWindow = window.open(fileURI, '', 'left=10000,screenX=10000');
-        myTempWindow.document.execCommand('SaveAs', 'null', fileName);
-        myTempWindow.close();
     }
 
     /*
@@ -939,142 +934,691 @@ var $dhx = {
             if (self.isDHTMLXmodified) {
                 return;
             }
-            if (typeof dtmlXMLLoaderObject !== 'undefined') {
-                dtmlXMLLoaderObject.prototype.loadXML = function(a, b, c, d) {
-                    this.rSeed && (a += (a.indexOf("?") != -1 ? "&" : "?") + "a_dhx_rSeed=" + (new Date).valueOf());
-                    this.filePath = a;
-                    this.xmlDoc = !_isIE && window.XMLHttpRequest ? new XMLHttpRequest : new XMLHttpRequest;
-                    if (this.async) this.xmlDoc.onreadystatechange = new this.waitLoadFunction(this);
-                    this.xmlDoc.open(b ? "POST" : "GET", a, this.async);
-                    d ? (this.xmlDoc.setRequestHeader("User-Agent", "dhtmlxRPC v0.1 (" + navigator.userAgent + ")"), this.xmlDoc.setRequestHeader("Content-type", "text/xml")) : b && this.xmlDoc.setRequestHeader("Content-type", this.contenttype || "application/x-www-form-urlencoded");
-                    this.xmlDoc.setRequestHeader("X-Requested-With", "DHTMLX grid parser");
-                    this.xmlDoc.setRequestHeader("X-browser-name", $dhx.Browser.name);
-                    this.xmlDoc.setRequestHeader("X-browser-version", $dhx.Browser.version);
-                    this.xmlDoc.setRequestHeader("X-browser-os", $dhx.Browser.OS);
-                    this.xmlDoc.setRequestHeader("X-browser-screen-width", screen.width);
-                    this.xmlDoc.setRequestHeader("X-browser-screen-height", screen.height);
-                    this.xmlDoc.setRequestHeader("X-Company-ID", $dhx.REST.API.company_id || 0);
-                    this.xmlDoc.setRequestHeader("X-User-Group", $dhx.REST.API.group || 0);
-                    this.xmlDoc.setRequestHeader("X-User-ID", $dhx.REST.API.api_user_id || 0);
-                    //this.xmlDoc.setRequestHeader("X-Person-Type", $dhx.REST.API.person_type || '');
-                    this.xmlDoc.setRequestHeader("X-client-session-id", $dhx.REST.API.client_session_id || 0);
-                    this.xmlDoc.setRequestHeader("Authorization", "Digest " + $dhx.crypt.base64_encode($dhx.REST.API.token));
-                    this.xmlDoc.send(c);
-                    this.async || (new this.waitLoadFunction(this))()
-                };
-            }
-            typeof window.dhtmlxAjax === 'undefined' ? (typeof dhx4.ajax !== 'undefined' ? window.dhtmlxAjax = dhx4.ajax : "") : "";
-            dhtmlx.ajax.prototype = {
-                getXHR: function() {
-                    return dhtmlx.z ? new XMLHttpRequest : new XMLHttpRequest
-                },
-                send: function(a, b, c) {
-                    var d = this.getXHR();
-                    typeof c == "function" && (c = [c]);
-                    if (typeof b == "object") {
-                        var e = [],
-                            f;
-                        for (f in b) {
-                            var g = b[f];
-                            if (g === null || g === dhtmlx.undefined) g = "";
-                            e.push(f + "=" + encodeURIComponent(g))
-                        }
-                        b = e.join("&")
-                    }
-                    b && !this.post && (a = a + (a.indexOf("?") != -1 ? "&" : "?") + b, b = null);
-                    d.open(this.post ? "POST" : "GET", a, !this.Bb);
-                    this.post && d.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    var h = this;
-                    d.onreadystatechange = function() {
-                        if (!d.readyState || d.readyState == 4) {
-                            if (c && h)
-                                for (var a = 0; a < c.length; a++) c[a] && c[a].call(h.master || h, d.responseText, d.responseXML, d);
-                            c = h = h.master = null
-                        }
-                    };
-                    d.send(b || null);
-                    return d
-                },
-                get: function(a, b, c) {
-                    this.post = !1;
-                    return this.send(a, b, c)
-                },
-                post: function(a, b, c) {
-                    this.post = !0;
-                    return this.send(a, b, c)
-                },
-                sync: function() {
-                    this.Bb = !0;
-                    return this
-                }
-            };
-            dhx.ajax.prototype = {
-                master: null,
-                getXHR: function() {
-                    return dhx.env.isIE ? new XMLHttpRequest : new XMLHttpRequest
-                },
-                send: function(a, b, c) {
-                    var d = this.getXHR();
-                    dhx.isArray(c) || (c = [c]);
-                    if (typeof b == "object") {
-                        var e = [],
-                            f;
-                        for (f in b) {
-                            var g = b[f];
-                            if (g === null || g === dhx.undefined) g = "";
-                            e.push(f + "=" + encodeURIComponent(g))
-                        }
-                        b = e.join("&")
-                    }
-                    b && this.request === "GET" && (a = a + (a.indexOf("?") != -1 ? "&" : "?") + b, b = null);
-                    d.open(this.request, a, !this.Bb);
-                    this.request === "POST" && d.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    var h = this;
-                    d.onreadystatechange = function() {
-                        if (!d.readyState || d.readyState == 4) {
-                            dhx.ajax.count++;
-                            if (c && h)
-                                for (var a = 0; a < c.length; a++)
-                                    if (c[a]) {
-                                        var b = c[a].success || c[a];
-                                        if (d.status >= 400 || !d.status && !d.responseText) b = c[a].error;
-                                        b && b.call(h.master || h, d.responseText, d.responseXML, d)
-                                    }
-                            if (h) h.master = null;
-                            c = h = null
-                        }
-                    };
-                    d.send(b || null);
-                    return d
-                },
-                get: function(a, b, c) {
-                    arguments.length == 2 && (c = b, b = null);
-                    this.request = "GET";
-                    return this.send(a, b, c)
-                },
-                post: function(a, b, c) {
-                    this.request = "POST";
-                    return this.send(a, b, c)
-                },
-                put: function(a, b, c) {
-                    this.request = "PUT";
-                    return this.send(a, b, c)
-                },
-                del: function(a, b, c) {
-                    this.request = "DELETE";
-                    return this.send(a, b, c)
-                },
-                sync: function() {
-                    this.Bb = !0;
-                    return this
-                },
-                bind: function(a) {
-                    this.master = a;
-                    return this
-                }
-            };
-            self.isDHTMLXmodified = true;
-            $dhx.debug.log("some dhtmlx methods were modified");
+			
+			if( window['dhx4'] && window['dhx'])
+			{
+				if (typeof dtmlXMLLoaderObject !== 'undefined') {
+					dtmlXMLLoaderObject.prototype.loadXML = function(a, b, c, d) {
+						this.rSeed && (a += (a.indexOf("?") != -1 ? "&" : "?") + "a_dhx_rSeed=" + (new Date).valueOf());
+						this.filePath = a;
+						this.xmlDoc = !_isIE && window.XMLHttpRequest ? new XMLHttpRequest : new XMLHttpRequest;
+						if (this.async) this.xmlDoc.onreadystatechange = new this.waitLoadFunction(this);
+						this.xmlDoc.open(b ? "POST" : "GET", a, this.async);
+						d ? (this.xmlDoc.setRequestHeader("User-Agent", "dhtmlxRPC v0.1 (" + navigator.userAgent + ")"), this.xmlDoc.setRequestHeader("Content-type", "text/xml")) : b && this.xmlDoc.setRequestHeader("Content-type", this.contenttype || "application/x-www-form-urlencoded");
+						this.xmlDoc.setRequestHeader("X-Requested-With", "DHTMLX grid parser");
+						this.xmlDoc.setRequestHeader("X-browser-name", $dhx.Browser.name);
+						this.xmlDoc.setRequestHeader("X-browser-version", $dhx.Browser.version);
+						this.xmlDoc.setRequestHeader("X-browser-os", $dhx.Browser.OS);
+						this.xmlDoc.setRequestHeader("X-browser-screen-width", screen.width);
+						this.xmlDoc.setRequestHeader("X-browser-screen-height", screen.height);
+						this.xmlDoc.setRequestHeader("X-Company-ID", $dhx.REST.API.company_id || 0);
+						this.xmlDoc.setRequestHeader("X-User-Group", $dhx.REST.API.group || 0);
+						this.xmlDoc.setRequestHeader("X-User-ID", $dhx.REST.API.api_user_id || 0);
+						//this.xmlDoc.setRequestHeader("X-Person-Type", $dhx.REST.API.person_type || '');
+						this.xmlDoc.setRequestHeader("X-client-session-id", $dhx.REST.API.client_session_id || 0);
+						this.xmlDoc.setRequestHeader("Authorization", "Digest " + $dhx.crypt.base64_encode($dhx.REST.API.token));
+						this.xmlDoc.send(c);
+						this.async || (new this.waitLoadFunction(this))()
+					};
+				}
+				typeof window.dhtmlxAjax === 'undefined' ? (typeof dhx4.ajax !== 'undefined' ? window.dhtmlxAjax = dhx4.ajax : "") : "";
+				dhtmlx.ajax.prototype = {
+					getXHR: function() {
+						return dhtmlx.z ? new XMLHttpRequest : new XMLHttpRequest
+					},
+					send: function(a, b, c) {
+						var d = this.getXHR();
+						typeof c == "function" && (c = [c]);
+						if (typeof b == "object") {
+							var e = [],
+								f;
+							for (f in b) {
+								var g = b[f];
+								if (g === null || g === dhtmlx.undefined) g = "";
+								e.push(f + "=" + encodeURIComponent(g))
+							}
+							b = e.join("&")
+						}
+						b && !this.post && (a = a + (a.indexOf("?") != -1 ? "&" : "?") + b, b = null);
+						d.open(this.post ? "POST" : "GET", a, !this.Bb);
+						this.post && d.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						var h = this;
+						d.onreadystatechange = function() {
+							if (!d.readyState || d.readyState == 4) {
+								if (c && h)
+									for (var a = 0; a < c.length; a++) c[a] && c[a].call(h.master || h, d.responseText, d.responseXML, d);
+								c = h = h.master = null
+							}
+						};
+						d.send(b || null);
+						return d
+					},
+					get: function(a, b, c) {
+						this.post = !1;
+						return this.send(a, b, c)
+					},
+					post: function(a, b, c) {
+						this.post = !0;
+						return this.send(a, b, c)
+					},
+					sync: function() {
+						this.Bb = !0;
+						return this
+					}
+				};
+				dhx.ajax.prototype = {
+					master: null,
+					getXHR: function() {
+						return dhx.env.isIE ? new XMLHttpRequest : new XMLHttpRequest
+					},
+					send: function(a, b, c) {
+						var d = this.getXHR();
+						dhx.isArray(c) || (c = [c]);
+						if (typeof b == "object") {
+							var e = [],
+								f;
+							for (f in b) {
+								var g = b[f];
+								if (g === null || g === dhx.undefined) g = "";
+								e.push(f + "=" + encodeURIComponent(g))
+							}
+							b = e.join("&")
+						}
+						b && this.request === "GET" && (a = a + (a.indexOf("?") != -1 ? "&" : "?") + b, b = null);
+						d.open(this.request, a, !this.Bb);
+						this.request === "POST" && d.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						var h = this;
+						d.onreadystatechange = function() {
+							if (!d.readyState || d.readyState == 4) {
+								dhx.ajax.count++;
+								if (c && h)
+									for (var a = 0; a < c.length; a++)
+										if (c[a]) {
+											var b = c[a].success || c[a];
+											if (d.status >= 400 || !d.status && !d.responseText) b = c[a].error;
+											b && b.call(h.master || h, d.responseText, d.responseXML, d)
+										}
+								if (h) h.master = null;
+								c = h = null
+							}
+						};
+						d.send(b || null);
+						return d
+					},
+					get: function(a, b, c) {
+						arguments.length == 2 && (c = b, b = null);
+						this.request = "GET";
+						return this.send(a, b, c)
+					},
+					post: function(a, b, c) {
+						this.request = "POST";
+						return this.send(a, b, c)
+					},
+					put: function(a, b, c) {
+						this.request = "PUT";
+						return this.send(a, b, c)
+					},
+					del: function(a, b, c) {
+						this.request = "DELETE";
+						return this.send(a, b, c)
+					},
+					sync: function() {
+						this.Bb = !0;
+						return this
+					},
+					bind: function(a) {
+						this.master = a;
+						return this
+					}
+				};
+				
+				dhtmlXForm.prototype.items.vault = {
+					render: function(a, c) {
+						var self = this;
+						var t = {
+							"parent": ''
+							, "uploadUrl": c.uploadUrl || null
+							, "swfUrl": c.swfUrl || null
+							, "slUrl": c.slUrl || null
+							, "swfPath": c.swfPath || "dhxvault.swf"
+							, "slXap": c.slXap || "dhxvault.xap"
+							, "maxFileSize": c.maxFileSize || 16777216 // 16 MB (mojo default)
+						}, uid = window.dhx4.newId() + "_" + window.dhx4.newId();
+						
+						this._vault_wrapper = $dhx.createElement({
+							tag_name: 'DIV'
+							//, parent: false
+							, style: ''
+							, class: ''
+							, id: 'vault_wrapper_' + uid
+							, height : 200
+							, width : c.inputWidth
+						});
+						
+						t.parent = this._vault_wrapper.id;
+						t.skin = "dhx_skyblue";
+						t.autoStart = ( typeof c.autoStart != 'undefined' ) ? c.autoStart : false; // start upload right after file added
+						t.autoRemove = ( typeof c.autoRemove != 'undefined' ) ? c.autoRemove : false; // remove file from list right after upload done
+						t.buttonUpload = ( typeof c.buttonUpload != 'undefined' ) ? c.buttonUpload : true; // show/do_not_show upload/stop buttons
+						t.buttonClear = ( typeof c.buttonClear != 'undefined' ) ? c.buttonClear : true; // show/do_not_show clear_all button
+						t.filesLimit = ( typeof c.filesLimit != 'undefined' ) ? c.filesLimit : 0; // correspinding number or skip or zero to ignore
+						this._vault[ uid ] = new dhtmlXVaultObject( t );
+						
+						if( c.note )
+						{
+							if( c.note.text )
+							{
+								c.note.text = c.note.text + "<br> <span style='color:red;'>Max file size: " + this._vault[ uid ].readableSize(t.maxFileSize) + ". Allowed files: "+c.allowedExtensions+"</span>";
+							}
+							else
+							{
+								c.note.text = "<span style='color:red;'>Max file size: " + this._vault[ uid ].readableSize(t.maxFileSize) + ". Allowed files: "+c.allowedExtensions+"</span>";
+							}
+						}
+						else
+						{
+							c.note = {
+								text : 	"<span style='color:red;'>Max file size: " + this._vault[ uid ].readableSize(t.maxFileSize) + ". Allowed files: "+c.allowedExtensions+"</span>"
+							}
+						}
+						
+						
+						
+						a._type = "vault";
+						a.uid = uid;
+						a._enabled = true;
+						this.doAddLabel(a, c);
+						this.doAddInput(a, c, "DIV", null, true, true, "dhxform_container");
+						this.doAttachEvents(a);
+						this.setValue(a, c.value);
+						
+						this._uploadedFilesList[ a.uid ] = [];
+						
+						var div = a.childNodes[a._ll ? 1 : 0].childNodes[0];
+						div.style.height = '200px';					
+						div.appendChild(this._vault_wrapper);
+						
+						if(c.allowedExtensions && c.allowedExtensions != '')
+						{
+							this._vault[ uid ].attachEvent("onBeforeFileAdd", function(file){
+								var ext = this.getFileExtension(file.name);
+								
+								if( typeof ext == 'undefined' )
+								{
+									dhtmlx.message({
+										type: "error"
+										, text: "files without an extension are not allowed."
+									});
+									return false;
+								}
+								
+								if( ext == '' || ext == null )
+								{
+									dhtmlx.message({
+										type: "error"
+										, text: "files without an extension are not allowed."
+									});
+									return false;
+								}
+								
+								if( c.allowedExtensions.indexOf( ext ) > -1 )
+								{
+									return true;	
+								}
+								else
+								{
+									dhtmlx.message({
+										type: "error"
+										, text: "the extension ' " + ext + " ' is not allowed."
+									});
+									return false;	
+								}
+							});
+						}
+						this._vault[ uid ].attachEvent("onUploadComplete", function(files){
+							//self._uploadedFiles = files;
+							/*
+							
+								{
+									id:         123,             // int, internal file ID
+									name:       "filename.ext",  // string, filename detected by browser
+									serverName: "filename2.ext", // string, filename returned by server
+									size:       132500,          // int, file size in bytes
+									uploaded:   true,            // boolean, true/false
+									error:      false            // boolean, error while uploading, if any
+								}
+							*/
+							
+							
+							files.forEach(function( file ){
+								if( file.uploaded )
+								{
+									//console.log(file.serverName);
+									
+									if( t.filesLimit )
+									{
+										if(t.filesLimit == 1)
+										{
+											//self._uploadedFilesList = [];
+											self._uploadedFilesList[ a.uid ] = [];
+											self._uploadedFilesList[ a.uid ].push(file.serverName);
+										}
+										else
+										{
+											self._uploadedFilesList[ a.uid ].push(file.serverName);
+										}
+									}
+									else
+									{
+										self._uploadedFilesList[ a.uid ].push(file.serverName);
+									}
+									
+									
+								}
+							})
+							
+						});
+	
+						return this
+					},
+					_vault : [],
+					_vault_wrapper : null,
+					_uploadedFiles : [],
+					_uploadedFilesList : [],
+					getContainer: function(a) {
+						return this._vault[ a.uid ];
+					},
+					getVault: function(a) {
+						//console.log(a.uid)
+						return this._vault[ a.uid ];
+					},
+					enable: function(a) {
+						a._enabled = true;
+						if (String(a.className).search("disabled") >= 0) {
+							a.className = String(a.className).replace(/disabled/gi, "")
+						}
+						a.callEvent("onEnable", [a._idd]);
+						this._vault[ a.uid ].enable();
+					},
+					disable: function(a) {
+						a._enabled = false;
+						if (String(a.className).search("disabled") < 0) {
+							a.className += " disabled"
+						}
+						a.callEvent("onDisable", [a._idd]);
+						this._vault[ a.uid ].disable();
+					},
+					doAttachEvents: function() {},
+					setValue: function(a, v) {
+						console.log(a, v);
+						if( typeof v == 'string')
+						{
+							if( v.length > 0 )
+							{
+								v = v.replace(/ /g, '');
+								this._uploadedFilesList[ a.uid ] = v.split(',')
+							}
+								
+						}
+					},
+					getValue: function(a) {
+						return this._uploadedFilesList[ a.uid ].join(',');
+					}
+				};
+				dhtmlXForm.prototype.getVault = function(a) {
+					return this.doWithItem(a, "getVault")
+				};
+				(function() {
+					for (var c in dhtmlXForm.prototype.items.input) {
+						if (!dhtmlXForm.prototype.items.vault[c]) {
+							dhtmlXForm.prototype.items.vault[c] = dhtmlXForm.prototype.items.input[c]
+						}
+					}
+				})();
+				
+				
+				
+				dhtmlXForm.prototype.setFormData = function(g) {
+					for (var c in g) {
+						var j = this.getItemType(c);
+						switch (j) {
+							case "checkbox":
+								this[g[c] == true || parseInt(g[c]) == 1 || g[c] == "true" || g[c] == this.getItemValue(c, "realvalue") ? "checkItem" : "uncheckItem"](c);
+								break;
+							case "radio":
+								this.checkItem(c, g[c]);
+								break;
+							case "input":
+							case "textarea":
+							case "password":
+							case "select":
+							case "multiselect":
+							case "hidden":
+							case "template":
+							case "combo":
+							case "calendar":
+							case "vault":
+							case "colorpicker":
+							case "editor":
+								this.setItemValue(c, g[c]);
+								break;
+							default:
+								if (this["setFormData_" + j]) {
+									this["setFormData_" + j](c, g[c])
+								} else {
+									if (!this.hId) {
+										this.hId = this._genStr(12)
+									}
+									this.setUserData(this.hId, c, g[c])
+								}
+								break
+						}
+					}
+				};
+				
+				dhtmlXForm.prototype.getFormData = function(w, m) {
+					var c = {};
+					var s = this;
+					for (var v in this.itemPull) {
+						var o = this.itemPull[v]._idd;
+						var x = this.itemPull[v]._type;
+						if (x == "ch") {
+							c[o] = (this.isItemChecked(o) ? this.getItemValue(o) : 0)
+						}
+						if (x == "ra" && !c[this.itemPull[v]._group]) {
+							c[this.itemPull[v]._group] = this.getCheckedValue(this.itemPull[v]._group)
+						}
+						if (x in {
+								se: 1,
+								ta: 1,
+								pw: 1,
+								hd: 1,
+								tp: 1,
+								fl: 1,
+								calendar: 1,
+								combo: 1,
+								editor: 1,
+								colorpicker: 1,
+								vault : 1
+							}) {
+							c[o] = this.getItemValue(o, w)
+						}
+						if (this["getFormData_" + x]) {
+							c[o] = this["getFormData_" + x](o)
+						}
+						if (x == "up") {
+							var l = this.getItemValue(o);
+							for (var j in l) {
+								c[j] = l[j]
+							}
+						}
+						if (this.itemPull[v]._list) {
+							for (var g = 0; g < this.itemPull[v]._list.length; g++) {
+								var n = this.itemPull[v]._list[g].getFormData(w, m);
+								for (var u in n) {
+									c[u] = n[u]
+								}
+							}
+						}
+					}
+					if (!m && this.hId && this._userdata[this.hId]) {
+						for (var v in this._userdata[this.hId]) {
+							if (!c[v]) {
+								c[v] = this._userdata[this.hId][v]
+							}
+						}
+					}
+					return c;
+				};
+				
+				
+				dhtmlXGridObject.prototype.dhxPDF = function (j, r, w, u, o, C, appId) {
+					var l = {
+						row: this.getSelectedRowId()
+						, col: this.getSelectedCellIndex()
+					};
+					if (l.row === null || l.col === -1) {
+						l = false
+					}
+					else {
+						if (l.row && l.row.indexOf(this.delim) !== -1) {
+							var c = this.cells(l.row, l.col).cell;
+							c.parentNode.className = c.parentNode.className.replace(" rowselected", "");
+							c.className = c.className.replace(" cellselected", "");
+							l.el = c
+						}
+						else {
+							l = false
+						}
+					}
+					r = r || "color";
+					var x = r == "full_color";
+					var a = this;
+					a._asCDATA = true;
+					if (typeof (C) === "undefined") {
+						this.target = ' target="_blank"'
+					}
+					else {
+						this.target = C
+					}
+					eXcell_ch.prototype.getContent = function () {
+						return this.getValue()
+					};
+					eXcell_ra.prototype.getContent = function () {
+						return this.getValue()
+					};
+			
+					function A(F) {
+						var M = [];
+						for (var K = 1; K < a.hdr.rows.length; K++) {
+							M[K] = [];
+							for (var J = 0; J < a._cCount; J++) {
+								var O = a.hdr.rows[K].childNodes[J];
+								if (!M[K][J]) {
+									M[K][J] = [0, 0]
+								}
+								if (O) {
+									M[K][O._cellIndexS] = [O.colSpan, O.rowSpan]
+								}
+							}
+						}
+						var L = "<rows profile='" + F + "'";
+						if (w) {
+							L += " header='" + w + "'"
+						}
+						if (u) {
+							L += " footer='" + u + "'"
+						}
+						L += "><head>" + a._serialiseExportConfig(M).replace(/^<head/, "<columns").replace(/head>$/, "columns>");
+						for (var K = 2; K < a.hdr.rows.length; K++) {
+							var D = 0;
+							var S = a.hdr.rows[K];
+							var N = "";
+							for (var J = 0; J < a._cCount; J++) {
+								if ((a._srClmn && !a._srClmn[J]) || (a._hrrar[J] && (!a._fake || J >= a._fake.hdrLabels.length))) {
+									D++;
+									continue
+								}
+								var Q = M[K][J];
+								var P = ((Q[0] && Q[0] > 1) ? ' colspan="' + Q[0] + '" ' : "");
+								if (Q[1] && Q[1] > 1) {
+									P += ' rowspan="' + Q[1] + '" ';
+									D = -1
+								}
+								var E = "";
+								var I = S;
+								if (a._fake && J < a._fake._cCount) {
+									I = a._fake.hdr.rows[K]
+								}
+								for (var H = 0; H < I.cells.length; H++) {
+									if (I.cells[H]._cellIndexS == J) {
+										if (I.cells[H].getElementsByTagName("SELECT").length) {
+											E = ""
+										}
+										else {
+											E = _isIE ? I.cells[H].innerText : I.cells[H].textContent
+										}
+										E = E.replace(/[ \n\r\t\xA0]+/, " ");
+										break
+									}
+								}
+								if (!E || E == " ") {
+									D++
+								}
+								N += "<column" + P + "><![CDATA[" + E + "]]></column>"
+							}
+							if (D != a._cCount) {
+								L += "\n<columns>" + N + "</columns>"
+							}
+						}
+						L += "</head>\n";
+						L += q();
+						return L
+					}
+			
+					function g() {
+						var D = [];
+						if (o) {
+							for (var E = 0; E < o.length; E++) {
+								D.push(v(a.getRowIndex(o[E])))
+							}
+						}
+						else {
+							for (var E = 0; E < a.getRowsNum(); E++) {
+								D.push(v(E))
+							}
+						}
+						return D.join("\n")
+					}
+			
+					function q() {
+						var F = ["<foot>"];
+						if (!a.ftr) {
+							return ""
+						}
+						for (var H = 1; H < a.ftr.rows.length; H++) {
+							F.push("<columns>");
+							var K = a.ftr.rows[H];
+							for (var E = 0; E < a._cCount; E++) {
+								if (a._srClmn && !a._srClmn[E]) {
+									continue
+								}
+								if (a._hrrar[E] && (!a._fake || E >= a._fake.hdrLabels.length)) {
+									continue
+								}
+								for (var D = 0; D < K.cells.length; D++) {
+									var J = "";
+									var I = "";
+									if (K.cells[D]._cellIndexS == E) {
+										J = _isIE ? K.cells[D].innerText : K.cells[D].textContent;
+										J = J.replace(/[ \n\r\t\xA0]+/, " ");
+										if (K.cells[D].colSpan && K.cells[D].colSpan != 1) {
+											I = " colspan='" + K.cells[D].colSpan + "' "
+										}
+										if (K.cells[D].rowSpan && K.cells[D].rowSpan != 1) {
+											I = " rowspan='" + K.cells[D].rowSpan + "' "
+										}
+										break
+									}
+								}
+								F.push("<column" + I + "><![CDATA[" + J + "]]></column>")
+							}
+							F.push("</columns>")
+						}
+						F.push("</foot>");
+						return F.join("\n")
+					}
+			
+					function n(E, D) {
+						return (window.getComputedStyle ? (window.getComputedStyle(E, null)[D]) : (E.currentStyle ? E.currentStyle[D] : null)) || ""
+					}
+			
+					function v(H) {
+						if (!a.rowsBuffer[H]) {
+							return ""
+						}
+						var D = a.render_row(H);
+						if (D.style.display == "none") {
+							return ""
+						}
+						var E = a.isTreeGrid() ? ' level="' + a.getLevel(D.idd) + '"' : "";
+						var L = "<row" + E + ">";
+						for (var J = 0; J < a._cCount; J++) {
+							if (((!a._srClmn) || (a._srClmn[J])) && (!a._hrrar[J] || (a._fake && J < a._fake.hdrLabels.length))) {
+								var P = a.cells(D.idd, J);
+								if (x) {
+									var I = n(P.cell, "color");
+									var O = n(P.cell, "backgroundColor");
+									var N = n(P.cell, "font-weight") || n(P.cell, "fontWeight");
+									var K = n(P.cell, "font-style") || n(P.cell, "fontStyle");
+									var M = n(P.cell, "text-align") || n(P.cell, "textAlign");
+									var F = n(P.cell, "font-family") || n(P.cell, "fontFamily");
+									if (O == "transparent" || O == "rgba(0, 0, 0, 0)") {
+										O = "rgb(255,255,255)"
+									}
+									L += "<cell bgColor='" + O + "' textColor='" + I + "' bold='" + N + "' italic='" + K + "' align='" + M + "' font='" + F + "'>"
+								}
+								else {
+									L += "<cell>"
+								}
+								L += "<![CDATA[" + (P.getContent ? P.getContent() : P.getTitle()) + "]]></cell>"
+							}
+						}
+						return L + "</row>"
+					}
+			
+					function s() {
+						var D = "</rows>";
+						return D
+					}
+			
+					function complete() {
+						var y = document.createElement("div");
+						y.style.height = "100%";
+						y.style.width = "100%";
+						var pdf_name = "grid_" + appId + '.pdf';
+						y.id = new Date().getTime();
+						var dhx_pdf_window = new $dhx.ui.window({
+							id: new Date().getTime() - 1000
+							, left: $dhx.ui.crud.simple.View.settings.app_generic.window.left
+							, top: $dhx.ui.crud.simple.View.settings.app_generic.window.top
+							, width: 800
+							, height: 500
+						, });
+						dhx_pdf_window.button('park').hide();
+						dhx_pdf_window.button('minmax').hide();
+						dhx_pdf_window.button('stick').hide();
+						dhx_pdf_window.setText("Grid PDF version");
+						var dhx_pdf_status_bar = dhx_pdf_window.attachStatusBar();
+						dhx_pdf_status_bar.setText('Press ctrl+p (cmd+p Mac) to print it');
+						//y.style.display = "none";
+						document.body.appendChild(y);
+						var m = "form_" + a.uid();
+						y.innerHTML = '<iframe name="pdfFrame" width="100%" height="100%" frameborder="0"></iframe><form style="display:none;" id="' + m +
+							'" method="post" action="' + j +
+							'" accept-charset="utf-8"  enctype="application/x-www-form-urlencoded" target="pdfFrame"><input type="hidden" name="grid_xml" id="grid_xml"/><input type="hidden" name="viewer" id="viewer" value="' +
+							$dhx.ui.cdn_address + 'dhx/ui/pdfjs/web/viewer.php?pdf_name=' + $dhx.ui.cdn_address + 'dhx/ui/bin/2pdf/' + pdf_name +
+							'"/><input type="hidden" name="pdf_name" id="pdf_name" value="' + pdf_name + '"/> </form>';
+						dhx_pdf_window.attachObject(y.id);
+						document.getElementById(m).firstChild.value = encodeURIComponent(A(r).replace("\u2013", "-") + g() + s());
+						document.getElementById(m).submit();
+						//y.parentNode.removeChild(y);
+						a = null;
+						if (l) {
+							l.el.parentNode.className += " rowselected";
+							l.el.className += " cellselected"
+						}
+						l = null
+					}
+					complete();
+				};
+				
+				
+				self.isDHTMLXmodified = true;
+				$dhx.debug.log("some dhtmlx methods were modified");
+			}
+			
+            
         }
         /**
 		@function init -  performs all the necessary tasks before let the user to use the $dhx object
@@ -1154,12 +1698,19 @@ var $dhx = {
         element.setAttribute('style', c.style || '');
         element.setAttribute('class', c.class || '');
         
+		
+		
 
         $dhx.dhx_elements[id] = c;
         element.setAttribute('id', id);
-        if ($dhx.dhx_elements[id].parent) {
+        if ( typeof $dhx.dhx_elements[id].parent != 'undefined' && $dhx.dhx_elements[id].parent != false ) {
             $dhx.dhx_elements[id].parent.appendChild(element);
-        } else {
+        } 
+		else if( typeof $dhx.dhx_elements[id].parent != 'undefined' && $dhx.dhx_elements[id].parent == false ) 
+		{
+			
+		}
+		else {
             document.body.appendChild(element);
         }
 		
