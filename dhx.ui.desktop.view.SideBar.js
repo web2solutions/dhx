@@ -158,7 +158,10 @@ $dhx.ui.desktop.view.SideBar = {
 		
 		*/
 		var tooltip = tooltip = $dhx.strip_tags( c.summary );
-		var strIcon = '<img draggable="false" alt="' + tooltip + '" title="' + tooltip + '" width="46" height="46" src="' + $dhx.ui.cdn_address + '/dhx/ui/desktop/assets/icons/' + c
+		
+		 
+		
+		var strIcon = '<img draggable="false" alt="' + tooltip + '" title="' + tooltip + '" width="46" height="46" src="' + $dhx.ui.cdn_address + '' +$dhx.ui.desktop.database + "/private/T-RexWebOS/icons/" + c
 			.icon + '" />';
 		var settings = {
 			tag_name: 'DIV'
