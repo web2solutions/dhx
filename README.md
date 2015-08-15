@@ -115,9 +115,12 @@ http://dhtmlx.com/
   
 
 
-### LICENSE AND COPYRIGHT
+### AUTHORS, LICENSE AND COPYRIGHT
 
-  Copyright 2015 José Eduardo Perotta de Almeida. eduardo at web2solutions.com.br
+ - José Eduardo Perotta de Almeida. eduardo at web2solutions.com.br
+ - Lucas Tiago de Moares
+
+  Copyright 2015 
 
 - AGPL for personal use.
 - Commercial && Enterpsise 
