@@ -514,7 +514,29 @@ $dhx.dhtmlx = {
         } // end for
         return true;
     },
-    _setInputInvalid: function(objInput) {
+	
+	
+	_setComboInvalid: function ( combo ) {
+		var oc = combo.DOMelem.style.backgroundColor;
+		var ob = combo.DOMelem.style.borderColor;
+		var oi = combo.DOMelem_input.style.backgroundColor;
+		combo.DOMelem.style.backgroundColor = '#fdafa3';
+		combo.DOMelem.style.borderColor = '#8F0000';
+		combo.DOMelem_input.style.backgroundColor = '#fdafa3';
+		combo.DOMelem_input.addEventListener('click', function (event) {
+			combo.DOMelem.style.backgroundColor = oc;
+			combo.DOMelem.style.borderColor = ob;
+			combo.DOMelem_input.style.backgroundColor = oi;
+		});
+		combo.DOMelem_input.addEventListener('change', function (event) {
+			combo.DOMelem.style.backgroundColor = oc;
+			combo.DOMelem.style.borderColor = ob;
+			combo.DOMelem_input.style.backgroundColor = oi;
+		});
+		combo.openSelect();
+	}
+	
+    ,_setInputInvalid: function(objInput) {
         var original_color = objInput.style.backgroundColor;
 		objInput.style.backgroundColor = "#fdafa3";
         objInput.focus();
@@ -538,7 +560,8 @@ $dhx.dhtmlx = {
         // these if / else is just for highlightning the formfield which should be filled
         if (type == "combo") {
             var fcombo = DHTMLXForm.getCombo(name);
-            fcombo.openSelect();
+			self._setComboInvalid( fcombo )
+            //fcombo.openSelect();
         } else if (type == "editor") {
             //var feditor = DHTMLXForm.getEditor(name);
         }else if (type == "btn2state") {
