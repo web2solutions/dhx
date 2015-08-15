@@ -41,6 +41,54 @@ $dhx.ui.desktop = {
             }
         });
 	}
+	
+	,setCruders : function( json ){
+		var that = $dhx.ui
+			, self = that.desktop,
+			tables = [],
+			tnames = [];
+			
+		//console.log(json.schema);
+		for(table in json.schema)
+		{
+			if( json.schema.hasOwnProperty(table) )
+			{
+				json.schema[ table ].table_name = table;
+				tables.push(json.schema[ table ]);
+				//tnames.push(table);
+			}
+		}
+		tables.sort(function (a, b) {
+			return a.output_ordering - b.output_ordering;
+		});
+	
+		tables.forEach(function( tableObj, index )
+		{
+			var table = tableObj.table_name;
+			if(tableObj.render_as_cruder == 1)
+			{
+				if( tableObj.column_to_search_id && tableObj.column_to_search_index )
+				{
+					//console.log(table, json.schema[ table ]);
+					//console.log( table );
+					$dhx.ui.desktop.Registry.cruders.push(
+						new $dhx.ui.desktop.application.cruder({
+							icon: ( tableObj.icon == null ||  tableObj.icon == '' ) ? 'foo.png' : tableObj.icon
+							, collection: table
+							, database: $dhx.ui.desktop.database
+							, summary: tableObj.summary || tableObj.grid_name || ''
+							, column_to_search_id : tableObj.column_to_search_id
+							, column_to_search_index : tableObj.column_to_search_index
+						})
+					);	
+				}
+			}
+		});
+			
+		
+	}
+	
+	
 	, start: function (c) {
 		var that = $dhx.ui
 			, self = that.desktop,
@@ -55,9 +103,11 @@ $dhx.ui.desktop = {
 		$dhx.debug.time(tmessage);
 		
 		dhtmlx.message.position="bottom";
-			
+		
+		// ================>
 		$dhx.REST.API.login({
 			onSuccess : function(){
+				// ================>
 				$dhx.REST.API.get({
 					resource: "/database/model"
 					, format: "json"
@@ -66,6 +116,7 @@ $dhx.ui.desktop = {
 						var json = JSON.parse(request.response);
 						if (json.status == "success") {
 							//$dhx.debug.log(json);
+							// ================>
 							$dhx.ui.data.model.start({
 								db: $dhx.ui.temp.db
 								, version: json.version
@@ -73,9 +124,15 @@ $dhx.ui.desktop = {
 								, settings: json.settings
 								, records: json.records
 								, output_tables: json.output_tables
-								, onSuccess: function () {
+								, onSuccess: function () {								
+									// ================>
 									self.readUserSettings({
 										onSuccess: function () {
+											
+											
+											self.setCruders( json );
+											
+											// ================>
 											$dhx.ui.desktop.socket = new $dhx.socket.service({
 												resource: $dhx.ui.desktop.ws
 												, reConnect: true
@@ -100,20 +157,23 @@ $dhx.ui.desktop = {
 													{
 														$dhx.jDBdStorage.storeObject('$dhx.ui.desktop.isOnline', 'yes');
 														window.onbeforeunload = function(e) {
+															
 														  $dhx.jDBdStorage.storeObject('$dhx.ui.desktop.isOnline', 'no');
+														 // $dhx.ui.desktop.socket.close();
 														};
 														$dhx.ui.desktop.view.render({});
 														$dhx.debug.timeEnd(tmessage);
+														
 													}
 													
 												}
 												, onClose: function (messageEvent) {
-													
-													if(self.TopBar.quick_tools_socket)
-													{
-														self.view.TopBar.quick_tools_socket.style.backgroundImage = 'url('+ $dhx.ui.cdn_address + 'dhx/ui/desktop/assets/icons/socket_disconnected.png)';
-														self.view.TopBar.quick_tools_socket.title = $dhx.ui.language.realtime_communication_is_off;
-													}
+													if(self.TopBar)
+														if(self.TopBar.quick_tools_socket)
+														{
+															self.view.TopBar.quick_tools_socket.style.backgroundImage = 'url('+ $dhx.ui.cdn_address + 'dhx/ui/desktop/assets/icons/socket_disconnected.png)';
+															self.view.TopBar.quick_tools_socket.title = $dhx.ui.language.realtime_communication_is_off;
+														}
 												}
 												, onBeforeClose: function (user_id) {
 												}
@@ -126,7 +186,14 @@ $dhx.ui.desktop = {
 														myImage.src = $dhx.ui.cdn_address + 'dhx/ui/desktop/assets/icons/socket.gif?uid=' + (new Date().getTime());
 														myImage.onload = function(){
 															//self.view.TopBar.quick_tools_socket.style.backgroundImage = 'none';
-															self.view.TopBar.quick_tools_socket.style.backgroundImage = 'url('+myImage.src+')';
+															try
+															{
+																self.view.TopBar.quick_tools_socket.style.backgroundImage = 'url('+myImage.src+')';
+															}
+															catch(e)
+															{
+																console.log(e.stack);
+															}
 														}
 													}
 														
@@ -215,7 +282,7 @@ $dhx.ui.desktop.Registry = {
 		
 	]
 	, cruders: [
-		new $dhx.ui.desktop.application.cruder({
+		/*new $dhx.ui.desktop.application.cruder({
 			summary: ''
 			, icon: 'persons.png'
 			, collection: 'entidades'
@@ -241,7 +308,7 @@ $dhx.ui.desktop.Registry = {
 			, summary: 'Cadastro de Empresas'
 			, column_to_search_id : 'empresa_id'
 			, column_to_search_index : 'empresa'
-		})
+		})*/
 		
 		/*, new $dhx.ui.desktop.application.cruder({
 			summary: ''
