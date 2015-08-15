@@ -453,6 +453,11 @@ $dhx.ui.crud.simple.View = {
         });
     }
 
+	,getGrid : function(){
+		var self = $dhx.ui.crud.controller[appId].view;
+		return 	
+	}
+
     ,
     _grid: function(appId, status_bar, schema) {
         var self = $dhx.ui.crud.controller[appId].view;
