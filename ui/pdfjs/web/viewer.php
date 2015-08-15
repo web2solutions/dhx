@@ -7,7 +7,8 @@
     <title>PDF</title>
     <link rel="stylesheet" href="viewer.css"/>
     <link rel="resource" type="application/l10n" href="locale.properties"/>
-    <script src="../../../shim.js"></script>
+
+	<script src="../../../shim.js"></script>
 	<script src="../../../dhx.js"></script>
     <script src="../../../dhx.Request.js"></script>
     

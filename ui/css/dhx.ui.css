@@ -136,7 +136,29 @@ body:after
 		border-radius: 5px;
 		padding-top:5px;
 		padding-left:5px;
+		float:left;
+		width:100%;
 	}	
+	
+	.record_text a{
+		text-decoration:none;
+	}	
+	
+	.record_text img{ cursor:pointer; }
+	
+	.record_text_pdf_item{
+		float:left; 
+		cursor:pointer; 
+		width:70px; 
+		height:80px; 
+		overflow:hidden;
+		margin:2px;	
+	}
+	
+	.record_text_pdf_item a{
+		text-decoration:none;
+		color:inherit !important;
+	}
 	
 	
 	.dhx_crud_rapid_button{
