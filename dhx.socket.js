@@ -22,63 +22,73 @@ $dhx.socket = $dhx.socket || {
 	}
 	,tryin : 2 // seconds
 	,connect : function( s, c, reconnect ){
-		var socket = new WebSocket(c.resource)
-		socket.onopen = function (event) {
-			//$dhx.debug.log('socket onopen: ');
-			// lets set the client id to the socket transaction
-			var message = s.send( { message : 'login', action : 'set user' } );	
-			if(reconnect)
-			{
-				$dhx.debug.info('socket reconnected. user id: ', message.user_id);
-				if (c.onOpen) c.onOpen(event, true);
-			}
-			else
-			{
-				$dhx.debug.info('socket connected. user id: ', message.user_id);
-				if (c.onOpen) c.onOpen(event, false);
-			}
-		};
-		socket.onclose = function (event) {
-			$dhx.debug.warn('socket closed');
-			if (c.onClose) c.onClose();
-			if (c.reConnect)
-			{
-				$dhx.debug.warn('reconnecting in '+$dhx.socket.tryin+' seconds');
-				var timer = window.setTimeout(function(){
-					$dhx.debug.warn('reconnecting now');
-					s.reconnect();
-					window.clearTimeout(timer);
-				}, $dhx.socket.tryin * 1000);
-			}
-		};
-		socket.onerror = function (event) {
-			$dhx.debug.error('socket error');
-			if (c.onError) c.onError(event);
-		};
-		socket.onmessage = function (event) {
-			
-			if(event.data.message != 'keep alive')
-			{
-				//$dhx.debug.log('socket onmessage: ', event.data);
-			}			
-			if(typeof event.data !== 'undefined' )
-			{
-				try
+		try
+		{
+			var socket = new WebSocket(c.resource)
+			socket.onopen = function (event) {
+				//$dhx.debug.log('socket onopen: ');
+				// lets set the client id to the socket transaction
+				var message = s.send( { message : 'login', action : 'set user' } );	
+				if(reconnect)
 				{
-					var data = JSON.parse(event.data);
-					if(data.message != 'keep alive')
+					$dhx.debug.info('socket reconnected. user id: ', message.user_id);
+					if (c.onOpen) c.onOpen(event, true);
+				}
+				else
+				{
+					$dhx.debug.info('socket connected. user id: ', message.user_id);
+					if (c.onOpen) c.onOpen(event, false);
+				}
+			};
+			socket.onclose = function (event) {
+				$dhx.debug.warn('socket closed');
+				if (c.onClose) c.onClose();
+				if (c.reConnect)
+				{
+					$dhx.debug.warn('reconnecting in '+$dhx.socket.tryin+' seconds');
+					var timer = window.setTimeout(function(){
+						$dhx.debug.warn('reconnecting now');
+						s.reconnect();
+						window.clearTimeout(timer);
+					}, $dhx.socket.tryin * 1000);
+				}
+			};
+			socket.onerror = function (event) {
+				$dhx.debug.error('socket error');
+				if (c.onError) c.onError(event);
+			};
+			socket.onmessage = function (event) {
+				
+				if(event.data.message != 'keep alive')
+				{
+					//$dhx.debug.log('socket onmessage: ', event.data);
+				}			
+				if(typeof event.data !== 'undefined' )
+				{
+					try
 					{
-						$dhx.debug.info('socket received data: ', data);
+						var data = JSON.parse(event.data);
+						if(data.message != 'keep alive')
+						{
+							$dhx.debug.info('socket received data: ', data);
+						}
+						if (c.onMessage) c.onMessage(data, event);	
 					}
-					if (c.onMessage) c.onMessage(data, event);	
+					catch(e)
+					{
+						$dhx.debug.error( e.stack );
+					}
 				}
-				catch(e)
-				{
-					$dhx.debug.error( e.stack );
-				}
-			}
-		};
-		return socket;
+			};
+			return socket;
+		}
+		catch(e)
+		{
+			$dhx.debug.error(e.message);
+			$dhx.debug.error(e.stack);
+		}
+		
+		
 	}
 	,service : function( c ){
 		var self = $dhx.socket, socket;
