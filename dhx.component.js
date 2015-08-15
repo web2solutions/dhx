@@ -35,7 +35,9 @@ $dhx.component = $dhx.component || {
 		
 	}
 	,form : function( c ){
-		var dhxForm = null, self = this, that = $dhx.component;
+		var dhxForm = null
+			, self = this
+			, that = $dhx.component;
 		
 		if( ! that.checkCommomConfiguration(c, 'form') )
 		{
@@ -72,6 +74,34 @@ $dhx.component = $dhx.component || {
 		dhxForm.check = function(){
 			return $dhx.dhtmlx.validateForm(c.id, dhxForm)	
 		}
+		dhxForm.setFieldMandatory = function( fieldId, state ){
+			
+		}
+		/*dhxForm.add = function( state ){
+			
+		}
+		dhxForm.update = function( state ){
+			
+		}*/
+		dhxForm.getFormDataO = dhxForm.getFormData
+		dhxForm.getFormData = function(){
+			var hash = dhxForm.getFormDataO(), h = {};
+			
+			for(var i in hash)
+				if( hash.hasOwnProperty(i) )
+				{
+					if( typeof hash[ i ] == 'string' )
+					{
+						h[ i ] = hash[ i ].replace(/\&/g, encodeURIComponent('&'));
+					}
+					else
+					{
+						h[ i ] = hash[ i ];	
+					}
+				}
+			
+			return h;
+		}
 		dhxForm.fill = function( hash ){
 			//console.log( hash );
 			dhxForm.setFormData(hash);
@@ -105,7 +135,9 @@ $dhx.component = $dhx.component || {
 	
 	
 	,toolbar : function( c ){
-		var dhxToolbar = null, self = this, that = $dhx.component;
+		var dhxToolbar = null
+			, self = this
+			, that = $dhx.component;
 		
 		if( ! that.checkCommomConfiguration(c, 'toolbar') )
 		{
@@ -132,7 +164,9 @@ $dhx.component = $dhx.component || {
 	}
 	
 	,menu : function( c ){
-		var dhxMenu = null, self = this, that = $dhx.component;
+		var dhxMenu = null
+			, self = this
+			, that = $dhx.component;
 		
 		if( ! that.checkCommomConfiguration(c, 'menu') )
 		{
@@ -161,7 +195,6 @@ $dhx.component = $dhx.component || {
 			, width = c.width ? width : '100%'
 			, height = c.height ? c.height : '100%'
 			, rootId = c.rootId ? c.rootId : 0;
-		
 	
 		
 		if( typeof c.parent == 'string' )
@@ -249,13 +282,6 @@ $dhx.component = $dhx.component || {
 			dhxGrid.setColSorting( $dhx.isArray(c.settings.sorting) ? c.settings.sorting.join(',') : c.settings.sorting );		
 
 		dhxGrid.init();
-		
-		
-		
-		if( c.iconSize )
-		{
-			dhxGrid.setIconSize( parseInt( c.iconSize) );
-		}
 		
 		return dhxGrid;
 	}
