@@ -3602,8 +3602,14 @@ $dhx.dataDriver = {
 			, topic = 'database.' + c.db;
 		that._table_to_fill_on_init = Object.keys(that.dbs[db_name].records).length;
 		//c.records
-		for (var x = 0; x < that.dbs[db_name].output_tables.length; x++) {
-			var table = that.dbs[db_name].output_tables[x].table_name;
+		
+		
+		that.dbs[db_name].output_tables.sort(function (a, b) {
+			return a.output_ordering - b.output_ordering;
+		});
+		
+		that.dbs[db_name].output_tables.forEach(function( objTable ){
+			var table = objTable.table_name;
 			$dhx.dataDriver.public[table].add(that.dbs[db_name].records[table], function (tx, event, rows_affected) {
 				that._table_to_filled_on_init = that._table_to_filled_on_init + 1;
 				if (that._table_to_filled_on_init == that._table_to_fill_on_init) {
@@ -3612,7 +3618,10 @@ $dhx.dataDriver = {
 				//$dhx.debug.log( '???????????????? ready and all records loaded' );
 			}, function (tx, event, rows_affected) {
 			}, true);
-		}
+		})
+		
+		
+		
 		//$dhx.debug.log( that._table_to_fill_on_init );
 		//for (var table in that.dbs[db_name].records) {
 		//    if (that.dbs[db_name].records.hasOwnProperty(table)) {
@@ -3646,6 +3655,7 @@ $dhx.dataDriver = {
 			});	*/
 	}
 	, _createDatabase: function (c, self) {
+		console.log("_createDatabase");
 		var that = $dhx.dataDriver
 			, db_name = c.db
 			, schema = c.schema || {}
@@ -3655,7 +3665,9 @@ $dhx.dataDriver = {
 			, //this = self,
 			topic = 'database.' + c.db;
 		connection = that.connect(c);
+		
 		connection.onupgradeneeded = function (event) {
+			console.log("connection.onupgradeneeded");
 			upgraded = true;
 			$dhx.debug.log(event);
 			$dhx.debug.info('db ' + db_name + ' created ');
@@ -3689,18 +3701,36 @@ $dhx.dataDriver = {
 			};
 			if (c.onCreate)
 				that.dbs[db_name].onCreate = c.onCreate
-			for (var table in c.schema)
+			
+			
+			//console.log(c.output_tables);
+			
+			
+			
+			c.output_tables.sort(function (a, b) {
+				return a.output_ordering - b.output_ordering;
+			});
+			
+			
+			c.output_tables.forEach(function( objTable ){
+				var table = objTable.table_name;
 				if (c.schema.hasOwnProperty(table)) {
+					
+					//console.log(table, objTable.output_ordering);
+					//console.log(c.schema[ table ]);
+					//console.log(c.schema[table].output_tables);
+					
 					//$dhx.debug.log( c.schema[ table ] );
 					self.table(table).create({
 						primary_key: c.schema[table].primary_key
 						, columns: c.schema[table].columns
 						, records: c.schema[table].records
-						, output_tables: c.schema[table].output_tables
+						//, output_tables: c.schema[table].output_tables
 						, onSuccess: function (response) {}
 						, onFail: function (response) {}
 					});
 				}
+			})
 		};
 		connection.onerror = function (event) {
 			$dhx.debug.info('error when tryin to connect the ' + db_name + ' database', connection.errorCode);
@@ -3719,6 +3749,7 @@ $dhx.dataDriver = {
 			});
 		};
 		connection.onsuccess = function (event) {
+			console.log("connection.onsuccess");
 			database = connection.result;
 			$dhx.jDBdStorage.storeObject('$dhx.db.' + db_name, JSON.stringify({
 				version: c.version
