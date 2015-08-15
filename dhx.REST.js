@@ -41,40 +41,19 @@ $dhx.REST = {
                 type = type.toLowerCase();
                 if (type != "json" && type != "xml" && type != "yaml") type = type || "json";
                 params = params || "";
-                if (params != "") params = "&" + params
-                return self.apiURL + "" + resource + "." + type + "?company_id=" + self.company_id + "&token=" + self.token + params;
-            },
-            XMLHttpFactories: [
-                function() {
-                    return new XMLHttpRequest()
-                },
-                function() {
-                    return new ActiveXObject("Msxml2.XMLHTTP")
-                },
-                function() {
-                    return new ActiveXObject("Msxml3.XMLHTTP")
-                },
-                function() {
-                    return new ActiveXObject("Microsoft.XMLHTTP")
-                }
-            ],
-            createHttpConnection: function() {
-                var self = $dhx.REST.API;
-                var xmlhttp = false;
-                for (var i = 0; i < self.XMLHttpFactories.length; i++) {
-                    try {
-                        xmlhttp = self.XMLHttpFactories[i]();
-                    } catch (e) {
-                        $dhx.debug.error(e.message, e.stack);;
-                        continue;
-                    }
-                    break;
-                }
-                return xmlhttp;
+                if (params != "") params = "&" + params;
+				if ($dhx.environment == "dev") self.apiURL = self.apiURLdev;
+                else if ($dhx.environment == "production") self.apiURL = self.apiURL;
+                else self.apiURL = self.apiURLtest;
+                return self.apiURL + "" + resource + "." + type + "?token=" + $dhx.REST.API.token + params;
             },
             startAjax: function() {
                 var self = $dhx.REST.API;
-                self.request = self.createHttpConnection();
+				 try {
+                	self.request = new XMLHttpRequest();
+                } catch (e) {
+                	$dhx.debug.error(e.message, e.stack);;
+                }
             },
             queue: [],
             inProgress: false,
@@ -316,12 +295,14 @@ $dhx.REST = {
                                 if (json.format = "json") {
                                     try {
                                         var response = JSON.parse(self.request.response);
-                                        //$dhx.debug.log("response.status " + response.status);
+                                        $dhx.debug.log("response ", response);
                                         if (response.status == "err") {
                                             $dhx.debug.log("error message : ", response.response);
                                             if (json.error) json.error(self.request);
                                         } else {
                                             try {
+												//console.log('calling success');
+												//console.log(self.request);
                                                 if (json.success) json.success(self.request)
                                             } catch (e) {
                                                 $dhx.debug.warn(e.stack || e.message);
@@ -630,9 +611,19 @@ $dhx.REST = {
 					self._loginScreen( c );
 					return;	
 				}
+				// bug on firefox not getting properly json with session information
+				try
+				{
+					request = JSON.parse( request );
+					response = JSON.parse( request.response );
+				}
+				catch(e)
+				{
+					self._loginScreen( c );
+					return;	
+				}
 				
-				request = JSON.parse( request );
-				response = JSON.parse( request.response );
+				
 				
 				if (response.auth_data.token != '-') {
 					target_date = parseInt(response.auth_data.date_expiration);
@@ -779,10 +770,7 @@ $dhx.REST = {
                         return;
                     }
 					
-					function success(request) {
-					   $dhx.jDBdStorage.storeObject('$dhx.REST.request', JSON.stringify(request));
-                       self._grantLogin( c, request ); 
-                    }
+					
 
                     function fail(request) {
                         //$dhx.cookie.del("apitemp")
@@ -796,7 +784,19 @@ $dhx.REST = {
                         method: "POST",
                         url: self.apiURL + "/auth.json",
                         payload: "",
-                        success: success,
+                        success: function() {
+							//var request = arguments[0];
+							console.log(arguments);
+							console.log(typeof arguments[0]);
+							var h = {};
+							
+							h['response'] = arguments[0].response
+							console.log(JSON.stringify(h));
+							
+							
+						   $dhx.jDBdStorage.storeObject('$dhx.REST.request', JSON.stringify(h));
+						   self._grantLogin( c, arguments[0] ); 
+						},
                         error: fail,
                         format: "json",
                         user: $dhx.crypt.base64_decode(c.credential_token).split(":")[0],
