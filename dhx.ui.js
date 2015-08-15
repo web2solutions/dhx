@@ -139,7 +139,7 @@ $dhx.ui = {
 						deps.push($dhx.ui.cdn_address + "dhx/ui/skins/pink-yellow/dhtmlx.css");
 					}
 					else {
-						deps.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.css");
+						deps.push($dhx.ui.cdn_address + "codebase4.4_std/dhtmlx.css");
 					}
 				}
 				else if (self.skin == 'dhx_terrace') {
@@ -159,6 +159,9 @@ $dhx.ui = {
 					}
 				}
 				deps.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlx.js");
+				deps.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlxvault.css");
+				deps.push($dhx.ui.cdn_address + "codebase4.2_std/swfobject.js");
+				deps.push($dhx.ui.cdn_address + "codebase4.2_std/dhtmlxvault.js");
 			}
 		}
 		
@@ -260,7 +263,7 @@ $dhx.ui = {
 							en: "%Y-%m-%d"
 							, pt: "%Y-%m-%d"
 						};
-						self.dhxPDF();
+						//self.dhxPDF();
 		
 						self.temp = c;
 						
@@ -277,6 +280,7 @@ $dhx.ui = {
 $dhx.ui.helpers = {
 	column: {
 		toFormField: function (column) {
+			//console.log(column);
 			var field = {
 				tooltip: ""
 				, mask_to_use: column.format
@@ -291,7 +295,17 @@ $dhx.ui.helpers = {
 				, dhx_prop_text: column.foreign_column_name
 				, dhx_table: column.foreign_table_name
 				, dhx_prop_value: column.foreign_column_value
-				, type: (column.has_fk) ? 'combo' : $dhx.ui.helpers.sqlToDhxFormType(column.type)
+				
+				
+				, autoStart : column.vault_autoStart
+				, autoRemove : column.vault_autoRemove
+				, buttonUpload : column.vault_buttonUpload
+				, vbuttonClear : column.vault_buttonClear
+				, filesLimit: column.vault_filesLimit
+				, allowedExtensions: column.vault_allowed_extensions
+				, vault_type: column.vault_type
+				
+				, type: (column.has_fk) ? 'combo' : column.dhtmlx_form_type
 			};
 			
 			if( column.format == 'currency' )
@@ -397,18 +411,23 @@ $dhx.ui.helpers = {
 			return [
 				{ value : 'input', text : 'input' }
 				,{ value : 'combo', text : 'combo' }
+				,{ value : 'hidden', text : 'hidden' }
+				,{ value : 'btn2state', text : 'btn2state' }
+				,{ value : 'checkbox', text : 'checkbox' }
 				//,{ value : 'slider', text : 'slider' }
 			];
 		}
 		else if ($sql_type == 'bigint') {
 			return [
 				{ value : 'input', text : 'input' }
+				,{ value : 'hidden', text : 'hidden' }
 				//,{ value : 'slider', text : 'slider' }
 			];
 		}
 		else if ($sql_type == 'numeric') {
 			return [
 				{ value : 'input', text : 'input' }
+				,{ value : 'hidden', text : 'hidden' }
 				//,{ value : 'slider', text : 'slider' }
 			];
 		}
@@ -419,6 +438,8 @@ $dhx.ui.helpers = {
 				,{ value : 'password', text : 'password' }
 				,{ value : 'editor', text : 'editor' }
 				,{ value : 'combo', text : 'combo' }
+				,{ value : 'hidden', text : 'hidden' }
+				,{ value : 'vault', text : 'vault uploader' }
 			];
 		}
 		else if ($sql_type == 'text') {
@@ -427,6 +448,8 @@ $dhx.ui.helpers = {
 				//,{ value : 'colorpicker', text : 'colorpicker' }
 				//,{ value : 'password', text : 'password' }
 				,{ value : 'editor', text : 'editor' }
+				,{ value : 'hidden', text : 'hidden' }
+				,{ value : 'vault', text : 'vault uploader' }
 			];
 		}
 		else if ($sql_type == 'date') {
@@ -462,6 +485,7 @@ $dhx.ui.helpers = {
 				,{ value : 'ron', text : 'read only numeric' }
 				,{ value : 'ro', text : 'read only' }
 				,{ value : 'coro', text : 'not editable select box' }
+				,{ value : 'ch', text : 'checkbox' }
 			];
 		}
 		else if ($sql_type == 'bigint') {
@@ -482,6 +506,8 @@ $dhx.ui.helpers = {
 			return [
 				{ value : 'ed', text : 'simple editable text' }
 				,{ value : 'edtxt', text : 'editable text without html' }
+				,{ value : 'edn', text : 'editable numeric' }
+				,{ value : 'ron', text : 'read only numeric' }
 				,{ value : 'ro', text : 'read only' }
 				,{ value : 'coro', text : 'not editable select box' }
 				//,{ value : 'co', text : 'editable select box' }
@@ -509,7 +535,7 @@ $dhx.ui.helpers = {
 		}
 		else if ($sql_type == 'primary_key') {
 			return [
-				{ value : 'hidden', text : 'hidden' }
+				{ value : 'ro', text : 'read only' }
 			];
 		}
 		else if ($sql_type == 'boolean') {
