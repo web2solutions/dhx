@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640">
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Dhx by web2solutions</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/web2solutions/dhx">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Dhx</h1>
+            <h2>Agile JS framework for realtime &amp;&amp; offline enterprise web apps</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/web2solutions/dhx/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/web2solutions/dhx/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>
+<a id="dhx---dhtmlx-on-steroids-" class="anchor" href="#dhx---dhtmlx-on-steroids-" aria-hidden="true"><span class="octicon octicon-link"></span></a>$dhx - DHTMLX on steroids <a href="http://badge.fury.io/js/dhx"><img src="https://badge.fury.io/js/dhx.png" alt="NPM version"></a>
+</h1>
+
+<blockquote>
+<p>Agile JS framework for realtime &amp;&amp; offline enterprise web applications</p>
+</blockquote>
+
+<p>$dhx is the top layer of the T-Rex realtime and high available web stack</p>
+
+<h2>
+<a id="dhxui" class="anchor" href="#dhxui" aria-hidden="true"><span class="octicon octicon-link"></span></a>$dhx.ui</h2>
+
+<ul>
+<li>i18n</li>
+<li>skining</li>
+<li>module loader</li>
+<li>dhtmlx window stack control</li>
+<li>PDF viewer</li>
+<li>PDF generator</li>
+<li>Excel generator</li>
+</ul>
+
+<h2>
+<a id="dhxuidata" class="anchor" href="#dhxuidata" aria-hidden="true"><span class="octicon octicon-link"></span></a>$dhx.ui.data</h2>
+
+<p>High capacity database shared pool. Share databases between $dhx applications</p>
+
+<h2>
+<a id="dhxuicrud" class="anchor" href="#dhxuicrud" aria-hidden="true"><span class="octicon octicon-link"></span></a>$dhx.ui.crud</h2>
+
+<p>Build enterprise CRUDs with full featured MVW (Model-View-What) code with no efforts.</p>
+
+<p><strong>Features</strong></p>
+
+<ul>
+<li>Generic Views</li>
+<li>Custom Views</li>
+<li>Generic Helpers classes</li>
+<li>Custom Helpers classes</li>
+<li>Scaffold tables &amp;&amp; it foreign keys</li>
+<li>Create, Read, Update, Delete, List and Search operations</li>
+<li>Full navigation over records</li>
+<li>Fully integrated with $dhx.dataDriver</li>
+</ul>
+
+<h3>
+<a id="dhxuicrudsimple-controller" class="anchor" href="#dhxuicrudsimple-controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>$dhx.ui.crud.simple controller</h3>
+
+<p><img src="http://cdn.dhtmlx.com.br/dhx/docs/dhx.ui.crud.simple.png" alt="$dhx.ui.crud.simple print"></p>
+
+<div class="highlight highlight-javascript"><pre>      <span class="pl-k">var</span> crud <span class="pl-k">=</span> <span class="pl-c1">null</span>;
+      <span class="pl-k">var</span> db_name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>juris<span class="pl-pds">'</span></span>;
+      <span class="pl-k">var</span> table <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>persons<span class="pl-pds">'</span></span>;
+
+      <span class="pl-k">function</span> <span class="pl-en">StartUI</span>(){
+        crud <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">$dhx.ui</span>.<span class="pl-c1">crud</span>.<span class="pl-c1">simple</span>( {
+          wrapper <span class="pl-k">:</span> <span class="pl-c1">document</span>.<span class="pl-c1">body</span>
+          ,database <span class="pl-k">:</span> db_name
+          ,collection <span class="pl-k">:</span> table
+            <span class="pl-c">// not mandatory, default inherits $dhx.ui.crud.simple.View</span>
+          ,customView <span class="pl-k">:</span> my_Custom_View_Class_here 
+        } );  
+      }
+
+      <span class="pl-c1">window</span>.<span class="pl-en">onload</span> <span class="pl-k">=</span> <span class="pl-k">function</span>() {
+        $dhx.<span class="pl-c1">ui</span>.<span class="pl-c1">start</span>( {
+            <span class="pl-c">// load dhtmlx suite files?</span>
+          dhtmlx <span class="pl-k">:</span> <span class="pl-c1">true</span>
+          ,db <span class="pl-k">:</span> db_name
+          ,<span class="pl-en">onStart</span> <span class="pl-k">:</span> <span class="pl-k">function</span>()
+          {
+            <span class="pl-c1">StartUI</span>()
+          } 
+        } );
+      }</pre></div>
+
+<h3>
+<a id="dhxuidesktop-t-rex-webos" class="anchor" href="#dhxuidesktop-t-rex-webos" aria-hidden="true"><span class="octicon octicon-link"></span></a>$dhx.ui.desktop T-Rex webOS</h3>
+
+<p><img src="http://cdn.dhtmlx.com.br/dhx/docs/dhx.ui.desktop.png" alt="$dhx.ui.desktop print"></p>
+
+<div class="highlight highlight-javascript"><pre>      $dhx.<span class="pl-c1">ui</span>.<span class="pl-c1">start</span>( {
+          dhtmlx <span class="pl-k">:</span> <span class="pl-c1">true</span>
+          ,desktop <span class="pl-k">:</span> <span class="pl-c1">true</span>
+          ,db <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>juris<span class="pl-pds">'</span></span>
+          ,<span class="pl-en">onStart</span> <span class="pl-k">:</span> <span class="pl-k">function</span>()
+          {
+            $dhx.<span class="pl-c1">ui</span>.<span class="pl-c1">desktop</span>.<span class="pl-c1">start</span>();
+          } 
+      } );</pre></div>
+
+<p><strong>WebOS ToDo:</strong></p>
+
+<p>see trello board</p>
+
+<h3>
+<a id="about-t-rex-web-stack" class="anchor" href="#about-t-rex-web-stack" aria-hidden="true"><span class="octicon octicon-link"></span></a>About T-Rex web stack</h3>
+
+<p>T-Rex is a realtime and high available web stack made on top of Mojolicious, a fantastic and modern Perl framework.
+  Implements a set of hot features providing support to Agile development of Enterprise web applications.</p>
+
+<p>See more at:</p>
+
+<ul>
+<li><a href="https://github.com/web2solutions/AgileREST">https://github.com/web2solutions/AgileREST</a></li>
+<li><a href="https://github.com/web2solutions/AgileWebsocket">https://github.com/web2solutions/AgileWebsocket</a></li>
+</ul>
+
+<h3>
+<a id="about-dhtmlx" class="anchor" href="#about-dhtmlx" aria-hidden="true"><span class="octicon octicon-link"></span></a>About DHTMLX</h3>
+
+<pre><code>A cross-browser JavaScript library for building rich Web and Mobile apps
+</code></pre>
+
+<p><a href="http://dhtmlx.com/">http://dhtmlx.com/</a></p>
+
+<h3>
+<a id="bug-fixes-for-dhtmlx-suite-42-std" class="anchor" href="#bug-fixes-for-dhtmlx-suite-42-std" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bug Fixes for DHTMLX Suite 4.2 std:</h3>
+
+<ul>
+<li>fixed ribbon.unload(). When you add any function to array prototypes, you get errors when unloading DHTMLX ribbons from an application.</li>
+</ul>
+
+<h3>
+<a id="authors-license-and-copyright" class="anchor" href="#authors-license-and-copyright" aria-hidden="true"><span class="octicon octicon-link"></span></a>AUTHORS, LICENSE AND COPYRIGHT</h3>
+
+<ul>
+<li>José Eduardo Perotta de Almeida. eduardo at web2solutions.com.br</li>
+<li>
+<p>Lucas Tiago de Moares</p>
+
+<p>Copyright 2015 </p>
+</li>
+</ul>
+
+<ul>
+<li>AGPL for personal use.</li>
+<li>Commercial &amp;&amp; Enterpsise 
+If you need a commercial or an enterprise license, you will need also to be licensed by DHTMLX. Please contact the author for commercial usage</li>
+</ul>
+
+<h3>
+<a id="limitations" class="anchor" href="#limitations" aria-hidden="true"><span class="octicon octicon-link"></span></a>LIMITATIONS</h3>
+
+<p>I'm sorry Bill, but we don't provide support to IE on our offline database and socket libraries. Maybe on 12 version of Internet Explorer.</p>
+
+<h3>
+<a id="bugs" class="anchor" href="#bugs" aria-hidden="true"><span class="octicon octicon-link"></span></a>BUGS</h3>
+
+<p>Actually this software is under development. There is no stable version yet.</p>
+
+<p>Please report any bugs or feature requests through the email address: eduardo at web2solutions.com.br</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/web2solutions">web2solutions</a> can be found on <a href="https://github.com/web2solutions/dhx">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="https://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
