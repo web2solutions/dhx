@@ -98,8 +98,7 @@ $dhx is the top layer of the T-Rex web toolkit -> http://web2solutions.github.io
 
   See more at:
 
-  - https://github.com/web2solutions/AgileREST
-  - https://github.com/web2solutions/AgileWebsocket
+  http://web2solutions.github.io/T-Rex-Specs/
 
 
 ### About DHTMLX
