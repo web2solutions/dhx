@@ -104,7 +104,7 @@ body {
     top: 0px;
     right: 0px;
     height: 24px;
-    width: auto;
+    width: 100%;
     font-family: UbuntuLight;
     padding-right: 5px;
     font-size: 12px;
@@ -216,6 +216,27 @@ body {
     margin-right: 2px;
 	z-index: 5;
 	cursor:pointer;
+}
+
+
+.dhx_ui_desktop_top_bar_quick_tools_plugins{
+     position: relative;
+    float: right;
+    height: 24px;
+    width: 30px;
+    margin-right: 2px;
+	z-index: 5;
+	cursor:pointer;
+}
+
+.dhx_ui_desktop_top_bar_quick_tools_plugins img{
+    position: absolute;
+    height: 18px;
+    width: 18px;
+	z-index: 6;
+	cursor:pointer;
+	top:3px;
+	left:6px;
 }
 
 
