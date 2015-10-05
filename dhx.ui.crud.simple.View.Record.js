@@ -53,7 +53,9 @@ $dhx.ui.crud.simple.View.Record = {
 			//var colIndex = view.grid.getColIndexById(field.name);
 			//var column_value = view.grid.cells(configuration.record_id, colIndex).getTitle() || view.grid.cells(configuration.record_id, colIndex).getValue();
 			
-			configuration.wrapper.addTab(tabId, "preview " + tabId, null, null, true, true);
+			//console.log( tabId );
+			
+			configuration.wrapper.addTab(tabId, "preview item: " + tabId.split('.')[tabId.split('.').length-1], null, null, true, true);
 			
             self.wrapper[tabId] = configuration.wrapper.cells(tabId);
             self.formTemplates[tabId] = {

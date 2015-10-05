@@ -1,4 +1,4 @@
-# $dhx - DHTMLX on steroids [![NPM version](https://badge.fury.io/js/dhx.png)](http://badge.fury.io/js/dhx) 
+# $dhx - DHTMLX on steroids [![NPM version](https://badge.fury.io/js/dhx.png)](http://badge.fury.io/js/dhx) [![Join the chat at https://gitter.im/web2solution/T-Rex](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/web2solution/T-Rex?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 > Agile JS framework for realtime && offline enterprise web applications
 

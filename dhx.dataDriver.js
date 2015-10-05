@@ -2328,12 +2328,111 @@ $dhx.dataDriver = {
 				component.init(); //finishes initialization and renders the grid on the page
 				//$dhx.debug.log(  'XXXXXXXXXXXXXXXX>>>>>>>>>>>>>>>>', schema );
 				component.fk_combos = [];
+				
+				//console.log(schema.columns);
+				
+				for( var i in schema.columns )
+				{
+					var column = schema.columns[ i ];
+					//console.log(i, column.sync);
+					//console.log(column);
+					//console.log('--------');
+					
+					
+					if( column.sync )
+					{
+						var table = column.foreign_table_name;
+						var column_value = column.foreign_column_value;
+						var column_text = column.foreign_column_name;
+						
+						var column = i;
+						var fk = i;
+						console.log(column);
+						
+						var colIndex = component.getColIndexById(fk);
+						component.fk_combos[fk] = component.getCombo(colIndex);
+						//component._id = hash.component_id;
+						//component._type = hash.type;
+						
+						
+						//$dhx.debug.log(schema.columns[fk].foreign_column_value);
+						//$dhx.debug.log(schema.columns[fk].foreign_column_name);
+						
+						$dhx.dataDriver.public[table].sync.selectGrid({
+							component: component.fk_combos[fk]
+							, component_id: hash.component_id + '_fk_bound_' + table + '_selectGrid_' + colIndex + '_' + fk
+							, prop_value: schema.columns[fk].foreign_column_value
+							, prop_text: schema.columns[fk].foreign_column_name
+							, $init: function (obj, prop_value, prop_text) {
+									obj.value = obj[prop_value];
+									obj.text = obj[prop_text];
+									
+									$dhx.debug.log(obj);
+									
+								} // not mandatory, default false
+							
+							, onSuccess: function () {
+								total_columns_synced = total_columns_synced + 1;
+								if (total_columns_synced == total_columns_to_sync) {
+									$dhx.debug.info(' all columns are synced in ' + hash.component_id);
+									$dhx.debug.info(' syncing the grid now ');
+									// clear all data from grid and parses the table selected data
+									that._syncGridData(c, component);
+								}
+							}
+							, onFail: function () {
+							}
+						});
+					}
+					
+					
+					
+				}
+				
+				
+				/*
+				
+				permission : {
+					super : {
+						create : true
+						, read : true
+						, update : true
+						, delete : true
+						, list : true	
+					}
+					, admin : {
+						create : true
+						, read : true
+						, update : true
+						, delete : true
+						, list : true	
+					}
+					, user : {
+						create : true
+						, read : true
+						, update : true
+						, delete : true
+						, list : true	
+					}
+					, guest : {
+						create : false
+						, read : true
+						, update : false
+						, delete : false
+						, list : true	
+					}	
+				}
+				
+				*/
+				
+				
 				for (var fk in schema.foreign_keys) {
 					var table = schema.foreign_keys[fk].table;
 					var column_value = schema.columns[fk].foreign_column_value;
 					var column_text = schema.columns[fk].foreign_column_name;
 					//var table = schema.foreign_keys[fk].table;
 					var column = schema.foreign_keys[fk].column;
+					//console.log(column);
 					var colIndex = component.getColIndexById(fk);
 					component.fk_combos[fk] = component.getCombo(colIndex);
 					//component._id = hash.component_id;
