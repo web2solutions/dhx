@@ -18,6 +18,7 @@
     var root,
         _application,
         _router,
+        _registered_events = [],
         /**
          * [application private application bootstrap constructor]
          * @param  {[Object]} stash [xxxxxxxxxxx]
@@ -31,8 +32,14 @@
 
             this.appId = stash.appId;
             root = stash.root;
-            this.options = {};
+            //this.options = {};
             this.options.from = 'super';
+
+            var isAllEventsReturninOk = namespace.triggerMethod('before:start', this.options);
+            if( ! isAllEventsReturninOk )
+            {
+                throw ' application will not initialize due a onBeforeStart event returning false';
+            }
 
             this.initialize(this.options);
 
@@ -44,8 +51,7 @@
          * @return {[Object]}       [returns an router object]
          */
         router = function(stash) {
-            var self = this,
-                hash = window.location.hash;
+            var self = this;
 
             // lets listen for browser navigate actions
             window.addEventListener("popstate", function(e) {
@@ -58,16 +64,7 @@
 
             _router = this;
 
-            /**
-             * [if hash equal empty it means application is starting]
-             * @param  {[string]} hash [reference to window.location.hash]
-             */
-            if (hash === '') {
-                /**
-                 * then dispatch the root route and call the associated Presenter method ( presenter.start() )
-                 */
-                this.dispatch('#', true);
-            }
+
         },
         /**
          * [active_routes list of routes that are being active. Active routes are displayed on browser's URL bar]
@@ -81,17 +78,28 @@
      */
     application.prototype = {
         initialize: function(options) {
-            //console.log('method from super');
+            console.log('method from application.prototype');
             //console.log('app initialized from ' + options.from);
-        },
-        on: function(patter, fn) {
-
-            if (pattern == "before:start") {
-
-                fn(options);
-            }
-
+            //namespace.triggerMethod('start', options);
         }
+        , start : function(){
+            var hash = window.location.hash;
+            /**
+             * [if hash equal empty it means application is starting]
+             * @param  {[string]} hash [reference to window.location.hash]
+             */
+            if (hash === '') {
+                /**
+                 * then dispatch the root route and call the associated Presenter method ( presenter.start() )
+                 */
+                _router.dispatch('#', true);
+
+                console.log('start');
+
+                namespace.triggerMethod('start', this.options);
+            }
+        }
+        , options : {}
     };
 
 
@@ -201,6 +209,8 @@
                 }
             });
         }
+        
+        
     };
 
     /**
@@ -223,21 +233,69 @@
         sub = function(stash) {
             stash = stash || {};
             base.call(this, stash);
+
             //console.log('hello from application sub');
             //console.log(arguments);
             //this.initialize( { from : 'sub' } );
+
+
         };
 
         sub.prototype = Object.create(base.prototype);
         sub.prototype.constructor = sub;
+        
 
         for (var name in factory) {
             if (factory.hasOwnProperty(name)) {
-                sub.prototype[name] = factory[name];
-            }
+                // namespace.triggerMethod('start', options);
 
+                if( name == 'initialize' )
+                {
+                    sub.prototype[name] = function(){
+                        //console.log(base.prototype);
+                        // namespace.triggerMethod('start', base.prototype.options);
+                        return factory[name];
+                    };
+                }
+                else
+                {
+                    sub.prototype[name] = factory[name];
+                }   
+            }
         }
+
+        sub.on = function(pattern, fn) {
+            _registered_events.push({
+                pattern : pattern,
+                fn : fn,
+                base : base
+            });
+        };
+
         return sub;
     };
+
+    namespace.triggerMethod = function(){
+            var event = arguments[0],
+            parameter = arguments[1] || false,
+            tests = [];
+
+        _registered_events.forEach( function( evtObject ){
+            
+            if( evtObject.pattern === event )
+            {
+                if( parameter )
+                {
+                    tests.push(evtObject.fn(parameter));
+                }
+                else
+                {
+                    tests.push(evtObject.fn());
+                } 
+            }
+        } );
+
+        return ( tests.join('.').indexOf('false') > -1 ? false : true )
+    }
 
 })($dhx.ui.mvp = $dhx.ui.mvp || {});
