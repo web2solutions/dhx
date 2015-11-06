@@ -334,3 +334,15 @@ $dhx.Request = new function() {
     this.Version = 1.4;
     this.Author = "Andrew Urquhart (http://andrewu.co.uk)";
 }
+
+
+
+$dhx.$_GET = function(id) {
+        return $dhx.Request.QueryString(id).Item(1);
+};
+$dhx.$Request = function(id) {
+        return $dhx.Request.QueryString(id).Item(1);
+};
+$dhx.param = function(id) {
+        return $dhx.Request.QueryString(id).Item(1);
+};

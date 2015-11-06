@@ -1,3 +1,7 @@
+/*jslint browser: true, devel: true, white: true */
+/*global $dhx, dhtmlx */
+
+
 /*
 Copyright (c) 2010,2011,2012,2013,2014 Morgan Roderick http://roderick.dk
 License: MIT - http://mrgnrdrck.mit-license.org
@@ -242,4 +246,15 @@ https://github.com/mroderick/PubSubJS
         return result;
     };
 }));
+
+
+
+;
+(function(namespace) {
+    'use strict';
+
+
+})(window.$dhx = window.$dhx || {});
+
+
 $dhx.MQ = PubSub;

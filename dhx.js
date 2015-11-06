@@ -729,16 +729,7 @@ var $dhx = {
         // $dhx.utils.shortcut.add(strAtalho, fnCallback);
 
 
-    ,
-    $_GET: function(id) {
-        return $dhx.Request.QueryString(id).Item(1);
-    },
-    $Request: function(id) {
-        return $dhx.Request.QueryString(id).Item(1);
-    },
-    param: function(id) {
-        return $dhx.Request.QueryString(id).Item(1);
-    }
+    
 
     /*
 
@@ -1629,17 +1620,23 @@ var $dhx = {
     init: function(c) {
         var self = this;
 
-        if ($dhx.$_GET("_enable_log") !== null) {
-            if ($dhx.$_GET("_enable_log") == "true") $dhx._enable_log = true;
-            $dhx.debug.log(
-                "%c $dhx framework started ",
-                'background: #00ebbe; color: #fff; font-size: 12px; padding: 12px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
-            );
-        }
-		
-		if ($dhx.$_GET("_enable_benchmark") !== null) {
-            if ($dhx.$_GET("_enable_benchmark") == "true") $dhx._enable_benchmark = true;
-        }
+
+		if( typeof $dhx.Request !== 'undefined' )
+		{
+			if ($dhx.$_GET("_enable_log") !== null) {
+				if ($dhx.$_GET("_enable_log") == "true") $dhx._enable_log = true;
+				$dhx.debug.log(
+					"%c $dhx framework started ",
+					'background: #00ebbe; color: #fff; font-size: 12px; padding: 12px; line-height: 36px; font-family: Helvetica, Arial, sans-serif;'
+				);
+			}
+			
+			if ($dhx.$_GET("_enable_benchmark") !== null) {
+				if ($dhx.$_GET("_enable_benchmark") == "true") $dhx._enable_benchmark = true;
+			}
+		}
+
+        
 		
         //$dhx.debug.log(
         //		"%c under the hood, guy? why? \n\n\n thank you for reading my code", 
