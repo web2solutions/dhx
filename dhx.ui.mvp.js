@@ -1,24 +1,18 @@
 (function(namespace) {
     'use strict';
-
-
 })(window.$dhx = window.$dhx || {});
 
-
 (function(namespace) {
     'use strict';
-
-
 })($dhx.ui = $dhx.ui || {});
 
-
 (function(namespace) {
     'use strict';
-
     var root,
         _application,
         _router,
         _registered_events = [],
+        _options = {},
         /**
          * [application private application bootstrap constructor]
          * @param  {[Object]} stash [xxxxxxxxxxx]
@@ -33,15 +27,15 @@
             this.appId = stash.appId;
             root = stash.root;
             //this.options = {};
-            this.options.from = 'super';
+            _options.from = 'super';
 
-            var isAllEventsReturninOk = namespace.triggerMethod('before:start', this.options);
+            var isAllEventsReturninOk = namespace.triggerMethod('before:start', _options);
             if( ! isAllEventsReturninOk )
             {
                 throw ' application will not initialize due a onBeforeStart event returning false';
             }
 
-            this.initialize(this.options);
+            this.initialize(_options);
 
             _application = this;
         },
@@ -81,8 +75,8 @@
             console.log('method from application.prototype');
             //console.log('app initialized from ' + options.from);
             //namespace.triggerMethod('start', options);
-        }
-        , start : function(){
+        },
+        start : function(){
             var hash = window.location.hash;
             /**
              * [if hash equal empty it means application is starting]
@@ -96,10 +90,9 @@
 
                 console.log('start');
 
-                namespace.triggerMethod('start', this.options);
+                namespace.triggerMethod('start', _options);
             }
         }
-        , options : {}
     };
 
 
@@ -189,7 +182,6 @@
         }
     };
 
-
     /**
      * [$dhx.ui.mvp.application public access to MVP application bootstrap]
      * @type {Object}
@@ -208,9 +200,7 @@
 
                 }
             });
-        }
-        
-        
+        }  
     };
 
     /**
@@ -233,34 +223,14 @@
         sub = function(stash) {
             stash = stash || {};
             base.call(this, stash);
-
-            //console.log('hello from application sub');
-            //console.log(arguments);
-            //this.initialize( { from : 'sub' } );
-
-
         };
 
         sub.prototype = Object.create(base.prototype);
         sub.prototype.constructor = sub;
-        
 
         for (var name in factory) {
             if (factory.hasOwnProperty(name)) {
-                // namespace.triggerMethod('start', options);
-
-                if( name == 'initialize' )
-                {
-                    sub.prototype[name] = function(){
-                        //console.log(base.prototype);
-                        // namespace.triggerMethod('start', base.prototype.options);
-                        return factory[name];
-                    };
-                }
-                else
-                {
-                    sub.prototype[name] = factory[name];
-                }   
+                sub.prototype[name] = factory[name];
             }
         }
 
@@ -270,6 +240,10 @@
                 fn : fn,
                 base : base
             });
+        };
+
+        sub.start = function(options) {
+            _options = options;
         };
 
         return sub;
@@ -295,7 +269,7 @@
             }
         } );
 
-        return ( tests.join('.').indexOf('false') > -1 ? false : true )
-    }
+        return tests.join('.').indexOf('false') > -1 ? false : true ;
+    };
 
 })($dhx.ui.mvp = $dhx.ui.mvp || {});
