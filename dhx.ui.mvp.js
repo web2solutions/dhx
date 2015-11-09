@@ -13,6 +13,9 @@
         _router,
         _registered_events = [],
         _options = {},
+        _root_topic = '',
+        _presenter_topic = '',
+        _model_topic = '',
         /**
          * [application private application bootstrap constructor]
          * @param  {[Object]} stash [xxxxxxxxxxx]
@@ -25,13 +28,19 @@
             }
 
             this.appId = stash.appId;
+            this.container = stash.container;
+
             root = stash.root;
             //this.options = {};
+
+            _options = stash;
+
             _options.from = 'super';
 
+
+
             var isAllEventsReturninOk = namespace.triggerMethod('before:start', _options);
-            if( ! isAllEventsReturninOk )
-            {
+            if (!isAllEventsReturninOk) {
                 throw ' application will not initialize due a onBeforeStart event returning false';
             }
 
@@ -56,6 +65,8 @@
             });
 
 
+
+
             _router = this;
 
 
@@ -64,7 +75,55 @@
          * [active_routes list of routes that are being active. Active routes are displayed on browser's URL bar]
          * @type {Array}
          */
-        active_routes = [];
+        active_routes = [],
+        /**
+         * [create communication bus between presenter, model and view]
+         * @param {[Presenter]} presenter [description]
+         */
+        setBusChannel = function (presenter) {
+            presenter._topic = _application.appId + '.presenter';
+            presenter._view.topic = _application.appId + '.view';
+            presenter._model.topic = _application.appId + '.model';
+
+            //alert(_root_topic);
+
+            // make presenter to listen both model and view
+            presenter._subscriber = presenter._subscriber || function(topic, data) {
+                console.log('presenter._subscriber . message: ' + topic, data);
+                if (topic == presenter._view.topic) {
+                    // message from view
+                } else if (topic == presenter._model.topic) {
+                    // message from model
+                }
+            };
+
+            presenter._subscriber_view_token = $dhx.MQ.subscribe(
+                presenter._view.topic, presenter._subscriber
+            );
+
+            presenter._subscriber_model_token = $dhx.MQ.subscribe(
+                presenter._model.topic, presenter._subscriber
+            );
+
+
+            // make view listen to presenter
+            presenter._view._subscriber = presenter._view._subscriber || function(topic, data) {
+                console.log('message: ' + topic, data);
+            };
+            presenter._view._subscriber_presenter_token = $dhx.MQ.subscribe(
+                presenter.topic, presenter._view._subscriber
+            );
+
+
+            // make model listen to presenter
+            presenter._model._subscriber = presenter._model._subscriber || function(topic, data) {
+                console.log('message: ' + topic, data);
+            };
+            presenter._model._subscriber_presenter_token = $dhx.MQ.subscribe(
+                presenter.topic, presenter._model._subscriber
+            );
+            return presenter;
+        };
 
     /**
      * [application.prototype MVP aplication bootstrap constructor class prototype chain]
@@ -76,22 +135,57 @@
             //console.log('app initialized from ' + options.from);
             //namespace.triggerMethod('start', options);
         },
-        start : function(){
+        start: function() {
             var hash = window.location.hash;
-            /**
-             * [if hash equal empty it means application is starting]
-             * @param  {[string]} hash [reference to window.location.hash]
-             */
-            if (hash === '') {
+
+
+
+            var deps = [
+                "lib/view/view.js", "lib/model/model.js", "lib/presenter/presenter.js"
+            ];
+            $dhx.onDemand.load(deps, function() {
+
+
+                presenter = setBusChannel(presenter);
+
+
+
+
+                _router.presenter = presenter;
+
+
+
+                //console.log(presenter);
+
+                //_application.presenter = presenter;
+
                 /**
-                 * then dispatch the root route and call the associated Presenter method ( presenter.start() )
+                 * [if hash equal empty it means application is starting]
+                 * @param  {[string]} hash [reference to window.location.hash]
                  */
-                _router.dispatch('#', true);
+                if (hash === '') {
+                    /**
+                     * then dispatch the root route and call the associated Presenter method ( presenter.start() )
+                     */
+                    _router.dispatch('#', true);
 
-                console.log('start');
+                    namespace.triggerMethod('start', _options);
 
-                namespace.triggerMethod('start', _options);
-            }
+                    _router.presenter._view.render();
+
+                    $dhx.MQ.publish(presenter.topic, {
+                        action: 'start',
+                        target: null
+                    });
+                }
+
+
+
+            });
+
+
+
+
         }
     };
 
@@ -108,7 +202,7 @@
                 throw 'can not dispatch to a not declared route. URL: ' + url;
             }
 
-            console.log('dispatching ' + url);
+            //console.log('dispatching ' + url);
 
 
             if (addEntry === true) {
@@ -130,10 +224,10 @@
             } else if (_router[method_name]) {
                 _router[method_name]();
             }
-        }, 
+        },
 
         route: function(stash) {
-            console.log( 'route' );
+            console.log('route');
         }
     };
 
@@ -152,9 +246,9 @@
                 console.log('start from extend factory');
             };
             return namespace.extend({
-                base : router,
-                factory : factory,
-                onBeforeExtend : function ( factory ){
+                base: router,
+                factory: factory,
+                onBeforeExtend: function(factory) {
                     /**
                      * [factory a collection of public properties and methods]
                      * @type {[Object}
@@ -169,9 +263,12 @@
 
                     // set a empty collection of application routes if it was not set when extending the router
                     factory.appRoutes = factory.appRoutes || {};
-                    
+
                     //set a empty collection of routes created on the fly if it was not set when extending the router
                     factory.routes = factory.routes || {};
+
+
+                    //console.log(  '>>>>>XXX>>>>>> ', factory );
 
                     // map root route that will call the presenter.start();
                     if (!factory.appRoutes.hasOwnProperty('#')) {
@@ -193,14 +290,17 @@
          * @return {[constructor]}         [MVP router constructor]
          */
         extend: function(factory) {
+
+
+
             return namespace.extend({
-                base : application,
-                factory : factory,
-                onBeforeExtend : function (){
+                base: application,
+                factory: factory,
+                onBeforeExtend: function() {
 
                 }
             });
-        }  
+        }
     };
 
     /**
@@ -210,13 +310,12 @@
      * @param  {[Object]}           c.factory [a collection of public properties and methods to be appended to the new generated constructor]
      * @return {[Constructor]} constructor [returns a new object constructor that inherits the base class and the factory]
      */
-    namespace.extend = function( c ) {
-        var base = c.base, 
+    namespace.extend = function(c) {
+        var base = c.base,
             factory = c.factory,
             sub = null;
 
-        if( c.onBeforeExtend )
-        {
+        if (c.onBeforeExtend) {
             c.onBeforeExtend(factory);
         }
 
@@ -236,9 +335,9 @@
 
         sub.on = function(pattern, fn) {
             _registered_events.push({
-                pattern : pattern,
-                fn : fn,
-                base : base
+                pattern: pattern,
+                fn: fn,
+                base: base
             });
         };
 
@@ -249,27 +348,23 @@
         return sub;
     };
 
-    namespace.triggerMethod = function(){
-            var event = arguments[0],
+    namespace.triggerMethod = function() {
+        var event = arguments[0],
             parameter = arguments[1] || false,
             tests = [];
 
-        _registered_events.forEach( function( evtObject ){
-            
-            if( evtObject.pattern === event )
-            {
-                if( parameter )
-                {
-                    tests.push(evtObject.fn(parameter));
-                }
-                else
-                {
-                    tests.push(evtObject.fn());
-                } 
-            }
-        } );
+        _registered_events.forEach(function(evtObject) {
 
-        return tests.join('.').indexOf('false') > -1 ? false : true ;
+            if (evtObject.pattern === event) {
+                if (parameter) {
+                    tests.push(evtObject.fn(parameter));
+                } else {
+                    tests.push(evtObject.fn());
+                }
+            }
+        });
+
+        return tests.join('.').indexOf('false') > -1 ? false : true;
     };
 
 })($dhx.ui.mvp = $dhx.ui.mvp || {});
