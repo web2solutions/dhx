@@ -1,6 +1,9 @@
-/*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
-/*global $dhx, dhtmlx, dhtmlXLayoutObject */
-
+(function(namespace) {
+    'use strict';
+})(window.$dhx = window.$dhx || {});
+(function(namespace) {
+    'use strict';
+})($dhx.ui = $dhx.ui || {});
 $dhx.ui.i18n = $dhx.ui.i18n || {
     version: '1.0.3',
     idiom: 'pt-br',
@@ -17,7 +20,7 @@ $dhx.ui.i18n = $dhx.ui.i18n || {
             // dhtmlx BUG
             cancel: $dhx.ui.language.cancel,
             callback: function(result) {
-                if (result == true) {
+                if (result === true) {
                     $dhx.cookie.set("dhx_idiom", idiom, 99999999);
                     location.reload();
                 }
@@ -35,7 +38,7 @@ $dhx.ui.i18n = $dhx.ui.i18n || {
         //$dhx.ui.i18n.idiom = navigator.language.toLowerCase();		
 
         if (typeof idiom === 'undefined') {
-            $dhx.ui.i18n.idiom = navigator.language.toLowerCase()
+            $dhx.ui.i18n.idiom = navigator.language.toLowerCase();
         }
         if (idiom) {
             $dhx.ui.i18n.idiom = idiom;

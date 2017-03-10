@@ -21,3 +21,15 @@ View
 Listens for changes and renders UI.
 Handles user input and interactivity.
 Sends captured input to the model.
+
+
+internal messages:
+
+=> model: add, update, delete, fetch, filter
+=> view:  add, update, delete, fetch, filter
+
+{
+    action: '' // action type. string. mandatory
+    , target: presenter // target object. object. Presenter, model. mandatory
+    , record: {} // record payload. object. not mandatory
+}

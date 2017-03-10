@@ -154,6 +154,10 @@ $dhx.ui.desktop = {
 		$dhx.debug.time(tmessage);
 		
 		dhtmlx.message.position="bottom";
+
+		$dhx.ui.desktop.view.render({});
+
+		return;
 		
 		// ================>
 		$dhx.REST.API.login({

@@ -1,11 +1,13 @@
-/*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
-/*global $dhx, dhtmlx, dhtmlXLayoutObject */
+(function(namespace) {
+    'use strict';
+})(window.$dhx = window.$dhx || {});
+(function(namespace) {
+    'use strict';
+})($dhx.ui = $dhx.ui || {});
 $dhx.ui.i18n['en-us'] = {
     //$dhx.ui.language = {
     // menu
-	
-	
-	text_labels: {
+    text_labels: {
         // validation text labels section
         validation_notEmpty: function(label) {
             return "The '" + label + "' field value can not be empty";
@@ -47,7 +49,6 @@ $dhx.ui.i18n['en-us'] = {
             return "The " + label + " field should be a valid social security number value";
         }
     },
-	
     File: 'File'.CFC(),
     New: 'New'.CFC(),
     OpenSelected: 'Open selected'.CFC(),
@@ -67,10 +68,8 @@ $dhx.ui.i18n['en-us'] = {
     QuickHelp: 'Quick help'.CFC(),
     AnotherRecords: 'Another records'.CFC(),
     EditNameTable: function(table) {
-            return table.CFC() + ' - management'
-        }
-        // ribbon
-        ,
+            return table.CFC() + ' - management';
+    },
     recordsmanagement: 'records management',
     Newrecord: 'New record',
     Openrecord: 'Open record',
@@ -82,19 +81,13 @@ $dhx.ui.i18n['en-us'] = {
     gotofirstrecord: 'go to first<br>record',
     gotolast: 'go to last',
     gotoprevious: 'go to previous',
-    gotonext: 'go to next'
-
-    ,
-    Filloutthefields: 'Fill out the fields'
-
-    ,
+    gotonext: 'go to next',
+    Filloutthefields: 'Fill out the fields',
     ChangeIdiomAgreement: 'The window will be reloaded now to apply the new changes. <br><br> It will also generate a cookie on your browser.<br><br> Do you want to continue?',
     ChangeskinAgreement: 'The window will be reloaded now to apply the new changes. <br><br> It will also generate a cookie on your browser.<br><br> Do you want to continue?',
     continue: 'continue',
     cancelar: 'cancel',
-    Selectskin: 'Select skin'.CFC()
-
-    ,
+    Selectskin: 'Select skin'.CFC(),
     Initializing: 'Initializing',
     time_remaining_for_token_expiration: 'time remaining until session expires',
     no_data_transferred: 'no data transferred',
@@ -123,37 +116,37 @@ $dhx.ui.i18n['en-us'] = {
     close: 'close',
     right_click_to_select_a_language: 'right click to select a language',
     closeall: 'close all',
-	ControlPanel : 'Control Panel'
-	,minimizeall : 'minimize all'
-	,Click_on_a_wallpaper_to_preview : 'Click on a wallpaper to preview'
-	,Walpapersettings : 'Walpaper settings'
-	,Systeminformations : 'System informations'
-	,Globalformssettings : 'Global forms settings'
-	,setaswallpaper : 'set as wallpaper'
-	,click_to_open_control_panel : 'click to open Control Panel'
-	,capitalize_note : "Enabling this feature, all the times you type a text on a form, that text will be automatically upper case conveted. <br><br>Example: if you type <strong>Name</strong>, it will be translated to <strong>NAME</strong>.<br><br>Please make sure before turning it on."
-	,latinize_note : "Enabling this feature, all the times you type a text on a form, that text will have all it accents coverted to lating characters. <br><br>Example: if you type <strong>Años</strong>, it will be translated to <strong>Anos</strong>.<br><br>Please make sure before turning it on."
-	,"Capitalize form inputs" : "Capitalize form inputs"
-	,"Latinize form inputs" : "Latinize form inputs"
-	,"capitalize text while typing" : "capitalize text when typing"
-	,"latinize text while typing" : "latinize text when typing"
-	,"Forms global settings" : "Forms global settings"
-	,"quota usage" : "quota usage"
-	,"Size in GB" : "Size in GB"
-	,'Live quota information' : 'Live quota information'
-	,username : 'username'
-	,password : 'password'
-	,login : 'login'
-	,forgot_password : 'forgot password'
-	,session_expires_in : 'session ends in'
-	,click_to_open_messages : 'click to open messages'
-	,expired_token_message : 'Expired token. Please do login again ... '
-	,really_want_to_delete : 'Do you really want to delete?'
-	,could_not_delete : 'could not delete'
-	,record_deleted : 'record deleted. '
-	,deleting_record : 'deleting record'
-	,realtime_communication_is_on : 'socket is online'
-	,realtime_communication_is_off : 'socket is offline'
-	,there_is_no_active_transfer : 'REST transfer is idle'
-	,there_is_active_transfer : 'transferência REST ativa'
+    ControlPanel: 'Control Panel',
+    minimizeall: 'minimize all',
+    Click_on_a_wallpaper_to_preview: 'Click on a wallpaper to preview',
+    Walpapersettings: 'Walpaper settings',
+    Systeminformations: 'System informations',
+    Globalformssettings: 'Global forms settings',
+    setaswallpaper: 'set as wallpaper',
+    click_to_open_control_panel: 'click to open Control Panel',
+    capitalize_note: "Enabling this feature, all the times you type a text on a form, that text will be automatically upper case conveted. <br><br>Example: if you type <strong>Name</strong>, it will be translated to <strong>NAME</strong>.<br><br>Please make sure before turning it on.",
+    latinize_note: "Enabling this feature, all the times you type a text on a form, that text will have all it accents coverted to lating characters. <br><br>Example: if you type <strong>Años</strong>, it will be translated to <strong>Anos</strong>.<br><br>Please make sure before turning it on.",
+    "Capitalize form inputs": "Capitalize form inputs",
+    "Latinize form inputs": "Latinize form inputs",
+    "capitalize text while typing": "capitalize text when typing",
+    "latinize text while typing": "latinize text when typing",
+    "Forms global settings": "Forms global settings",
+    "quota usage": "quota usage",
+    "Size in GB": "Size in GB",
+    'Live quota information': 'Live quota information',
+    username: 'username',
+    password: 'password',
+    login: 'login',
+    forgot_password: 'forgot password',
+    session_expires_in: 'session ends in',
+    click_to_open_messages: 'click to open messages',
+    expired_token_message: 'Expired token. Please do login again ... ',
+    really_want_to_delete: 'Do you really want to delete?',
+    could_not_delete: 'could not delete',
+    record_deleted: 'record deleted. ',
+    deleting_record: 'deleting record',
+    realtime_communication_is_on: 'socket is online',
+    realtime_communication_is_off: 'socket is offline',
+    there_is_no_active_transfer: 'REST transfer is idle',
+    there_is_active_transfer: 'transferência REST ativa'
 };

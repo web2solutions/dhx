@@ -1,6 +1,9 @@
 /*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
 /*global $dhx, dhtmlx */
 
+(function(namespace) {
+    'use strict';
+})(window.$dhx = window.$dhx || {});
 
 $dhx.dhtmlx = $dhx.dhtmlx || {
     grid: {
@@ -9,7 +12,7 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
             var rows = [];
             if (typeof data !== 'undefined') data.forEach(function(row, index, array) {
                 var obj = {};
-                for (i in row)
+                for (var i in row)
                     if (row.hasOwnProperty(i)) obj[i] = row[i];
                 rows.push({
                     id: obj[primary_key],
@@ -20,9 +23,8 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
                 rows: rows
             };
         }
-    }
+    },
     /*form  validation*/
-    ,
     formFields: [],
     formFields_tofill: [],
     formFields_filled: [],
@@ -143,6 +145,116 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
             //console.log("_setFormFieldsToBind method " + e.stack || e.message);
         }
     },
+    setCursor: function() {
+        if (this.createTextRange) {
+            var part = this.createTextRange();
+            this.move("character", this.value.length);
+            this.select();
+        } else if (this.setSelectionRange) {
+            this.setSelectionRange(this.value.length, this.value.length);
+        }
+        this.focus();
+    },
+    inputIntegerHandler: function(event) {
+        $dhx.ui.form.input.mask.integer(this);
+    },
+    inputNumberHandler: function(event) {
+        $dhx.ui.form.input.mask.number(this);
+    },
+    inputCreditCardHandler: function(event) {
+        $dhx.ui.form.input.mask.credit_card(this);
+    },
+    inputUsPhoneHandler: function(event) {
+        $dhx.ui.form.input.mask.us_phone(this);
+    },
+    inputBrPhoneHandler: function(event) {
+        $dhx.ui.form.input.mask.br_phone(this);
+    },
+    inputExpirationDateHandler: function(event) {
+        $dhx.ui.form.input.mask.expiration_date(this);
+    },
+    inputTimeHandler: function(event) {
+        $dhx.ui.form.input.mask.time(this, event);
+    },
+    inputDateHandler: function(event) {
+        $dhx.ui.form.input.mask.date(this, event);
+    },
+    inputDateTimeHandler: function(event) {
+        $dhx.ui.form.input.mask.datetime(this, event);
+    },
+    inputSSNHandler: function(event) {
+        $dhx.ui.form.input.mask.ssn(this);
+    },
+    inputCEPandler: function(event) {
+        $dhx.ui.form.input.mask.cep(this);
+    },
+    inputCPFandler: function(event) {
+        $dhx.ui.form.input.mask.cpf(this);
+    },
+    inputCNPJandler: function(event) {
+        $dhx.ui.form.input.mask.cnpj(this);
+    },
+    checkTime: function () {
+        var time_string = this.value,
+            time_array = time_string.split(':'),
+            hours = parseInt(time_array[0]),
+            minutes = parseInt(time_array[1]),
+            seconds = parseInt(time_array[2]);
+        if (hours >= 24) {
+            if (this.obj) {
+                this.obj.value = '';
+            } else {
+                this.value = '';
+            }
+        }
+        if (hours < 0) {
+            if (this.obj) {
+                this.obj.value = '';
+            } else {
+                this.value = '';
+            }
+        }
+        if (minutes >= 60) {
+            if (this.obj) {
+                this.obj.value = '';
+            } else {
+                this.value = '';
+            }
+        }
+        if (minutes < 0) {
+            if (this.obj) {
+                this.obj.value = '';
+            } else {
+                this.value = '';
+            }
+        }
+        if (seconds >= 60) {
+            if (this.obj) {
+                this.obj.value = '';
+            } else {
+                this.value = '';
+            }
+        }
+        if (seconds < 0) {
+            if (this.obj) {
+                this.obj.value = '';
+            } else {
+                this.value = '';
+            }
+        }
+    },
+    checkBRdate: function () {
+        var date_string = this.value,
+            bits = date_string.split('/'),
+            d = new Date(bits[2], bits[1] - 1, bits[0]);
+        if (d && (d.getMonth() + 1) == bits[1]) {} else {
+            if (this.obj) {
+                this.obj.value = '';
+            } else {
+                this.value = '';
+            }
+        }
+    },
     _setFormMasks: function(formID, DHTMLXForm) {
         var self = $dhx.dhtmlx;
         //console.log(self.formFields[ formID ]);
@@ -150,115 +262,248 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
             var field = self.formFields[formID][x];
             // check if the item has a name. Lets assume that all the fields which should be validate has a name
             if (field.name) {
-                var mask_to_use, name, type, id = null;
+                var mask_to_use, name, type, id = null, _settings, placeholder, precision_counter = 0, string_placeholder = '';
+                
                 mask_to_use = field.mask_to_use || "";
-                //console.log(mask_to_use);
+                
                 if (typeof field.type === 'undefined') {
                     field.type = "";
                 }
+
                 type = field.type || "";
                 name = field.name || "";
+                
                 if (type == "input") 
 				{
-                    if (mask_to_use == "currency") {
-						try {
-							id = DHTMLXForm.getInput(name).id;
-						} catch (e) {
-							id = DHTMLXForm.getInput(name).getAttribute("id");
-						}
-						$dhx.ui.form.input.mask.currency(document.getElementById(id), {
-						  precision: 2,
-						  separator: '.',
-						  delimiter: ',',
-						  unit: '',
-						  suffixUnit: '',
-						  zeroCents: false
-						});
+
+                    //console.log( field );
+                    if( field.spinner )
+                    {
+                        var spinner = new $dhx.ui.form.utils.spinner({
+                            input: DHTMLXForm.getInput(name),
+                            settings: field
+                        });
+                    }
+                    
+                    
+                    if( DHTMLXForm.getInput(name) && field.placeholder )
+                        DHTMLXForm.getInput(name).placeholder =  field.placeholder;
+
+                    if (mask_to_use == "currency" || mask_to_use == "br_currency" || mask_to_use == "can_currency") 
+                    {
+						id = DHTMLXForm.getInput(name).getAttribute("id");
+
+                        _settings = {
+                            precision: 2,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: '',
+                            suffixUnit: '',
+                            zeroCents: false
+                        };
+
+                        DHTMLXForm.getInput(name).placeholder = "0.00";
+
+                        if( field._settings ) _settings = field._settings;
+
+                        if( mask_to_use == "br_currency" )
+                        {
+                            _settings.separator = ',';
+                            _settings.delimiter = '.';
+                            _settings.unit = 'R$ ';
+                        }
+
+                        if( mask_to_use == "can_currency" )
+                        {
+                            _settings.unit = 'CAN ';
+                        }
+
+                        if( mask_to_use == "us_currency" )
+                        {
+                            _settings.unit = 'USD ';
+                        }
+
+                        if( _settings.separator == ',' )
+                        {
+                            DHTMLXForm.getInput(name).placeholder = "0,00";
+                        }
+
+						$dhx.ui.form.input.mask.currency(document.getElementById(id), _settings);
+                        
+                        //console.log( '>>>>>>>>>>>>>', field );
+                        // if not spinner
+                        if( ! field.spinner )
+                        {
+                            DHTMLXForm.getInput(name).addEventListener('keydown', self.setCursor);
+                            DHTMLXForm.getInput(name).addEventListener('keyup', self.setCursor);
+                            DHTMLXForm.getInput(name).addEventListener('click', self.setCursor);
+                        }
+                        
 						DHTMLXForm.getInput(name).maxLength = "34";
-					} else if (mask_to_use == "can_currency") {
-						try {
-							id = DHTMLXForm.getInput(name).id;
-						} catch (e) {
-							id = DHTMLXForm.getInput(name).getAttribute("id");
-						}
-						$dhx.ui.form.input.mask.currency(document.getElementById(id), {
-						  precision: 2,
-						  separator: '.',
-						  delimiter: ',',
-						  unit: 'CAN ',
-						  suffixUnit: '',
-						  zeroCents: false
-						});
-						DHTMLXForm.getInput(name).maxLength = "34";
-					}else if (mask_to_use == "br_currency") {
-						try {
-							id = DHTMLXForm.getInput(name).id;
-						} catch (e) {
-							id = DHTMLXForm.getInput(name).getAttribute("id");
-						}
-						$dhx.ui.form.input.mask.currency(document.getElementById(id), {
-						  precision: 2,
-						  separator: ',',
-						  delimiter: '.',
-						  unit: '',
-						  suffixUnit: '',
-						  zeroCents: false
-						});
-						DHTMLXForm.getInput(name).maxLength = "34";
-					} else if (mask_to_use == "integer") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.integer(this);
-						};
-						DHTMLXForm.getInput(name).maxLength = "10";
-					} else if (mask_to_use == "us_phone") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.us_phone(this);
-						};
+					}
+                    else if (mask_to_use == "float") {
+                        id = DHTMLXForm.getInput(name).getAttribute("id");
+
+                        _settings = {
+                            precision: 3,
+                            separator: '.',
+                            delimiter: ',',
+                            unit: '',
+                            suffixUnit: '',
+                            zeroCents: false
+                        };
+
+                        if( field._settings )
+                        {
+                            field._settings.unit = '';
+                            field._settings.suffixUnit = '';
+                            field._settings.zeroCents = '';
+                            _settings = field._settings;
+                        }
+
+
+                        while( precision_counter <  _settings.precision )
+                        {
+                            string_placeholder = string_placeholder + '0';
+                            precision_counter += 1;
+                        }
+
+                        DHTMLXForm.getInput(name).placeholder = "0" + _settings.separator + string_placeholder;
+
+                        DHTMLXForm.getInput(name).addEventListener('keydown', self.setCursor);
+                        DHTMLXForm.getInput(name).addEventListener('keyup', self.setCursor);
+                        DHTMLXForm.getInput(name).addEventListener('click', self.setCursor);
+                        $dhx.ui.form.input.mask.currency(document.getElementById(id), _settings);
+
+                        DHTMLXForm.getInput(name).maxLength = "34";
+                    }
+                    else if (mask_to_use == "integer") {
+                        DHTMLXForm.getInput(name).addEventListener("keydown", self.inputIntegerHandler);
+                        DHTMLXForm.getInput(name).maxLength = "10";
+                        DHTMLXForm.getInput(name).placeholder = "0";
+                    }
+                    else if (mask_to_use == "ip") {
+                        DHTMLXForm.getInput(name).setAttribute('data-inputmask', "'alias': 'ip'");
+                        Inputmask().mask( DHTMLXForm.getInput(name) );
+                    }
+                    else if (mask_to_use == "universal_phone") {
+                        DHTMLXForm.getInput(name).setAttribute('data-inputmask', "'alias': 'phone'");
+                        Inputmask().mask( DHTMLXForm.getInput(name) );
+                    }
+                    else if (mask_to_use == "email") {
+                        DHTMLXForm.getInput(name).setAttribute('data-inputmask', "'alias': 'email'");
+                        Inputmask().mask( DHTMLXForm.getInput(name) );
+                    }
+                    else if (mask_to_use == "number") {
+                        DHTMLXForm.getInput(name).addEventListener("keydown", self.inputNumberHandler);
+                        DHTMLXForm.getInput(name).placeholder = "0";
+                    }
+                    else if (mask_to_use == "credit_card") {
+                        DHTMLXForm.getInput(name).addEventListener("keydown", self.inputCreditCardHandler);
+                        DHTMLXForm.getInput(name).maxLength = "19";
+                    }
+                    else if (mask_to_use == "us_phone") {
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputUsPhoneHandler);
 						DHTMLXForm.getInput(name).maxLength = "13";
-					}else if (mask_to_use == "br_phone") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.br_phone(this);
-						};
+					}
+                    else if (mask_to_use == "br_phone") {
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputBrPhoneHandler);
 						DHTMLXForm.getInput(name).maxLength = "16";
-					} else if (mask_to_use == "expiration_date") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.expiration_date(this);
-						};
+                        //DHTMLXForm.getInput(name).placeholder = "(99)";
+					}
+                    else if (mask_to_use == "expiration_date") {
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputExpirationDateHandler);
 						DHTMLXForm.getInput(name).maxLength = "5";
-					} else if (mask_to_use == "cvv") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.integer(this);
-						};
+					}
+                    else if (mask_to_use == "cvv") {
+                        DHTMLXForm.getInput(name).addEventListener("keydown", self.inputIntegerHandler);
 						DHTMLXForm.getInput(name).maxLength = "4";
-					} else if (mask_to_use == "credit_card") {
+					} /*else if (mask_to_use == "credit_card") {
 						DHTMLXForm.getInput(name).onkeydown = function(event) {
 							$dhx.ui.form.input.mask.integer(this);
 						};
 						DHTMLXForm.getInput(name).maxLength = "16";
-					} else if (mask_to_use == "time") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-								$dhx.ui.form.input.mask.time(this, event);
-						};
+					}*/ 
+                    else if (mask_to_use == "time") {
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputTimeHandler);
 						DHTMLXForm.getInput(name).maxLength = "8";
-					} else if (mask_to_use == "SSN") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.ssn(this);
-						};
+
+                        DHTMLXForm.getInput(name).placeholder = "00:00:00";
+
+
+                        
+
+                        DHTMLXForm.getInput(name).addEventListener('blur', function(event) {
+                            self.checkTime.call(this);
+                        });
+
+                        DHTMLXForm.getInput(name).addEventListener('change', function(event) {
+                            self.checkTime.call(this);
+                        });
+                        
+					}
+                    // VMasker(document.querySelector("input")).maskPattern("(99) 9999-9999");
+                    else if (mask_to_use == "date") {
+                        DHTMLXForm.getInput(name).addEventListener("keydown", self.inputDateHandler);
+                        DHTMLXForm.getInput(name).maxLength = "10";
+
+                        DHTMLXForm.getInput(name).placeholder = "dd/mm/yyyy";
+
+
+                        DHTMLXForm.getInput(name).addEventListener('blur', function(event) {
+                            self.checkBRdate.call(this);
+                        });
+
+                        DHTMLXForm.getInput(name).addEventListener('change', function(event) {
+                            self.checkBRdate.call(this);
+                        });
+
+                    }
+                    // dd/mm/yyyy 00:00:00
+                    else if (mask_to_use == "datetime") {
+                        DHTMLXForm.getInput(name).addEventListener("keydown", self.inputDateTimeHandler);
+                        DHTMLXForm.getInput(name).maxLength = "19";
+
+                        DHTMLXForm.getInput(name).placeholder = "dd/mm/yyyy 00:00:00";
+
+                        
+
+                        DHTMLXForm.getInput(name).addEventListener('blur', function(event) {
+                            var it = this;
+                                v = it.value,
+                                date_string = v.split(' ')[0],
+                                date_object = { value: date_string, obj: it },
+                                time_string = v.split(' ')[1],
+                                time_object = { value: time_string, obj: it };
+
+                            if( date_string ) self.checkBRdate.call( date_object );
+                            if( time_string ) self.checkTime.call( time_object );
+                        });
+
+                        DHTMLXForm.getInput(name).addEventListener('change', function(event) {
+                            var it = this;
+                                v = it.value,
+                                date_string = v.split(' ')[0],
+                                date_object = { value: date_string, obj: it },
+                                time_string = v.split(' ')[1],
+                                time_object = { value: time_string, obj: it };
+
+                            if( date_string ) self.checkBRdate.call( date_object );
+                            if( time_string ) self.checkTime.call( time_object );
+                        });
+
+                    }
+                     else if (mask_to_use == "SSN") {
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputSSNHandler);
 						DHTMLXForm.getInput(name).maxLength = "11";
 					}else if (mask_to_use == "CEP") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.cep(this);
-						};
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputCEPHandler);
 						DHTMLXForm.getInput(name).maxLength = "9";
 					}else if (mask_to_use == "CPF") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.cpf(this);
-						};
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputCPFHandler);
 						DHTMLXForm.getInput(name).maxLength = "14";
 					}else if (mask_to_use == "CNPJ") {
-						DHTMLXForm.getInput(name).onkeydown = function(event) {
-							$dhx.ui.form.input.mask.cnpj(this);
-						};
+						DHTMLXForm.getInput(name).addEventListener("keydown", self.inputCNPJandler);
 						DHTMLXForm.getInput(name).maxLength = "18";
 					}
                 }
@@ -297,7 +542,7 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
         for (var formfield in hash) {
             payload = payload + formfield + "=" + encodeURIComponent(hash[formfield]) + "&";
         }
-        if (payload == "") return null;
+        if (payload === "") return null;
         if (payload.charAt(payload.length - 1) == '&') payload = payload.substr(0, payload.length - 1);
         return payload;
     },
@@ -335,7 +580,7 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
 						else if(type == 'combo')
 						{
 							var fcombo = DHTMLXForm.getCombo(fieldname);
-							value = fcombo.getSelectedValue() ? fcombo.getSelectedValue() : '';
+							value = fcombo.getSelectedValue() ? fcombo.getSelectedValue() : fcombo.getChecked().length > 0 ? fcombo.getChecked() : '';
 						}
 						else
 						{
@@ -478,7 +723,7 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
                         // if the value have not a lenght > 0
                         if (value.length > 0) {
                             var matchArray = value.match(/^(\d{1,2}):(\d{2})(:(\d{2}))?(\s?(AM|am|PM|pm))?$/);
-                            if (matchArray == null) {
+                            if (matchArray === null) {
                                 $dhx.ui.form.setInputHighlighted(field, DHTMLXForm);
                                 dhtmlx.message({
                                     type: "error",
@@ -590,4 +835,4 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
         } // end for
         return true;
     }
-}
+};

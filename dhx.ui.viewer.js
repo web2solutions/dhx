@@ -1,4 +1,3 @@
-/*jslint browser: true, devel: true, eqeq: true, newcap: true, nomen: true, white: true */
 /*global $dhx, dhtmlx */
 
 $dhx.ui.viewer = {
@@ -9,12 +8,12 @@ $dhx.ui.viewer = {
 
 			y.id = new Date().getTime();
 			var dhx_pdf_window = new $dhx.ui.window({
-				id: new Date().getTime() - 1000
-				, left: 100
-				, top: 100
-				, width: 800
-				, height: 500
-			, });
+				id: new Date().getTime() - 1000,
+				left: 100,
+				top: 100,
+				width: 800,
+				height: 500
+			});
 			dhx_pdf_window.button('park').hide();
 			//dhx_pdf_window.button('minmax').hide();
 			dhx_pdf_window.button('stick').hide();
@@ -29,20 +28,20 @@ $dhx.ui.viewer = {
 			dhx_pdf_window.attachObject(y.id);
 			//document.getElementById(m).firstChild.value = encodeURIComponent(A(r).replace("\u2013", "-") + g() + s());
 			document.getElementById(m).submit();
-	}
-	,image : function( path ){
+	},
+	image : function( path ){
 		var y = document.createElement("div");
 			y.style.height = "100%";
 			y.style.width = "100%";
 
 			y.id = new Date().getTime();
 			var dhx_pdf_window = new $dhx.ui.window({
-				id: new Date().getTime() - 1000
-				, left: 100
-				, top: 100
-				, width: 800
-				, height: 500
-			, });
+				id: new Date().getTime() - 1000,
+				left: 100,
+				top: 100,
+				width: 800,
+				height: 500
+			});
 			dhx_pdf_window.button('park').hide();
 			//dhx_pdf_window.button('minmax').hide();
 			dhx_pdf_window.button('stick').hide();

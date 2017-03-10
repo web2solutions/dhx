@@ -377,8 +377,8 @@ $dhx.REST = {
                         format: c.format,
                         sync: c.sync
                     });
-                }
-                /* Alias for post method */
+            }
+            /* Alias for post method */
 
             ,
             insert: function(c) {

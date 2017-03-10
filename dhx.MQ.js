@@ -249,7 +249,7 @@ https://github.com/mroderick/PubSubJS
 
 
 
-;
+
 (function(namespace) {
     'use strict';
 

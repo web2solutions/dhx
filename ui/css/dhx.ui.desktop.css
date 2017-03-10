@@ -19,6 +19,16 @@
     src: url(../desktop/assets/fonts/Ubuntu-RI.ttf);
 }
 
+@font-face {
+    font-family: Arial;
+    src: url(../fonts/Ubuntu-R.ttf);
+}
+
+@font-face {
+    font-family: Tahoma;
+    src: url(../fonts/Ubuntu-R.ttf);
+}
+
 
 
 body {
